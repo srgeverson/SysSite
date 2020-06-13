@@ -19,6 +19,7 @@ $GLOBALS['dictionary'] = array(
     'authority_uninformed' => "Permissão não informada.",
     'contact_not_send_email' => "E-mail não enviado.",
     'permission_denied' => "Usuário não autenticado ou não possui permissão.",
+    'user_already_registered' => "Já existe um usuário cadastrado com esse email, tente outro email.",
     'user_created' => "Usuário criado com sucesso.",
     'user_deleted' => "Usuário excluído com sucesso.",
     'user_incorrect_password' => "Senha incorreta.",

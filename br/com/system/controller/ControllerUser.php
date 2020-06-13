@@ -12,10 +12,12 @@ include_once server_path("br/com/system/model/ModelContact.php");
 class ControllerUser {
 
     private $info = 'default=default';
-    private $controller_system;
+    private $controllerSystem;
+    private $daoUser;
 
     function __construct() {
-        $this->controller_system = new ControllerSystem();
+        $this->controllerSystem = new ControllerSystem();
+        $this->daoUser = new DAOUser();
     }
 
     public function authenticate() {
@@ -104,19 +106,18 @@ class ControllerUser {
         if (GenericController::authotity()) {
             $user_pk_id = strip_tags($_GET['user_pk_id']);
             if (!isset($user_pk_id)) {
-                $this->controller_system->welcome('warning=user_uninformed');
+                $this->controllerSystem->welcome('warning=user_uninformed');
             }
             try {
-                $dao_user = new DAOUser();
-                $user = $dao_user->selectObjectById($user_pk_id);
+                $user = $this->daoUser->selectObjectById($user_pk_id);
 
                 if ($user == false) {
-                    $this->controller_system->welcome('error=user_not_found');
+                    $this->controllerSystem->welcome('error=user_not_found');
                 } else {
                     include_once server_path('br/com/system/view/user/profile.php');
                 }
             } catch (Exception $erro) {
-                $this->controller_system->welcome('error=' . $erro->getMessage());
+                $this->controllerSystem->welcome('error=' . $erro->getMessage());
             }
         }
     }
@@ -125,7 +126,7 @@ class ControllerUser {
         if (GenericController::authotity()) {
             $user_pk_id = strip_tags($_POST['user_pk_id']);
             if (!isset($user_pk_id)) {
-                $this->controller_system->welcome('warning=user_uninformed');
+                $this->controllerSystem->welcome('warning=user_uninformed');
             }
             $user_name = strip_tags($_POST['user_name']);
             $user_password = password_hash(strip_tags($_POST['user_password']), PASSWORD_BCRYPT);
@@ -135,9 +136,8 @@ class ControllerUser {
             $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
 
             try {
-                $dao_user = new DAOUser();
-                if ($dao_user->selectObjectById($user_pk_id) == false) {
-                    $this->controller_system->welcome('warning=user_not_exists');
+                if ($this->daoUser->selectObjectById($user_pk_id) == false) {
+                    $this->controllerSystem->welcome('warning=user_not_exists');
                 } else {
                     if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
                         if (move_uploaded_file($_FILES['user_image']['tmp_name'], $uploadfile)) {
@@ -146,8 +146,8 @@ class ControllerUser {
                             $user->user_name = $user_name;
                             $user->user_password = $user_password;
                             $user->user_image = $user_image;
-                            $dao_user->update_user($user);
-                            $this->controller_system->welcome('success=user_profile_edit');
+                            $this->daoUser->update_user($user);
+                            $this->controllerSystem->welcome('success=user_profile_edit');
                         }
                     } else {
                         echo '<script>alert("Formato de imagem não aceito!")</script>';
@@ -155,7 +155,7 @@ class ControllerUser {
                     }
                 }
             } catch (Exception $erro) {
-                $this->controller_system->welcome('error=' . $erro->getMessage());
+                $this->controllerSystem->welcome('error=' . $erro->getMessage());
             }
         }
     }
@@ -207,29 +207,28 @@ class ControllerUser {
         $user_login = strip_tags($_POST['user_login']);
         $user_password = strip_tags($_POST['user_password']);
         try {
-            $user_dao = new DAOUser();
-            $user_logged = $user_dao->selectObjectByName($user_login);
+            $user_logged = $this->daoUser->selectObjectByName($user_login);
             if (isset($user_logged)) {
                 if ($user_login == $user_logged->user_login && $user_logged->user_status == 1) {
                     if (!password_verify($user_password, $user_logged->user_password)) {
-                        $this->controller_system->user_info('error=user_incorrect_password');
+                        $this->controllerSystem->user_info('error=user_incorrect_password');
                     } else {
                         $user_logging = new ModelUser();
                         $user_logging->user_pk_id = $user_logged->user_pk_id;
                         $user_logging->user_last_login = date('Y-m-d H:i:s');
-                        $user_dao->updateLastAccess($user_logging);
+                        $this->daoUser->updateLastAccess($user_logging);
                         $_SESSION['usuario'] = $user_logged;
 
-                        $controller_system = new ControllerSystem();
-                        $controller_system->welcome('success=user_logged');
+                        $controllerSystem = new ControllerSystem();
+                        $controllerSystem->welcome('success=user_logged');
                         redirect(server_url('?page=ControllerSystem&option=welcome'));
                     }
                 } else {
-                    $this->controller_system->user_info('error=user_not_allowed');
+                    $this->controllerSystem->user_info('error=user_not_allowed');
                 }
             }
         } catch (Exception $erro) {
-            $this->controller_system->user_info("error=" . $erro->getMessage());
+            $this->controllerSystem->user_info("error=" . $erro->getMessage());
         }
     }
 
@@ -237,8 +236,8 @@ class ControllerUser {
         if (GenericController::authotity()) {
             session_destroy();
             $this->info = 'success=user_logout';
-            $controller_system = new ControllerSystem();
-            $controller_system->home($this->info);
+            $controllerSystem = new ControllerSystem();
+            $controllerSystem->home($this->info);
             redirect(server_url('?page=ControllerSystem&option=home'));
         }
     }
@@ -284,34 +283,37 @@ class ControllerUser {
 
     public function submit() {
         $user_name = strip_tags($_POST['user_name']); //nome do usuário
-        $user_login = strip_tags($_POST['user_login']);//email para acesso
+        $user_login = strip_tags($_POST['user_login']); //email para acesso
         $password = random_int(100000, 99999999); //senha aleatoria
         $user_password = password_hash($password, PASSWORD_BCRYPT);
         $user_status = true; // usuário ativo
         $user_fk_authority_pk_id = 3; //permissão de funcionário
-
         //Enviando email para acesso ao sistema
         $contact = new ModelContact();
         $contact->cont_descricao = $user_name;
         $contact->cont_email = $user_login;
         $contact->cont_texto = 'Senha Provisória: ' . $password;
-        
-        if ($this->controller_system->send_email($contact)) {
-            $user = new ModelUser();
-            $user->user_name = $user_name;
-            $user->user_login = $user_login;
-            $user->user_password = $user_password;
-            $user->user_status = $user_status;
-            $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
-            try {
-                $dao_user = new DAOUser();
-                $dao_user->createOtherUser($user);
-                include_once server_path('br/com/system/view/user/success.php');
-            } catch (Exception $erro) {
-                $this->controller_system->user_info("error=" . $erro->getMessage());
+
+
+        $user = new ModelUser();
+        $user->user_name = $user_name;
+        $user->user_login = $user_login;
+        $user->user_password = $user_password;
+        $user->user_status = $user_status;
+        $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
+        try {
+            if (!isset($this->daoUser->selectObjectByName($user_login)->user_login)) {
+                $this->daoUser = $this->daoUser->createOtherUser($user);
+                if ($this->controllerSystem->send_email($contact)) {
+                    include_once server_path('br/com/system/view/user/success.php');
+                } else {
+                    $this->controllerSystem->user_info("error=contact_not_send_email");
+                }
+            } else {
+                $this->controllerSystem->user_info("warning=user_already_registered");
             }
-        } else {
-            $this->controller_system->user_info("error=contact_not_send_email");
+        } catch (Exception $erro) {
+            $this->controllerSystem->user_info("error=" . $erro->getMessage());
         }
     }
 

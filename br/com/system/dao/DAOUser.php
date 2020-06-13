@@ -118,7 +118,7 @@ class DAOUser extends GenericDAO {
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selectCountObjects($user_fk_authority_pk_id = null) {
+    public function selectCountObjectsByFKAuthority($user_fk_authority_pk_id = null) {
         $this->query = "SELECT ";
         $this->query .= "COUNT(*) user_quantidade ";
         $this->query .= "FROM user AS u ";
