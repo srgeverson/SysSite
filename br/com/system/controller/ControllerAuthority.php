@@ -27,7 +27,7 @@ class ControllerAuthority {
             }
             try {
                 $daoUser = new DAOUser();
-                if ((($daoUser->selectCountObjects($auth_pk_id))) == 0) {
+                if ((($daoUser->selectCountObjectsByFKAuthority($auth_pk_id))) == 0) {
                     if (!$this->daoAuthority->delete($auth_pk_id)) {
                         $this->info = 'warning=authotity_not_exists';
                         $this->list();
