@@ -10,7 +10,7 @@ include_once server_path('br/com/system/dao/GenericDAO.php');
 
 class DAOAuthority extends GenericDAO {
 
-    public function delete($auth_pk_id = "") {
+    public function delete($auth_pk_id = 0) {
         try {
             $this->query = "DELETE FROM authority WHERE auth_pk_id=:auth_pk_id;";
             $conexao = $this->getInstance();
@@ -57,7 +57,7 @@ class DAOAuthority extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectById($auth_pk_id = "") {
+    public function selectObjectById($auth_pk_id = 0) {
         $this->query = "SELECT * FROM authority WHERE auth_pk_id=:auth_pk_id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
@@ -70,15 +70,18 @@ class DAOAuthority extends GenericDAO {
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectsByFkUser($user_pk_id = "") {
-        $this->query = "SELECT * FROM authority WHERE auth_fk_user_pk_id=:auth_fk_user_pk_id;";
+    public function selectObjectsByContainsDescription($auth_description = null) {
+        $this->query = "SELECT ";
+        $this->query .= "* ";
+        $this->query .= "FROM authority ";
+        $this->query .= "WHERE ";
+        $this->query .= "auth_description LIKE '%$auth_description%';";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":auth_fk_user_pk_id", $user_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
