@@ -44,9 +44,9 @@
         <div class="table-responsive">
             <?php
             if ($authorities == false) {
-                echo '<h2>Não Existem Permissões!</h2>';
+                echo '<h2>Não existe permissão cadastrada</h2>';
             } else {
-                echo '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">';
+                echo '<table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">';
                 echo '<thead>';
                 echo '<tr>';
                 echo '<th>Código</th>';
@@ -56,15 +56,6 @@
                 echo '<th>Opções</th>';
                 echo '</tr>';
                 echo '</thead>';
-                echo '<tfoot>';
-                echo '<tr>';
-                echo '<th>Código</th>';
-                echo '<th>Descrição</th>';
-                echo '<th>Tela</th>';
-                echo '<th>Função</th>';
-                echo '<th>Opções</th>';
-                echo '</tr>';
-                echo '</tfoot>';
                 echo '<tbody>';
                 foreach ($authorities as $cada_authority) {
                     echo '<tr>';
@@ -91,6 +82,15 @@
                     echo '</td>';
                     echo '</tr>';
                 }
+                echo '<tfoot>';
+                echo '<tr>';
+                echo '<th>Código</th>';
+                echo '<th>Descrição</th>';
+                echo '<th>Tela</th>';
+                echo '<th>Função</th>';
+                echo '<th>Opções</th>';
+                echo '</tr>';
+                echo '</tfoot>';
                 echo '</tbody>';
                 echo '</table>';
             }

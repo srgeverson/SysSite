@@ -120,7 +120,7 @@ class DAOUser extends GenericDAO {
 
     public function selectCountObjectsByFKAuthority($user_fk_authority_pk_id = null) {
         $this->query = "SELECT ";
-        $this->query .= "COUNT(*) user_quantidade ";
+        $this->query .= "u.user_pk_id, u.user_name ";
         $this->query .= "FROM user AS u ";
         $this->query .= "WHERE u.user_fk_authority_pk_id = :user_fk_authority_pk_id;";
         try {

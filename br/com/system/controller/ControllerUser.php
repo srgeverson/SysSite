@@ -11,11 +11,12 @@ include_once server_path("br/com/system/model/ModelContact.php");
 
 class ControllerUser {
 
-    private $info = 'default=default';
+    private $info;
     private $controllerSystem;
     private $daoUser;
 
     function __construct() {
+        $this->info = 'default=default';
         $this->controllerSystem = new ControllerSystem();
         $this->daoUser = new DAOUser();
     }
