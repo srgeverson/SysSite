@@ -120,7 +120,6 @@ class ControllerAuthority {
 
     public function list() {
         if (GenericController::authotity()) {
-
             if (isset($_POST['auth_description'])) {
                 $auth_description = strip_tags($_POST['auth_description']);
                 try {
