@@ -208,8 +208,8 @@ class ControllerUser {
         $user_password = strip_tags($_POST['user_password']);
         try {
             $user_logged = $this->daoUser->selectObjectByName($user_login);
-            if (isset($user_logged)) {
-                if ($user_login == $user_logged->user_login && $user_logged->user_status == 1) {
+            if ($user_logged !== false) {
+                if ($user_logged->user_status == true) {
                     if (!password_verify($user_password, $user_logged->user_password)) {
                         $this->controllerSystem->user_info('error=user_incorrect_password');
                     } else {
@@ -219,13 +219,14 @@ class ControllerUser {
                         $this->daoUser->updateLastAccess($user_logging);
                         $_SESSION['usuario'] = $user_logged;
 
-                        $controllerSystem = new ControllerSystem();
-                        $controllerSystem->welcome('success=user_logged');
+                        $this->controllerSystem->welcome('success=user_logged');
                         redirect(server_url('?page=ControllerSystem&option=welcome'));
                     }
                 } else {
                     $this->controllerSystem->user_info('error=user_not_allowed');
                 }
+            } else {
+                $this->controllerSystem->user_info('error=user_not_exists');
             }
         } catch (Exception $erro) {
             $this->controllerSystem->user_info("error=" . $erro->getMessage());
@@ -236,8 +237,7 @@ class ControllerUser {
         if (GenericController::authotity()) {
             session_destroy();
             $this->info = 'success=user_logout';
-            $controllerSystem = new ControllerSystem();
-            $controllerSystem->home($this->info);
+            $this->controllerSystem->home($this->info);
             redirect(server_url('?page=ControllerSystem&option=home'));
         }
     }

@@ -32,7 +32,8 @@ function main() {
     global $user_logged;
     if (!GenericController::filter()) {
         if (!isset($user_logged)) {
-            include_once server_path("br/com/system/view/system/default.php");
+            //include_once server_path("br/com/system/view/system/default.php");
+            redirect(server_url('?page=ControllerUser&option=authenticate'));
         } else {
             include_once server_path("br/com/system/view/system/welcome.php");
         }
