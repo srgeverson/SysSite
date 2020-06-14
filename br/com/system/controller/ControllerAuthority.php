@@ -27,7 +27,7 @@ class ControllerAuthority {
             }
             try {
                 $daoUser = new DAOUser();
-                if ((($daoUser->selectCountObjectsByFKAuthority($auth_pk_id))) == 0) {
+                if (empty($daoUser->selectCountObjectsByFKAuthority($auth_pk_id))) {
                     if (!$this->daoAuthority->delete($auth_pk_id)) {
                         $this->info = 'warning=authotity_not_exists';
                         $this->list();
@@ -120,13 +120,16 @@ class ControllerAuthority {
 
     public function list() {
         if (GenericController::authotity()) {
-            try {
-                $authorities = $this->daoAuthority->select();
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
-            }
-            if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+            if (isset($_POST['auth_description'])) {
+                $auth_description = strip_tags($_POST['auth_description']);
+                try {
+                    $authorities = $this->daoAuthority->selectObjectsByContainsDescription($auth_description);
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                }
+                if (isset($this->info)) {
+                    GenericController::valid_messages($this->info);
+                }
             }
             include_once server_path('br/com/system/view/authority/list.php');
         }

@@ -7,46 +7,48 @@
 ?>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h3 class="m-0 font-weight-bold text-primary">
-            <span>Listar Permissões</span>
-        </h3>
-        <hr>
-        <div class="form-group row">
-            <div class="col-sm-2 mb-3 mb-sm-0">
-                <div class="input-group input-group-lg">
-                    <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerAuthority&option=new'); ?>" class="btn btn-primary btn-icon-split btn-lg">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        <span class="text">Adicionar</span>
-                    </a>
+        <form action="<?php echo server_url('?page=ControllerAuthority&option=list'); ?>" method="post">
+            <h3 class="m-0 font-weight-bold text-primary">
+                <span>Listar Permissões</span>
+            </h3>
+            <hr>
+            <div class="form-group row">
+                <div class="col-sm-2 mb-3 mb-sm-0">
+                    <div class="input-group input-group-lg">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerAuthority&option=new'); ?>" class="btn btn-primary btn-icon-split btn-lg">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span class="text">Adicionar</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-4 mb-4 mb-sm-0">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text">Descrição</span>
+                        <input class="form-control" type="text" name="auth_description">
+                    </div>
+                </div>
+                <div class="col-sm-2 mb-4 mb-sm-0">
+                    <div class="input-group input-group-lg">
+                        <button class="btn btn-success btn-icon-split btn-lg">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <span class="text">Filtrar</span>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-4 mb-4 mb-sm-0">
-                <div class="input-group input-group-lg">
-                    <span class="input-group-text">Descrição</span>
-                    <input class="form-control" type="text" name="auth_description">
-                </div>
-            </div>
-            <div class="col-sm-2 mb-4 mb-sm-0">
-                <div class="input-group input-group-lg">
-                    <a href="#" class="btn btn-success btn-icon-split btn-lg authority_buscar">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-search"></i>
-                        </span>
-                        <span class="text">Filtrar</span>
-                    </a>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <?php
-            if ($authorities == false) {
-                echo '<h2>Não Existem Permissões!</h2>';
+            if (!isset($authorities)) {
+                echo '<h2>Use o filtro para ver as permissões cadastradas</h2>';
             } else {
-                echo '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">';
+                echo '<table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">';
                 echo '<thead>';
                 echo '<tr>';
                 echo '<th>Código</th>';
@@ -56,15 +58,6 @@
                 echo '<th>Opções</th>';
                 echo '</tr>';
                 echo '</thead>';
-                echo '<tfoot>';
-                echo '<tr>';
-                echo '<th>Código</th>';
-                echo '<th>Descrição</th>';
-                echo '<th>Tela</th>';
-                echo '<th>Função</th>';
-                echo '<th>Opções</th>';
-                echo '</tr>';
-                echo '</tfoot>';
                 echo '<tbody>';
                 foreach ($authorities as $cada_authority) {
                     echo '<tr>';
@@ -91,6 +84,15 @@
                     echo '</td>';
                     echo '</tr>';
                 }
+                echo '<tfoot>';
+                echo '<tr>';
+                echo '<th>Código</th>';
+                echo '<th>Descrição</th>';
+                echo '<th>Tela</th>';
+                echo '<th>Função</th>';
+                echo '<th>Opções</th>';
+                echo '</tr>';
+                echo '</tfoot>';
                 echo '</tbody>';
                 echo '</table>';
             }
