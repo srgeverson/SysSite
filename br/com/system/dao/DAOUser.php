@@ -72,9 +72,9 @@ class DAOUser extends GenericDAO {
 
     public function select() {
         $this->query = "SELECT ";
-        $this->query .= "u.* ";
-        $this->query .= "FROM ";
-        $this->query .= "user AS u;";
+        $this->query .= "u.*, a.auth_pk_id, a.auth_description ";
+        $this->query .= "FROM user AS u ";
+        $this->query .= "INNER JOIN authority AS a ON (u.user_fk_auth_pk_id = a.auth_pk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -104,8 +104,9 @@ class DAOUser extends GenericDAO {
 
     public function selectObjectById($user_pk_id = "") {
         $this->query = "SELECT ";
-        $this->query .= "u.* ";
+        $this->query .= "u.*, a.auth_pk_id, a.auth_description ";
         $this->query .= "FROM user AS u ";
+        $this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.auth_pk_id) ";
         $this->query .= "WHERE u.user_pk_id = :user_pk_id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
@@ -116,6 +117,26 @@ class DAOUser extends GenericDAO {
         $this->statement->bindParam(":user_pk_id", $user_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function selectObjectsByContainsObjetc(ModelUser $user = null) {
+        $this->query = "SELECT ";
+        $this->query .= "* ";
+        $this->query .= "FROM user AS u ";
+        $this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.auth_pk_id) ";
+        $this->query .= "WHERE ";
+        $this->query .= "u.user_name LIKE '%$user->user_name%' AND ";
+        $this->query .= "u.user_login LIKE '%$user->user_login%' AND ";
+        $this->query .= "u.user_fk_authority_pk_id LIKE '%$user->user_fk_authority_pk_id%';";
+
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function selectCountObjectsByFKAuthority($user_fk_authority_pk_id = null) {

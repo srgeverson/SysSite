@@ -5,6 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+include_once server_path("br/com/system/dao/DAOAuthority.php");
 include_once server_path("br/com/system/dao/DAOUser.php");
 include_once server_path("br/com/system/model/ModelUser.php");
 include_once server_path("br/com/system/model/ModelContact.php");
@@ -31,52 +32,44 @@ class ControllerUser {
 
     public function delete() {
         if (GenericController::authotity()) {
-
-            echo json_encode(array("name" => "John", "time" => "2pm"));
-
-            //$user_pk_id = strip_tags($_POST['user_pk_id']);
-            /*           if (!isset($user_pk_id)) {
-              $this->info = 'warning=user_uninformed';
-              }
-              try {
-              DAOUser::delete($user_pk_id);
-              if ($user == null) {
-              $this->info = 'warning=user_not_exists';
-              $this->listar();
-              }
-              $this->info = "success=user_deleted";
-              } catch (Exception $erro) {
-              $this->info = "error=" . $erro->getMessage();
-              }
-              $this->listar(); */
+            $user_pk_id = strip_tags($_GET['user_pk_id']);
+            if (!isset($user_pk_id)) {
+                $this->info = 'warning=user_uninformed';
+            }
+            try {
+                $this->daoUser->delete($user_pk_id);
+                $this->info = "success=user_deleted";
+                $this->list();
+            } catch (Exception $erro) {
+                $this->info = "error=" . $erro->getMessage();
+            }
+            $this->list();
         }
     }
 
     public function disable() {
         if (GenericController::authotity()) {
             $user_pk_id = strip_tags($_GET['user_pk_id']);
-            if (!isset($user_pk_id)) {
-                $this->info = 'warning=user_uninformed';
-            }
-            $atua_status = false;
+            if (isset($user_pk_id)) {
+                $user_status = false;
+                try {
+                    if (($this->daoUser->selectObjectById($user_pk_id)) === null) {
+                        $this->info = "warning=user_not_exists";
+                    } else {
+                        $user = new ModelUser();
+                        $user->user_pk_id = $user_pk_id;
+                        $user->user_status = $user_status;
 
-            try {
-                $objeto_verificado = DAOUser::selectObjectById($user_pk_id);
-                if ($objeto_verificado == null) {
-                    $this->info = 'warning=user_not_exists';
-                    $this->listar();
+                        $this->daoUser->updateStatus($user);
+                        $this->info = "success=user_disabled";
+                    }
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
                 }
-
-                $user = new ModelUser();
-                $user->user_pk_id = $user_pk_id;
-                $user->atua_status = $atua_status;
-
-                DAOUser::updateStatus($user);
-                $this->info = 'success=user_disabled';
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
+            } else {
+                $this->info = "warning=user_uninformed";
             }
-            $this->listar();
+            $this->list();
         }
     }
 
@@ -85,13 +78,15 @@ class ControllerUser {
             $user_pk_id = $_GET['user_pk_id'];
             if (!isset($user_pk_id)) {
                 $this->info = 'warning=user_uninformed';
-                $this->listar();
+                $this->list();
             }
             try {
-                $user = DAOUser::selectObjectById($user_pk_id);
-                if ($user == null) {
+                $user = $this->daoUser->selectObjectById($user_pk_id);
+                $daoAuthority = new DAOAuthority();
+                $authorities = $daoAuthority->selectObjectsEnabled();
+                if (!isset($user)) {
                     $this->info = 'warning=user_not_exists';
-                    $this->listar();
+                    $this->list();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -164,38 +159,47 @@ class ControllerUser {
     public function enable() {
         if (GenericController::authotity()) {
             $user_pk_id = strip_tags($_GET['user_pk_id']);
-            if (!isset($user_pk_id)) {
+            if (isset($user_pk_id)) {
+                $user_status = true;
+                try {
+                    if (($this->daoUser->selectObjectById($user_pk_id)) === null) {
+                        $this->info = 'warning=user_not_exists';
+                    } else {
+                        $user = new ModelUser();
+                        $user->user_pk_id = $user_pk_id;
+                        $user->user_status = $user_status;
+
+                        $this->daoUser->updateStatus($user);
+                        $this->info = 'success=user_enabled';
+                    }
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                }
+            } else {
                 $this->info = 'warning=user_uninformed';
-                $this->listar();
             }
-            $atua_status = true;
-
-            $objeto_verificado = DAOUser::selectObjectById($user_pk_id);
-            if ($objeto_verificado == null) {
-                $this->info = 'warning=user_not_exists';
-                $this->listar();
-            }
-
-            $user = new ModelUser();
-            $user->user_pk_id = $user_pk_id;
-            $user->atua_status = $atua_status;
-            try {
-                DAOUser::updateStatus($user);
-                $this->info = 'success=user_enabled';
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
-            }
-            $this->listar();
+            $this->list();
         }
     }
 
     public function list() {
         if (GenericController::authotity()) {
-            try {
-                $data_atual = date('Y-m-d');
-                $users = DAOUser::select();
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
+            if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['user_fk_authority_pk_id'])) {
+                $user = new ModelUser();
+                $user->user_name = strip_tags($_POST['user_name']);
+                $user->user_login = strip_tags($_POST['user_login']);
+                if (strip_tags($_POST['user_fk_authority_pk_id']) !== 'Todas') {
+                    $user->user_fk_authority_pk_id = strip_tags($_POST['user_fk_authority_pk_id']);
+                } else {
+                    $user->user_fk_authority_pk_id = '';
+                }
+                try {
+                    $users = $this->daoUser->selectObjectsByContainsObjetc($user);
+                    $daoAuthority = new DAOAuthority();
+                    $authorities = $daoAuthority->selectObjectsEnabled();
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                }
             }
             if (isset($this->info)) {
                 GenericController::valid_messages($this->info);
@@ -245,40 +249,48 @@ class ControllerUser {
 
     public function new() {
         if (GenericController::authotity()) {
+            $daoAuthority = new DAOAuthority();
+            $authorities = $daoAuthority->selectObjectsEnabled();
             include_once server_path('br/com/system/view/user/new.php');
         }
     }
 
     public function save() {
         if (GenericController::authotity()) {
+            $user_name = strip_tags($_POST['user_name']); //nome do usuário
+            $user_login = strip_tags($_POST['user_login']); //email para acesso
+            $password = random_int(100000, 99999999); //senha aleatoria
+            $user_password = password_hash($password, PASSWORD_BCRYPT);
+            $user_status = true; // usuário ativo
+            $user_fk_authority_pk_id = strip_tags($_POST['user_fk_authority_pk_id']);
+            //Enviando email para acesso ao sistema
+            $contact = new ModelContact();
+            $contact->cont_descricao = $user_name;
+            $contact->cont_email = $user_login;
+            $contact->cont_texto = 'Senha Provisória: ' . $password;
+
+
+            $user = new ModelUser();
+            $user->user_name = $user_name;
+            $user->user_login = $user_login;
+            $user->user_password = $user_password;
+            $user->user_status = $user_status;
+            $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
             try {
-                $user_name = strip_tags($_POST['user_name']);
-                $user_login = strip_tags($_POST['user_login']);
-                $user_password = password_hash(strip_tags($_POST['user_password']), PASSWORD_BCRYPT);
-                $user_password = true;
-                $user_fk_authority_pk_id = strip_tags($_POST['user_fk_authority_pk_id']);
-                $user_image = $_FILES['user_image']['name'];
-                $uploaddir = server_path('br/com/system/uploads/user/');
-                $uploadfile = $uploaddir . $user_image;
-                $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
-                if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
-                    if (move_uploaded_file($_FILES['user_image']['tmp_name'], $uploadfile)) {
-                        $user = new ModelUser();
-                        $user->user_name = $user_name;
-                        $user->user_password = $user_password;
-                        $user->user_password = $user_password;
-                        $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
-                        $user->user_image = $user_image;
-                        DAOUsuario::save($user);
+                if (!isset($this->daoUser->selectObjectByName($user_login)->user_login)) {
+                    $this->daoUser->createOtherUser($user);
+                    if ($this->controllerSystem->send_email($contact)) {
+                        $this->info = "success=user_created";
+                    } else {
+                        $this->info = "error=contact_not_send_email";
                     }
                 } else {
-                    echo '<script>alert("Formato de imagem não aceito!")</script>';
-                    redirect("javascript:window.history.go(-1)");
+                    $this->info = "warning=user_already_registered";
                 }
-                self::listar();
             } catch (Exception $erro) {
-                self::$info = "error=" . $erro->getMessage();
+                $this->info = "error=" . $erro->getMessage();
             }
+            $this->list();
         }
     }
 
@@ -301,10 +313,10 @@ class ControllerUser {
         $user->user_login = $user_login;
         $user->user_password = $user_password;
         $user->user_status = $user_status;
-        $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
+        $user->user_fk_user_pk_id = $user_fk_authority_pk_id;
         try {
             if (!isset($this->daoUser->selectObjectByName($user_login)->user_login)) {
-                $this->daoUser = $this->daoUser->createOtherUser($user);
+                $this->daoUser->createOtherUser($user);
                 if ($this->controllerSystem->send_email($contact)) {
                     include_once server_path('br/com/system/view/user/success.php');
                 } else {
@@ -327,14 +339,16 @@ class ControllerUser {
                 }
                 $user_name = strip_tags($_POST['user_name']);
                 $user_login = strip_tags($_POST['user_login']);
+                $user_fk_authority_pk_id = strip_tags($_POST['user_fk_authority_pk_id']);
 
                 $user = new ModelUser();
                 $user->user_pk_id = $user_pk_id;
                 $user->user_name = $user_name;
                 $user->user_login = $user_login;
+                $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
 
                 try {
-                    DAOUser::update($user);
+                    $this->daoUser->update($user);
                     if ($user == null) {
                         $this->info = 'warning=user_not_exists';
                         $this->listar();
@@ -343,7 +357,7 @@ class ControllerUser {
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->listar();
+                $this->list();
             }
         }
     }

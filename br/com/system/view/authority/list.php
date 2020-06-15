@@ -19,7 +19,7 @@
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>
-                            <span class="text">Adicionar</span>
+                            <span class="text">Cadastrar</span>
                         </a>
                     </div>
                 </div>
@@ -59,26 +59,26 @@
                 echo '</tr>';
                 echo '</thead>';
                 echo '<tbody>';
-                foreach ($authorities as $cada_authority) {
+                foreach ($authorities as $each_authority) {
                     echo '<tr>';
-                    echo '<td>', $cada_authority->auth_pk_id, '</td>';
-                    echo '<td>', $cada_authority->auth_description, '</td>';
-                    echo '<td>', $cada_authority->auth_screen, '</td>';
-                    echo '<td>', $cada_authority->auth_function, '</td>';
+                    echo '<td>', $each_authority->auth_pk_id, '</td>';
+                    echo '<td>', $each_authority->auth_description, '</td>';
+                    echo '<td>', $each_authority->auth_screen, '</td>';
+                    echo '<td>', $each_authority->auth_function, '</td>';
                     echo '<td>';
-                    echo '<a title="Editar dados!" href="', server_url('?page=ControllerAuthority&option=edit&auth_pk_id=' . $cada_authority->auth_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                    echo '<a title="Editar dados!" href="', server_url('?page=ControllerAuthority&option=edit&auth_pk_id=' . $each_authority->auth_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                     echo '<i class="fas fa-edit"></i>';
                     echo '</a>';
-                    if ($cada_authority->auth_status == 1) {
-                        echo '<a title="Desenable dados!" href="', server_url('?page=ControllerAuthority&option=disable&auth_pk_id=' . $cada_authority->auth_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                    if ($each_authority->auth_status == true) {
+                        echo '<a title="Desenable dados!" href="', server_url('?page=ControllerAuthority&option=disable&auth_pk_id=' . $each_authority->auth_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
                     } else {
-                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerAuthority&option=enable&auth_pk_id=' . $cada_authority->auth_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerAuthority&option=enable&auth_pk_id=' . $each_authority->auth_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
                     }
-                    echo '<a title="Excluir dados!" href="', server_url('?page=ControllerAuthority&option=delete&auth_pk_id=' . $cada_authority->auth_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                    echo '<a title="Excluir dados!" href="', server_url('?page=ControllerAuthority&option=delete&auth_pk_id=' . $each_authority->auth_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                     echo '<i class="fas fa-trash"></i>';
                     echo '</a>';
                     echo '</td>';
