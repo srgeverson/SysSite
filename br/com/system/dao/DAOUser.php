@@ -180,8 +180,6 @@ class DAOUser extends GenericDAO {
         $this->query = "UPDATE user SET ";
         $this->query .= "user_name=:user_name, ";
         $this->query .= "user_login=:user_login, ";
-        $this->query .= "user_password=:user_password, ";
-        $this->query .= "user_image=:user_image, ";
         $this->query .= "user_fk_authority_pk_id=:user_fk_authority_pk_id ";
         $this->query .= "WHERE user_pk_id=:user_pk_id;";
         try {
@@ -192,8 +190,6 @@ class DAOUser extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':user_name', $user->user_name, PDO::PARAM_STR);
         $this->statement->bindParam(':user_login', $user->user_login, PDO::PARAM_STR);
-        $this->statement->bindParam(':user_password', $user->user_password, PDO::PARAM_STR);
-        $this->statement->bindParam(':user_image', $user->user_image, PDO::PARAM_STR);
         $this->statement->bindParam(':user_fk_authority_pk_id', $user->user_fk_authority_pk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':user_pk_id', $user->user_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
