@@ -313,7 +313,7 @@ class ControllerUser {
         $user->user_login = $user_login;
         $user->user_password = $user_password;
         $user->user_status = $user_status;
-        $user->user_fk_user_pk_id = $user_fk_authority_pk_id;
+        $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
         try {
             if (!isset($this->daoUser->selectObjectByName($user_login)->user_login)) {
                 $this->daoUser->createOtherUser($user);
