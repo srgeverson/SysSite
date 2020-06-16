@@ -294,6 +294,35 @@ class ControllerUser {
         }
     }
 
+    public function reset() {
+        $user_pk_id = strip_tags($_GET['user_pk_id']); //nome do usuário
+        $password = random_int(100000, 99999999); //senha aleatoria
+        $user_password = password_hash($password, PASSWORD_BCRYPT);
+
+        try {
+            $user = new ModelUser();
+            $user->user_pk_id = $user_pk_id;
+            $user->user_password = $user_password;
+
+            $user_updated = $this->daoUser->selectObjectById($user_pk_id);
+            //Enviando email para acesso ao sistema
+            $contact = new ModelContact();
+            $contact->cont_descricao = $user_updated->user_name;
+            $contact->cont_email = $user_updated->user_login;
+            $contact->cont_texto = 'Senha Provisória: ' . $password;
+
+            if ($this->controllerSystem->send_email($contact)) {
+                $this->daoUser->updatePassword($user);
+                $this->info = "success=user_password_reseted";
+            } else {
+                $this->info = "error=contact_not_send_email";
+            }
+        } catch (Exception $erro) {
+            $this->info = "error=" . $erro->getMessage();
+        }
+        $this->list();
+    }
+
     public function submit() {
         $user_name = strip_tags($_POST['user_name']); //nome do usuário
         $user_login = strip_tags($_POST['user_login']); //email para acesso

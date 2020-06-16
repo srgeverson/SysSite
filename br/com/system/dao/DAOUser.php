@@ -222,6 +222,25 @@ class DAOUser extends GenericDAO {
         return true;
     }
 
+    public function updatePassword(ModelUser $user = null) {
+        if (!is_object($user)) {
+            throw new Exception("Dados incompletos");
+        }
+        $this->query = "UPDATE user SET ";
+        $this->query .= "user_password=:user_password ";
+        $this->query .= "WHERE user_pk_id=:user_pk_id;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(':user_password', $user->user_password, PDO::PARAM_STR);
+        $this->statement->bindParam(':user_pk_id', $user->user_pk_id, PDO::PARAM_INT);
+        $this->statement->execute();
+        return true;
+    }
+
     public function updateStatus(ModelUser $user = null) {
         if (!is_object($user)) {
             throw new Exception("Dados incompletos");

@@ -23,18 +23,18 @@ class ControllerAuthority {
         if (GenericController::authotity()) {
             $auth_pk_id = strip_tags($_GET['auth_pk_id']);
             if (!isset($auth_pk_id)) {
-                $this->info = 'warning=authotity_uninformed';
+                $this->info = 'warning=authority_uninformed';
             }
             try {
                 $daoUser = new DAOUser();
                 if (empty($daoUser->selectCountObjectsByFKAuthority($auth_pk_id))) {
                     if (!$this->daoAuthority->delete($auth_pk_id)) {
-                        $this->info = 'warning=authotity_not_exists';
+                        $this->info = 'warning=authority_not_exists';
                         $this->list();
                     }
-                    $this->info = "success=authotity_deleted";
+                    $this->info = "success=authority_deleted";
                 } else {
-                    $this->info = "warning=authotity_in_use";
+                    $this->info = "warning=authority_in_use";
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -121,9 +121,10 @@ class ControllerAuthority {
     public function list() {
         if (GenericController::authotity()) {
             if (isset($_POST['auth_description'])) {
-                $auth_description = strip_tags($_POST['auth_description']);
+                $authority = new ModelAuthority();
+                $authority->auth_description = strip_tags($_POST['auth_description']);
                 try {
-                    $authorities = $this->daoAuthority->selectObjectsByContainsDescription($auth_description);
+                    $authorities = $this->daoAuthority->selectObjectsByContainsObject($authority);
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }

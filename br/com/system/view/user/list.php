@@ -91,7 +91,7 @@
                     echo '<i class="fas fa-edit"></i>';
                     echo '</a>';
                     if ($each_user->user_status == true) {
-                        echo '<a title="Desenable dados!" href="', server_url('?page=ControllerUser&option=disable&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<a title="Desabilitar dados!" href="', server_url('?page=ControllerUser&option=disable&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
                     } else {
@@ -101,6 +101,9 @@
                     }
                     echo '<a title="Excluir dados!" href="', server_url('?page=ControllerUser&option=delete&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                     echo '<i class="fas fa-trash"></i>';
+                    echo '</a>';
+                    echo '<a title="Gerar Nova Senha!" href="', server_url('?page=ControllerUser&option=reset&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                    echo '<i class="fas fa-key"></i>';
                     echo '</a>';
                     echo '</td>';
                     echo '</tr>';
