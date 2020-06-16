@@ -8,14 +8,14 @@
 
 include_once server_path('br/com/system/dao/GenericDAO.php');
 
-class DAOAuthority extends GenericDAO {
+class DAOParameter extends GenericDAO {
 
-    public function delete($auth_pk_id = 0) {
+    public function delete($para_pk_id = 0) {
         try {
-            $this->query = "DELETE FROM authority WHERE auth_pk_id=:auth_pk_id;";
+            $this->query = "DELETE FROM parameter WHERE para_pk_id=:para_pk_id;";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
-            $this->statement->bindParam(":auth_pk_id", $auth_pk_id, PDO::PARAM_INT);
+            $this->statement->bindParam(":para_pk_id", $para_pk_id, PDO::PARAM_INT);
             $this->statement->execute();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
@@ -23,30 +23,31 @@ class DAOAuthority extends GenericDAO {
         return true;
     }
 
-    public function save(ModelAuthority $authority = null) {
-        if (!is_object($authority)) {
+    public function save(ModelParameter $parameter = null) {
+        if (!is_object($parameter)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "INSERT INTO authority ";
-        $this->query .= "(auth_description, auth_status, auth_screen, auth_function) ";
+        $this->query = "INSERT INTO parameter ";
+        $this->query .= "(para_key, para_value, para_description, para_status, para_fk_user_pk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:auth_description, :auth_status, :auth_screen, :auth_function);";
+        $this->query .= "(:para_key, :para_value, :para_description, :para_status, :para_fk_user_pk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':auth_description', $authority->auth_description, PDO::PARAM_STR);
-        $this->statement->bindParam(':auth_status', $authority->auth_status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':auth_screen', $authority->auth_screen, PDO::PARAM_STR);
-        $this->statement->bindParam(':auth_function', $authority->auth_function, PDO::PARAM_STR);
+        $this->statement->bindParam(':para_key', $parameter->para_key, PDO::PARAM_STR);
+        $this->statement->bindParam(':para_value', $parameter->para_value, PDO::PARAM_STR);
+        $this->statement->bindParam(':para_description', $parameter->para_description, PDO::PARAM_STR);
+        $this->statement->bindParam(':para_status', $parameter->para_status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':para_fk_user_pk_id', $parameter->para_fk_user_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
 
     public function select() {
-        $this->query = "SELECT * FROM authority";
+        $this->query = "SELECT * FROM parameter";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -57,25 +58,26 @@ class DAOAuthority extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectById($auth_pk_id = 0) {
-        $this->query = "SELECT * FROM authority WHERE auth_pk_id=:auth_pk_id LIMIT 1;";
+    public function selectObjectById($para_pk_id = 0) {
+        $this->query = "SELECT * FROM parameter WHERE para_pk_id=:para_pk_id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":auth_pk_id", $auth_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(":para_pk_id", $para_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectsByContainsObject(ModelAuthority $authority = null) {
+    public function selectObjectsByContainsObject(ModelParameter $parameter = null) {
         $this->query = "SELECT ";
         $this->query .= "* ";
-        $this->query .= "FROM authority ";
+        $this->query .= "FROM parameter ";
         $this->query .= "WHERE ";
-        $this->query .= "auth_description LIKE '%$authority->auth_description%';";
+        $this->query .= "para_key LIKE '%$parameter->para_key%' AND ";
+        $this->query .= "para_value LIKE '%$parameter->para_value%';";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -87,7 +89,7 @@ class DAOAuthority extends GenericDAO {
     }
 
     public function selectObjectsEnabled() {
-        $this->query = "SELECT p.* FROM authority AS p WHERE p.auth_status = 1;";
+        $this->query = "SELECT p.* FROM parameter AS p WHERE p.para_value = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -98,44 +100,44 @@ class DAOAuthority extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function update(ModelAuthority $authority = null) {
-        if (!is_object($authority)) {
+    public function update(ModelParameter $parameter = null) {
+        if (!is_object($parameter)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE authority SET ";
-        $this->query .= "auth_description=:auth_description, ";
-        $this->query .= "auth_screen=:auth_screen, ";
-        $this->query .= "auth_function=:auth_function ";
-        $this->query .= " WHERE auth_pk_id=:auth_pk_id;";
+        $this->query = "UPDATE parameter SET ";
+        $this->query .= "para_key=:para_key, ";
+        $this->query .= "para_value=:para_value, ";
+        $this->query .= "para_status=:para_status ";
+        $this->query .= " WHERE para_pk_id=:para_pk_id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':auth_description', $authority->auth_description, PDO::PARAM_STR);
-        $this->statement->bindParam(':auth_screen', $authority->auth_screen, PDO::PARAM_STR);
-        $this->statement->bindParam(':auth_function', $authority->auth_function, PDO::PARAM_STR);
-        $this->statement->bindParam(':auth_pk_id', $authority->auth_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':para_key', $parameter->para_key, PDO::PARAM_STR);
+        $this->statement->bindParam(':para_value', $parameter->para_value, PDO::PARAM_STR);
+        $this->statement->bindParam(':para_status', $parameter->para_status, PDO::PARAM_STR);
+        $this->statement->bindParam(':para_pk_id', $parameter->para_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
 
-    public function updateStatus(ModelAuthority $authority = null) {
-        if (!is_object($authority)) {
+    public function updateStatus(ModelParameter $parameter = null) {
+        if (!is_object($parameter)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE authority SET ";
-        $this->query .= "auth_status=:auth_status ";
-        $this->query .= "WHERE auth_pk_id=:auth_pk_id;";
+        $this->query = "UPDATE parameter SET ";
+        $this->query .= "para_status=:para_status ";
+        $this->query .= "WHERE para_pk_id=:para_pk_id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':auth_status', $authority->auth_status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':auth_pk_id', $authority->auth_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':para_status', $parameter->para_status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':para_pk_id', $parameter->para_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }

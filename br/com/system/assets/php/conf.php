@@ -31,6 +31,7 @@ $GLOBALS['dictionary'] = array(
     'user_not_found' => "Usuário não encontrado.",
     'user_not_exists' => "Usuário inexistente.",
     'user_profile_edit' => "Perfil atualizado com sucesso.",
+    'user_password_reseted' => "Senha gerada e enviada por e-mail com sucesso.",
     'user_updated' => "Usuário atualizado com sucesso.",
     'user_uninformed' => "Usuário não informado."
 );

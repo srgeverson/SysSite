@@ -47,14 +47,19 @@
                 <span>Sistema</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerUser&option=list"); ?>">
+                    <i class="fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Usuários
+                </a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="<?php echo server_url("?page=ControllerAuthority&option=list"); ?>">
                     <i class="fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400"></i>
                     Permissões
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerUser&option=list"); ?>">
-                    <i class="fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Usuários
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerParameter&option=list"); ?>">
+                    <i class="fas fa-tasks fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Parâmetros
                 </a>
             </div>
         </li>
