@@ -128,27 +128,11 @@ class ControllerAuthority {
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                if (isset($this->info)) {
-                    GenericController::valid_messages($this->info);
-                }
+            }
+            if (isset($this->info)) {
+                GenericController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/authority/list.php');
-        }
-    }
-
-    public function listByUser($auth_pk_id = null) {
-        if (GenericController::authotity()) {
-            try {
-                $authorities = new DAOAuthority();
-                $authorities->getObjectsByUser($auth_pk_id);
-                var_dump($authorities);
-                if ($authorities == null) {
-                    return false;
-                }
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
-            }
-            include_once server_path("br/com/system/view/authority/logged.php");
         }
     }
 

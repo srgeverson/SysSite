@@ -23,7 +23,7 @@
                         <input class="form-control" name="para_value" type="text" placeholder="Digite um valor..."  required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Função:</label><br>
+                        <label class="text-primary">Descrição:</label><br>
                         <textarea class="form-control" name="para_description" placeholder="Uma breve descrição sobre a parâmetro..." required></textarea>
                     </div>
                 </div>

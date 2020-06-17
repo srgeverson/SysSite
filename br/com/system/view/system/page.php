@@ -13,7 +13,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Gestão de Folha de Pagamento">
         <meta name="author" content="Geverson Souza">
-        <title title="Gestão de Folha de Pagamento">Gestão de Folha de Pagamento</title>
+        <?php
+        $parameter = new ControllerParameter();
+        echo '<title title="', $parameter->getProperty('titulo_site'), '">';
+        echo $parameter->getProperty('titulo_site');
+        echo '</title>';
+        //Icone da página
+        echo '<link rel = "icon" href = "', server_url('br/com/system/uploads/parameter/') . $parameter->getProperty('icone_site'), '">';
+        ?>
         <!-- Custom fonts for this template-->
         <link href="<?php echo server_url('br/com/system/assets/vendor/fontawesome-free/css/') . 'all.min.css'; ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo server_url('br/com/system/assets/css/') . 'fonts.css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i'; ?>" rel="stylesheet">
@@ -23,9 +30,6 @@
 
         <!-- Custom styles for this template -->
         <link href="<?php echo server_url('br/com/system/assets/css/') . 'modern-business.css'; ?>" rel="stylesheet">
-        
-        <!-- Icone da página-->
-        <link rel="icon" href="<?php echo server_url('br/com/system/empresa/imagems/logo_icon.png'); ?>">
     </head>
     <body id="page-top">
         <!-- Menu -->

@@ -7,5 +7,11 @@
 ?>
 
 <div class="container">
-    <p class="m-0 text-center text-white">Copyright &copy; Site Modelo para Projetos</p>
+    <p class="m-0 text-center text-white">
+        Copyright &copy; 
+        <?php
+        $parameter = new ControllerParameter();
+        echo $parameter->getProperty('razao_social');
+        ?>
+    </p>
 </div>

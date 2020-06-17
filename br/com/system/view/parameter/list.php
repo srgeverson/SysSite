@@ -72,21 +72,21 @@
                     echo '<td>', $each_parameters->para_value, '</td>';
                     echo '<td>', $each_parameters->para_description, '</td>';
                     echo '<td>';
-                    echo '<a title="Editar dados!" href="', server_url('?page=ControllerParameter&option=edit&para_pk_id=' . $each_parameters->para_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
-                    echo '<i class="fas fa-edit"></i>';
-                    echo '</a>';
                     if ($each_parameters->para_status == true) {
-                        echo '<a title="Desenable dados!" href="', server_url('?page=ControllerParameter&option=disable&para_pk_id=' . $each_parameters->para_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<a title="Desenable dados!" href="', server_url('?page=ControllerParameter&option=disable&param_pk_id=' . $each_parameters->para_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
                     } else {
-                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerParameter&option=enable&para_pk_id=' . $each_parameters->para_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerParameter&option=edit&param_pk_id=' . $each_parameters->para_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                        echo '<i class="fas fa-edit"></i>';
+                        echo '</a>';
+                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerParameter&option=enable&param_pk_id=' . $each_parameters->para_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
+                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerParameter&option=delete&param_pk_id=' . $each_parameters->para_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                        echo '<i class="fas fa-trash"></i>';
+                        echo '</a>';
                     }
-                    echo '<a title="Excluir dados!" href="', server_url('?page=ControllerParameter&option=delete&para_pk_id=' . $each_parameters->para_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
-                    echo '<i class="fas fa-trash"></i>';
-                    echo '</a>';
                     echo '</td>';
                     echo '</tr>';
                 }

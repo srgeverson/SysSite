@@ -40,6 +40,14 @@ class ControllerSystem {
         include_once server_path('br/com/system/view/system/default.php');
     }
 
+    public function parameter_info($msg = null) {
+        if (!isset($msg)) {
+            $msg = $this->info;
+        }
+        GenericController::valid_messages($msg);
+        include_once server_path('br/com/system/view/user/default.php');
+    }
+
     public function send_email(ModelContact $contact = null) {
         $Vai = "Nome: $contact->cont_descricao\n\nE-mail: $contact->cont_email\n\nMensagem: $contact->cont_texto\n";
 
@@ -57,14 +65,14 @@ class ControllerSystem {
             $mail->SMTPSecure = 'ssl';
             $mail->Host = 'smtp.gmail.com';
             $mail->Port = 465;
-            $mail->CharSet  ="utf-8";
+            $mail->CharSet = "utf-8";
             $mail->Username = GUSER;
             $mail->Password = GPWD;
             $mail->SetFrom($de, $de_nome);
             $mail->Subject = $assunto;
             $mail->Body = $corpo;
             $mail->AddAddress($para);
-            
+
             if (!$mail->Send()) {
                 $error = 'Mail error: ' . $mail->ErrorInfo;
                 return false;

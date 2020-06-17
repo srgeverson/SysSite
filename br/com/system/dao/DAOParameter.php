@@ -88,6 +88,32 @@ class DAOParameter extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function selectObjectByKey($para_key = null) {
+        $this->query = "SELECT * FROM parameter WHERE para_key = :para_key LIMIT 1;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(":para_key", $para_key, PDO::PARAM_STR);
+        $this->statement->execute();
+        return $this->statement->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function selectObjectByObject(ModelParameter $parameter = null) {
+        $this->query = "SELECT * FROM parameter WHERE para_key=:para_key LIMIT 1;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(":para_key", $parameter->para_key, PDO::PARAM_STR);
+        $this->statement->execute();
+        return $this->statement->fetch(PDO::FETCH_OBJ);
+    }
+
     public function selectObjectsEnabled() {
         $this->query = "SELECT p.* FROM parameter AS p WHERE p.para_value = 1;";
         try {
@@ -107,7 +133,7 @@ class DAOParameter extends GenericDAO {
         $this->query = "UPDATE parameter SET ";
         $this->query .= "para_key=:para_key, ";
         $this->query .= "para_value=:para_value, ";
-        $this->query .= "para_status=:para_status ";
+        $this->query .= "para_description=:para_description ";
         $this->query .= " WHERE para_pk_id=:para_pk_id;";
         try {
             $conexao = $this->getInstance();
@@ -117,7 +143,7 @@ class DAOParameter extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':para_key', $parameter->para_key, PDO::PARAM_STR);
         $this->statement->bindParam(':para_value', $parameter->para_value, PDO::PARAM_STR);
-        $this->statement->bindParam(':para_status', $parameter->para_status, PDO::PARAM_STR);
+        $this->statement->bindParam(':para_description', $parameter->para_description, PDO::PARAM_STR);
         $this->statement->bindParam(':para_pk_id', $parameter->para_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
