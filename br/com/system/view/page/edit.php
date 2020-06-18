@@ -10,24 +10,28 @@
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
-        <form action="<?php echo server_url('?page=ControllerAuthority&option=update'); ?>" method="post">
+        <form action="<?php echo server_url('?page=ControllerPage&option=update'); ?>" method="post">
             <div class="card h-100">
-                <h4 class="card-header text-primary">Alterar Permissão</h4>
+                <h4 class="card-header text-primary">Alterar Página</h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <input class="form-control" name="auth_pk_id" type="hidden" value="<?php echo $authority->auth_pk_id; ?>">
+                        <input class="form-control" name="page_pk_id" type="hidden" value="<?php echo $page->page_pk_id; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="text-primary">Nome da Página:</label><br>
+                        <input class="form-control" name="page_name" type="text" placeholder="Digite um nome..." value="<?php echo $page->page_name; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Descrição:</label><br>
-                        <input class="form-control" name="auth_description" type="text" placeholder="Digite uma descrição..." value="<?php echo $authority->auth_description; ?>" required>
+                        <textarea class="form-control" name="page_description" placeholder="Uma breve descrição sobre da página..." required><?php echo $page->page_description; ?></textarea>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Tela:</label><br>
-                        <input class="form-control" name="auth_screen" type="text" placeholder="Digite um nome para a tela..." value="<?php echo $authority->auth_screen; ?>" required>
+                        <label class="text-primary">Icone:</label><br>
+                        <input class="form-control" name="page_icon" type="text" placeholder="Digite um nome..." value="<?php echo $page->page_icon; ?>" required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Função:</label><br>
-                        <textarea class="form-control" name="auth_function" placeholder="Uma breve descrição sobre a tela..." required><?php echo $authority->auth_function; ?></textarea>
+                        <label class="text-primary">Nome:</label><br>
+                        <input class="form-control" name="page_label" type="text" placeholder="Digite um nome..." value="<?php echo $page->page_label; ?>" required>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -41,7 +45,7 @@
                             </button>
                         </div>
                         <div class="input-group">
-                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerAuthority&option=list'); ?>" type="submit">
+                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerPage&option=list'); ?>" type="submit">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-window-close"></i>
                                 </span>

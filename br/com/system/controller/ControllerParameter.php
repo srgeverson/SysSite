@@ -79,7 +79,7 @@ class ControllerParameter {
                 $this->info = "error=" . $erro->getMessage();
             }
             if ($parameter == false) {
-                $this->info = "warning=aauthority_not_found";
+                $this->info = "warning=parameter_not_found";
             }
             include_once server_path('br/com/system/view/parameter/edit.php');
         }
@@ -114,13 +114,14 @@ class ControllerParameter {
     public function getProperty($key = null) {
         try {
             $parameter = $this->daoParameter->selectObjectByKey($key);
-            if (!isset($parameter)) {
-                $this->controllerSystem->parameter_info('warning=parameter_not_exists');
+            if (isset($parameter)) {
+                return "Vazio/Desabilitado";
+            } else {
+                return $parameter->para_value;
             }
         } catch (Exception $erro) {
             $this->controllerSystem->parameter_info("error=" . $erro->getMessage());
         }
-        return $parameter->para_value;
     }
 
     public function list() {

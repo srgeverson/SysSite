@@ -10,6 +10,7 @@ ini_set('display_errors', 1);
 include_once './br/com/system/assets/php/conf.php';
 include_once './br/com/system/controller/GenericController.php';
 include_once './br/com/system/controller/ControllerParameter.php';
+include_once './br/com/system/controller/ControllerPage.php';
 
 session_start();
 if (isset($_SESSION['usuario'])) {

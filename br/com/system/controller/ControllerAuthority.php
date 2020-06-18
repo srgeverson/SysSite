@@ -86,7 +86,7 @@ class ControllerAuthority {
                 $this->info = "error=" . $erro->getMessage();
             }
             if ($authority == false) {
-                $this->info = "warning=aauthority_not_found";
+                $this->info = "warning=authority_not_found";
             }
             include_once server_path('br/com/system/view/authority/edit.php');
         }

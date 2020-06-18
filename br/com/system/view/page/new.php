@@ -10,21 +10,25 @@
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
-        <form action="<?php echo server_url('?page=ControllerAuthority&option=save'); ?>" method="post">
+        <form action="<?php echo server_url('?page=ControllerPage&option=save'); ?>" method="post">
             <div class="card h-100">
-                <h4 class="card-header text-primary">Cadastrar Permissão</h4>
+                <h4 class="card-header text-primary">Cadastrar Página</h4>
                 <div class="card-body">
                     <div class="form-group">
+                        <label class="text-primary">Nome da Página:</label><br>
+                        <input class="form-control" name="page_name" type="text" placeholder="Digite o nome..." required>
+                    </div>
+                    <div class="form-group">
                         <label class="text-primary">Descrição:</label><br>
-                        <input class="form-control" name="auth_description" type="text" placeholder="Digite uma descrição..." required>
+                        <textarea class="form-control" name="page_description" placeholder="Digite uma descrição..."  required></textarea>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Tela:</label><br>
-                        <input class="form-control" name="auth_screen" type="text" placeholder="Digite um nome para a tela..."  required>
+                        <label class="text-primary">Icone:</label><br>
+                        <input class="form-control" name="page_icon" type="text" placeholder="Digite o nome do icone..."  required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Função:</label><br>
-                        <textarea class="form-control" name="auth_function" placeholder="Uma breve descrição sobre a tela..." required></textarea>
+                        <label class="text-primary">Nome:</label><br>
+                        <input class="form-control" name="page_label" type="text" placeholder="Digite um nome..."  required>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -38,7 +42,7 @@
                             </button>
                         </div>
                         <div class="input-group">
-                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerAuthority&option=list'); ?>" type="submit">
+                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerPage&option=list'); ?>" type="submit">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-window-close"></i>
                                 </span>

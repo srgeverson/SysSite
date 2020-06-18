@@ -89,7 +89,8 @@ class DAOParameter extends GenericDAO {
     }
 
     public function selectObjectByKey($para_key = null) {
-        $this->query = "SELECT * FROM parameter WHERE para_key = :para_key LIMIT 1;";
+        $this->query = "SELECT * FROM parameter WHERE para_key = :para_key AND para_status = :para_status LIMIT 1;";
+        $para_status = true;
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -97,6 +98,7 @@ class DAOParameter extends GenericDAO {
         }
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(":para_key", $para_key, PDO::PARAM_STR);
+        $this->statement->bindParam(":para_status", $para_status, PDO::PARAM_BOOL);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }

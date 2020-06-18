@@ -15,31 +15,7 @@ class ControllerSystem {
     function __construct() {
         $this->info = 'default=default';
     }
-
-    public function about($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/system/about.php');
-    }
-
-    public function contact($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/system/contact.php');
-    }
-
-    public function home($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/system/default.php');
-    }
-
+    
     public function parameter_info($msg = null) {
         if (!isset($msg)) {
             $msg = $this->info;
@@ -87,14 +63,6 @@ class ControllerSystem {
         if (!empty($error)) {
             throw new Exception("Erro ao enviar email" . $error);
         }
-    }
-
-    public function service($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/system/service.php');
     }
 
     public function welcome($msg = null) {

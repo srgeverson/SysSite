@@ -11,10 +11,10 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Gestão de Folha de Pagamento">
         <meta name="author" content="Geverson Souza">
         <?php
         $parameter = new ControllerParameter();
+        echo '<meta name="description" content="', $parameter->getProperty('titulo_site'), '">';
         echo '<title title="', $parameter->getProperty('titulo_site'), '">';
         echo $parameter->getProperty('titulo_site');
         echo '</title>';

@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Chave:</label><br>
-                        <input class="form-control" name="para_key" type="text" placeholder="Digite um nome único..." value="<?php echo $parameter->para_description; ?>" required>
+                        <input class="form-control" name="para_key" type="text" placeholder="Digite um nome único..." value="<?php echo $parameter->para_key; ?>" disabled>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Valor:</label><br>
