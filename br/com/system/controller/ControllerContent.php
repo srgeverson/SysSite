@@ -6,17 +6,18 @@
  * and open the template in the editor.
  */
 
-include_once server_path("br/com/system/model/ModelPage.php");
+include_once server_path("br/com/system/model/ModelContent.php");
+include_once server_path("br/com/system/dao/DAOContent.php");
 include_once server_path("br/com/system/dao/DAOPage.php");
 
 class ControllerContent {
 
     private $info;
-    private $daoPage;
+    private $daoContent;
 
     function __construct() {
         $this->info = 'default=default';
-        $this->daoPage = new DAOPage();
+        $this->daoContent = new DAOContent();
     }
 
     public function about($msg = null) {
@@ -24,7 +25,7 @@ class ControllerContent {
             $msg = $this->info;
         }
         GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/page/pages/about.php');
+        include_once server_path('br/com/system/view/content/pages/about.php');
     }
 
     public function contact($msg = null) {
@@ -32,18 +33,18 @@ class ControllerContent {
             $msg = $this->info;
         }
         GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/page/pages/contact.php');
+        include_once server_path('br/com/system/view/content/pages/contact.php');
     }
 
     public function delete() {
         if (GenericController::authotity()) {
-            $page_pk_id = strip_tags($_GET['page_pk_id']);
-            if (!isset($page_pk_id)) {
-                $this->info = 'warning=page_uninformed';
+            $cont_pk_id = strip_tags($_GET['cont_pk_id']);
+            if (!isset($cont_pk_id)) {
+                $this->info = 'warning=content_uninformed';
             }
             try {
-                $this->daoPage->delete($page_pk_id);
-                $this->info = "success=page_deleted";
+                $this->daoContent->delete($cont_pk_id);
+                $this->info = "success=content_deleted";
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
@@ -53,25 +54,25 @@ class ControllerContent {
 
     public function disable() {
         if (GenericController::authotity()) {
-            $page_pk_id = strip_tags($_GET['page_pk_id']);
-            if (isset($page_pk_id)) {
-                $page_status = false;
+            $cont_pk_id = strip_tags($_GET['cont_pk_id']);
+            if (isset($cont_pk_id)) {
+                $cont_status = false;
                 try {
-                    if (($this->daoPage->selectObjectById($page_pk_id)) === null) {
-                        $this->info = 'warning=page_not_exists';
+                    if (($this->daoContent->selectObjectById($cont_pk_id)) === null) {
+                        $this->info = 'warning=content_not_exists';
                     } else {
-                        $page = new ModelPage();
-                        $page->page_pk_id = $page_pk_id;
-                        $page->page_status = $page_status;
+                        $content = new ModelContent();
+                        $content->cont_pk_id = $cont_pk_id;
+                        $content->cont_status = $cont_status;
 
-                        $this->daoPage->updateStatus($page);
-                        $this->info = 'success=page_disabled';
+                        $this->daoContent->updateStatus($content);
+                        $this->info = 'success=content_disabled';
                     }
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
             } else {
-                $this->info = 'warning=page_uninformed';
+                $this->info = 'warning=content_uninformed';
             }
             $this->list();
         }
@@ -79,51 +80,74 @@ class ControllerContent {
 
     public function edit() {
         if (GenericController::authotity()) {
-            $page_pk_id = $_GET['page_pk_id'];
-            if (!isset($page_pk_id)) {
-                $this->info = 'warning=page_uninformed';
+            if (isset($_GET['cont_pk_id'])) {
+                $content_pk_id = strip_tags($_GET['cont_pk_id']);
+                try {
+                    $daoPage = new DAOPage();
+                    $pages = $daoPage->selectObjectsEnabled();
+                    $content = $this->daoContent->selectObjectById($content_pk_id);
+                    if ($content == false) {
+                        $this->info = "warning=content_not_found";
+                    }
+                    if (!isset($content)) {
+                        $this->info = 'warning=content_not_exists';
+                    } else {
+                        include_once server_path('br/com/system/view/content/edit.php');
+                    }
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                }
+            } else {
+                $this->info = 'warning=content_not_found';
                 $this->list();
-            }
-            try {
-                $page = $this->daoPage->selectObjectById($page_pk_id);
-                if ($page == false) {
-                    $this->info = "warning=page_not_found";
-                }
-                if (!isset($page)) {
-                    $this->info = 'warning=page_not_exists';
-                    $this->list();
-                } else {
-                    include_once server_path('br/com/system/view/page/edit.php');
-                }
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
             }
         }
     }
 
     public function enable() {
         if (GenericController::authotity()) {
-            $page_pk_id = strip_tags($_GET['page_pk_id']);
-            if (isset($page_pk_id)) {
-                $page_status = true;
+            $cont_pk_id = strip_tags($_GET['cont_pk_id']);
+            if (isset($cont_pk_id)) {
+                $cont_status = true;
                 try {
-                    if (($this->daoPage->selectObjectById($page_pk_id)) === null) {
-                        $this->info = 'warning=page_not_exists';
+                    if (($this->daoContent->selectObjectById($cont_pk_id)) === null) {
+                        $this->info = 'warning=content_not_exists';
                     } else {
-                        $page = new ModelPage();
-                        $page->page_pk_id = $page_pk_id;
-                        $page->page_status = $page_status;
+                        $content = new ModelContent();
+                        $content->cont_pk_id = $cont_pk_id;
+                        $content->cont_status = $cont_status;
 
-                        $this->daoPage->updateStatus($page);
-                        $this->info = 'success=page_enabled';
+                        $this->daoContent->updateStatus($content);
+                        $this->info = 'success=content_enabled';
                     }
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
             } else {
-                $this->info = 'warning=page_uninformed';
+                $this->info = 'warning=content_uninformed';
             }
             $this->list();
+        }
+    }
+
+    public function filterByPage($page = null) {
+        if (GenericController::authotity()) {
+            if (isset($_GET['cont_fk_page_pk_id'])) {
+                try {
+                    $cont_fk_page_pk_id = strip_tags($_GET['cont_fk_page_pk_id']);
+                    $daoPage = new DAOPage();
+                    $page = $daoPage->selectObjectById($cont_fk_page_pk_id);
+                    $content = new ModelContent();
+                    $content->cont_fk_page_pk_id = $cont_fk_page_pk_id;
+                    $contents = $this->daoContent->selectContentByContainsObject($content);
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                }
+            }
+            if (isset($this->info)) {
+                GenericController::valid_messages($this->info);
+            }
+            include_once server_path('br/com/system/view/content/content.php');
         }
     }
 
@@ -132,17 +156,18 @@ class ControllerContent {
             $msg = $this->info;
         }
         GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/page/pages/default.php');
+        include_once server_path('br/com/system/view/content/pages/default.php');
     }
 
     public function list() {
         if (GenericController::authotity()) {
-            if (isset($_POST['page_name']) && isset($_POST['page_description'])) {
+            if (isset($_POST['cont_component']) && isset($_POST['page_name'])) {
                 try {
-                    $page = new ModelPage();
-                    $page->page_name = strip_tags($_POST['page_name']);
-                    $page->page_description = strip_tags($_POST['page_description']);
-                    $pages = $this->daoPage->selectObjectsByContainsObject($page);
+                    $contents = $this->daoContent->selectObjectsEnabled();
+                    $content = new ModelContent();
+                    $content->cont_component = strip_tags($_POST['cont_component']);
+                    $content->page_name = strip_tags($_POST['page_name']);
+                    $contents = $this->daoContent->selectObjectsByContainsObject($content);
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -150,14 +175,14 @@ class ControllerContent {
             if (isset($this->info)) {
                 GenericController::valid_messages($this->info);
             }
-            include_once server_path('br/com/system/view/page/list.php');
+            include_once server_path('br/com/system/view/content/list.php');
         }
     }
 
     public function listEnableds() {
         if (GenericController::authotity()) {
             try {
-                return $this->daoPage->selectObjectsEnabled();
+                return $this->daoContent->selectObjectsEnabled();
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
@@ -169,70 +194,134 @@ class ControllerContent {
 
     public function new() {
         if (GenericController::authotity()) {
-            include_once server_path('br/com/system/view/page/new.php');
+            $daoPage = new DAOPage();
+            $pages = $daoPage->selectObjectsEnabled();
+            include_once server_path('br/com/system/view/content/new.php');
+        }
+    }
+
+    public function personalize() {
+        if (GenericController::authotity()) {
+            if (isset($_GET['page_pk_id'])) {
+                $content_pk_id = $_GET['page_pk_id'];
+                if (!isset($content_pk_id)) {
+                    $this->info = 'warning=content_uninformed';
+                    $this->list();
+                } else {
+                    try {
+                        $content = $this->daoContent->selectObjectById($content_pk_id);
+                        if ($content == false) {
+                            $this->info = "warning=content_not_found";
+                        }
+                        if (!isset($content)) {
+                            $this->info = 'warning=content_not_exists';
+                            $this->list();
+                        } else {
+                            include_once server_path('br/com/system/view/content/personalize.php');
+                        }
+                    } catch (Exception $erro) {
+                        $this->info = "error=" . $erro->getMessage();
+                    }
+                }
+            }
         }
     }
 
     public function save() {
         if (GenericController::authotity()) {
-            $page_name = strip_tags($_POST['page_name']);
-            $page_description = strip_tags($_POST['page_description']);
-            $page_icon = strip_tags($_POST['page_icon']);
-            $page_label = strip_tags($_POST['page_label']);
-            $page_status = false;
-            global $user_logged;
-            $page_fk_user_pk_id = $user_logged->user_pk_id;
-            $page = new ModelPage();
-            $page->page_name = $page_name;
-            $page->page_description = $page_description;
-            $page->page_icon = $page_icon;
-            $page->page_label = $page_label;
-            $page->page_status = $page_status;
-            $page->page_fk_user_pk_id = $page_fk_user_pk_id;
+            if (GenericController::authotity()) {
+                $cont_component = strip_tags($_POST['cont_component']);
+                $cont_title = strip_tags($_POST['cont_title']);
+                $cont_subtitle = strip_tags($_POST['cont_subtitle']);
 
-            try {
-                if (!isset($this->daoPage->selectObjectByObject($page)->page_name)) {
-                    $this->daoPage->save($page);
-                    $this->info = "success=page_created";
-                } else {
-                    $this->info = "warning=page_already_registered";
+                $cont_image = $_FILES['cont_image']['name'];
+                $uploaddir = server_path('br/com/system/uploads/content/');
+                $uploadfile = $uploaddir . $cont_image;
+                $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
+
+                $cont_link = strip_tags($_POST['cont_link']);
+                $cont_text = strip_tags($_POST['cont_text']);
+                $cont_fk_page_pk_id = strip_tags($_POST['cont_fk_page_pk_id']);
+                if (!isset($cont_pk_id)) {
+                    $this->info = 'warning=content_uninformed';
                 }
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
+                global $user_logged;
+                $content_fk_user_pk_id = $user_logged->user_pk_id;
+
+                try {
+                    if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
+                        if (move_uploaded_file($_FILES['cont_image']['tmp_name'], $uploadfile)) {
+                            $content = new ModelContent();
+                            $content->cont_component = $cont_component;
+                            $content->cont_title = $cont_title;
+                            $content->cont_subtitle = $cont_subtitle;
+                            $content->cont_image = $cont_image;
+                            $content->cont_link = $cont_link;
+                            $content->cont_text = $cont_text;
+                            $content->cont_fk_user_pk_id = $content_fk_user_pk_id;
+                            $content->cont_fk_page_pk_id = $cont_fk_page_pk_id;
+                            $this->daoContent->save($content);
+                            $this->info = "success=content_created";
+                        }
+                    } else {
+                        echo '<script>alert("Formato de imagem não aceito!")</script>';
+                        redirect("javascript:window.history.go(-1)");
+                    }
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                }
+                $this->list();
             }
-            $this->list();
         }
     }
 
     public function update() {
         if (GenericController::authotity()) {
             if (GenericController::authotity()) {
-                $page_pk_id = strip_tags($_POST['page_pk_id']);
-                if (!isset($page_pk_id)) {
-                    $this->info = 'warning=page_uninformed';
-                }
-                $page_name = strip_tags($_POST['page_name']);
-                $page_description = strip_tags($_POST['page_description']);
-                $page_icon = strip_tags($_POST['page_icon']);
-                $page_label = strip_tags($_POST['page_label']);
-                global $user_logged;
-                $page_fk_user_pk_id = $user_logged->user_pk_id;
+                $cont_pk_id = strip_tags($_POST['cont_pk_id']);
+                $cont_component = strip_tags($_POST['cont_component']);
+                $cont_title = strip_tags($_POST['cont_title']);
+                $cont_subtitle = strip_tags($_POST['cont_subtitle']);
 
-                $page = new ModelPage();
-                $page->page_pk_id = $page_pk_id;
-                $page->page_name = $page_name;
-                $page->page_description = $page_description;
-                $page->page_icon = $page_icon;
-                $page->page_label = $page_label;
-                $page->page_fk_user_pk_id = $page_fk_user_pk_id;
+                $cont_image = $_FILES['cont_image']['name'];
+                $uploaddir = server_path('br/com/system/uploads/content/');
+                $uploadfile = $uploaddir . $cont_image;
+                $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
+
+                $cont_link = strip_tags($_POST['cont_link']);
+                $cont_text = strip_tags($_POST['cont_text']);
+                $cont_fk_page_pk_id = strip_tags($_POST['cont_fk_page_pk_id']);
+                if (!isset($cont_pk_id)) {
+                    $this->info = 'warning=content_uninformed';
+                }
+                global $user_logged;
+                $content_fk_user_pk_id = $user_logged->user_pk_id;
 
                 try {
-                    $this->daoPage->update($page);
-                    if ($page == null) {
-                        $this->info = 'warning=page_not_exists';
+                    if ($cont_pk_id == null) {
+                        $this->info = 'warning=content_not_exists';
                         $this->list();
+                    } else {
+                        if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
+                            if (move_uploaded_file($_FILES['cont_image']['tmp_name'], $uploadfile)) {
+                                $content = new ModelContent();
+                                $content->cont_pk_id = $cont_pk_id;
+                                $content->cont_component = $cont_component;
+                                $content->cont_title = $cont_title;
+                                $content->cont_subtitle = $cont_subtitle;
+                                $content->cont_image = $cont_image;
+                                $content->cont_link = $cont_link;
+                                $content->cont_text = $cont_text;
+                                $content->cont_fk_user_pk_id = $content_fk_user_pk_id;
+                                $content->cont_fk_page_pk_id = $cont_fk_page_pk_id;
+                                $this->daoContent->update($content);
+                                $this->info = 'success=content_updated';
+                            }
+                        } else {
+                            echo '<script>alert("Formato de imagem não aceito!")</script>';
+                            redirect("javascript:window.history.go(-1)");
+                        }
                     }
-                    $this->info = 'success=page_updated';
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -246,7 +335,60 @@ class ControllerContent {
             $msg = $this->info;
         }
         GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/page/pages/service.php');
+        include_once server_path('br/com/system/view/content/pages/service.php');
+    }
+
+    public function submit() {
+        if (GenericController::authotity()) {
+            $cont_pk_id = strip_tags($_POST['cont_pk_id']);
+            $cont_component = strip_tags($_POST['cont_component']);
+            $cont_title = strip_tags($_POST['cont_title']);
+            $cont_subtitle = strip_tags($_POST['cont_subtitle']);
+
+            $cont_image = $_FILES['cont_image']['name'];
+            $uploaddir = server_path('br/com/system/uploads/content/');
+            $uploadfile = $uploaddir . $cont_image;
+            $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
+
+            $cont_link = strip_tags($_POST['cont_link']);
+            $cont_text = strip_tags($_POST['cont_text']);
+            $cont_fk_page_pk_id = strip_tags($_POST['cont_fk_page_pk_id']);
+            if (!isset($cont_pk_id)) {
+                $this->info = 'warning=content_uninformed';
+            }
+            global $user_logged;
+            $content_fk_user_pk_id = $user_logged->user_pk_id;
+
+            try {
+                if ($cont_pk_id == null) {
+                    $this->info = 'warning=content_not_exists';
+                    $this->filterPage();
+                } else {
+                    if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
+                        if (move_uploaded_file($_FILES['cont_image']['tmp_name'], $uploadfile)) {
+                            $content = new ModelContent();
+                            $content->cont_pk_id = $cont_pk_id;
+                            $content->cont_component = $cont_component;
+                            $content->cont_title = $cont_title;
+                            $content->cont_subtitle = $cont_subtitle;
+                            $content->cont_image = $cont_image;
+                            $content->cont_link = $cont_link;
+                            $content->cont_text = $cont_text;
+                            $content->cont_fk_user_pk_id = $content_fk_user_pk_id;
+                            $content->cont_fk_page_pk_id = $cont_fk_page_pk_id;
+                            $this->daoContent->update($content);
+                            $this->info = 'success=content_updated';
+                        }
+                    } else {
+                        echo '<script>alert("Formato de imagem não aceito!")</script>';
+                        redirect("javascript:window.history.go(-1)");
+                    }
+                }
+            } catch (Exception $erro) {
+                $this->info = "error=" . $erro->getMessage();
+            }
+            $this->filterPage();
+        }
     }
 
 }

@@ -11,8 +11,8 @@ class GenericController {
 
     public static function authotity() {
         if (!isset($_SESSION['usuario'])) {
-            $controller_system = new ControllerSystem();
-            $controller_system->home('error=permission_denied');
+            $controllerPage = new ControllerPage();
+            $controllerPage->home('error=permission_denied');
             return false;
         } else {
             return true;

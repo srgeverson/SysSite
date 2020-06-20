@@ -29,11 +29,11 @@
                 $pages_enableds = $controllerPage->listEnableds();
                 $i = 0;
                 foreach ($pages_enableds as $each_page) {
-                    echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=" . $each_page->page_name), '">';
+                    echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&cont_fk_page_pk_id=' . $each_page->page_pk_id), '">';
                     echo '<i class = "fas fa-', $each_page->page_icon, ' fa-sm fa-fw mr-2 text-gray-400"></i>';
                     echo $each_page->page_label;
                     echo '</a>';
-                    if (count($pages_enableds) > 1 && $i < count($pages_enableds)-1) {
+                    if (count($pages_enableds) > 1 && $i < count($pages_enableds) - 1) {
                         echo '<div class="dropdown-divider"></div>';
                     }
                     $i++;
