@@ -15,29 +15,13 @@ class ControllerSystem {
     function __construct() {
         $this->info = 'default=default';
     }
-
-    public function about($msg = null) {
+    
+    public function parameter_info($msg = null) {
         if (!isset($msg)) {
             $msg = $this->info;
         }
         GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/system/about.php');
-    }
-
-    public function contact($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/system/contact.php');
-    }
-
-    public function home($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/system/default.php');
+        include_once server_path('br/com/system/view/user/default.php');
     }
 
     public function send_email(ModelContact $contact = null) {
@@ -57,14 +41,14 @@ class ControllerSystem {
             $mail->SMTPSecure = 'ssl';
             $mail->Host = 'smtp.gmail.com';
             $mail->Port = 465;
-            $mail->CharSet  ="utf-8";
+            $mail->CharSet = "utf-8";
             $mail->Username = GUSER;
             $mail->Password = GPWD;
             $mail->SetFrom($de, $de_nome);
             $mail->Subject = $assunto;
             $mail->Body = $corpo;
             $mail->AddAddress($para);
-            
+
             if (!$mail->Send()) {
                 $error = 'Mail error: ' . $mail->ErrorInfo;
                 return false;
@@ -79,14 +63,6 @@ class ControllerSystem {
         if (!empty($error)) {
             throw new Exception("Erro ao enviar email" . $error);
         }
-    }
-
-    public function service($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/system/service.php');
     }
 
     public function welcome($msg = null) {

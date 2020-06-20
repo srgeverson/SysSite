@@ -15,19 +15,19 @@
                 <h4 class="card-header text-primary">Alterar Parâmetro</h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <input class="form-control" name="para_pk_id" type="hidden" value="<?php echo $authority->para_pk_id; ?>">
+                        <input class="form-control" name="para_pk_id" type="hidden" value="<?php echo $parameter->para_pk_id; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="text-primary">Chave:</label><br>
+                        <input class="form-control" name="para_key" type="text" placeholder="Digite um nome único..." value="<?php echo $parameter->para_key; ?>" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-primary">Valor:</label><br>
+                        <input class="form-control" name="para_value" type="text" placeholder="Digite um valor..." value="<?php echo $parameter->para_value; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Descrição:</label><br>
-                        <input class="form-control" name="para_key" type="text" placeholder="Digite um nome único..." value="<?php echo $authority->para_description; ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary">Tela:</label><br>
-                        <input class="form-control" name="para_value" type="text" placeholder="Digite um valor..." value="<?php echo $authority->para_screen; ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary">Função:</label><br>
-                        <textarea class="form-control" name="para_description" placeholder="Uma breve descrição sobre o parâmetro..." required><?php echo $authority->para_function; ?></textarea>
+                        <textarea class="form-control" name="para_description" placeholder="Uma breve descrição sobre o parâmetro..." required><?php echo $parameter->para_description; ?></textarea>
                     </div>
                 </div>
                 <div class="card-footer">

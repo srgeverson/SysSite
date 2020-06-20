@@ -12,29 +12,23 @@ class ControllerParameter {
 
     private $info;
     private $daoParameter;
+    private $controllerSystem;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoParameter = new DAOParameter();
+        $this->controllerSystem = new ControllerSystem();
     }
 
     public function delete() {
         if (GenericController::authotity()) {
-            $para_pk_id = strip_tags($_GET['para_pk_id']);
+            $para_pk_id = strip_tags($_GET['param_pk_id']);
             if (!isset($para_pk_id)) {
                 $this->info = 'warning=parameter_uninformed';
             }
             try {
-                $daoUser = new DAOUser();
-                if (empty($daoUser->selectCountObjectsByFKParameter($para_pk_id))) {
-                    if (!$this->daoParameter->delete($para_pk_id)) {
-                        $this->info = 'warning=parameter_not_exists';
-                        $this->list();
-                    }
-                    $this->info = "success=parameter_deleted";
-                } else {
-                    $this->info = "warning=parameter_in_use";
-                }
+                $this->daoParameter->delete($para_pk_id);
+                $this->info = "success=parameter_deleted";
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
@@ -44,7 +38,7 @@ class ControllerParameter {
 
     public function disable() {
         if (GenericController::authotity()) {
-            $para_pk_id = strip_tags($_GET['para_pk_id']);
+            $para_pk_id = strip_tags($_GET['param_pk_id']);
             if (isset($para_pk_id)) {
                 $para_status = false;
                 try {
@@ -70,7 +64,7 @@ class ControllerParameter {
 
     public function edit() {
         if (GenericController::authotity()) {
-            $para_pk_id = $_GET['para_pk_id'];
+            $para_pk_id = $_GET['param_pk_id'];
             if (!isset($para_pk_id)) {
                 $this->info = 'warning=parameter_uninformed';
                 $this->list();
@@ -85,7 +79,7 @@ class ControllerParameter {
                 $this->info = "error=" . $erro->getMessage();
             }
             if ($parameter == false) {
-                $this->info = "warning=aauthority_not_found";
+                $this->info = "warning=parameter_not_found";
             }
             include_once server_path('br/com/system/view/parameter/edit.php');
         }
@@ -93,7 +87,7 @@ class ControllerParameter {
 
     public function enable() {
         if (GenericController::authotity()) {
-            $para_pk_id = strip_tags($_GET['para_pk_id']);
+            $para_pk_id = strip_tags($_GET['param_pk_id']);
             if (isset($para_pk_id)) {
                 $para_status = true;
                 try {
@@ -117,21 +111,33 @@ class ControllerParameter {
         }
     }
 
+    public function getProperty($key = null) {
+        try {
+            $parameter = $this->daoParameter->selectObjectByKey($key);
+            if (isset($parameter)) {
+                return "Vazio/Desabilitado";
+            } else {
+                return $parameter->para_value;
+            }
+        } catch (Exception $erro) {
+            $this->controllerSystem->parameter_info("error=" . $erro->getMessage());
+        }
+    }
+
     public function list() {
         if (GenericController::authotity()) {
             if (isset($_POST['para_key']) && isset($_POST['para_value'])) {
-                $para_key = strip_tags($_POST['para_key']);
                 try {
                     $parameter = new ModelParameter();
                     $parameter->para_key = strip_tags($_POST['para_key']);
-                    $parameter->para_key = strip_tags($_POST['para_value']);
+                    $parameter->para_value = strip_tags($_POST['para_value']);
                     $parameters = $this->daoParameter->selectObjectsByContainsObject($parameter);
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                if (isset($this->info)) {
-                    GenericController::valid_messages($this->info);
-                }
+            }
+            if (isset($this->info)) {
+                GenericController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/parameter/list.php');
         }
@@ -157,10 +163,14 @@ class ControllerParameter {
             $parameter->para_value = $para_value;
             $parameter->para_description = $para_description;
             $parameter->para_fk_user_pk_id = $para_fk_user_pk_id;
-            
+
             try {
-                $this->daoParameter->save($parameter);
-                $this->info = "success=parameter_created";
+                if (!isset($this->daoParameter->selectObjectByObject($parameter)->para_key)) {
+                    $this->daoParameter->save($parameter);
+                    $this->info = "success=parameter_created";
+                } else {
+                    $this->info = "warning=parameter_already_registered";
+                }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }

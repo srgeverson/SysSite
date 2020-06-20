@@ -6,7 +6,12 @@
  */
 ?>
 
-<a class="navbar-brand" href="<?php echo server_url('?page=ControllerSystem&option=welcome'); ?>">Template</a>
+<a class="navbar-brand" href="<?php echo server_url('?page=ControllerSystem&option=welcome'); ?>">
+    <?php
+    $parameter = new ControllerParameter();
+    echo $parameter->getProperty('nome_apelido');
+    ?>    
+</a>
 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
 </button>
@@ -19,25 +24,21 @@
                 <span>Site</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerHome&option=list"); ?>">
-                    <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Página Inicial
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContact&option=list"); ?>">
-                    <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Contato
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerService&option=list"); ?>">
-                    <i class="fas fa-concierge-bell fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Serviços
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerAbout&option=list"); ?>">
-                    <i class="fas fa-address-card fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Sobre
-                </a>
+                <?php
+                $controllerPage = new ControllerPage();
+                $pages_enableds = $controllerPage->listEnableds();
+                $i = 0;
+                foreach ($pages_enableds as $each_page) {
+                    echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&cont_fk_page_pk_id=' . $each_page->page_pk_id), '">';
+                    echo '<i class = "fas fa-', $each_page->page_icon, ' fa-sm fa-fw mr-2 text-gray-400"></i>';
+                    echo $each_page->page_label;
+                    echo '</a>';
+                    if (count($pages_enableds) > 1 && $i < count($pages_enableds) - 1) {
+                        echo '<div class="dropdown-divider"></div>';
+                    }
+                    $i++;
+                }
+                ?>
             </div>
         </li>
         <!-- Sistema-->
@@ -60,6 +61,16 @@
                 <a class="dropdown-item" href="<?php echo server_url("?page=ControllerParameter&option=list"); ?>">
                     <i class="fas fa-tasks fa-sm fa-fw mr-2 text-gray-400"></i>
                     Parâmetros
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerPage&option=list"); ?>">
+                    <i class="fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Páginas do Site
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContent&option=list"); ?>">
+                    <i class="fas fa-file-code fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Conteúdo das Páginas
                 </a>
             </div>
         </li>

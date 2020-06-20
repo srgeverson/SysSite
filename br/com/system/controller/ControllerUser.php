@@ -242,8 +242,9 @@ class ControllerUser {
         if (GenericController::authotity()) {
             session_destroy();
             $this->info = 'success=user_logout';
-            $this->controllerSystem->home($this->info);
-            redirect(server_url('?page=ControllerSystem&option=home'));
+            $controllerPage = new ControllerPage();
+            $controllerPage->home($this->info);
+            redirect(server_url('?page=ControllerPage&option=home'));
         }
     }
 
