@@ -9,100 +9,80 @@
 <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">About
-        <small>Subheading</small>
+    <h1 class="mt-4 mb-3">Sobre
+        <small>
+            <?php
+            $parameter = new ControllerParameter();
+            echo $parameter->getProperty('sobre_titulo');
+            ?>
+        </small>
     </h1>
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?php echo server_url('?page=ControllerSystem&option=home'); ?>">Página Inicial</a>
+            <a href="<?php echo server_url('?page=ControllerPage&option=home'); ?>">Página Inicial</a>
         </li>
         <li class="breadcrumb-item active">Sobre</li>
     </ol>
 
     <!-- Intro Content -->
-    <div class="row">
-        <div class="col-lg-6">
-            <img class="img-fluid rounded mb-4" src="http://placehold.it/750x450" alt="">
-        </div>
-        <div class="col-lg-6">
-            <h2>About Modern Business</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed voluptate nihil eum consectetur similique? Consectetur, quod, incidunt, harum nisi dolores delectus reprehenderit voluptatem perferendis dicta dolorem non blanditiis ex fugiat.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, magni, aperiam vitae illum voluptatum aut sequi impedit non velit ab ea pariatur sint quidem corporis eveniet. Odit, temporibus reprehenderit dolorum!</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus perspiciatis quis?</p>
-        </div>
-    </div>
+    <?php
+    if (count($modern_business)) {
+        echo '<div class="row">';
+        foreach ($modern_business as $each_modern_business) {
+            echo '<div class="col-lg-6">';
+            echo '<img class="img-fluid rounded mb-4" src="', isset($each_modern_business->cont_image) ? server_url('br/com/system/uploads/content/' . $each_modern_business->cont_image) : server_url('br/com/system/assets/img/img_not_found.png'), '" alt = "', $each_modern_business->cont_title, '">';
+            echo '</div>';
+            echo '<div class="col-lg-6">';
+            echo '<h2>', $each_modern_business->cont_title, '</h2>';
+            echo '<p>', $each_modern_business->cont_text, '</p>';
+            echo '</div>';
+        }
+        echo '</div>';
+    }
+    ?>
     <!-- /.row -->
 
     <!-- Team Members -->
-    <h2>Our Team</h2>
-
-    <div class="row">
-        <div class="col-lg-4 mb-4">
-            <div class="card h-100 text-center">
-                <img class="card-img-top" src="http://placehold.it/750x450" alt="">
-                <div class="card-body">
-                    <h4 class="card-title">Team Member</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Position</h6>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus aut mollitia eum ipsum fugiat odio officiis odit.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#">name@example.com</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-            <div class="card h-100 text-center">
-                <img class="card-img-top" src="http://placehold.it/750x450" alt="">
-                <div class="card-body">
-                    <h4 class="card-title">Team Member</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Position</h6>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus aut mollitia eum ipsum fugiat odio officiis odit.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#">name@example.com</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-            <div class="card h-100 text-center">
-                <img class="card-img-top" src="http://placehold.it/750x450" alt="">
-                <div class="card-body">
-                    <h4 class="card-title">Team Member</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Position</h6>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus aut mollitia eum ipsum fugiat odio officiis odit.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#">name@example.com</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    if (count($our_team)) {
+        echo '<h2>Nosso Time</h2>';
+        echo '<div class="row">';
+        foreach ($our_team as $each_our_team) {
+            echo '<div class="col-lg-4 mb-4">';
+            echo ' <div class="card h-100 text-center">';
+            echo '<img class = "img-fluid" src="', isset($each_our_team->cont_image) ? server_url('br/com/system/uploads/content/' . $each_our_team->cont_image) : server_url('br/com/system/assets/img/img_not_found.png'), '" alt = "', $each_our_team->cont_title, '">';
+            echo '<div class="card-body">';
+            echo '<h4 class="card-title">', $each_our_team->cont_title, '</h4>';
+            echo '<h6 class="card-subtitle mb-2 text-muted">', $each_our_team->cont_subtitle, '</h6>';
+            echo '<p class="card-text">', $each_our_team->cont_text, '</p>';
+            echo '</div>';
+            echo '<div class="card-footer">';
+            echo '<a href="', isset($each_our_team->cont_link) ? $each_our_team->cont_link : '#', '">Saiba mais...</a>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</a>';
+        }
+        echo '</div>';
+    }
+    ?>
     <!-- /.row -->
 
     <!-- Our Customers -->
-    <h2>Our Customers</h2>
-    <div class="row">
-        <div class="col-lg-2 col-sm-4 mb-4">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-        </div>
-        <div class="col-lg-2 col-sm-4 mb-4">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-        </div>
-        <div class="col-lg-2 col-sm-4 mb-4">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-        </div>
-        <div class="col-lg-2 col-sm-4 mb-4">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-        </div>
-        <div class="col-lg-2 col-sm-4 mb-4">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-        </div>
-        <div class="col-lg-2 col-sm-4 mb-4">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-        </div>
-    </div>
+    <?php
+    if (count($our_customers)) {
+        echo '<h2>Nossos Clientes</h2>';
+        echo '<div class="row">';
+        foreach ($our_customers as $each_our_customer) {
+            echo '<div class="col-lg-2 col-sm-4 mb-4">';
+            echo '<img class = "img-fluid" src="', isset($each_our_customer->cont_image) ? server_url('br/com/system/uploads/content/' . $each_our_customer->cont_image) : server_url('br/com/system/assets/img/img_not_found.png'), '" alt = "', $each_our_customer->cont_title, '">';
+            echo '</div>';
+            echo '</a>';
+        }
+        echo '</div>';
+    }
+    ?>
     <!-- /.row -->
-
 </div>
 <!-- /.container -->

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: 18-Jun-2020 às 07:18
+-- Generation Time: 22-Jun-2020 às 01:58
 -- Versão do servidor: 5.7.30-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.6
 
@@ -52,25 +52,33 @@ INSERT INTO `authority` (`auth_pk_id`, `auth_description`, `auth_status`, `auth_
 
 CREATE TABLE `contact` (
   `cont_pk_id` int(11) NOT NULL,
-  `cont_descricao` varchar(20) COLLATE utf8_bin NOT NULL,
-  `cont_telefone` varchar(14) COLLATE utf8_bin DEFAULT NULL,
-  `cont_celular` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `cont_description` varchar(20) COLLATE utf8_bin NOT NULL,
+  `cont_phone` varchar(14) COLLATE utf8_bin DEFAULT NULL,
+  `cont_cell_phone` varchar(15) COLLATE utf8_bin DEFAULT NULL,
   `cont_whatsapp` varchar(15) COLLATE utf8_bin DEFAULT NULL,
   `cont_email` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `cont_facebook` varchar(100) COLLATE utf8_bin DEFAULT NULL,
-  `cont_instagran` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `cont_instagram` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `cont_twitter` varchar(100) COLLATE utf8_bin DEFAULT NULL,
-  `cont_status` tinyint(4) NOT NULL DEFAULT '1',
-  `cont_fk_user_pk_id` int(11) DEFAULT NULL,
-  `cont_texto` varchar(45) COLLATE utf8_bin DEFAULT NULL
+  `cont_status` tinyint(1) NOT NULL DEFAULT '1',
+  `cont_text` varchar(45) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Extraindo dados da tabela `contact`
 --
 
-INSERT INTO `contact` (`cont_pk_id`, `cont_descricao`, `cont_telefone`, `cont_celular`, `cont_whatsapp`, `cont_email`, `cont_facebook`, `cont_instagran`, `cont_twitter`, `cont_status`, `cont_fk_user_pk_id`, `cont_texto`) VALUES
-(1, 'particular', '(85) 3485-3571', '(85) 99695-8892', '(85) 98771-3985', 'geversonjosedesouza@gmail.com', 'sr_geverson', '@sr_geverson', '@sr_geverson', 1, 1, NULL);
+INSERT INTO `contact` (`cont_pk_id`, `cont_description`, `cont_phone`, `cont_cell_phone`, `cont_whatsapp`, `cont_email`, `cont_facebook`, `cont_instagram`, `cont_twitter`, `cont_status`, `cont_text`) VALUES
+(1, 'Dados Pessoais', '(00)0000-0000', '(00)00000-0000', '00000000000', 'email@email.com', 'usurio', '@usuario', NULL, 0, 'Dados do sistema'),
+(2, '2', '2', '2', '2', '2', '2', '2', '2', 1, '2'),
+(3, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '3'),
+(4, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '4'),
+(5, '5', '5', '5', NULL, NULL, NULL, NULL, NULL, 1, '5'),
+(6, '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '6'),
+(7, '7', '7', NULL, NULL, NULL, NULL, NULL, NULL, 1, '7'),
+(8, '1', '1', '1', '1', '1@1', '1', '1', NULL, 0, '1'),
+(9, '123', '', '123', '', '123@123', '', '', NULL, 1, 'sadsdasd'),
+(10, 'Dados Pessoais', '', '(00)00000-0000', '', 'geversonjosedesouza@gmail.com', '', '', NULL, 1, 'teste');
 
 -- --------------------------------------------------------
 
@@ -80,10 +88,34 @@ INSERT INTO `contact` (`cont_pk_id`, `cont_descricao`, `cont_telefone`, `cont_ce
 
 CREATE TABLE `content` (
   `cont_pk_id` int(11) NOT NULL,
+  `cont_component` varchar(100) NOT NULL,
+  `cont_title` varchar(255) DEFAULT NULL,
+  `cont_subtitle` varchar(255) DEFAULT NULL,
+  `cont_text` text,
+  `cont_image` varchar(255) DEFAULT NULL,
+  `cont_link` varchar(255) DEFAULT NULL,
   `cont_status` tinyint(1) NOT NULL DEFAULT '1',
   `cont_fk_page_pk_id` int(11) NOT NULL,
   `cont_fk_user_pk_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `content`
+--
+
+INSERT INTO `content` (`cont_pk_id`, `cont_component`, `cont_title`, `cont_subtitle`, `cont_text`, `cont_image`, `cont_link`, `cont_status`, `cont_fk_page_pk_id`, `cont_fk_user_pk_id`) VALUES
+(1, 'our_contact', 'Formas de Contato', '', '', '', 'https://www.google.com/maps/@-3.9058296,-38.4506571,21z?hl=pt-br', 1, 3, 1),
+(3, 'modern_business', 'A empresa...', '', '    Para ser percebida como uma empresa social e ambientalmente responsável e atuante, a Natura parte da premissa de que os impactos ambientais de sua atividade decorrem de uma cadeia de transformações, da qual representa somente uma parte. Por isso, acredita que, para ter eficácia, as ações ambientais precisam: considerar cada cadeia produtiva de maneira integral.', '750x450.png', '', 1, 4, 1),
+(4, 'our_team', 'Nome do membro', 'Cargo do membro', 'Breve descrição do cardo do membro ou do próprio membro', '750x450.png', '', 1, 4, 1),
+(6, 'our_customers', 'our_customers', '', '', 'foto012.jpeg', '123', 1, 4, 1),
+(7, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
+(8, 'our_team', 'Nome do membro', 'Cargo do membro', 'Breve descrição do cardo do membro ou do próprio membro', '750x450.png', '', 1, 4, 1),
+(9, 'our_team', 'Nome do membro', 'Cargo do membro', 'Breve descrição do cardo do membro ou do próprio membro', '750x450.png', '', 1, 4, 1),
+(10, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
+(11, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
+(12, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
+(13, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
+(14, 'teste', '123', '123', '123', 'foto01.jpeg', '123', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -98,8 +130,8 @@ CREATE TABLE `endereco` (
   `ende_bairro` varchar(50) COLLATE utf8_bin NOT NULL,
   `ende_cep` varchar(10) COLLATE utf8_bin NOT NULL,
   `ende_cidade` varchar(50) COLLATE utf8_bin NOT NULL,
+  `ende_status` tinyint(1) NOT NULL DEFAULT '1',
   `ende_fk_estado_pk_id` int(11) NOT NULL,
-  `ende_status` tinyint(4) NOT NULL DEFAULT '1',
   `ende_fk_user_pk_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -107,8 +139,8 @@ CREATE TABLE `endereco` (
 -- Extraindo dados da tabela `endereco`
 --
 
-INSERT INTO `endereco` (`ende_pk_id`, `ende_logradouro`, `ende_numero`, `ende_bairro`, `ende_cep`, `ende_cidade`, `ende_fk_estado_pk_id`, `ende_status`, `ende_fk_user_pk_id`) VALUES
-(1, 'Rua Paula Lopes', '05', 'Parque Havai', '61.760-000', 'Eusébio', 6, 1, 1);
+INSERT INTO `endereco` (`ende_pk_id`, `ende_logradouro`, `ende_numero`, `ende_bairro`, `ende_cep`, `ende_cidade`, `ende_status`, `ende_fk_estado_pk_id`, `ende_fk_user_pk_id`) VALUES
+(1, 'Rua Teste', '00', 'Bairro Teste', '00.000-000', 'Municio Teste', 1, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -156,7 +188,9 @@ INSERT INTO `estado` (`esta_pk_id`, `esta_nome`, `esta_sigla`, `esta_status`, `e
 (24, 'Santa Catarina', 'SC', 1, 1, 1),
 (25, 'São Paulo', 'SP', 1, 1, 1),
 (26, 'Sergipe', 'SE', 1, 1, 1),
-(27, 'Tocantins', 'TO', 1, 1, 1);
+(27, 'Tocantins', 'TO', 1, 1, 1),
+(28, '123', '', 1, 1, 1),
+(29, '12', '12', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -180,9 +214,9 @@ CREATE TABLE `page` (
 
 INSERT INTO `page` (`page_pk_id`, `page_name`, `page_description`, `page_icon`, `page_label`, `page_status`, `page_fk_user_pk_id`) VALUES
 (1, 'home', 'Página Inicial do Site', 'home', 'Página Inicial', 1, 1),
-(2, 'contact', 'Contato da Empresa e Entre em Contato123', 'address-book', 'Contato', 1, 1),
-(4, 'service', 'Alguns de Nossos Serviços', 'concierge-bell', 'Serviços', 1, 1),
-(5, 'About', 'Sobre nós', 'address-card', 'Sobre', 1, 1);
+(2, 'contact', 'Contato da Empresa e Entre em Contato123', 'address-book', 'Contato', 0, 1),
+(3, 'service', 'Alguns de Nossos Serviços', 'concierge-bell', 'Serviços', 1, 1),
+(4, 'about', 'Sobre nós', 'address-card', 'Sobre', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -225,10 +259,16 @@ CREATE TABLE `parameter` (
 --
 
 INSERT INTO `parameter` (`para_pk_id`, `para_key`, `para_value`, `para_description`, `para_status`, `para_fk_user_pk_id`) VALUES
-(8, 'nome_apelido', 'Geverson Souza', 'Como sou chamado\r\n', 0, 1),
+(8, 'nome_fantazia', 'Geverson Souza', 'Como sou chamado\r\n', 1, 1),
 (10, 'razao_social', 'Geverson ME', 'Razão social da empresa', 1, 1),
 (11, 'titulo_site', 'Site Geverson', 'Nome do site', 1, 1),
-(12, 'icone_site', 'cla.png', 'Imagem do Ícone do Site', 1, 1);
+(12, 'icone_site', 'cla.png', 'Imagem do Ícone do Site', 1, 1),
+(19, 'email', 'paulistensetecnologia@gmail.com', 'Email para envio automático', 1, 1),
+(20, 'senha', '@G182534', 'Senha do email para envio automático', 1, 1),
+(21, 'endereco', '1', 'Endereço do dono/empresa do sistema', 1, 1),
+(22, 'sobre_titulo', 'Geverson', '', 1, 1),
+(23, 'contato_titulo', 'Contato', '', 1, 1),
+(24, 'contato', '1', '', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -252,18 +292,12 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_pk_id`, `user_name`, `user_login`, `user_password`, `user_last_login`, `user_image`, `user_status`, `user_fk_authority_pk_id`) VALUES
-(1, 'Geverson', 'root@root', '$2y$10$mNM/bzucj9T68.Ft5MdvS.N/Bb62KO0BfhnXj0Tw1RBLWOMfGpPFS', '2020-06-18 00:04:58', 'IMG_20190920_170641_783.jpg', 1, 1),
+(1, 'Geverson', 'root@root', '$2y$10$mNM/bzucj9T68.Ft5MdvS.N/Bb62KO0BfhnXj0Tw1RBLWOMfGpPFS', '2020-06-22 03:11:31', 'IMG_20190920_170641_783.jpg', 1, 1),
 (5, 'teste', 'teste@tes', '$2y$10$rOaFpYfQZfV3HC8LtVtLJupq5n10CT75CvPuJglL9UL23jvnaarmq', '2020-06-10 02:08:18', 'adaptador_cel_usb.png', 0, 3),
 (7, 'teste', 'teste@teste', '$2y$10$x7wD1IDIAP/faqBTP19KouDIqNVYpuCdE0sXUDytb6kdmvHm1MaUW', NULL, '23316710_1972660239673885_6404095959657453030_n.jpg', 0, 3),
 (8, 'asdasd', 'teste@tesasdasd', '$2y$10$PMIGFehEepmRqrEymStsNOV3CEjMIpQeAK.W10b9XA5zm5Pbl/EB6', NULL, 'av_parcial_04.png', 0, 3),
 (10, 'asd', 'asd@asd', '$2y$10$mUztqpo0pKoYVTXBsmn0A.tX7IwYpmc5Le4uOLVlas3SysMBeJ7IG', NULL, 'av_parcial_01.png', 0, 3),
-(14, 'Geverson J de Souza', 'geversonjosedesouza@gmail.com', '$2y$10$2K0Wz6IHfhDeleRzLjdeO.Y7JDavH1drv56gjuHEOURixA3qEMzj2', NULL, NULL, 0, 3),
-(24, '12', '12@12', '$2y$10$8B/EfzLy3V4KS8QRt6o8QekPwyg5kkqqItMY1x.ljVxmnrLz9yeji', NULL, NULL, 0, 1),
-(26, 'as@', 'asd1@as', '$2y$10$5fSGlOCn57nz1KDzGNeK1OB2.iasj4dw1Rr97MNP03sT/pp39c9uO', NULL, NULL, 0, 3),
-(27, 'asdasd', 'asdasd@asdasd', '$2y$10$FexxFbu/qau8wU0zExQEMOBhPFCU4d5rqo48RCj1P/hKeAo.YiSYC', NULL, NULL, 0, 1),
-(28, '111111111', '1111111111@123', '$2y$10$zZreUMcLGoePIun1w5AaReCEFWgoWHfsEMliKhCYA/TLc7V96ZXmm', NULL, NULL, 0, 2),
-(30, 'Geverson J de Souza', 'geversonjosedesouza@hotmail.com', '$2y$10$ZbICJgygB/42HF6Q.LvaB.af8D66pDVKwmKTwCQ9eKX1t2uScQ4Gq', NULL, NULL, 0, 3),
-(31, '1', '', '$2y$10$2AKiJ.ZUGPDvzSjTeahX4.tpXFWW1r1SP.6NVMdhYPTe0TgxRzzia', NULL, NULL, 0, 3);
+(35, 'Geverson J de Souza', 'geversonjosedesouza@hotmail.com', '$2y$10$/eCcnUzOev0ghaaYC6voDOrwv9AzpUsv3Af4aMJe8wTbYjTa3A96C', NULL, NULL, 1, 3);
 
 --
 -- Indexes for dumped tables
@@ -279,8 +313,7 @@ ALTER TABLE `authority`
 -- Indexes for table `contact`
 --
 ALTER TABLE `contact`
-  ADD PRIMARY KEY (`cont_pk_id`),
-  ADD KEY `cont_fk_user_pk_id_idx` (`cont_fk_user_pk_id`);
+  ADD PRIMARY KEY (`cont_pk_id`);
 
 --
 -- Indexes for table `content`
@@ -349,22 +382,22 @@ ALTER TABLE `authority`
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `content`
 --
 ALTER TABLE `content`
-  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `endereco`
 --
 ALTER TABLE `endereco`
-  MODIFY `ende_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ende_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `esta_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `esta_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `page`
 --
@@ -374,32 +407,27 @@ ALTER TABLE `page`
 -- AUTO_INCREMENT for table `pais`
 --
 ALTER TABLE `pais`
-  MODIFY `pais_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `pais_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `parameter`
 --
 ALTER TABLE `parameter`
-  MODIFY `para_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `para_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `user_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- Constraints for dumped tables
 --
 
 --
--- Limitadores para a tabela `contact`
---
-ALTER TABLE `contact`
-  ADD CONSTRAINT `cont_fk_user_pk_id` FOREIGN KEY (`cont_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Limitadores para a tabela `content`
 --
 ALTER TABLE `content`
-  ADD CONSTRAINT `cont_fk_page_pk_id` FOREIGN KEY (`cont_fk_page_pk_id`) REFERENCES `page` (`page_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `cont_fk_page_pk_id` FOREIGN KEY (`cont_fk_page_pk_id`) REFERENCES `page` (`page_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cont_fk_user_pk_id` FOREIGN KEY (`cont_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `endereco`

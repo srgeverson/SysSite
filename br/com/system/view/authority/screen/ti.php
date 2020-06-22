@@ -5,16 +5,6 @@
  * and open the template in the editor.
  */
 ?>
-
-<a class="navbar-brand" href="<?php echo server_url('?page=ControllerSystem&option=welcome'); ?>">
-    <?php
-    $parameter = new ControllerParameter();
-    echo $parameter->getProperty('nome_apelido');
-    ?>    
-</a>
-<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-</button>
 <div class="collapse navbar-collapse" id="navbarResponsive">
     <ul class="navbar-nav ml-auto">
         <!-- Site-->
@@ -39,6 +29,34 @@
                     $i++;
                 }
                 ?>
+            </div>
+        </li>
+        <!-- Sistema-->
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-cogs fa-fw"></i>
+                <span>Processos</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContact&option=list"); ?>">
+                    <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Contatos
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerEndereco&option=list"); ?>">
+                    <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Endereços
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerEstado&option=list"); ?>">
+                    <i class="fas fa-city fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Estados
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerPais&option=list"); ?>">
+                    <i class="fas fa-university fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Países
+                </a>
             </div>
         </li>
         <!-- Sistema-->
@@ -83,6 +101,11 @@
                 <a class="dropdown-item" href="<?php echo server_url("?page=ControllerUser&option=editProfile&user_pk_id=" . $user_logged->user_pk_id); ?>">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Perfil
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url('?page=ControllerSystem&option=welcome'); ?>">
+                    <i class="fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Boas vindas
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="<?php echo server_url('?page=ControllerUser&option=logout'); ?>">

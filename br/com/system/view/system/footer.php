@@ -11,7 +11,7 @@
         Copyright &copy; 
         <?php
         $parameter = new ControllerParameter();
-        echo $parameter->getProperty('razao_social');
+        echo $parameter->getProperty('nome_fantazia');
         ?>
     </p>
 </div>

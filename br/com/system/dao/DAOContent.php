@@ -50,7 +50,7 @@ class DAOContent extends GenericDAO {
     }
 
     public function select() {
-        $this->query = "SELECT * FROM content";
+        $this->query = "SELECT * FROM content;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -87,13 +87,35 @@ class DAOContent extends GenericDAO {
         $this->query .= "INNER JOIN user AS u ON (c.cont_fk_user_pk_id = u.user_pk_id) ";
         $this->query .= "WHERE ";
         $this->query .= "c.cont_component LIKE '%$content->cont_component%' AND ";
-        $this->query .= "c.cont_fk_page_pk_id LIKE '%$content->cont_fk_page_pk_id%';";
+        $this->query .= "p.page_name LIKE '%$content->page_name%';";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
+        $this->statement->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function selectObjectsByObject(ModelContent $content = null) {
+        $this->query = "SELECT ";
+        $this->query .= "c.* ";
+        $this->query .= "FROM content AS c ";
+        $this->query .= "INNER JOIN page AS p ON (c.cont_fk_page_pk_id = p.page_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (c.cont_fk_user_pk_id = u.user_pk_id) ";
+        $this->query .= "WHERE ";
+        $this->query .= "c.cont_status = 1 AND ";
+        $this->query .= "c.cont_fk_page_pk_id = :cont_fk_page_pk_id AND ";
+        $this->query .= "c.cont_component = :cont_component;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(":cont_fk_page_pk_id", $content->cont_fk_page_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(":cont_component", $content->cont_component, PDO::PARAM_STR);
         $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }

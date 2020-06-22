@@ -5,26 +5,22 @@
  * and open the template in the editor.
  */
 ?>
-<a class="navbar-brand" href="<?php echo server_url('?page=ControllerPage&option=home'); ?>">
-    <?php
-    $parameter = new ControllerParameter();
-    echo $parameter->getProperty('nome_apelido');
-    ?>
-</a>
-<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-</button>
 <div class="collapse navbar-collapse" id="navbarResponsive">
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="<?php echo server_url('?page=ControllerPage&option=service'); ?>">Serviços</a>
-        </li>   
-        <li class="nav-item">
-            <a class="nav-link" href="<?php echo server_url('?page=ControllerPage&option=contact'); ?>">Contato</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="<?php echo server_url('?page=ControllerPage&option=about'); ?>">Sobre</a>
-        </li>
+        <?php
+        $controllerPage = new ControllerPage();
+        $pages_enableds = $controllerPage->listEnableds();
+        
+        foreach ($pages_enableds as $each_page) {
+            if ($each_page->page_name !== 'home') {
+                echo '<li class="nav-item">';
+                echo '<a class="nav-link" href="', server_url("?page=ControllerPage&option=" . $each_page->page_name), '">';
+                echo $each_page->page_label;
+                echo '</a>';
+                echo '</li>';
+            }
+        }
+        ?>
         <li class="nav-item">
             <a class="nav-link" href="<?php echo server_url('?page=ControllerUser&option=authenticate'); ?>">Área Restrita</a>
         </li>

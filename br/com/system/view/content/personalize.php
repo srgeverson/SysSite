@@ -18,6 +18,9 @@
                         <input class="form-control" name="cont_pk_id" type="hidden" value="<?php echo $content->cont_pk_id; ?>">
                     </div>
                     <div class="form-group">
+                        <input class="form-control" name="cont_fk_page_pk_id" type="hidden" value="<?php echo $content->cont_fk_page_pk_id; ?>">
+                    </div>
+                    <div class="form-group">
                         <label class="text-primary">Componente:</label><br>
                         <input class="form-control" name="cont_component" placeholder="Digite um nome do component..." type="text"  value="<?php echo $content->cont_component; ?>" required>
                     </div>

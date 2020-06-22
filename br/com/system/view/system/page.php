@@ -14,9 +14,9 @@
         <meta name="author" content="Geverson Souza">
         <?php
         $parameter = new ControllerParameter();
-        echo '<meta name="description" content="', $parameter->getProperty('titulo_site'), '">';
-        echo '<title title="', $parameter->getProperty('titulo_site'), '">';
-        echo $parameter->getProperty('titulo_site');
+        echo '<meta name="description" content="', $parameter->getProperty('nome_fantazia'), '">';
+        echo '<title title="', $parameter->getProperty('nome_fantazia'), '">';
+        echo $parameter->getProperty('nome_fantazia');
         echo '</title>';
         //Icone da página
         echo '<link rel = "icon" href = "', server_url('br/com/system/uploads/parameter/') . $parameter->getProperty('icone_site'), '">';
@@ -35,6 +35,23 @@
         <!-- Menu -->
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
+                <?php
+                $controllerPage = new ControllerPage();
+                $pages_enableds = $controllerPage->listEnableds();
+
+                foreach ($pages_enableds as $each_page) {
+                    if ($each_page->page_name === 'home') {
+                        echo '<a  class="navbar-brand" href="', server_url("?page=ControllerPage&option=" . $each_page->page_name), '">';
+                        $parameter = new ControllerParameter();
+                        echo $parameter->getProperty('nome_fantazia');
+                        echo '</a>';
+                    }
+                }
+                ?>
+                </a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <?php navbar(); ?>
             </div>
         </nav>
@@ -54,6 +71,7 @@
         </a>
         <!-- Bootstrap core JavaScript-->
         <script src="<?php echo server_url('br/com/system/assets/vendor/jquery/') . 'jquery.min.js'; ?>"></script>
+        <script src="<?php echo server_url('br/com/system/assets/vendor/jquery/') . 'jquery.mask.min.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/js/') . 'bootstrap.bundle.min.js'; ?>"></script>
 
         <!-- Custom scripts for all pages-->
@@ -67,8 +85,9 @@
         <script src="<?php echo server_url('br/com/system/assets/vendor/datatables/') . 'dataTables.bootstrap4.min.js'; ?>"></script>
 
         <!-- Minhas funções-->
-        <script src="<?php echo server_url('br/com/system/assets/js/') . 'validator.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/js/') . 'functions.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/js/') . 'info.js'; ?>"></script>
+        <script src="<?php echo server_url('br/com/system/assets/js/') . 'masks.js'; ?>"></script>
+        <script src="<?php echo server_url('br/com/system/assets/js/') . 'validator.js'; ?>"></script>
     </body>
 </html>
