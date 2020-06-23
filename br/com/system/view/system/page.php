@@ -71,7 +71,7 @@
         </a>
         <!-- Bootstrap core JavaScript-->
         <script src="<?php echo server_url('br/com/system/assets/vendor/jquery/') . 'jquery.min.js'; ?>"></script>
-        <script src="<?php echo server_url('br/com/system/assets/vendor/jquery/') . 'jquery.mask.min.js'; ?>"></script>
+        <script src="<?php echo server_url('br/com/system/assets/vendor/jquery/') . 'jquery.mask.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/js/') . 'bootstrap.bundle.min.js'; ?>"></script>
 
         <!-- Custom scripts for all pages-->
