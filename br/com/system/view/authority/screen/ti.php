@@ -17,7 +17,7 @@
                 <?php
                 $controllerPage = new ControllerPage();
                 $pages_enableds = $controllerPage->listEnableds();
-                $i = 0;
+                $i = 0; //rever essa variável
                 foreach ($pages_enableds as $each_page) {
                     echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&cont_fk_page_pk_id=' . $each_page->page_pk_id), '">';
                     echo '<i class = "fas fa-', $each_page->page_icon, ' fa-sm fa-fw mr-2 text-gray-400"></i>';

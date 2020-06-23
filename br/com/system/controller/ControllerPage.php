@@ -23,7 +23,6 @@ class ControllerPage {
         $this->daoPage = new DAOPage();
     }
 
-    //ok
     public function about($msg = null) {
         if (!isset($msg)) {
             $msg = $this->info;
@@ -54,7 +53,6 @@ class ControllerPage {
         include_once server_path('br/com/system/view/page/pages/about.php');
     }
 
-    //ok
     public function contact($msg = null) {
         if (!isset($msg)) {
             $msg = $this->info;
@@ -78,7 +76,6 @@ class ControllerPage {
         include_once server_path('br/com/system/view/page/pages/contact.php');
     }
 
-    //ok
     public function delete() {
         if (GenericController::authotity()) {
             $page_pk_id = strip_tags($_GET['page_pk_id']);
@@ -95,7 +92,6 @@ class ControllerPage {
         }
     }
 
-    //ok
     public function disable() {
         if (GenericController::authotity()) {
             $page_pk_id = strip_tags($_GET['page_pk_id']);
@@ -122,7 +118,6 @@ class ControllerPage {
         }
     }
 
-    //ok
     public function edit() {
         if (GenericController::authotity()) {
             $page_pk_id = $_GET['page_pk_id'];
@@ -147,7 +142,6 @@ class ControllerPage {
         }
     }
 
-    //ok
     public function enable() {
         if (GenericController::authotity()) {
             $page_pk_id = strip_tags($_GET['page_pk_id']);
@@ -178,11 +172,32 @@ class ControllerPage {
         if (!isset($msg)) {
             $msg = $this->info;
         }
+
+        $daoContent = new DAOContent();
+        $content = new ModelContent();
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 1;
+        $content->cont_component = "slide_apresentacao";
+        $slide_apresentacao = $daoContent->selectObjectsByObject($content);
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 1;
+        $content->cont_component = "nossos_destaques";
+        $nossos_destaques = $daoContent->selectObjectsByObject($content);
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 1;
+        $content->cont_component = "outros_destaques";
+        $outros_destaques = $daoContent->selectObjectsByObject($content);
+
         GenericController::valid_messages($msg);
         include_once server_path('br/com/system/view/page/pages/default.php');
     }
 
-    //ok
     public function list() {
         if (GenericController::authotity()) {
             if (isset($_POST['page_name']) && isset($_POST['page_description'])) {
@@ -202,7 +217,6 @@ class ControllerPage {
         }
     }
 
-    //ok
     public function listEnableds() {
         try {
             return $this->daoPage->selectObjectsEnabled();
@@ -214,7 +228,6 @@ class ControllerPage {
         }
     }
 
-    //ok
     public function new() {
         if (GenericController::authotity()) {
             include_once server_path('br/com/system/view/page/new.php');
@@ -253,7 +266,6 @@ class ControllerPage {
         }
     }
 
-    //ok
     public function update() {
         if (GenericController::authotity()) {
             if (GenericController::authotity()) {
@@ -296,6 +308,20 @@ class ControllerPage {
             $msg = $this->info;
         }
         GenericController::valid_messages($msg);
+        $daoContent = new DAOContent();
+        $content = new ModelContent();
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 3;
+        $content->cont_component = "destaques_servicos";
+        $destaques_servicos = $daoContent->selectObjectsByObject($content);
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 3;
+        $content->cont_component = "nossos_servicos";
+        $nossos_servicos = $daoContent->selectObjectsByObject($content);
         include_once server_path('br/com/system/view/page/pages/service.php');
     }
 
