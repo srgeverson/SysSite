@@ -34,8 +34,16 @@ function main() {
     global $user_logged;
     if (!GenericController::filter()) {
         if (!isset($user_logged)) {
-            //include_once server_path("br/com/system/view/system/default.php");
-            redirect(server_url('?page=ControllerUser&option=authenticate'));
+            $controllerPage = new ControllerPage();
+            $pages_enableds = $controllerPage->listEnableds();
+            foreach ($pages_enableds as $each_page) {
+                
+                if (count($pages_enableds) && $each_page->page_name === 'home') {
+                    redirect(server_url('?page=ControllerPage&option=home'));
+                } else {
+                    redirect(server_url('?page=ControllerUser&option=authenticate'));
+                }
+            }
         } else {
             include_once server_path("br/com/system/view/system/welcome.php");
         }

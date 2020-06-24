@@ -46,15 +46,8 @@
                         echo '<td>', $each_content->cont_text, '</td>';
                         echo '<td>';
                         if ($each_content->cont_status == true) {
-                            echo '<a title="Desenable dados!" href="', server_url('?page=ControllerContent&option=disable&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
-                            echo '<i class="fas fa-times-circle"></i>';
-                            echo '</a>';
-                        } else {
-                            echo '<a title="Editar dados!" href="', server_url('?page=ControllerContent&option=edit&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                            echo '<a title="Editar dados!" href="', server_url('?page=ControllerContent&option=personalize&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                             echo '<i class="fas fa-edit"></i>';
-                            echo '</a>';
-                            echo '<a title="Ativar dados!" href="', server_url('?page=ControllerContent&option=enable&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
-                            echo '<i class="fas fa-check-circle"></i>';
                             echo '</a>';
                         }
                         echo '</td>';

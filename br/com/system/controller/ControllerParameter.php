@@ -114,7 +114,7 @@ class ControllerParameter {
     public function getProperty($key = null) {
         try {
             $parameter = $this->daoParameter->selectObjectByKey($key);
-            if (isset($parameter)) {
+            if ($parameter == null) {
                 return "Vazio/Desabilitado";
             } else {
                 return $parameter->para_value;

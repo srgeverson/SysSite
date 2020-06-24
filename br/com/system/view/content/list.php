@@ -52,66 +52,69 @@
                         </button>
                     </div>
                 </div>
+            </div>
         </form>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <?php
-            if (!isset($contents)) {
-                echo '<h2>Use o filtro para ver os conteúdos cadastrados</h2>';
-            } else {
-                echo '<table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">';
-                echo '<thead>';
-                echo '<tr>';
-                echo '<th>Código</th>';
-                echo '<th>Componente</th>';
-                echo '<th>Título</th>';
-                echo '<th>Subtítulo</th>';
-                echo '<th>Texto</th>';
-                echo '<th>Opções</th>';
-                echo '</tr>';
-                echo '</thead>';
-                echo '<tbody>';
-                foreach ($contents as $each_content) {
+        <div class="card-body">
+            <div class="table-responsive">
+                <?php
+                if (!isset($contents)) {
+                    echo '<h2>Use o filtro para ver os conteúdos cadastrados</h2>';
+                } else {
+                    echo '<table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">';
+                    echo '<thead>';
                     echo '<tr>';
-                    echo '<td>', $each_content->cont_pk_id, '</td>';
-                    echo '<td>', $each_content->cont_component, '</td>';
-                    echo '<td>', $each_content->cont_title, '</td>';
-                    echo '<td>', $each_content->cont_subtitle, '</td>';
-                    echo '<td>', $each_content->cont_text, '</td>';
-                    echo '<td>';
-                    if ($each_content->cont_status == true) {
-                        echo '<a title="Desenable dados!" href="', server_url('?page=ControllerContent&option=disable&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
-                        echo '<i class="fas fa-times-circle"></i>';
-                        echo '</a>';
-                    } else {
-                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerContent&option=edit&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
-                        echo '<i class="fas fa-edit"></i>';
-                        echo '</a>';
-                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerContent&option=enable&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
-                        echo '<i class="fas fa-check-circle"></i>';
-                        echo '</a>';
-                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerContent&option=delete&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
-                        echo '<i class="fas fa-trash"></i>';
-                        echo '</a>';
-                    }
-                    echo '</td>';
+                    echo '<th>Código</th>';
+                    echo '<th>Componente</th>';
+                    echo '<th>Título</th>';
+                    echo '<th>Subtítulo</th>';
+                    echo '<th>Texto</th>';
+                    echo '<th>Página</th>';
+                    echo '<th>Opções</th>';
                     echo '</tr>';
+                    echo '</thead>';
+                    echo '<tbody>';
+                    foreach ($contents as $each_content) {
+                        echo '<tr>';
+                        echo '<td>', $each_content->cont_pk_id, '</td>';
+                        echo '<td>', $each_content->cont_component, '</td>';
+                        echo '<td>', $each_content->cont_title, '</td>';
+                        echo '<td>', $each_content->cont_subtitle, '</td>';
+                        echo '<td>', $each_content->cont_text, '</td>';
+                        echo '<td>', $each_content->page_name, '</td>';
+                        echo '<td>';
+                        if ($each_content->cont_status == true) {
+                            echo '<a title="Desenable dados!" href="', server_url('?page=ControllerContent&option=disable&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                            echo '<i class="fas fa-times-circle"></i>';
+                            echo '</a>';
+                        } else {
+                            echo '<a title="Editar dados!" href="', server_url('?page=ControllerContent&option=edit&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                            echo '<i class="fas fa-edit"></i>';
+                            echo '</a>';
+                            echo '<a title="Ativar dados!" href="', server_url('?page=ControllerContent&option=enable&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
+                            echo '<i class="fas fa-check-circle"></i>';
+                            echo '</a>';
+                            echo '<a title="Excluir dados!" href="', server_url('?page=ControllerContent&option=delete&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                            echo '<i class="fas fa-trash"></i>';
+                            echo '</a>';
+                        }
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                    echo '<tfoot>';
+                    echo '<tr>';
+                    echo '<th>Código</th>';
+                    echo '<th>Componente</th>';
+                    echo '<th>Título</th>';
+                    echo '<th>Subtítulo</th>';
+                    echo '<th>Texto</th>';
+                    echo '<th>Página</th>';
+                    echo '<th>Opções</th>';
+                    echo '</tr>';
+                    echo '</tfoot>';
+                    echo '</tbody>';
+                    echo '</table>';
                 }
-                echo '<tfoot>';
-                echo '<tr>';
-                echo '<th>Código</th>';
-                echo '<th>Componente</th>';
-                echo '<th>Título</th>';
-                echo '<th>Subtítulo</th>';
-                echo '<th>Texto</th>';
-                echo '<th>Opções</th>';
-                echo '</tr>';
-                echo '</tfoot>';
-                echo '</tbody>';
-                echo '</table>';
-            }
-            ?>
+                ?>
+            </div>
         </div>
     </div>
-</div>

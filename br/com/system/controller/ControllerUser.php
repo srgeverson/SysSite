@@ -7,6 +7,7 @@
  */
 include_once server_path("br/com/system/dao/DAOAuthority.php");
 include_once server_path("br/com/system/dao/DAOUser.php");
+include_once server_path("br/com/system/controller/ControllerContact.php");
 include_once server_path("br/com/system/model/ModelUser.php");
 include_once server_path("br/com/system/model/ModelContact.php");
 
@@ -243,8 +244,8 @@ class ControllerUser {
             session_destroy();
             $this->info = 'success=user_logout';
             $controllerPage = new ControllerPage();
-            $controllerPage->home($this->info);
-            redirect(server_url('?page=ControllerPage&option=home'));
+            $this->controllerSystem->user_info($this->info);
+            redirect(server_url('?page=ControllerUser&option=authenticate'));
         }
     }
 
@@ -296,7 +297,7 @@ class ControllerUser {
     }
 
     public function reset() {
-        $user_pk_id = strip_tags($_GET['user_pk_id']); //nome do usuário
+        $user_pk_id = strip_tags($_GET['user_pk_id']); //Códifo do usuário
         $password = random_int(100000, 99999999); //senha aleatoria
         $user_password = password_hash($password, PASSWORD_BCRYPT);
 
@@ -312,7 +313,9 @@ class ControllerUser {
             $contact->cont_email = $user_updated->user_login;
             $contact->cont_texto = 'Senha Provisória: ' . $password;
 
-            if ($this->controllerSystem->send_email($contact)) {
+            $controllerContact = new ControllerContact();
+
+            if ($controllerContact->send_email($contact)) {
                 $this->daoUser->updatePassword($user);
                 $this->info = "success=user_password_reseted";
             } else {
@@ -346,8 +349,9 @@ class ControllerUser {
         $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
         try {
             if (!isset($this->daoUser->selectObjectByName($user_login)->user_login)) {
-                $this->daoUser->createOtherUser($user);
-                if ($this->controllerSystem->send_email($contact)) {
+                $controllerContact = new ControllerContact();
+                if ($controllerContact->send_email($contact)) {
+                    $this->daoUser->createOtherUser($user);
                     include_once server_path('br/com/system/view/user/success.php');
                 } else {
                     $this->controllerSystem->user_info("error=contact_not_send_email");

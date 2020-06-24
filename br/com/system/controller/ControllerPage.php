@@ -6,7 +6,11 @@
  * and open the template in the editor.
  */
 
+include_once server_path("br/com/system/model/ModelContent.php");
 include_once server_path("br/com/system/model/ModelPage.php");
+include_once server_path("br/com/system/dao/DAOContact.php");
+include_once server_path("br/com/system/dao/DAOContent.php");
+include_once server_path("br/com/system/dao/DAOEndereco.php");
 include_once server_path("br/com/system/dao/DAOPage.php");
 
 class ControllerPage {
@@ -24,6 +28,28 @@ class ControllerPage {
             $msg = $this->info;
         }
         GenericController::valid_messages($msg);
+
+        $daoContent = new DAOContent();
+        $content = new ModelContent();
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 4;
+        $content->cont_component = "modern_business";
+        $modern_business = $daoContent->selectObjectsByObject($content);
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 4;
+        $content->cont_component = "our_team";
+        $our_team = $daoContent->selectObjectsByObject($content);
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 4;
+        $content->cont_component = "our_customers";
+        $our_customers = $daoContent->selectObjectsByObject($content);
+
         include_once server_path('br/com/system/view/page/pages/about.php');
     }
 
@@ -32,6 +58,21 @@ class ControllerPage {
             $msg = $this->info;
         }
         GenericController::valid_messages($msg);
+        $daoContent = new DAOContent();
+        $content = new ModelContent();
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 3;
+        $content->cont_component = "our_contact";
+        $our_contacts = $daoContent->selectObjectsByObject($content);
+
+        $parameter = new ControllerParameter();
+        $daoEndereco = new DAOEndereco();
+        $endereco = $daoEndereco->selectObjectById($parameter->getProperty('endereco'));
+
+        $daoContact = new DAOContact();
+        $contact = $daoContact->selectObjectById($parameter->getProperty('contato'));
         include_once server_path('br/com/system/view/page/pages/contact.php');
     }
 
@@ -131,6 +172,28 @@ class ControllerPage {
         if (!isset($msg)) {
             $msg = $this->info;
         }
+
+        $daoContent = new DAOContent();
+        $content = new ModelContent();
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 1;
+        $content->cont_component = "slide_apresentacao";
+        $slide_apresentacao = $daoContent->selectObjectsByObject($content);
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 1;
+        $content->cont_component = "nossos_destaques";
+        $nossos_destaques = $daoContent->selectObjectsByObject($content);
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 1;
+        $content->cont_component = "outros_destaques";
+        $outros_destaques = $daoContent->selectObjectsByObject($content);
+
         GenericController::valid_messages($msg);
         include_once server_path('br/com/system/view/page/pages/default.php');
     }
@@ -155,15 +218,13 @@ class ControllerPage {
     }
 
     public function listEnableds() {
-        if (GenericController::authotity()) {
-            try {
-                return $this->daoPage->selectObjectsEnabled();
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
-            }
-            if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
-            }
+        try {
+            return $this->daoPage->selectObjectsEnabled();
+        } catch (Exception $erro) {
+            $this->info = "error=" . $erro->getMessage();
+        }
+        if (isset($this->info)) {
+            GenericController::valid_messages($this->info);
         }
     }
 
@@ -173,6 +234,7 @@ class ControllerPage {
         }
     }
 
+    //pk
     public function save() {
         if (GenericController::authotity()) {
             $page_name = strip_tags($_POST['page_name']);
@@ -246,6 +308,20 @@ class ControllerPage {
             $msg = $this->info;
         }
         GenericController::valid_messages($msg);
+        $daoContent = new DAOContent();
+        $content = new ModelContent();
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 3;
+        $content->cont_component = "destaques_servicos";
+        $destaques_servicos = $daoContent->selectObjectsByObject($content);
+
+        $content = null;
+        $content = new ModelContent();
+        $content->cont_fk_page_pk_id = 3;
+        $content->cont_component = "nossos_servicos";
+        $nossos_servicos = $daoContent->selectObjectsByObject($content);
         include_once server_path('br/com/system/view/page/pages/service.php');
     }
 

@@ -20,22 +20,6 @@ class ControllerContent {
         $this->daoContent = new DAOContent();
     }
 
-    public function about($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/content/pages/about.php');
-    }
-
-    public function contact($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/content/pages/contact.php');
-    }
-
     public function delete() {
         if (GenericController::authotity()) {
             $cont_pk_id = strip_tags($_GET['cont_pk_id']);
@@ -130,7 +114,7 @@ class ControllerContent {
         }
     }
 
-    public function filterByPage($page = null) {
+    public function filterByPage() {
         if (GenericController::authotity()) {
             if (isset($_GET['cont_fk_page_pk_id'])) {
                 try {
@@ -151,22 +135,17 @@ class ControllerContent {
         }
     }
 
-    public function home($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/content/pages/default.php');
-    }
-
     public function list() {
         if (GenericController::authotity()) {
             if (isset($_POST['cont_component']) && isset($_POST['page_name'])) {
                 try {
-                    $contents = $this->daoContent->selectObjectsEnabled();
                     $content = new ModelContent();
                     $content->cont_component = strip_tags($_POST['cont_component']);
-                    $content->page_name = strip_tags($_POST['page_name']);
+                    if (strip_tags($_POST['page_name']) !== 'Todas') {
+                        $content->page_name = strip_tags($_POST['page_name']);
+                    } else {
+                        $content->page_name = '';
+                    }
                     $contents = $this->daoContent->selectObjectsByContainsObject($content);
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
@@ -175,6 +154,8 @@ class ControllerContent {
             if (isset($this->info)) {
                 GenericController::valid_messages($this->info);
             }
+            $daoPage = new DAOPage();
+            $pages = $daoPage->select();
             include_once server_path('br/com/system/view/content/list.php');
         }
     }
@@ -202,14 +183,14 @@ class ControllerContent {
 
     public function personalize() {
         if (GenericController::authotity()) {
-            if (isset($_GET['page_pk_id'])) {
-                $content_pk_id = $_GET['page_pk_id'];
-                if (!isset($content_pk_id)) {
+            if (isset($_GET['cont_pk_id'])) {
+                $cont_pk_id = $_GET['cont_pk_id'];
+                if (!isset($cont_pk_id)) {
                     $this->info = 'warning=content_uninformed';
                     $this->list();
                 } else {
                     try {
-                        $content = $this->daoContent->selectObjectById($content_pk_id);
+                        $content = $this->daoContent->selectObjectById($cont_pk_id);
                         if ($content == false) {
                             $this->info = "warning=content_not_found";
                         }
@@ -224,6 +205,24 @@ class ControllerContent {
                     }
                 }
             }
+        }
+    }
+
+    public function personalizeRedirect(ModelContent $content = null) {
+        if (GenericController::authotity()) {
+            if (isset($content)) {
+                try {
+                    $daoPage = new DAOPage();
+                    $page = $daoPage->selectObjectById($content->cont_fk_page_pk_id);
+                    $contents = $this->daoContent->selectContentByContainsObject($content);
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                }
+            }
+            if (isset($this->info)) {
+                GenericController::valid_messages($this->info);
+            }
+            include_once server_path('br/com/system/view/content/content.php');
         }
     }
 
@@ -330,14 +329,6 @@ class ControllerContent {
         }
     }
 
-    public function service($msg = null) {
-        if (!isset($msg)) {
-            $msg = $this->info;
-        }
-        GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/content/pages/service.php');
-    }
-
     public function submit() {
         if (GenericController::authotity()) {
             $cont_pk_id = strip_tags($_POST['cont_pk_id']);
@@ -355,39 +346,38 @@ class ControllerContent {
             $cont_fk_page_pk_id = strip_tags($_POST['cont_fk_page_pk_id']);
             if (!isset($cont_pk_id)) {
                 $this->info = 'warning=content_uninformed';
-            }
-            global $user_logged;
-            $content_fk_user_pk_id = $user_logged->user_pk_id;
-
-            try {
-                if ($cont_pk_id == null) {
-                    $this->info = 'warning=content_not_exists';
-                    $this->filterPage();
-                } else {
-                    if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
-                        if (move_uploaded_file($_FILES['cont_image']['tmp_name'], $uploadfile)) {
-                            $content = new ModelContent();
-                            $content->cont_pk_id = $cont_pk_id;
-                            $content->cont_component = $cont_component;
-                            $content->cont_title = $cont_title;
-                            $content->cont_subtitle = $cont_subtitle;
-                            $content->cont_image = $cont_image;
-                            $content->cont_link = $cont_link;
-                            $content->cont_text = $cont_text;
-                            $content->cont_fk_user_pk_id = $content_fk_user_pk_id;
-                            $content->cont_fk_page_pk_id = $cont_fk_page_pk_id;
-                            $this->daoContent->update($content);
-                            $this->info = 'success=content_updated';
-                        }
+            } else {
+                global $user_logged;
+                $content_fk_user_pk_id = $user_logged->user_pk_id;
+                try {
+                    if ($cont_pk_id == null) {
+                        $this->info = 'warning=content_not_exists';
                     } else {
-                        echo '<script>alert("Formato de imagem não aceito!")</script>';
-                        redirect("javascript:window.history.go(-1)");
+                        if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
+                            if (move_uploaded_file($_FILES['cont_image']['tmp_name'], $uploadfile)) {
+                                $content = new ModelContent();
+                                $content->cont_pk_id = $cont_pk_id;
+                                $content->cont_component = $cont_component;
+                                $content->cont_title = $cont_title;
+                                $content->cont_subtitle = $cont_subtitle;
+                                $content->cont_image = $cont_image;
+                                $content->cont_link = $cont_link;
+                                $content->cont_text = $cont_text;
+                                $content->cont_fk_user_pk_id = $content_fk_user_pk_id;
+                                $content->cont_fk_page_pk_id = $cont_fk_page_pk_id;
+                                $this->daoContent->update($content);
+                                $this->info = 'success=content_updated';
+                            }
+                        } else {
+                            echo '<script>alert("Formato de imagem não aceito!")</script>';
+                            redirect("javascript:window.history.go(-1)");
+                        }
                     }
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
                 }
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
             }
-            $this->filterPage();
+            $this->personalizeRedirect($content);
         }
     }
 

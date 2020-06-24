@@ -8,58 +8,53 @@
 
 <!-- Page Content -->
 <div class="container">
-
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Services
-        <small>Subheading</small>
+    <h1 class="mt-4 mb-3">Nossos
+        <small>
+            <?php
+            $parameter = new ControllerParameter();
+            echo $parameter->getProperty('servicos_titulo');
+            ?></small>
     </h1>
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="<?php echo server_url('?page=ControllerSystem&option=home'); ?>">Página Inicial</a>
+            <a href="<?php echo server_url('?page=ControllerPage&option=home'); ?>">Página Inicial</a>
         </li>
         <li class="breadcrumb-item active">Serviços</li>
     </ol>
 
     <!-- Image Header -->
-    <img class="img-fluid rounded mb-4" src="http://placehold.it/1200x300" alt="">
+    <?php
+    if (count($destaques_servicos)) {
+        foreach ($destaques_servicos as $each_destaques_servicos) {
+            echo '<img class="img-fluid rounded mb-4" src="', isset($each_destaques_servicos->cont_image) ? server_url('br/com/system/uploads/content/' . $each_destaques_servicos->cont_image) : server_url('br/com/system/assets/img/1200x300.png'), '" alt = "', $each_destaques_servicos->cont_title, '" alt="', $each_destaques_servicos->cont_title, '">';
+        }
+    }
+    ?>
 
     <!-- Marketing Icons Section -->
-    <div class="row">
-        <div class="col-lg-4 mb-4">
-            <div class="card h-100">
-                <h4 class="card-header">Card Title</h4>
-                <div class="card-body">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary">Learn More</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-            <div class="card h-100">
-                <h4 class="card-header">Card Title</h4>
-                <div class="card-body">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary">Learn More</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-            <div class="card h-100">
-                <h4 class="card-header">Card Title</h4>
-                <div class="card-body">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </div>
+        <?php
+    if (count($nossos_servicos)) {
+        echo '<h1 class="my-4">Serviços</h1>';
+        echo '<div class="row">';
+            foreach ($nossos_servicos as $each_nossos_servicos) {
+                echo '<div class="col-lg-4 mb-4">';
+                    echo '<div class="card h-100">';
+                        echo '<h4 class="card-header">', $each_nossos_servicos->cont_title, '</h4>';
+                            echo '<div class="card-body">';
+                                 echo '<p>', $each_nossos_servicos->cont_text, '</p>';
+                            echo '</div>';
+                            echo '<div class="card-footer">';
+                                echo '<a href="', isset($each_nossos_servicos->cont_link) ? $each_nossos_servicos->cont_link : '#', '" class="btn btn-primary">Saiba mais</a>';
+                            echo '</div>';
+                        echo '</div>';
+                    echo '</div>';
+                echo '</div>';
+        }
+        echo '</div>';
+    }
+    ?>
     <!-- /.row -->
 
 </div>
