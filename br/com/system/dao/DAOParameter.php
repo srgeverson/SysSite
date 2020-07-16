@@ -131,7 +131,6 @@ class DAOParameter extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "UPDATE parameter SET ";
-        $this->query .= "para_key=:para_key, ";
         $this->query .= "para_value=:para_value, ";
         $this->query .= "para_description=:para_description ";
         $this->query .= " WHERE para_pk_id=:para_pk_id;";
@@ -141,7 +140,6 @@ class DAOParameter extends GenericDAO {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':para_key', $parameter->para_key, PDO::PARAM_STR);
         $this->statement->bindParam(':para_value', $parameter->para_value, PDO::PARAM_STR);
         $this->statement->bindParam(':para_description', $parameter->para_description, PDO::PARAM_STR);
         $this->statement->bindParam(':para_pk_id', $parameter->para_pk_id, PDO::PARAM_INT);

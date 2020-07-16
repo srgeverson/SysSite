@@ -23,7 +23,7 @@
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Valor:</label><br>
-                        <input class="form-control" name="para_value" type="text" placeholder="Digite um valor..." value="<?php echo $parameter->para_value; ?>" required>
+                        <input class="form-control" name="para_value" type="text" placeholder="Digite um valor..." value="<?php echo $parameter->para_value; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Descrição:</label><br>

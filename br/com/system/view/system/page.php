@@ -15,8 +15,8 @@
         <?php
         $parameter = new ControllerParameter();
         echo '<meta name="description" content="', $parameter->getProperty('nome_fantazia'), '">';
-        echo '<title title="', $parameter->getProperty('nome_fantazia'), '">';
-        echo $parameter->getProperty('nome_fantazia');
+        echo '<title title="', $parameter->getProperty('titulo_site'), '">';
+        echo $parameter->getProperty('titulo_site');
         echo '</title>';
         //Icone da página
         echo '<link rel = "icon" href = "', server_url('br/com/system/uploads/parameter/') . $parameter->getProperty('icone_site'), '">';
@@ -30,6 +30,17 @@
 
         <!-- Custom styles for this template -->
         <link href="<?php echo server_url('br/com/system/assets/css/') . 'modern-business.css'; ?>" rel="stylesheet">
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $parameter->getProperty('google_analytics');?>"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', '<?php echo $parameter->getProperty('google_analytics');?>');
+        </script>
     </head>
     <body id="page-top">
         <!-- Menu -->
