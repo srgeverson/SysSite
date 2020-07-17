@@ -123,19 +123,19 @@ class DAOFuncionario extends GenericDAO {
 
     public function selectObjectByFkUser($user_pk_id = 0) {
         $this->query = "SELECT ";
-        $this->query .= "f.*, u.user_pk_id, u.user_name, us.user_pk_id, us.user_name ";
-        $this->query .= "FROM funcionario AS f ";
-        $this->query .= "INNER JOIN user AS u ON (f.func_fk_user_pk_id=u.user_pk_id) ";
-        $this->query .= "INNER JOIN user AS us ON (f.func_fk_usuario_associado=us.user_pk_id) ";
+        $this->query .= "f.*, u.user_pk_id, u.user_name ";
+        $this->query .= "FROM funcionario_user AS fu ";
+        $this->query .= "INNER JOIN user AS u ON (fu.fuus_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "INNER JOIN funcionario AS f  ON (fu.fuus_fk_funcionario_pk_id=f.func_pk_id) ";
         $this->query .= "WHERE ";
-        $this->query .= "f.func_fk_usuario_associado = :func_fk_usuario_associado LIMIT 1;";
+        $this->query .= "fu.fuus_fk_user_pk_id = :fuus_fk_user_pk_id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":func_fk_usuario_associado", $user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(":fuus_fk_user_pk_id", $user_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }

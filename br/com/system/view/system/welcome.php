@@ -7,7 +7,7 @@
 include_once server_path("br/com/system/controller/ControllerFuncionario.php");
 $controllerFuncionario = new ControllerFuncionario();
 global $user_logged;
-if ($controllerFuncionario->searchByFkUser($user_logged->user_pk_id) === null) {
+if (($controllerFuncionario->searchByFkUser($user_logged->user_pk_id) === false) && $user_logged->user_fk_authority_pk_id == 3) {
     $controllerSystem = new ControllerSystem();
     $controllerSystem->funcionario_info('warning=funcionario_not_associated');
 }
