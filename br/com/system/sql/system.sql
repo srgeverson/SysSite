@@ -579,6 +579,12 @@ ALTER TABLE `parameter`
 ALTER TABLE `user`
   ADD CONSTRAINT `user_fk_authority_pk_id` FOREIGN KEY (`user_fk_authority_pk_id`) REFERENCES `authority` (`auth_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Limitadores para a tabela `contact`
+--
+ALTER TABLE `contact` 
+  ADD CONSTRAINT `cont_fk_user_pk_id`  FOREIGN KEY (`cont_fk_user_pk_id`)  REFERENCES `user` (`user_pk_id`)  ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
