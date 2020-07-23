@@ -225,7 +225,6 @@ class ControllerUser {
                         $this->daoUser->updateLastAccess($user_logging);
                         $_SESSION['usuario'] = $user_logged;
 
-                        $this->controllerSystem->welcome('success=user_logged');
                         redirect(server_url('?page=ControllerSystem&option=welcome'));
                     }
                 } else {
