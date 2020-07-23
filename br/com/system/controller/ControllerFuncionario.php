@@ -84,6 +84,7 @@ class ControllerFuncionario {
         }
     }
 
+    //ok
     public function edit() {
         if (GenericController::authotity()) {
             $func_pk_id = $_GET['func_pk_id'];
@@ -95,6 +96,7 @@ class ControllerFuncionario {
                 $daoEstado = new DAOEstado();
                 $estados = $daoEstado->selectObjectsEnabled();
                 $funcionario = $this->daoFuncionario->selectObjectById($func_pk_id);
+                $estadoUFAtual = $daoEstado->selectObjectById($funcionario->ende_fk_estado_pk_id);
                 if (!isset($funcionario)) {
                     $this->info = 'warning=funcionario_not_exists';
                     $this->list();
@@ -282,37 +284,103 @@ class ControllerFuncionario {
                 $func_pk_id = strip_tags($_POST['func_pk_id']);
                 if (!isset($func_pk_id)) {
                     $this->info = 'warning=funcionario_uninformed';
-                }
-                $func_logradouro = strip_tags($_POST['func_logradouro']);
-                $func_numero = strip_tags($_POST['func_numero']);
-                $func_bairro = strip_tags($_POST['func_bairro']);
-                $func_cep = strip_tags($_POST['func_cep']);
-                $func_cidade = strip_tags($_POST['func_cidade']);
-                $func_fk_estado_pk_id = strip_tags($_POST['func_fk_estado_pk_id']);
-                global $user_logged;
-                $func_fk_user_pk_id = $user_logged->user_pk_id;
+                } else {
+                    //Usuário Logado
+                    global $user_logged;
 
-                $funcionario = new ModelFuncionario();
-                $funcionario->func_pk_id = $func_pk_id;
-                $funcionario->func_logradouro = $func_logradouro;
-                $funcionario->func_numero = $func_numero;
-                $funcionario->func_bairro = $func_bairro;
-                $funcionario->func_cep = $func_cep;
-                $funcionario->func_cidade = $func_cidade;
-                $funcionario->func_fk_estado_pk_id = $func_fk_estado_pk_id;
-                $funcionario->func_fk_user_pk_id = $func_fk_user_pk_id;
+                    //Contato
+                    $cont_pk_id = strip_tags($_POST['func_fk_contact_pk_id']);
+                    $cont_description = strip_tags($_POST['cont_description']);
+                    $cont_phone = strip_tags($_POST['cont_phone']);
+                    $cont_cell_phone = strip_tags($_POST['cont_cell_phone']);
+                    $cont_whatsapp = strip_tags($_POST['cont_whatsapp']);
+                    $cont_email = strip_tags($_POST['cont_email']);
+                    $cont_facebook = strip_tags($_POST['cont_facebook']);
+                    $cont_instagram = strip_tags($_POST['cont_instagram']);
+                    $cont_text = strip_tags($_POST['cont_text']);
+                    $cont_status = true;
 
-                try {
-                    $this->daoFuncionario->update($funcionario);
-                    if ($funcionario == null) {
-                        $this->info = 'warning=funcionario_not_exists';
-                        $this->list();
+                    $contact = new ModelContact();
+                    $contact->cont_pk_id = $cont_pk_id;
+                    $contact->cont_description = $cont_description;
+                    $contact->cont_phone = $cont_phone;
+                    $contact->cont_cell_phone = $cont_cell_phone;
+                    $contact->cont_whatsapp = $cont_whatsapp;
+                    $contact->cont_email = $cont_email;
+                    $contact->cont_facebook = $cont_facebook;
+                    $contact->cont_instagram = $cont_instagram;
+                    $contact->cont_text = $cont_text;
+                    $contact->cont_status = $cont_status;
+                    $contact->cont_fk_user_pk_id = $user_logged->user_pk_id;
+
+
+                    //Endereço
+                    $ende_pk_id = strip_tags($_POST['func_fk_endereco_pk_id']);
+                    $ende_logradouro = strip_tags($_POST['ende_logradouro']);
+                    $ende_numero = strip_tags($_POST['ende_numero']);
+                    $ende_bairro = strip_tags($_POST['ende_bairro']);
+                    $ende_cep = strip_tags($_POST['ende_cep']);
+                    $ende_cidade = strip_tags($_POST['ende_cidade']);
+                    $ende_fk_estado_pk_id = strip_tags($_POST['ende_fk_estado_pk_id']);
+                    $ende_fk_user_pk_id = $user_logged->user_pk_id;
+                    $ende_status = true;
+
+                    $endereco = new ModelEndereco();
+                    $endereco->ende_pk_id = $ende_pk_id;
+                    $endereco->ende_logradouro = $ende_logradouro;
+                    $endereco->ende_numero = $ende_numero;
+                    $endereco->ende_bairro = $ende_bairro;
+                    $endereco->ende_cep = $ende_cep;
+                    $endereco->ende_cidade = $ende_cidade;
+                    $endereco->ende_fk_estado_pk_id = $ende_fk_estado_pk_id;
+                    $endereco->ende_fk_user_pk_id = $ende_fk_user_pk_id;
+                    $endereco->ende_status = $ende_status;
+
+                    //DAOs
+                    $daoContact = new DAOContact();
+                    $daoEndereco = new DAOEndereco();
+
+                    //Funcionário
+                    $func_pk_id = strip_tags($_POST['func_pk_id']);
+                    $func_nome = strip_tags($_POST['func_nome']);
+                    $func_cpf = strip_tags($_POST['func_cpf']);
+                    $func_rg = strip_tags($_POST['func_rg']);
+                    $func_pis = strip_tags($_POST['func_pis']);
+                    $func_data_nascimento = strip_tags($_POST['func_data_nascimento']);
+                    $func_fk_user_pk_id = $user_logged->user_pk_id;
+                    $func_status = true;
+
+                    $funcionario = new ModelFuncionario();
+                    $funcionario->func_pk_id = $func_pk_id;
+                    $funcionario->func_nome = $func_nome;
+                    $funcionario->func_cpf = $func_cpf;
+                    $funcionario->func_rg = $func_rg;
+                    $funcionario->func_pis = $func_pis;
+                    $funcionario->func_data_nascimento = $func_data_nascimento;
+                    $funcionario->func_fk_user_pk_id = $func_fk_user_pk_id;
+                    $funcionario->func_status = $func_status;
+
+                    //Tratando exceção do contato
+                    try {
+                        $daoContact->update($contact);
+                        //Tratando exceção do endereço
+                        try {
+                            $daoEndereco->update($endereco);
+                            //Tratando exceção do funcionário
+                            try {
+                                $this->daoFuncionario->update($funcionario);
+                                $this->info = "success=funcionario_created";
+                            } catch (Exception $erro) {
+                                $this->info = "error=" . $erro->getMessage();
+                            }
+                        } catch (Exception $erro) {
+                            $this->info = "error=Endereço: " . $erro->getMessage();
+                        }
+                    } catch (Exception $erro) {
+                        $this->info = "error=Contato: " . $erro->getMessage();
                     }
-                    $this->info = 'success=funcionario_updated';
-                } catch (Exception $erro) {
-                    $this->info = "error=" . $erro->getMessage();
+                    $this->list();
                 }
-                $this->list();
             }
         }
     }

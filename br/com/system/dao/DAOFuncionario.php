@@ -154,7 +154,6 @@ class DAOFuncionario extends GenericDAO {
         $this->query .= "func_rg=:func_rg, ";
         $this->query .= "func_pis=:func_pis, ";
         $this->query .= "func_data_nascimento=:func_data_nascimento, ";
-        $this->query .= "func_fk_contact_pk_id=:func_fk_contact_pk_id, ";
         $this->query .= "func_fk_user_pk_id=:func_fk_user_pk_id ";
         $this->query .= " WHERE func_pk_id=:func_pk_id;";
         try {
@@ -168,7 +167,6 @@ class DAOFuncionario extends GenericDAO {
         $this->statement->bindParam(':func_rg', $funcionario->func_rg, PDO::PARAM_STR);
         $this->statement->bindParam(':func_pis', $funcionario->func_pis, PDO::PARAM_STR);
         $this->statement->bindParam(':func_data_nascimento', $funcionario->func_data_nascimento, PDO::PARAM_STR);
-        $this->statement->bindParam(':func_fk_contact_pk_id', $funcionario->func_fk_contact_pk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':func_fk_user_pk_id', $funcionario->func_fk_user_pk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':func_pk_id', $funcionario->func_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
