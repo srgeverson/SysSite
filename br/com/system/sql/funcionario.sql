@@ -35,7 +35,6 @@ CREATE TABLE `funcionario` (
   `func_data_nascimento` date DEFAULT NULL,
   `func_status` tinyint(1) DEFAULT '1',
   `func_fk_user_pk_id` int(11) NOT NULL,
-  `func_fk_user_login` varchar(100) DEFAULT NULL,
   `func_fk_endereco_pk_id` int(11) NOT NULL,
   `func_fk_contact_pk_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -45,7 +44,7 @@ CREATE TABLE `funcionario` (
 --
 
 INSERT INTO `funcionario` (`func_pk_id`, `func_nome`, `func_cpf`, `func_rg`, `func_pis`, `func_data_nascimento`, `func_status`, `func_fk_user_pk_id`, `func_fk_user_login`, `func_fk_endereco_pk_id`, `func_fk_contact_pk_id`) VALUES
-(2, 'geverson', 'aaa', '2077176686', 'aaa', '1993-04-12', 1, 1, NULL, 1, 1);
+(2, 'geverson', 'aaa', '2077176686', 'aaa', '1993-04-12', 1, 1, 1, 1);
 
 --
 -- Indexes for dumped tables

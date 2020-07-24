@@ -31,7 +31,7 @@ CREATE TABLE `folha_pagamento` (
   `fopa_competencia` varchar(7) NOT NULL,
   `fopa_status` tinyint(1) DEFAULT '1',
   `fopa_fk_funcionario_pk_id` int(11) NOT NULL,
-  `func_fk_user_pk_id` int(11) NOT NULL
+  `fopa_fk_user_pk_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `folha_pagamento` (
 ALTER TABLE `folha_pagamento`
   ADD PRIMARY KEY (`fopa_pk_id`),
   ADD KEY `fopa_fk_funcionario_pk_id_idx` (`fopa_fk_funcionario_pk_id`),
-  ADD KEY `func_fk_user_pk_id_idx` (`func_fk_user_pk_id`);
+  ADD KEY `fopa_fk_user_pk_id_idx` (`fopa_fk_user_pk_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -64,7 +64,7 @@ ALTER TABLE `folha_pagamento`
 --
 ALTER TABLE `folha_pagamento`
   ADD CONSTRAINT `fopa_fk_funcionario_pk_id` FOREIGN KEY (`fopa_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `func_fk_user_pk_id` FOREIGN KEY (`func_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fopa_fk_user_pk_id` FOREIGN KEY (`fopa_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
