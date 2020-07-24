@@ -36,7 +36,7 @@
             echo '</li>';
         }
         ?>
-        <!-- Sistema-->
+        <!-- Processos-->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-chalkboard-teacher fa-fw"></i>
@@ -52,7 +52,15 @@
                     <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
                     Contatos
                 </a>
-                <div class="dropdown-divider"></div>
+            </div>
+        </li>
+        <!-- Outros-->
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-arrows-alt fa-fw"></i>
+                <span>Outros</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="<?php echo server_url("?page=ControllerEndereco&option=list"); ?>">
                     <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
                     Endereços
@@ -69,7 +77,7 @@
                 </a>
             </div>
         </li>
-        <!-- Sistema-->
+        <!--Outros-->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-cogs fa-fw"></i>
