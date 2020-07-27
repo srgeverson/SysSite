@@ -109,12 +109,12 @@ class DAOFuncionario extends GenericDAO {
 
     public function selectObjectsEnabled() {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.user_pk_id, u.user_name ";
-        $this->query .= "FROM funcionario AS e ";
-        $this->query .= "INNER JOIN estado AS es ON (e.func_fk_contact_pk_id=es.esta_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (e.func_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "* ";
+        $this->query .= "FROM funcionario AS f ";
+        $this->query .= "INNER JOIN contact AS c ON (f.func_fk_contact_pk_id=c.cont_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (f.func_fk_user_pk_id=u.user_pk_id) ";
         $this->query .= "WHERE ";
-        $this->query .= "p.func_status = 1;";
+        $this->query .= "f.func_status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
