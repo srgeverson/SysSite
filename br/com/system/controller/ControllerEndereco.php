@@ -19,7 +19,6 @@ class ControllerEndereco {
         $this->daoEndereco = new DAOEndereco();
     }
 
-    //ok
     public function delete() {
         if (GenericController::authotity()) {
             $ende_pk_id = strip_tags($_GET['ende_pk_id']);
@@ -36,7 +35,6 @@ class ControllerEndereco {
         }
     }
 
-    //ok
     public function disable() {
         if (GenericController::authotity()) {
             $ende_pk_id = strip_tags($_GET['ende_pk_id']);
@@ -63,7 +61,6 @@ class ControllerEndereco {
         }
     }
 
-    //ok
     public function edit() {
         if (GenericController::authotity()) {
             $ende_pk_id = $_GET['ende_pk_id'];
@@ -89,7 +86,6 @@ class ControllerEndereco {
         }
     }
 
-    //ok
     public function enable() {
         if (GenericController::authotity()) {
             $ende_pk_id = strip_tags($_GET['ende_pk_id']);
@@ -116,7 +112,6 @@ class ControllerEndereco {
         }
     }
 
-    //ok
     public function list() {
         if (GenericController::authotity()) {
             if (isset($_POST['ende_logradouro']) && isset($_POST['ende_cidade'])) {
@@ -136,7 +131,6 @@ class ControllerEndereco {
         }
     }
 
-    //ok
     public function new() {
         if (GenericController::authotity()) {
             $daoEstado = new DAOEstado();
@@ -145,7 +139,6 @@ class ControllerEndereco {
         }
     }
 
-    //ok
     public function save() {
         if (GenericController::authotity()) {
             $ende_logradouro = strip_tags($_POST['ende_logradouro']);

@@ -50,6 +50,34 @@ class DAOContact extends GenericDAO {
         return true;
     }
 
+    public function saveAndReturnPkId(ModelContact $contact = null) {
+        if (!is_object($contact)) {
+            throw new Exception("Dados incompletos");
+        }
+        $this->query = "INSERT INTO contact ";
+        $this->query .= "(cont_description, cont_phone, cont_cell_phone, cont_whatsapp, cont_email, cont_facebook, cont_instagram, cont_text, cont_status, cont_fk_user_pk_id) ";
+        $this->query .= "VALUES ";
+        $this->query .= "(:cont_description, :cont_phone, :cont_cell_phone, :cont_whatsapp, :cont_email, :cont_facebook, :cont_instagram, :cont_text, :cont_status, :cont_fk_user_pk_id);";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(':cont_description', $contact->cont_description, PDO::PARAM_STR);
+        $this->statement->bindParam(':cont_phone', $contact->cont_phone, PDO::PARAM_STR);
+        $this->statement->bindParam(':cont_cell_phone', $contact->cont_cell_phone, PDO::PARAM_STR);
+        $this->statement->bindParam(':cont_whatsapp', $contact->cont_whatsapp, PDO::PARAM_STR);
+        $this->statement->bindParam(':cont_email', $contact->cont_email, PDO::PARAM_STR);
+        $this->statement->bindParam(':cont_facebook', $contact->cont_facebook, PDO::PARAM_STR);
+        $this->statement->bindParam(':cont_instagram', $contact->cont_instagram, PDO::PARAM_STR);
+        $this->statement->bindParam(':cont_text', $contact->cont_text, PDO::PARAM_STR);
+        $this->statement->bindParam(':cont_status', $contact->cont_status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':cont_fk_user_pk_id', $contact->cont_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->execute();
+        return $conexao->lastInsertId();
+    }
+
     public function select() {
         $this->query = "SELECT * FROM contact";
         try {

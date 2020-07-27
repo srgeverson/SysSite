@@ -7,5 +7,9 @@
 // Chamadas de Funções Necessárias
 $(document).ready(function () {
     $('#dataTable').DataTable();
+
+    $(function () {
+        $('#mySelect').selectpicker();
+    });
 });
 

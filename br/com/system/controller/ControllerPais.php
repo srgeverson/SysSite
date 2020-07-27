@@ -27,10 +27,10 @@ class ControllerPais {
             try {
                 $this->daoPais->delete($pais_pk_id);
                 $this->info = "success=pais_deleted";
-                $this->list();
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
+            $this->list();
         }
     }
 

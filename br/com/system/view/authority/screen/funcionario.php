@@ -4,10 +4,45 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+include_once server_path("br/com/system/controller/ControllerFolhaPagamento.php");
+include_once server_path("br/com/system/controller/ControllerFuncionario.php");
+$controllerFuncionario = new ControllerFuncionario();
+global $user_logged;
 ?>
 <div class="collapse navbar-collapse" id="navbarResponsive">
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+            
+            <!-- Nav Item - Messages -->
+            <?php
+            if ($controllerFuncionario->searchByFkUser($user_logged->user_pk_id) !== null) {
+                $controllerFolhaPagamento = new ControllerFolhaPagamento();
+                echo '<li class="nav-item dropdown no-arrow mx-1">';
+                    echo '<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+                        echo '<i class="fas fa-envelope fa-fw"></i>';
+                        echo '<span class="badge badge-danger badge-counter">7</span>';
+                        //echo '<a class="nav-link" href="', server_url("?page=ControllerFolhaPagamento&option=" . $controllerFuncionario->fopa_pk_id), '">';
+                        //echo 'teste';
+                    echo '</a>';
+                    echo '<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">';
+                        echo '<h6 class="dropdown-header">Caixa de Menssagens</h6>';
+                            echo '<a class="dropdown-item d-flex align-items-center" href="#">';
+                                echo '<div class="mr-3">';
+                                    echo '<div class="icon-circle bg-warning">';
+                                        echo '<i class="fas fa-exclamation-triangle text-white"></i>';
+                                    echo '</div>';
+                                echo '</div>';
+                                echo '<div>';
+                                echo '<div class="small text-gray-500">December 2, 2019</div>';
+                                    echo 'Spending Alert: Weve noticed unusually high spending for your account.';
+                                echo '</div>';
+                            echo '</a>';
+                        echo '<a class="dropdown-item text-center small text-gray-500" href="', server_url("?page=ControllerFolhaPagamento&option=filterByFuncionario&funf_pk_id=" . $controllerFuncionario->fopa_pk_id), '">Visualizar todas menssagens</a>';
+                    echo '</div>';
+                echo '</li>';
+            }
+            ?>
             <!-- Perfil-->
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

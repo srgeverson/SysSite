@@ -13,11 +13,13 @@ class ControllerContact {
     private $info;
     private $daoContact;
     private $controllerSystem;
+    private $parameter;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoContact = new DAOContact();
         $this->controllerSystem = new ControllerSystem();
+        $this->parameter = new ControllerParameter();
     }
 
     public function delete() {
@@ -169,68 +171,24 @@ class ControllerContact {
         }
     }
 
-    public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
-                $cont_pk_id = strip_tags($_POST['cont_pk_id']);
-                if (!isset($cont_pk_id)) {
-                    $this->info = 'warning=contact_uninformed';
-                }
-
-                $cont_description = strip_tags($_POST['cont_description']);
-                $cont_phone = strip_tags($_POST['cont_phone']);
-                $cont_cell_phone = strip_tags($_POST['cont_cell_phone']);
-                $cont_whatsapp = strip_tags($_POST['cont_whatsapp']);
-                $cont_email = strip_tags($_POST['cont_email']);
-                $cont_facebook = strip_tags($_POST['cont_facebook']);
-                $cont_instagram = strip_tags($_POST['cont_instagram']);
-                $cont_text = strip_tags($_POST['cont_text']);
-
-                $contact = new ModelContact();
-                $contact->cont_pk_id = $cont_pk_id;
-                $contact->cont_description = $cont_description;
-                $contact->cont_phone = $cont_phone;
-                $contact->cont_cell_phone = $cont_cell_phone;
-                $contact->cont_whatsapp = $cont_whatsapp;
-                $contact->cont_email = $cont_email;
-                $contact->cont_facebook = $cont_facebook;
-                $contact->cont_instagram = $cont_instagram;
-                $contact->cont_text = $cont_text;
-
-                try {
-                    $this->daoContact->update($contact);
-                    if ($contact == null) {
-                        $this->info = 'warning=contact_not_exists';
-                        $this->list();
-                    }
-                    $this->info = 'success=contact_updated';
-                } catch (Exception $erro) {
-                    $this->info = "error=" . $erro->getMessage();
-                }
-                $this->list();
-            }
-        }
-    }
-
     public function send_email(ModelContact $contact = null) {
         require_once server_path('br/com/system/assets/php/phpmailer/class.phpmailer.php');
-
-        $parameter = new ControllerParameter();
-        $email = $parameter->getProperty('email');
-        $senha = $parameter->getProperty('senha');
-        $nomeFantazia = $parameter->getProperty('nome_fantazia');
+        $email = $this->parameter->getProperty('email');
+        $senha = $this->parameter->getProperty('senha');
+        $nomeFantazia = $this->parameter->getProperty('nome_fantazia');
 
         define('GUSER', $email); // <-- Insira aqui o seu GMail
         define('GPWD', $senha);  // <-- Insira aqui a senha do seu GMail
 
         function smtpmailer($para, $de, $de_nome, $assunto, $corpo) {
+            $parameter = new ControllerParameter();
             $mail = new PHPMailer();
             $mail->IsSMTP();
             $mail->SMTPDebug = 1;
             $mail->SMTPAuth = true;
-            $mail->SMTPSecure = 'ssl';
-            $mail->Host = 'smtp.gmail.com';
-            $mail->Port = 465;
+            $mail->SMTPSecure = $parameter->getProperty('servidor_email_seguranca');
+            $mail->Host = $parameter->getProperty('servidor_email_smtp');
+            $mail->Port = $parameter->getProperty('servidor_email_porta');
             $mail->CharSet = "utf-8";
             $mail->Username = GUSER;
             $mail->Password = GPWD;
@@ -281,6 +239,49 @@ class ControllerContact {
             }
         } catch (Exception $erro) {
             $this->info = "error=" . $erro->getMessage();
+        }
+    }
+
+    public function update() {
+        if (GenericController::authotity()) {
+            if (GenericController::authotity()) {
+                $cont_pk_id = strip_tags($_POST['cont_pk_id']);
+                if (!isset($cont_pk_id)) {
+                    $this->info = 'warning=contact_uninformed';
+                }
+
+                $cont_description = strip_tags($_POST['cont_description']);
+                $cont_phone = strip_tags($_POST['cont_phone']);
+                $cont_cell_phone = strip_tags($_POST['cont_cell_phone']);
+                $cont_whatsapp = strip_tags($_POST['cont_whatsapp']);
+                $cont_email = strip_tags($_POST['cont_email']);
+                $cont_facebook = strip_tags($_POST['cont_facebook']);
+                $cont_instagram = strip_tags($_POST['cont_instagram']);
+                $cont_text = strip_tags($_POST['cont_text']);
+
+                $contact = new ModelContact();
+                $contact->cont_pk_id = $cont_pk_id;
+                $contact->cont_description = $cont_description;
+                $contact->cont_phone = $cont_phone;
+                $contact->cont_cell_phone = $cont_cell_phone;
+                $contact->cont_whatsapp = $cont_whatsapp;
+                $contact->cont_email = $cont_email;
+                $contact->cont_facebook = $cont_facebook;
+                $contact->cont_instagram = $cont_instagram;
+                $contact->cont_text = $cont_text;
+
+                try {
+                    $this->daoContact->update($contact);
+                    if ($contact == null) {
+                        $this->info = 'warning=contact_not_exists';
+                        $this->list();
+                    }
+                    $this->info = 'success=contact_updated';
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                }
+                $this->list();
+            }
         }
     }
 

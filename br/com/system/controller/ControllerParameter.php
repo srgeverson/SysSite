@@ -114,7 +114,7 @@ class ControllerParameter {
     public function getProperty($key = null) {
         try {
             $parameter = $this->daoParameter->selectObjectByKey($key);
-            if ($parameter == null) {
+            if (!isset($parameter->para_value)){
                 return "Vazio/Desabilitado";
             } else {
                 return $parameter->para_value;
@@ -185,22 +185,20 @@ class ControllerParameter {
                 if (!isset($para_pk_id)) {
                     $this->info = 'warning=parameter_uninformed';
                 }
-                $para_key = strip_tags($_POST['para_key']);
                 $para_value = strip_tags($_POST['para_value']);
                 $para_description = strip_tags($_POST['para_description']);
 
                 $parameter = new ModelParameter();
                 $parameter->para_pk_id = $para_pk_id;
-                $parameter->para_key = $para_key;
                 $parameter->para_value = $para_value;
                 $parameter->para_description = $para_description;
 
                 try {
-                    $this->daoParameter->update($parameter);
                     if ($parameter == null) {
                         $this->info = 'warning=parameter_not_exists';
                         $this->list();
                     }
+                    $this->daoParameter->update($parameter);
                     $this->info = 'success=parameter_updated';
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();

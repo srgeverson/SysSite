@@ -15,12 +15,13 @@
         <?php
         $parameter = new ControllerParameter();
         echo '<meta name="description" content="', $parameter->getProperty('nome_fantazia'), '">';
-        echo '<title title="', $parameter->getProperty('nome_fantazia'), '">';
-        echo $parameter->getProperty('nome_fantazia');
+        echo '<title title="', $parameter->getProperty('titulo_site'), '">';
+        echo $parameter->getProperty('titulo_site');
         echo '</title>';
         //Icone da página
         echo '<link rel = "icon" href = "', server_url('br/com/system/uploads/parameter/') . $parameter->getProperty('icone_site'), '">';
         ?>
+
         <!-- Custom fonts for this template-->
         <link href="<?php echo server_url('br/com/system/assets/vendor/fontawesome-free/css/') . 'all.min.css'; ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo server_url('br/com/system/assets/css/') . 'fonts.css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i'; ?>" rel="stylesheet">
@@ -30,6 +31,20 @@
 
         <!-- Custom styles for this template -->
         <link href="<?php echo server_url('br/com/system/assets/css/') . 'modern-business.css'; ?>" rel="stylesheet">
+                
+        <!-- Latest compiled and minified CSS -->
+        <link href="<?php echo server_url('br/com/system/assets/vendor/bootstrap/select/css/') . 'bootstrap-select.css'; ?>" rel="stylesheet" type="text/css">
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $parameter->getProperty('google_analytics'); ?>"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', '<?php echo $parameter->getProperty('google_analytics'); ?>');
+        </script>
     </head>
     <body id="page-top">
         <!-- Menu -->
@@ -71,7 +86,7 @@
         </a>
         <!-- Bootstrap core JavaScript-->
         <script src="<?php echo server_url('br/com/system/assets/vendor/jquery/') . 'jquery.min.js'; ?>"></script>
-        <script src="<?php echo server_url('br/com/system/assets/vendor/jquery/') . 'jquery.mask.min.js'; ?>"></script>
+        <script src="<?php echo server_url('br/com/system/assets/vendor/jquery/') . 'jquery.mask.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/js/') . 'bootstrap.bundle.min.js'; ?>"></script>
 
         <!-- Custom scripts for all pages-->
@@ -89,5 +104,11 @@
         <script src="<?php echo server_url('br/com/system/assets/js/') . 'info.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/js/') . 'masks.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/js/') . 'validator.js'; ?>"></script>
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/select/js/') . 'bootstrap-select.js'; ?>"></script>
+
+        <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+        <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/select/js/') . 'defaults-*.js'; ?>"></script>
     </body>
 </html>

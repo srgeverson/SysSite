@@ -49,6 +49,32 @@ class DAOEndereco extends GenericDAO {
         return true;
     }
 
+    public function saveAndReturnPkId(ModelEndereco $endereco = null) {
+        if (!is_object($endereco)) {
+            throw new Exception("Dados incompletos");
+        }
+        $this->query = "INSERT INTO endereco ";
+        $this->query .= "(ende_logradouro, ende_numero, ende_bairro, ende_cep, ende_cidade, ende_status, ende_fk_estado_pk_id, ende_fk_user_pk_id) ";
+        $this->query .= "VALUES ";
+        $this->query .= "(:ende_logradouro, :ende_numero, :ende_bairro, :ende_cep, :ende_cidade, :ende_status, :ende_fk_estado_pk_id, :ende_fk_user_pk_id);";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(':ende_logradouro', $endereco->ende_logradouro, PDO::PARAM_STR);
+        $this->statement->bindParam(':ende_numero', $endereco->ende_numero, PDO::PARAM_STR);
+        $this->statement->bindParam(':ende_bairro', $endereco->ende_bairro, PDO::PARAM_STR);
+        $this->statement->bindParam(':ende_cep', $endereco->ende_cep, PDO::PARAM_STR);
+        $this->statement->bindParam(':ende_cidade', $endereco->ende_cidade, PDO::PARAM_STR);
+        $this->statement->bindParam(':ende_fk_estado_pk_id', $endereco->ende_fk_estado_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':ende_fk_user_pk_id', $endereco->ende_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':ende_status', $endereco->ende_status, PDO::PARAM_BOOL);
+        $this->statement->execute();
+        return $conexao->lastInsertId();
+    }
+
     public function select() {
         $this->query = "SELECT ";
         $this->query .= "* ";

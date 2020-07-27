@@ -8,41 +8,64 @@
 <div class="collapse navbar-collapse" id="navbarResponsive">
     <ul class="navbar-nav ml-auto">
         <!-- Site-->
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-sliders-h fa-fw"></i>
-                <span>Site</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <?php
-                $controllerPage = new ControllerPage();
-                $pages_enableds = $controllerPage->listEnableds();
-                $i = 0; //rever essa variável
-                foreach ($pages_enableds as $each_page) {
-                    echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&cont_fk_page_pk_id=' . $each_page->page_pk_id), '">';
-                    echo '<i class = "fas fa-', $each_page->page_icon, ' fa-sm fa-fw mr-2 text-gray-400"></i>';
-                    echo $each_page->page_label;
-                    echo '</a>';
-                    if (count($pages_enableds) > 1 && $i < count($pages_enableds) - 1) {
-                        echo '<div class="dropdown-divider"></div>';
-                    }
-                    $i++;
+        <?php
+        $controllerPage = new ControllerPage();
+        $pages_enableds = $controllerPage->listEnableds();
+        if (!empty($pages_enableds)) {
+            echo '<li class="nav-item dropdown no-arrow">';
+            echo '  <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+            echo '      <i class="fas fa-sliders-h fa-fw"></i>';
+            echo '      <span>Site</span>';
+            echo '  </a>';
+            echo '  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">';
+
+
+            $i = 0; //rever essa variável
+            foreach ($pages_enableds as $each_page) {
+                echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&cont_fk_page_pk_id=' . $each_page->page_pk_id), '">';
+                echo '  <i class = "fas fa-', $each_page->page_icon, ' fa-sm fa-fw mr-2 text-gray-400"></i>';
+                echo $each_page->page_label;
+                echo '</a>';
+                if (count($pages_enableds) > 1 && $i < count($pages_enableds) - 1) {
+                    echo '<div class="dropdown-divider"></div>';
                 }
-                ?>
-            </div>
-        </li>
-        <!-- Sistema-->
+                $i++;
+            }
+
+            echo '  </div>';
+            echo '</li>';
+        }
+        ?>
+        <!-- Processos-->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-cogs fa-fw"></i>
+                <i class="fas fa-chalkboard-teacher fa-fw"></i>
                 <span>Processos</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFuncionario&option=list"); ?>">
+                    <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Funcionários
+                </a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContact&option=list"); ?>">
                     <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
                     Contatos
                 </a>
                 <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFolhaPagamento&option=list"); ?>">
+                    <i class="fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Folha de Pagamento
+                </a>
+            </div>
+        </li>
+        <!-- Outros-->
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-arrows-alt fa-fw"></i>
+                <span>Outros</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="<?php echo server_url("?page=ControllerEndereco&option=list"); ?>">
                     <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
                     Endereços
@@ -59,7 +82,7 @@
                 </a>
             </div>
         </li>
-        <!-- Sistema-->
+        <!--Outros-->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-cogs fa-fw"></i>

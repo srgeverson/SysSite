@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: 22-Jun-2020 às 01:58
+-- Generation Time: 23-Jul-2020 às 22:46
 -- Versão do servidor: 5.7.30-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.6
 
@@ -41,8 +41,7 @@ CREATE TABLE `authority` (
 INSERT INTO `authority` (`auth_pk_id`, `auth_description`, `auth_status`, `auth_screen`, `auth_function`) VALUES
 (1, 'TI', 1, 'ti.php', 'Gerenciamento completo do sistema para auxiliar nossos clientes.'),
 (2, 'Administrador', 1, 'administrador.php', 'Aqui você vai poder gerenciar suas Vendas, Clientes, Produtos...'),
-(3, 'Funcionário', 1, 'funcionario.php', 'Essa área foi desenvolvida e reservada para você acompanhar seus pedidos, seus pagamentos e produtos disponíveis...'),
-(4, 'teste', 0, 'teste.php', 'teste');
+(3, 'Funcionário', 1, 'funcionario.php', 'Essa área foi desenvolvida e reservada para você acompanhar seus pedidos, seus pagamentos e produtos disponíveis...');
 
 -- --------------------------------------------------------
 
@@ -61,24 +60,17 @@ CREATE TABLE `contact` (
   `cont_instagram` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `cont_twitter` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `cont_status` tinyint(1) NOT NULL DEFAULT '1',
-  `cont_text` varchar(45) COLLATE utf8_bin DEFAULT NULL
+  `cont_text` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `cont_fk_user_pk_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Extraindo dados da tabela `contact`
 --
 
-INSERT INTO `contact` (`cont_pk_id`, `cont_description`, `cont_phone`, `cont_cell_phone`, `cont_whatsapp`, `cont_email`, `cont_facebook`, `cont_instagram`, `cont_twitter`, `cont_status`, `cont_text`) VALUES
-(1, 'Dados Pessoais', '(00)0000-0000', '(00)00000-0000', '00000000000', 'email@email.com', 'usurio', '@usuario', NULL, 0, 'Dados do sistema'),
-(2, '2', '2', '2', '2', '2', '2', '2', '2', 1, '2'),
-(3, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '3'),
-(4, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '4'),
-(5, '5', '5', '5', NULL, NULL, NULL, NULL, NULL, 1, '5'),
-(6, '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '6'),
-(7, '7', '7', NULL, NULL, NULL, NULL, NULL, NULL, 1, '7'),
-(8, '1', '1', '1', '1', '1@1', '1', '1', NULL, 0, '1'),
-(9, '123', '', '123', '', '123@123', '', '', NULL, 1, 'sadsdasd'),
-(10, 'Dados Pessoais', '', '(00)00000-0000', '', 'geversonjosedesouza@gmail.com', '', '', NULL, 1, 'teste');
+INSERT INTO `contact` (`cont_pk_id`, `cont_description`, `cont_phone`, `cont_cell_phone`, `cont_whatsapp`, `cont_email`, `cont_facebook`, `cont_instagram`, `cont_twitter`, `cont_status`, `cont_text`, `cont_fk_user_pk_id`) VALUES
+(1, 'Dados Pessoais', '(00)0000-0000', '(00)00000-0000', '00000000000', 'email@email.com', 'usurio', '@usuario', NULL, 1, 'Dados do sistema', 0),
+(19, 'PESSOAL', '(85)8771-3985', '(85)98771-3985', '(85)98771-3985', 'geversonjosedesouza@gmail.com', '@GEVERSON', '@SR_GEVERSON', NULL, 1, 'EU1', 1);
 
 -- --------------------------------------------------------
 
@@ -87,35 +79,40 @@ INSERT INTO `contact` (`cont_pk_id`, `cont_description`, `cont_phone`, `cont_cel
 --
 
 CREATE TABLE `content` (
-  `cont_pk_id` int(11) NOT NULL,
-  `cont_component` varchar(100) NOT NULL,
-  `cont_title` varchar(255) DEFAULT NULL,
-  `cont_subtitle` varchar(255) DEFAULT NULL,
-  `cont_text` text,
-  `cont_image` varchar(255) DEFAULT NULL,
-  `cont_link` varchar(255) DEFAULT NULL,
-  `cont_status` tinyint(1) NOT NULL DEFAULT '1',
-  `cont_fk_page_pk_id` int(11) NOT NULL,
-  `cont_fk_user_pk_id` int(11) NOT NULL
+  `conte_pk_id` int(11) NOT NULL,
+  `conte_component` varchar(100) NOT NULL,
+  `conte_title` varchar(255) DEFAULT NULL,
+  `conte_subtitle` varchar(255) DEFAULT NULL,
+  `conte_text` text,
+  `conte_image` varchar(255) DEFAULT NULL,
+  `conte_link` varchar(255) DEFAULT NULL,
+  `conte_status` tinyint(1) NOT NULL DEFAULT '1',
+  `conte_fk_page_pk_id` int(11) NOT NULL,
+  `conte_fk_user_pk_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `content`
 --
 
-INSERT INTO `content` (`cont_pk_id`, `cont_component`, `cont_title`, `cont_subtitle`, `cont_text`, `cont_image`, `cont_link`, `cont_status`, `cont_fk_page_pk_id`, `cont_fk_user_pk_id`) VALUES
-(1, 'our_contact', 'Formas de Contato', '', '', '', 'https://www.google.com/maps/@-3.9058296,-38.4506571,21z?hl=pt-br', 1, 3, 1),
-(3, 'modern_business', 'A empresa...', '', '    Para ser percebida como uma empresa social e ambientalmente responsável e atuante, a Natura parte da premissa de que os impactos ambientais de sua atividade decorrem de uma cadeia de transformações, da qual representa somente uma parte. Por isso, acredita que, para ter eficácia, as ações ambientais precisam: considerar cada cadeia produtiva de maneira integral.', '750x450.png', '', 1, 4, 1),
-(4, 'our_team', 'Nome do membro', 'Cargo do membro', 'Breve descrição do cardo do membro ou do próprio membro', '750x450.png', '', 1, 4, 1),
-(6, 'our_customers', 'our_customers', '', '', 'foto012.jpeg', '123', 1, 4, 1),
-(7, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
-(8, 'our_team', 'Nome do membro', 'Cargo do membro', 'Breve descrição do cardo do membro ou do próprio membro', '750x450.png', '', 1, 4, 1),
-(9, 'our_team', 'Nome do membro', 'Cargo do membro', 'Breve descrição do cardo do membro ou do próprio membro', '750x450.png', '', 1, 4, 1),
+INSERT INTO `content` (`conte_pk_id`, `conte_component`, `conte_title`, `conte_subtitle`, `conte_text`, `conte_image`, `conte_link`, `conte_status`, `conte_fk_page_pk_id`, `conte_fk_user_pk_id`) VALUES
+(1, 'destaques_servicos', 'destaques_servicos', '', '', '1200x300.png', '', 1, 3, 1),
+(2, 'modern_business', 'A empresa...', '', '    Para ser percebida como uma empresa social e ambientalmente responsável e atuante, a Natura parte da premissa de que os impactos ambientais de sua atividade decorrem de uma cadeia de transformações, da qual representa somente uma parte. Por isso, acredita que, para ter eficácia, as ações ambientais precisam: considerar cada cadeia produtiva de maneira integral.', '750x450.png', '', 1, 4, 1),
+(3, 'our_team', 'Nome do membro', 'Cargo do membro', 'Breve descrição do cardo do membro ou do próprio membro', '750x450.png', '', 1, 4, 1),
+(4, 'our_customers', 'our_customers', '', '', 'foto012.jpeg', '123', 1, 4, 1),
+(5, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
+(6, 'our_team', 'Nome do membro', 'Cargo do membro', 'Breve descrição do cardo do membro ou do próprio membro', '750x450.png', '', 1, 4, 1),
+(7, 'our_team', 'Nome do membro', 'Cargo do membro', 'Breve descrição do cardo do membro ou do próprio membro', '750x450.png', '', 1, 4, 1),
+(8, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
+(9, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
 (10, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
 (11, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
-(12, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
-(13, 'our_customers', 'our_customers', NULL, NULL, '500x300.png', NULL, 1, 4, 1),
-(14, 'teste', '123', '123', '123', 'foto01.jpeg', '123', 1, 1, 1);
+(12, 'slide_apresentacao', 'Primeiro Destaque', 'Descrição destaque', '', '1900x1080.png', '', 1, 1, 1),
+(13, 'slide_apresentacao', 'Segundo Destaque', 'Descrição destaque 2', '', '1900x1080.png', '', 1, 1, 1),
+(14, 'slide_apresentacao', 'Terceiro Destaque', 'Descrição destaque 3', '', '1900x1080.png', '', 1, 1, 1),
+(15, '', 'Outroes Destaque', '', 'Descrição destaque 3\r\nDescrição destaque 3\r\nDescrição destaque 3\r\nDescrição destaque 3', '', '', 0, 1, 1),
+(16, 'nossos_destaques', 'nossos_destaques', '', 'nossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaques', '700x400.png', '', 0, 1, 1),
+(17, 'nossos_servicos', 'nossos_servicos', 'nossos_servicos', 'nossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos', '', '', 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -140,7 +137,9 @@ CREATE TABLE `endereco` (
 --
 
 INSERT INTO `endereco` (`ende_pk_id`, `ende_logradouro`, `ende_numero`, `ende_bairro`, `ende_cep`, `ende_cidade`, `ende_status`, `ende_fk_estado_pk_id`, `ende_fk_user_pk_id`) VALUES
-(1, 'Rua Teste', '00', 'Bairro Teste', '00.000-000', 'Municio Teste', 1, 6, 1);
+(1, 'Rua Teste', '00', 'Bairro Teste', '00.000-000', 'Municio Teste', 1, 6, 1),
+(11, 'RUA PAULA LOPES', '05', 'PARQUE HAVAI', '61.760-000', 'EUSEBIO', 1, 6, 1),
+(12, 'RUA PAULA LOPES', '05', 'PARQUE HAVAI', '61.760-000', 'EUSEBIO', 1, 25, 1);
 
 -- --------------------------------------------------------
 
@@ -188,9 +187,49 @@ INSERT INTO `estado` (`esta_pk_id`, `esta_nome`, `esta_sigla`, `esta_status`, `e
 (24, 'Santa Catarina', 'SC', 1, 1, 1),
 (25, 'São Paulo', 'SP', 1, 1, 1),
 (26, 'Sergipe', 'SE', 1, 1, 1),
-(27, 'Tocantins', 'TO', 1, 1, 1),
-(28, '123', '', 1, 1, 1),
-(29, '12', '12', 1, 1, 1);
+(27, 'Tocantins', 'TO', 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `folha_pagamento`
+--
+
+CREATE TABLE `folha_pagamento` (
+  `fopa_pk_id` int(11) NOT NULL,
+  `fopa_competencia` varchar(7) NOT NULL,
+  `fopa_arquivo` blob,
+  `fopa_caminho_arquivo` varchar(255) DEFAULT NULL,
+  `fopa_status` tinyint(1) NOT NULL DEFAULT '1',
+  `fopa_fk_funcionario_pk_id` int(11) NOT NULL,
+  `fopa_fk_user_pk_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `funcionario`
+--
+
+CREATE TABLE `funcionario` (
+  `func_pk_id` int(11) NOT NULL,
+  `func_nome` varchar(50) NOT NULL,
+  `func_cpf` varchar(14) NOT NULL,
+  `func_rg` varchar(20) NOT NULL,
+  `func_pis` varchar(20) NOT NULL,
+  `func_data_nascimento` date DEFAULT NULL,
+  `func_status` tinyint(1) DEFAULT '1',
+  `func_fk_user_pk_id` int(11) NOT NULL,
+  `func_fk_endereco_pk_id` int(11) NOT NULL,
+  `func_fk_contact_pk_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `funcionario`
+--
+
+INSERT INTO `funcionario` (`func_pk_id`, `func_nome`, `func_cpf`, `func_rg`, `func_pis`, `func_data_nascimento`, `func_status`, `func_fk_user_pk_id`, `func_fk_endereco_pk_id`, `func_fk_contact_pk_id`) VALUES
+(1, 'GEVERSON JOSE DE SOUZ', '606.717.623-89', '20077178836', '18811656156', '1993-04-12', 1, 1, 12, 19);
 
 -- --------------------------------------------------------
 
@@ -213,9 +252,9 @@ CREATE TABLE `page` (
 --
 
 INSERT INTO `page` (`page_pk_id`, `page_name`, `page_description`, `page_icon`, `page_label`, `page_status`, `page_fk_user_pk_id`) VALUES
-(1, 'home', 'Página Inicial do Site', 'home', 'Página Inicial', 1, 1),
+(1, 'home', 'Página Inicial do Site', 'home', 'Página Inicial', 0, 1),
 (2, 'contact', 'Contato da Empresa e Entre em Contato123', 'address-book', 'Contato', 0, 1),
-(3, 'service', 'Alguns de Nossos Serviços', 'concierge-bell', 'Serviços', 1, 1),
+(3, 'service', 'Alguns de Nossos Serviços', 'concierge-bell', 'Serviços', 0, 1),
 (4, 'about', 'Sobre nós', 'address-card', 'Sobre', 0, 1);
 
 -- --------------------------------------------------------
@@ -259,16 +298,21 @@ CREATE TABLE `parameter` (
 --
 
 INSERT INTO `parameter` (`para_pk_id`, `para_key`, `para_value`, `para_description`, `para_status`, `para_fk_user_pk_id`) VALUES
-(8, 'nome_fantazia', 'Geverson Souza', 'Como sou chamado\r\n', 1, 1),
-(10, 'razao_social', 'Geverson ME', 'Razão social da empresa', 1, 1),
-(11, 'titulo_site', 'Site Geverson', 'Nome do site', 1, 1),
-(12, 'icone_site', 'cla.png', 'Imagem do Ícone do Site', 1, 1),
-(19, 'email', 'paulistensetecnologia@gmail.com', 'Email para envio automático', 1, 1),
-(20, 'senha', '@G182534', 'Senha do email para envio automático', 1, 1),
-(21, 'endereco', '1', 'Endereço do dono/empresa do sistema', 1, 1),
-(22, 'sobre_titulo', 'Geverson', '', 1, 1),
-(23, 'contato_titulo', 'Contato', '', 1, 1),
-(24, 'contato', '1', '', 1, 1);
+(1, 'nome_fantazia', '', 'Nome como que todos conhecem', 1, 1),
+(2, 'razao_social', '', 'Nome como está no documento', 1, 1),
+(3, 'titulo_site', '', 'Nome para o site', 1, 1),
+(4, 'icone_site', '', 'Imagem do Ícone do Site', 1, 1),
+(5, 'email', 'paulistensetecnologia@gmail.com', 'Email para envio automático', 1, 1),
+(6, 'senha', '@G182534', 'Senha do email para envio automático', 1, 1),
+(7, 'endereco', '1', 'Endereço do dono/empresa do sistema', 1, 1),
+(8, 'sobre_titulo', 'Geverson', '', 1, 1),
+(9, 'contato_titulo', 'Contato', '', 1, 1),
+(10, 'contato', '1', '', 1, 1),
+(11, 'servicos_titulo', 'Serviços', 'Título da página de serviços', 1, 1),
+(12, 'google_analytics', 'G-5ZS0PB48KT', 'Códifo do Google Analytics', 1, 1),
+(13, 'servidor_email_smtp', 'smtp.gmail.com', 'Protocolo de E-mail', 1, 1),
+(14, 'servidor_email_porta', '465', 'Porta do Servidor de E-mail', 1, 1),
+(15, 'servidor_email_seguranca', 'ssl', 'Tipo da Segurança do Envio de E-mail', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -292,12 +336,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_pk_id`, `user_name`, `user_login`, `user_password`, `user_last_login`, `user_image`, `user_status`, `user_fk_authority_pk_id`) VALUES
-(1, 'Geverson', 'root@root', '$2y$10$mNM/bzucj9T68.Ft5MdvS.N/Bb62KO0BfhnXj0Tw1RBLWOMfGpPFS', '2020-06-22 03:11:31', 'IMG_20190920_170641_783.jpg', 1, 1),
-(5, 'teste', 'teste@tes', '$2y$10$rOaFpYfQZfV3HC8LtVtLJupq5n10CT75CvPuJglL9UL23jvnaarmq', '2020-06-10 02:08:18', 'adaptador_cel_usb.png', 0, 3),
-(7, 'teste', 'teste@teste', '$2y$10$x7wD1IDIAP/faqBTP19KouDIqNVYpuCdE0sXUDytb6kdmvHm1MaUW', NULL, '23316710_1972660239673885_6404095959657453030_n.jpg', 0, 3),
-(8, 'asdasd', 'teste@tesasdasd', '$2y$10$PMIGFehEepmRqrEymStsNOV3CEjMIpQeAK.W10b9XA5zm5Pbl/EB6', NULL, 'av_parcial_04.png', 0, 3),
-(10, 'asd', 'asd@asd', '$2y$10$mUztqpo0pKoYVTXBsmn0A.tX7IwYpmc5Le4uOLVlas3SysMBeJ7IG', NULL, 'av_parcial_01.png', 0, 3),
-(35, 'Geverson J de Souza', 'geversonjosedesouza@hotmail.com', '$2y$10$/eCcnUzOev0ghaaYC6voDOrwv9AzpUsv3Af4aMJe8wTbYjTa3A96C', NULL, NULL, 1, 3);
+(1, 'Geverson', 'geversonjosedesouza@gmail.com', '$2y$10$mNM/bzucj9T68.Ft5MdvS.N/Bb62KO0BfhnXj0Tw1RBLWOMfGpPFS', '2020-07-24 00:30:07', 'IMG_20190920_170641_783.jpg', 1, 1),
+(2, 'Geverson J de Souza', 'geversonjosedesouza@hotmail.com', '$2y$10$iyBqjNHyi/lrpqJBFZpBz.cHWasRjQGWsfCzF09oqhQYEtIs./lPO', '2020-07-21 00:59:39', 'av_parcial_01.png', 1, 3),
+(3, 'root', 'root@root', '$2y$10$LW5eueN7wYMSqoe17Mo3y.2p96Wapy/8JMx3qffFulYlA0RgKDwTC', '2020-07-17 02:37:34', 'IMG_20190920_170641_783.jpg', 0, 3),
+(4, 'Geverson J de Souza', 'geversonjosedesouza@hoatmail.com', '$2y$10$r5cXidzF9i4j8KENQDOIfe5EotNoSmRy94KHJiqOyloFaVocj5WYK', NULL, NULL, 0, 3);
 
 --
 -- Indexes for dumped tables
@@ -313,15 +355,16 @@ ALTER TABLE `authority`
 -- Indexes for table `contact`
 --
 ALTER TABLE `contact`
-  ADD PRIMARY KEY (`cont_pk_id`);
+  ADD PRIMARY KEY (`cont_pk_id`),
+  ADD KEY `cont_fk_user_pk_id_idx` (`cont_fk_user_pk_id`);
 
 --
 -- Indexes for table `content`
 --
 ALTER TABLE `content`
-  ADD PRIMARY KEY (`cont_pk_id`),
-  ADD KEY `cont_fk_page_pk_id_idx` (`cont_fk_page_pk_id`),
-  ADD KEY `cont_fk_user_pk_id_idx` (`cont_fk_user_pk_id`);
+  ADD PRIMARY KEY (`conte_pk_id`),
+  ADD KEY `conte_fk_page_pk_id_idx` (`conte_fk_page_pk_id`),
+  ADD KEY `conte_fk_user_pk_id_idx` (`conte_fk_user_pk_id`);
 
 --
 -- Indexes for table `endereco`
@@ -338,6 +381,23 @@ ALTER TABLE `estado`
   ADD PRIMARY KEY (`esta_pk_id`),
   ADD KEY `esta_fk_user_pk_id_idx` (`esta_fk_user_pk_id`),
   ADD KEY `esta_fk_pais_pk_id_idx` (`esta_fk_pais_pk_id`);
+
+--
+-- Indexes for table `folha_pagamento`
+--
+ALTER TABLE `folha_pagamento`
+  ADD PRIMARY KEY (`fopa_pk_id`),
+  ADD KEY `fopa_fk_funcionario_pk_id_idx` (`fopa_fk_funcionario_pk_id`),
+  ADD KEY `func_fk_user_pk_id_idx` (`fopa_fk_user_pk_id`);
+
+--
+-- Indexes for table `funcionario`
+--
+ALTER TABLE `funcionario`
+  ADD PRIMARY KEY (`func_pk_id`),
+  ADD KEY `func_fk_user_pk_id_idx` (`func_fk_user_pk_id`),
+  ADD KEY `func_fk_endereco_pk_id_idx` (`func_fk_endereco_pk_id`),
+  ADD KEY `func_fk_contact_pk_id_idx` (`func_fk_contact_pk_id`);
 
 --
 -- Indexes for table `page`
@@ -377,47 +437,57 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `authority`
 --
 ALTER TABLE `authority`
-  MODIFY `auth_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `auth_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `content`
 --
 ALTER TABLE `content`
-  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `conte_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `endereco`
 --
 ALTER TABLE `endereco`
-  MODIFY `ende_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ende_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `esta_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `esta_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+--
+-- AUTO_INCREMENT for table `folha_pagamento`
+--
+ALTER TABLE `folha_pagamento`
+  MODIFY `fopa_pk_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `funcionario`
+--
+ALTER TABLE `funcionario`
+  MODIFY `func_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `page`
 --
 ALTER TABLE `page`
-  MODIFY `page_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `page_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `pais`
 --
 ALTER TABLE `pais`
-  MODIFY `pais_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `pais_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `parameter`
 --
 ALTER TABLE `parameter`
-  MODIFY `para_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `para_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `user_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --
@@ -426,8 +496,8 @@ ALTER TABLE `user`
 -- Limitadores para a tabela `content`
 --
 ALTER TABLE `content`
-  ADD CONSTRAINT `cont_fk_page_pk_id` FOREIGN KEY (`cont_fk_page_pk_id`) REFERENCES `page` (`page_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `cont_fk_user_pk_id` FOREIGN KEY (`cont_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `conte_fk_page_pk_id` FOREIGN KEY (`conte_fk_page_pk_id`) REFERENCES `page` (`page_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `conte_fk_user_pk_id` FOREIGN KEY (`conte_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `endereco`
@@ -442,6 +512,21 @@ ALTER TABLE `endereco`
 ALTER TABLE `estado`
   ADD CONSTRAINT `esta_fk_pais_pk_id` FOREIGN KEY (`esta_fk_pais_pk_id`) REFERENCES `pais` (`pais_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `esta_fk_user_pk_id` FOREIGN KEY (`esta_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Limitadores para a tabela `folha_pagamento`
+--
+ALTER TABLE `folha_pagamento`
+  ADD CONSTRAINT `fopa_fk_funcionario_pk_id` FOREIGN KEY (`fopa_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fopa_fk_user_pk_id` FOREIGN KEY (`fopa_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Limitadores para a tabela `funcionario`
+--
+ALTER TABLE `funcionario`
+  ADD CONSTRAINT `func_fk_contact_pk_id` FOREIGN KEY (`func_fk_contact_pk_id`) REFERENCES `contact` (`cont_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `func_fk_endereco_pk_id` FOREIGN KEY (`func_fk_endereco_pk_id`) REFERENCES `endereco` (`ende_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `func_fk_user_pk_id` FOREIGN KEY (`func_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `page`

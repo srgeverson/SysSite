@@ -17,6 +17,8 @@ $(document).ready(function () {
     $("#cell").mask('(00)00000-0000', {reverse: true});
     //MASCARA DO WHATSAPP
     $("#whatsapp").mask('(00)00000-0000', {reverse: true});
+    //MASCARA PARA COMPETÊNCIA
+    $("#competencia").mask('00/0000', {reverse: true});
     //MASCARA PARA MOEDA
     $('.moeda').mask('###0.00', {reverse: true});
     //MASCARA PARA QUANTIDADE EM METROS

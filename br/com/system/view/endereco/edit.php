@@ -12,7 +12,7 @@
     <div class="col-lg-4 mb-4">
         <form action="<?php echo server_url('?page=ControllerEndereco&option=update'); ?>" method="post">
             <div class="card h-100">
-                <h4 class="card-header text-primary">Alterar Contato</h4>
+                <h4 class="card-header text-primary">Alterar Endereço</h4>
                 <div class="card-body">
                     <div class="form-group">
                         <input class="form-control" name="ende_pk_id" type="hidden" value="<?php echo $endereco->ende_pk_id; ?>">
