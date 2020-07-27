@@ -6,18 +6,24 @@
  * and open the template in the editor.
  */
 include_once server_path("br/com/system/dao/DAOFolhaPagamento.php");
+include_once server_path("br/com/system/dao/DAOFuncionario.php");
 include_once server_path("br/com/system/model/ModelFolhaPagamento.php");
 
 class ControllerFolhaPagamento {
 
     private $info;
     private $daoFolhaPagamento;
+    private $usuarioAutencitado;
 
+    //ok
     function __construct() {
         $this->info = 'default=default';
         $this->daoFolhaPagamento = new DAOFolhaPagamento();
+        global $user_logged;
+        $this->usuarioAutencitado = $user_logged->user_pk_id;
     }
 
+    //ok
     public function delete() {
         if (GenericController::authotity()) {
             $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
@@ -34,6 +40,7 @@ class ControllerFolhaPagamento {
         }
     }
 
+    //ok
     public function disable() {
         if (GenericController::authotity()) {
             $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
@@ -43,11 +50,11 @@ class ControllerFolhaPagamento {
                     if (($this->daoFolhaPagamento->selectObjectById($fopa_pk_id)) === null) {
                         $this->info = 'warning=folha_pagamento_not_exists';
                     } else {
-                        $endereco = new ModelFolhaPagamento();
-                        $endereco->fopa_pk_id = $fopa_pk_id;
-                        $endereco->fopa_status = $fopa_status;
+                        $folhaPagamento = new ModelFolhaPagamento();
+                        $folhaPagamento->fopa_pk_id = $fopa_pk_id;
+                        $folhaPagamento->fopa_status = $fopa_status;
 
-                        $this->daoFolhaPagamento->updateStatus($endereco);
+                        $this->daoFolhaPagamento->updateStatus($folhaPagamento);
                         $this->info = 'success=folha_pagamento_disabled';
                     }
                 } catch (Exception $erro) {
@@ -60,31 +67,36 @@ class ControllerFolhaPagamento {
         }
     }
 
+    //ok
     public function edit() {
         if (GenericController::authotity()) {
             $fopa_pk_id = $_GET['fopa_pk_id'];
             if (!isset($fopa_pk_id)) {
                 $this->info = 'warning=folha_pagamento_uninformed';
                 $this->list();
-            }
-            try {
-                $daoEstado = new DAOEstado();
-                $estados = $daoEstado->selectObjectsEnabled();
-                $endereco = $this->daoFolhaPagamento->selectObjectById($fopa_pk_id);
-                if (!isset($endereco)) {
-                    $this->info = 'warning=folha_pagamento_not_exists';
+            } else {
+                try {
+                    $daoFuncionario = new DAOFuncionario();
+                    $funcionarios = $daoFuncionario->selectObjectsEnabled();
+                    $folhaPagamento = $this->daoFolhaPagamento->selectObjectById($fopa_pk_id);
+                    if (!isset($folhaPagamento)) {
+                        $this->info = 'warning=folha_pagamento_not_exists';
+                        $this->list();
+                    }
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
                     $this->list();
                 }
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
+                if ($folhaPagamento == false) {
+                    $this->info = "warning=folha_pagamento_not_found";
+                    $this->list();
+                }
+                include_once server_path('br/com/system/view/folha_pagamento/edit.php');
             }
-            if ($endereco == false) {
-                $this->info = "warning=folha_pagamento_not_found";
-            }
-            include_once server_path('br/com/system/view/folha_pagamento/edit.php');
         }
     }
 
+    //ok
     public function enable() {
         if (GenericController::authotity()) {
             $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
@@ -94,11 +106,11 @@ class ControllerFolhaPagamento {
                     if (($this->daoFolhaPagamento->selectObjectById($fopa_pk_id)) === null) {
                         $this->info = 'warning=folha_pagamento_not_exists';
                     } else {
-                        $endereco = new ModelFolhaPagamento();
-                        $endereco->fopa_pk_id = $fopa_pk_id;
-                        $endereco->fopa_status = $fopa_status;
+                        $folhaPagamento = new ModelFolhaPagamento();
+                        $folhaPagamento->fopa_pk_id = $fopa_pk_id;
+                        $folhaPagamento->fopa_status = $fopa_status;
 
-                        $this->daoFolhaPagamento->updateStatus($endereco);
+                        $this->daoFolhaPagamento->updateStatus($folhaPagamento);
                         $this->info = 'success=folha_pagamento_enabled';
                     }
                 } catch (Exception $erro) {
@@ -111,14 +123,16 @@ class ControllerFolhaPagamento {
         }
     }
 
+    //ok
     public function list() {
         if (GenericController::authotity()) {
-            if (isset($_POST['fopa_logradouro']) && isset($_POST['fopa_cidade'])) {
-                $endereco = new ModelFolhaPagamento();
-                $endereco->fopa_logradouro = strip_tags($_POST['fopa_logradouro']);
-                $endereco->fopa_cidade = strip_tags($_POST['fopa_cidade']);
+            if (isset($_POST['func_nome']) && isset($_POST['func_cpf']) && isset($_POST['fopa_competencia'])) {
+                $folhaPagamento = new ModelFolhaPagamento();
+                $folhaPagamento->func_nome = strip_tags($_POST['func_nome']);
+                $folhaPagamento->func_cpf = strip_tags($_POST['func_cpf']);
+                $folhaPagamento->fopa_competencia = strip_tags($_POST['fopa_competencia']);
                 try {
-                    $enderecos = $this->daoFolhaPagamento->selectObjectsByContainsObject($endereco);
+                    $folhaPagamentos = $this->daoFolhaPagamento->selectObjectsByContainsObject($folhaPagamento);
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -130,38 +144,39 @@ class ControllerFolhaPagamento {
         }
     }
 
+    //ok
     public function new() {
         if (GenericController::authotity()) {
-            $daoEstado = new DAOEstado();
-            $estados = $daoEstado->selectObjectsEnabled();
+            $daoFuncionario = new DAOFuncionario();
+            $funcionarios = $daoFuncionario->selectObjectsEnabled();
             include_once server_path('br/com/system/view/folha_pagamento/new.php');
         }
     }
 
+    //ok
     public function save() {
         if (GenericController::authotity()) {
-            $fopa_logradouro = strip_tags($_POST['fopa_logradouro']);
-            $fopa_numero = strip_tags($_POST['fopa_numero']);
-            $fopa_bairro = strip_tags($_POST['fopa_bairro']);
-            $fopa_cep = strip_tags($_POST['fopa_cep']);
-            $fopa_cidade = strip_tags($_POST['fopa_cidade']);
-            $fopa_fk_estado_pk_id = strip_tags($_POST['fopa_fk_estado_pk_id']);
-            global $user_logged;
-            $fopa_fk_user_pk_id = $user_logged->user_pk_id;
+            $fopa_competencia = strip_tags($_POST['fopa_competencia']);
+            //Início->Tratando arquivo para upload 
+            $fopa_arquivo = strip_tags($_POST['fopa_arquivo']);
+            $user_image = $_FILES['user_image']['name'];
+            $uploaddir = server_path('br/com/system/uploads/folha_pagamento/');
+            $uploadfile = $uploaddir . $user_image;
+            $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
+            //Fim->Tratando arquivo para upload 
+            $fopa_caminho_arquivo = strip_tags($_POST['fopa_caminho_arquivo']);
+            $fopa_fk_funcionario_pk_id = strip_tags($_POST['fopa_fk_funcionario_pk_id']);
             $fopa_status = true;
 
-            $endereco = new ModelFolhaPagamento();
-            $endereco->fopa_logradouro = $fopa_logradouro;
-            $endereco->fopa_numero = $fopa_numero;
-            $endereco->fopa_bairro = $fopa_bairro;
-            $endereco->fopa_cep = $fopa_cep;
-            $endereco->fopa_cidade = $fopa_cidade;
-            $endereco->fopa_fk_estado_pk_id = $fopa_fk_estado_pk_id;
-            $endereco->fopa_fk_user_pk_id = $fopa_fk_user_pk_id;
-            $endereco->fopa_status = $fopa_status;
+            $folhaPagamento = new ModelFolhaPagamento();
+            $folhaPagamento->fopa_competencia = $fopa_competencia;
+            $folhaPagamento->fopa_arquivo = $fopa_arquivo;
+            $folhaPagamento->fopa_caminho_arquivo = $fopa_caminho_arquivo;
+            $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
+            $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutencitado;
+            $folhaPagamento->fopa_status = $fopa_status;
             try {
-                $daoFolhaPagamento = new DAOFolhaPagamento();
-                $daoFolhaPagamento->save($endereco);
+                $this->daoFolhaPagamento->save($folhaPagamento);
                 $this->info = "success=folha_pagamento_created";
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -170,6 +185,7 @@ class ControllerFolhaPagamento {
         }
     }
 
+    //ok
     public function update() {
         if (GenericController::authotity()) {
             if (GenericController::authotity()) {
@@ -177,28 +193,22 @@ class ControllerFolhaPagamento {
                 if (!isset($fopa_pk_id)) {
                     $this->info = 'warning=folha_pagamento_uninformed';
                 }
-                $fopa_logradouro = strip_tags($_POST['fopa_logradouro']);
-                $fopa_numero = strip_tags($_POST['fopa_numero']);
-                $fopa_bairro = strip_tags($_POST['fopa_bairro']);
-                $fopa_cep = strip_tags($_POST['fopa_cep']);
-                $fopa_cidade = strip_tags($_POST['fopa_cidade']);
-                $fopa_fk_estado_pk_id = strip_tags($_POST['fopa_fk_estado_pk_id']);
-                global $user_logged;
-                $fopa_fk_user_pk_id = $user_logged->user_pk_id;
+                $fopa_competencia = strip_tags($_POST['fopa_competencia']);
+                $fopa_arquivo = strip_tags($_POST['fopa_arquivo']);
+                $fopa_caminho_arquivo = strip_tags($_POST['fopa_caminho_arquivo']);
+                $fopa_fk_funcionario_pk_id = strip_tags($_POST['fopa_fk_funcionario_pk_id']);
 
-                $endereco = new ModelFolhaPagamento();
-                $endereco->fopa_pk_id = $fopa_pk_id;
-                $endereco->fopa_logradouro = $fopa_logradouro;
-                $endereco->fopa_numero = $fopa_numero;
-                $endereco->fopa_bairro = $fopa_bairro;
-                $endereco->fopa_cep = $fopa_cep;
-                $endereco->fopa_cidade = $fopa_cidade;
-                $endereco->fopa_fk_estado_pk_id = $fopa_fk_estado_pk_id;
-                $endereco->fopa_fk_user_pk_id = $fopa_fk_user_pk_id;
+                $folhaPagamento = new ModelFolhaPagamento();
+                $folhaPagamento->fopa_pk_id = $fopa_pk_id;
+                $folhaPagamento->fopa_competencia = $fopa_competencia;
+                $folhaPagamento->fopa_arquivo = $fopa_arquivo;
+                $folhaPagamento->fopa_caminho_arquivo = $fopa_caminho_arquivo;
+                $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
+                $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutencitado;
 
                 try {
-                    $this->daoFolhaPagamento->update($endereco);
-                    if ($endereco == null) {
+                    $this->daoFolhaPagamento->update($folhaPagamento);
+                    if ($folhaPagamento == null) {
                         $this->info = 'warning=folha_pagamento_not_exists';
                         $this->list();
                     }
@@ -207,6 +217,34 @@ class ControllerFolhaPagamento {
                     $this->info = "error=" . $erro->getMessage();
                 }
                 $this->list();
+            }
+        }
+    }
+
+    public function view() {
+        if (GenericController::authotity()) {
+            $fopa_pk_id = $_GET['fopa_pk_id'];
+            if (!isset($fopa_pk_id)) {
+                $this->info = 'warning=folha_pagamento_uninformed';
+                $this->list();
+            } else {
+                try {
+                    $daoFuncionario = new DAOFuncionario();
+                    $funcionarios = $daoFuncionario->selectObjectsEnabled();
+                    $folhaPagamento = $this->daoFolhaPagamento->selectObjectById($fopa_pk_id);
+                    if (!isset($folhaPagamento)) {
+                        $this->info = 'warning=folha_pagamento_not_exists';
+                        $this->list();
+                    }
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                    $this->list();
+                }
+                if ($folhaPagamento == false) {
+                    $this->info = "warning=folha_pagamento_not_found";
+                    $this->list();
+                }
+                include_once server_path('br/com/system/view/folha_pagamento/view.php');
             }
         }
     }
