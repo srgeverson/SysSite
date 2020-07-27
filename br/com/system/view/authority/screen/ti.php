@@ -54,7 +54,7 @@
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFolhaPagamento&option=list"); ?>">
-                    <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <i class="fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Folha de Pagamento
                 </a>
             </div>
