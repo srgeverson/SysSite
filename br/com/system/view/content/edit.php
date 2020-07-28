@@ -15,35 +15,35 @@
                 <h4 class="card-header text-primary">Alterar Conteúdo</h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <input class="form-control" name="cont_pk_id" type="hidden" value="<?php echo $content->cont_pk_id; ?>">
+                        <input class="form-control" name="conte_pk_id" type="hidden" value="<?php echo $content->conte_pk_id; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Componente:</label><br>
-                        <input class="form-control" name="cont_component" placeholder="Digite um nome do component..." type="text"  value="<?php echo $content->cont_component; ?>" required>
+                        <input class="form-control" name="conte_component" placeholder="Digite um nome do component..." type="text"  value="<?php echo $content->conte_component; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Título:</label><br>
-                        <input class="form-control" name="cont_title" placeholder="Digite um título..." type="text" value="<?php echo $content->cont_title; ?>">
+                        <input class="form-control" name="conte_title" placeholder="Digite um título..." type="text" value="<?php echo $content->conte_title; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Subtítulo:</label><br>
-                        <input class="form-control" name="cont_subtitle" type="text" placeholder="Digite um subtítulo..." value="<?php echo $content->cont_subtitle; ?>">
+                        <input class="form-control" name="conte_subtitle" type="text" placeholder="Digite um subtítulo..." value="<?php echo $content->conte_subtitle; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Imagem:</label><br>
-                        <input class="form-control-file" name="cont_image" placeholder="Imagem..." type="file">
+                        <input class="form-control-file" name="conte_image" placeholder="Imagem..." type="file">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Link:</label><br>
-                        <input class="form-control" name="cont_link" type="text" placeholder="Cole o link aqui..." value="<?php echo $content->cont_subtitle; ?>">
+                        <input class="form-control" name="conte_link" type="text" placeholder="Cole o link aqui..." value="<?php echo $content->conte_subtitle; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Texto:</label><br>
-                        <textarea class="form-control" name="cont_text" placeholder="Texto para o conteúdo..." ><?php echo $content->cont_text; ?></textarea>
+                        <textarea class="form-control" name="conte_text" placeholder="Texto para o conteúdo..." ><?php echo $content->conte_text; ?></textarea>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Página:</label><br>
-                        <select name="cont_fk_page_pk_id" class="form-control" required>
+                        <select name="conte_fk_page_pk_id" class="form-control" required>
                             <option value="<?php echo $content->page_pk_id; ?>"><?php echo $content->page_name; ?></option>
                             <?php
                             foreach ($pages as $each_page) {

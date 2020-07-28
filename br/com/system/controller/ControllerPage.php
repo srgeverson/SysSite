@@ -34,20 +34,20 @@ class ControllerPage {
 
         $content = null;
         $content = new ModelContent();
-        $content->cont_fk_page_pk_id = 4;
-        $content->cont_component = "modern_business";
+        $content->conte_fk_page_pk_id = 4;
+        $content->conte_component = "modern_business";
         $modern_business = $daoContent->selectObjectsByObject($content);
 
         $content = null;
         $content = new ModelContent();
-        $content->cont_fk_page_pk_id = 4;
-        $content->cont_component = "our_team";
+        $content->conte_fk_page_pk_id = 4;
+        $content->conte_component = "our_team";
         $our_team = $daoContent->selectObjectsByObject($content);
 
         $content = null;
         $content = new ModelContent();
-        $content->cont_fk_page_pk_id = 4;
-        $content->cont_component = "our_customers";
+        $content->conte_fk_page_pk_id = 4;
+        $content->conte_component = "our_customers";
         $our_customers = $daoContent->selectObjectsByObject($content);
 
         include_once server_path('br/com/system/view/page/pages/about.php');
@@ -63,8 +63,8 @@ class ControllerPage {
 
         $content = null;
         $content = new ModelContent();
-        $content->cont_fk_page_pk_id = 3;
-        $content->cont_component = "our_contact";
+        $content->conte_fk_page_pk_id = 3;
+        $content->conte_component = "our_contact";
         $our_contacts = $daoContent->selectObjectsByObject($content);
 
         $parameter = new ControllerParameter();
@@ -178,24 +178,29 @@ class ControllerPage {
 
         $content = null;
         $content = new ModelContent();
-        $content->cont_fk_page_pk_id = 1;
-        $content->cont_component = "slide_apresentacao";
+        $content->conte_fk_page_pk_id = 1;
+        $content->conte_component = "slide_apresentacao";
         $slide_apresentacao = $daoContent->selectObjectsByObject($content);
 
         $content = null;
         $content = new ModelContent();
-        $content->cont_fk_page_pk_id = 1;
-        $content->cont_component = "nossos_destaques";
+        $content->conte_fk_page_pk_id = 1;
+        $content->conte_component = "nossos_destaques";
         $nossos_destaques = $daoContent->selectObjectsByObject($content);
 
         $content = null;
         $content = new ModelContent();
-        $content->cont_fk_page_pk_id = 1;
-        $content->cont_component = "outros_destaques";
+        $content->conte_fk_page_pk_id = 1;
+        $content->conte_component = "outros_destaques";
         $outros_destaques = $daoContent->selectObjectsByObject($content);
 
         GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/page/pages/default.php');
+        $daoPage = new DAOPage();
+        if($daoPage->selectObjectByKey('home')) {
+            include_once server_path('br/com/system/view/page/pages/default.php');
+        } else {
+            redirect(server_url('?page=ControllerUser&option=authenticate'));
+        }
     }
 
     public function list() {
@@ -313,14 +318,14 @@ class ControllerPage {
 
         $content = null;
         $content = new ModelContent();
-        $content->cont_fk_page_pk_id = 3;
-        $content->cont_component = "destaques_servicos";
+        $content->conte_fk_page_pk_id = 3;
+        $content->conte_component = "destaques_servicos";
         $destaques_servicos = $daoContent->selectObjectsByObject($content);
 
         $content = null;
         $content = new ModelContent();
-        $content->cont_fk_page_pk_id = 3;
-        $content->cont_component = "nossos_servicos";
+        $content->conte_fk_page_pk_id = 3;
+        $content->conte_component = "nossos_servicos";
         $nossos_servicos = $daoContent->selectObjectsByObject($content);
         include_once server_path('br/com/system/view/page/pages/service.php');
     }

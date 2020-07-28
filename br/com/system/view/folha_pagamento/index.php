@@ -6,6 +6,6 @@
  * and open the template in the editor.
  */
 include_once '../../assets/php/conf.php';
-redirect(server_url('?page=ControllerSystem&option=home'));
+redirect(server_url('?page=ControllerPage&option=home'));
 ?>
 

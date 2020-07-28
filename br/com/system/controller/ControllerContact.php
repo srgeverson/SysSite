@@ -35,6 +35,7 @@ class ControllerContact {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
+            $this->list();
         }
     }
 

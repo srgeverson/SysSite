@@ -22,12 +22,12 @@ class ControllerContent {
 
     public function delete() {
         if (GenericController::authotity()) {
-            $cont_pk_id = strip_tags($_GET['cont_pk_id']);
-            if (!isset($cont_pk_id)) {
+            $conte_pk_id = strip_tags($_GET['conte_pk_id']);
+            if (!isset($conte_pk_id)) {
                 $this->info = 'warning=content_uninformed';
             }
             try {
-                $this->daoContent->delete($cont_pk_id);
+                $this->daoContent->delete($conte_pk_id);
                 $this->info = "success=content_deleted";
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -38,16 +38,16 @@ class ControllerContent {
 
     public function disable() {
         if (GenericController::authotity()) {
-            $cont_pk_id = strip_tags($_GET['cont_pk_id']);
-            if (isset($cont_pk_id)) {
-                $cont_status = false;
+            $conte_pk_id = strip_tags($_GET['conte_pk_id']);
+            if (isset($conte_pk_id)) {
+                $conte_status = false;
                 try {
-                    if (($this->daoContent->selectObjectById($cont_pk_id)) === null) {
+                    if (($this->daoContent->selectObjectById($conte_pk_id)) === null) {
                         $this->info = 'warning=content_not_exists';
                     } else {
                         $content = new ModelContent();
-                        $content->cont_pk_id = $cont_pk_id;
-                        $content->cont_status = $cont_status;
+                        $content->conte_pk_id = $conte_pk_id;
+                        $content->conte_status = $conte_status;
 
                         $this->daoContent->updateStatus($content);
                         $this->info = 'success=content_disabled';
@@ -64,8 +64,8 @@ class ControllerContent {
 
     public function edit() {
         if (GenericController::authotity()) {
-            if (isset($_GET['cont_pk_id'])) {
-                $content_pk_id = strip_tags($_GET['cont_pk_id']);
+            if (isset($_GET['conte_pk_id'])) {
+                $content_pk_id = strip_tags($_GET['conte_pk_id']);
                 try {
                     $daoPage = new DAOPage();
                     $pages = $daoPage->selectObjectsEnabled();
@@ -90,16 +90,16 @@ class ControllerContent {
 
     public function enable() {
         if (GenericController::authotity()) {
-            $cont_pk_id = strip_tags($_GET['cont_pk_id']);
-            if (isset($cont_pk_id)) {
-                $cont_status = true;
+            $conte_pk_id = strip_tags($_GET['conte_pk_id']);
+            if (isset($conte_pk_id)) {
+                $conte_status = true;
                 try {
-                    if (($this->daoContent->selectObjectById($cont_pk_id)) === null) {
+                    if (($this->daoContent->selectObjectById($conte_pk_id)) === null) {
                         $this->info = 'warning=content_not_exists';
                     } else {
                         $content = new ModelContent();
-                        $content->cont_pk_id = $cont_pk_id;
-                        $content->cont_status = $cont_status;
+                        $content->conte_pk_id = $conte_pk_id;
+                        $content->conte_status = $conte_status;
 
                         $this->daoContent->updateStatus($content);
                         $this->info = 'success=content_enabled';
@@ -116,13 +116,13 @@ class ControllerContent {
 
     public function filterByPage() {
         if (GenericController::authotity()) {
-            if (isset($_GET['cont_fk_page_pk_id'])) {
+            if (isset($_GET['conte_fk_page_pk_id'])) {
                 try {
-                    $cont_fk_page_pk_id = strip_tags($_GET['cont_fk_page_pk_id']);
+                    $conte_fk_page_pk_id = strip_tags($_GET['conte_fk_page_pk_id']);
                     $daoPage = new DAOPage();
-                    $page = $daoPage->selectObjectById($cont_fk_page_pk_id);
+                    $page = $daoPage->selectObjectById($conte_fk_page_pk_id);
                     $content = new ModelContent();
-                    $content->cont_fk_page_pk_id = $cont_fk_page_pk_id;
+                    $content->conte_fk_page_pk_id = $conte_fk_page_pk_id;
                     $contents = $this->daoContent->selectContentByContainsObject($content);
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
@@ -137,10 +137,10 @@ class ControllerContent {
 
     public function list() {
         if (GenericController::authotity()) {
-            if (isset($_POST['cont_component']) && isset($_POST['page_name'])) {
+            if (isset($_POST['conte_component']) && isset($_POST['page_name'])) {
                 try {
                     $content = new ModelContent();
-                    $content->cont_component = strip_tags($_POST['cont_component']);
+                    $content->conte_component = strip_tags($_POST['conte_component']);
                     if (strip_tags($_POST['page_name']) !== 'Todas') {
                         $content->page_name = strip_tags($_POST['page_name']);
                     } else {
@@ -183,14 +183,14 @@ class ControllerContent {
 
     public function personalize() {
         if (GenericController::authotity()) {
-            if (isset($_GET['cont_pk_id'])) {
-                $cont_pk_id = $_GET['cont_pk_id'];
-                if (!isset($cont_pk_id)) {
+            if (isset($_GET['conte_pk_id'])) {
+                $conte_pk_id = $_GET['conte_pk_id'];
+                if (!isset($conte_pk_id)) {
                     $this->info = 'warning=content_uninformed';
                     $this->list();
                 } else {
                     try {
-                        $content = $this->daoContent->selectObjectById($cont_pk_id);
+                        $content = $this->daoContent->selectObjectById($conte_pk_id);
                         if ($content == false) {
                             $this->info = "warning=content_not_found";
                         }
@@ -213,7 +213,7 @@ class ControllerContent {
             if (isset($content)) {
                 try {
                     $daoPage = new DAOPage();
-                    $page = $daoPage->selectObjectById($content->cont_fk_page_pk_id);
+                    $page = $daoPage->selectObjectById($content->conte_fk_page_pk_id);
                     $contents = $this->daoContent->selectContentByContainsObject($content);
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
@@ -229,19 +229,19 @@ class ControllerContent {
     public function save() {
         if (GenericController::authotity()) {
             if (GenericController::authotity()) {
-                $cont_component = strip_tags($_POST['cont_component']);
-                $cont_title = strip_tags($_POST['cont_title']);
-                $cont_subtitle = strip_tags($_POST['cont_subtitle']);
+                $conte_component = strip_tags($_POST['conte_component']);
+                $conte_title = strip_tags($_POST['conte_title']);
+                $conte_subtitle = strip_tags($_POST['conte_subtitle']);
 
-                $cont_image = $_FILES['cont_image']['name'];
+                $conte_image = $_FILES['conte_image']['name'];
                 $uploaddir = server_path('br/com/system/uploads/content/');
-                $uploadfile = $uploaddir . $cont_image;
+                $uploadfile = $uploaddir . $conte_image;
                 $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
 
-                $cont_link = strip_tags($_POST['cont_link']);
-                $cont_text = strip_tags($_POST['cont_text']);
-                $cont_fk_page_pk_id = strip_tags($_POST['cont_fk_page_pk_id']);
-                if (!isset($cont_pk_id)) {
+                $conte_link = strip_tags($_POST['conte_link']);
+                $conte_text = strip_tags($_POST['conte_text']);
+                $conte_fk_page_pk_id = strip_tags($_POST['conte_fk_page_pk_id']);
+                if (!isset($conte_pk_id)) {
                     $this->info = 'warning=content_uninformed';
                 }
                 global $user_logged;
@@ -249,16 +249,16 @@ class ControllerContent {
 
                 try {
                     if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
-                        if (move_uploaded_file($_FILES['cont_image']['tmp_name'], $uploadfile)) {
+                        if (move_uploaded_file($_FILES['conte_image']['tmp_name'], $uploadfile)) {
                             $content = new ModelContent();
-                            $content->cont_component = $cont_component;
-                            $content->cont_title = $cont_title;
-                            $content->cont_subtitle = $cont_subtitle;
-                            $content->cont_image = $cont_image;
-                            $content->cont_link = $cont_link;
-                            $content->cont_text = $cont_text;
-                            $content->cont_fk_user_pk_id = $content_fk_user_pk_id;
-                            $content->cont_fk_page_pk_id = $cont_fk_page_pk_id;
+                            $content->conte_component = $conte_component;
+                            $content->conte_title = $conte_title;
+                            $content->conte_subtitle = $conte_subtitle;
+                            $content->conte_image = $conte_image;
+                            $content->conte_link = $conte_link;
+                            $content->conte_text = $conte_text;
+                            $content->conte_fk_user_pk_id = $content_fk_user_pk_id;
+                            $content->conte_fk_page_pk_id = $conte_fk_page_pk_id;
                             $this->daoContent->save($content);
                             $this->info = "success=content_created";
                         }
@@ -277,42 +277,42 @@ class ControllerContent {
     public function update() {
         if (GenericController::authotity()) {
             if (GenericController::authotity()) {
-                $cont_pk_id = strip_tags($_POST['cont_pk_id']);
-                $cont_component = strip_tags($_POST['cont_component']);
-                $cont_title = strip_tags($_POST['cont_title']);
-                $cont_subtitle = strip_tags($_POST['cont_subtitle']);
+                $conte_pk_id = strip_tags($_POST['conte_pk_id']);
+                $conte_component = strip_tags($_POST['conte_component']);
+                $conte_title = strip_tags($_POST['conte_title']);
+                $conte_subtitle = strip_tags($_POST['conte_subtitle']);
 
-                $cont_image = $_FILES['cont_image']['name'];
+                $conte_image = $_FILES['conte_image']['name'];
                 $uploaddir = server_path('br/com/system/uploads/content/');
-                $uploadfile = $uploaddir . $cont_image;
+                $uploadfile = $uploaddir . $conte_image;
                 $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
 
-                $cont_link = strip_tags($_POST['cont_link']);
-                $cont_text = strip_tags($_POST['cont_text']);
-                $cont_fk_page_pk_id = strip_tags($_POST['cont_fk_page_pk_id']);
-                if (!isset($cont_pk_id)) {
+                $conte_link = strip_tags($_POST['conte_link']);
+                $conte_text = strip_tags($_POST['conte_text']);
+                $conte_fk_page_pk_id = strip_tags($_POST['conte_fk_page_pk_id']);
+                if (!isset($conte_pk_id)) {
                     $this->info = 'warning=content_uninformed';
                 }
                 global $user_logged;
                 $content_fk_user_pk_id = $user_logged->user_pk_id;
 
                 try {
-                    if ($cont_pk_id == null) {
+                    if ($conte_pk_id == null) {
                         $this->info = 'warning=content_not_exists';
                         $this->list();
                     } else {
                         if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
-                            if (move_uploaded_file($_FILES['cont_image']['tmp_name'], $uploadfile)) {
+                            if (move_uploaded_file($_FILES['conte_image']['tmp_name'], $uploadfile)) {
                                 $content = new ModelContent();
-                                $content->cont_pk_id = $cont_pk_id;
-                                $content->cont_component = $cont_component;
-                                $content->cont_title = $cont_title;
-                                $content->cont_subtitle = $cont_subtitle;
-                                $content->cont_image = $cont_image;
-                                $content->cont_link = $cont_link;
-                                $content->cont_text = $cont_text;
-                                $content->cont_fk_user_pk_id = $content_fk_user_pk_id;
-                                $content->cont_fk_page_pk_id = $cont_fk_page_pk_id;
+                                $content->conte_pk_id = $conte_pk_id;
+                                $content->conte_component = $conte_component;
+                                $content->conte_title = $conte_title;
+                                $content->conte_subtitle = $conte_subtitle;
+                                $content->conte_image = $conte_image;
+                                $content->conte_link = $conte_link;
+                                $content->conte_text = $conte_text;
+                                $content->conte_fk_user_pk_id = $content_fk_user_pk_id;
+                                $content->conte_fk_page_pk_id = $conte_fk_page_pk_id;
                                 $this->daoContent->update($content);
                                 $this->info = 'success=content_updated';
                             }
@@ -331,40 +331,40 @@ class ControllerContent {
 
     public function submit() {
         if (GenericController::authotity()) {
-            $cont_pk_id = strip_tags($_POST['cont_pk_id']);
-            $cont_component = strip_tags($_POST['cont_component']);
-            $cont_title = strip_tags($_POST['cont_title']);
-            $cont_subtitle = strip_tags($_POST['cont_subtitle']);
+            $conte_pk_id = strip_tags($_POST['conte_pk_id']);
+            $conte_component = strip_tags($_POST['conte_component']);
+            $conte_title = strip_tags($_POST['conte_title']);
+            $conte_subtitle = strip_tags($_POST['conte_subtitle']);
 
-            $cont_image = $_FILES['cont_image']['name'];
+            $conte_image = $_FILES['conte_image']['name'];
             $uploaddir = server_path('br/com/system/uploads/content/');
-            $uploadfile = $uploaddir . $cont_image;
+            $uploadfile = $uploaddir . $conte_image;
             $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
 
-            $cont_link = strip_tags($_POST['cont_link']);
-            $cont_text = strip_tags($_POST['cont_text']);
-            $cont_fk_page_pk_id = strip_tags($_POST['cont_fk_page_pk_id']);
-            if (!isset($cont_pk_id)) {
+            $conte_link = strip_tags($_POST['conte_link']);
+            $conte_text = strip_tags($_POST['conte_text']);
+            $conte_fk_page_pk_id = strip_tags($_POST['conte_fk_page_pk_id']);
+            if (!isset($conte_pk_id)) {
                 $this->info = 'warning=content_uninformed';
             } else {
                 global $user_logged;
                 $content_fk_user_pk_id = $user_logged->user_pk_id;
                 try {
-                    if ($cont_pk_id == null) {
+                    if ($conte_pk_id == null) {
                         $this->info = 'warning=content_not_exists';
                     } else {
                         if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
-                            if (move_uploaded_file($_FILES['cont_image']['tmp_name'], $uploadfile)) {
+                            if (move_uploaded_file($_FILES['conte_image']['tmp_name'], $uploadfile)) {
                                 $content = new ModelContent();
-                                $content->cont_pk_id = $cont_pk_id;
-                                $content->cont_component = $cont_component;
-                                $content->cont_title = $cont_title;
-                                $content->cont_subtitle = $cont_subtitle;
-                                $content->cont_image = $cont_image;
-                                $content->cont_link = $cont_link;
-                                $content->cont_text = $cont_text;
-                                $content->cont_fk_user_pk_id = $content_fk_user_pk_id;
-                                $content->cont_fk_page_pk_id = $cont_fk_page_pk_id;
+                                $content->conte_pk_id = $conte_pk_id;
+                                $content->conte_component = $conte_component;
+                                $content->conte_title = $conte_title;
+                                $content->conte_subtitle = $conte_subtitle;
+                                $content->conte_image = $conte_image;
+                                $content->conte_link = $conte_link;
+                                $content->conte_text = $conte_text;
+                                $content->conte_fk_user_pk_id = $content_fk_user_pk_id;
+                                $content->conte_fk_page_pk_id = $conte_fk_page_pk_id;
                                 $this->daoContent->update($content);
                                 $this->info = 'success=content_updated';
                             }

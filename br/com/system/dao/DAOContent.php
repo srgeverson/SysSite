@@ -10,12 +10,12 @@ include_once server_path('br/com/system/dao/GenericDAO.php');
 
 class DAOContent extends GenericDAO {
 
-    public function delete($cont_pk_id = 0) {
+    public function delete($conte_pk_id = 0) {
         try {
-            $this->query = "DELETE FROM content WHERE cont_pk_id=:cont_pk_id;";
+            $this->query = "DELETE FROM content WHERE conte_pk_id=:conte_pk_id;";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
-            $this->statement->bindParam(":cont_pk_id", $cont_pk_id, PDO::PARAM_INT);
+            $this->statement->bindParam(":conte_pk_id", $conte_pk_id, PDO::PARAM_INT);
             $this->statement->execute();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
@@ -28,23 +28,23 @@ class DAOContent extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO content ";
-        $this->query .= "(cont_component, cont_title, cont_subtitle, cont_text, cont_image, cont_link, cont_fk_user_pk_id, cont_fk_page_pk_id) ";
+        $this->query .= "(conte_component, conte_title, conte_subtitle, conte_text, conte_image, conte_link, conte_fk_user_pk_id, conte_fk_page_pk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:cont_component, :cont_title, :cont_subtitle, :cont_text, :cont_image, :cont_link, :cont_fk_user_pk_id, :cont_fk_page_pk_id);";
+        $this->query .= "(:conte_component, :conte_title, :conte_subtitle, :conte_text, :conte_image, :conte_link, :conte_fk_user_pk_id, :conte_fk_page_pk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':cont_component', $content->cont_component, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_title', $content->cont_title, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_subtitle', $content->cont_subtitle, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_text', $content->cont_text, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_image', $content->cont_image, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_link', $content->cont_link, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_fk_user_pk_id', $content->cont_fk_user_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':cont_fk_page_pk_id', $content->cont_fk_page_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':conte_component', $content->conte_component, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_title', $content->conte_title, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_subtitle', $content->conte_subtitle, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_text', $content->conte_text, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_image', $content->conte_image, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_link', $content->conte_link, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_fk_user_pk_id', $content->conte_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':conte_fk_page_pk_id', $content->conte_fk_page_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
@@ -61,20 +61,20 @@ class DAOContent extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectById($cont_pk_id = 0) {
+    public function selectObjectById($conte_pk_id = 0) {
         $this->query = "SELECT ";
         $this->query .= "c.*, p.page_pk_id, p.page_name, u.user_pk_id, u.user_pk_id ";
         $this->query .= "FROM content AS c ";
-        $this->query .= "INNER JOIN page AS p ON (c.cont_fk_page_pk_id = p.page_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (c.cont_fk_user_pk_id = u.user_pk_id) ";
-        $this->query .= "WHERE cont_pk_id=:cont_pk_id LIMIT 1;";
+        $this->query .= "INNER JOIN page AS p ON (c.conte_fk_page_pk_id = p.page_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_user_pk_id = u.user_pk_id) ";
+        $this->query .= "WHERE conte_pk_id=:conte_pk_id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":cont_pk_id", $cont_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(":conte_pk_id", $conte_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
@@ -83,10 +83,10 @@ class DAOContent extends GenericDAO {
         $this->query = "SELECT ";
         $this->query .= "c.*, p.page_pk_id, p.page_name, u.user_pk_id, u.user_name ";
         $this->query .= "FROM content AS c ";
-        $this->query .= "INNER JOIN page AS p ON (c.cont_fk_page_pk_id = p.page_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (c.cont_fk_user_pk_id = u.user_pk_id) ";
+        $this->query .= "INNER JOIN page AS p ON (c.conte_fk_page_pk_id = p.page_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_user_pk_id = u.user_pk_id) ";
         $this->query .= "WHERE ";
-        $this->query .= "c.cont_component LIKE '%$content->cont_component%' AND ";
+        $this->query .= "c.conte_component LIKE '%$content->conte_component%' AND ";
         $this->query .= "p.page_name LIKE '%$content->page_name%';";
         try {
             $conexao = $this->getInstance();
@@ -102,20 +102,20 @@ class DAOContent extends GenericDAO {
         $this->query = "SELECT ";
         $this->query .= "c.* ";
         $this->query .= "FROM content AS c ";
-        $this->query .= "INNER JOIN page AS p ON (c.cont_fk_page_pk_id = p.page_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (c.cont_fk_user_pk_id = u.user_pk_id) ";
+        $this->query .= "INNER JOIN page AS p ON (c.conte_fk_page_pk_id = p.page_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_user_pk_id = u.user_pk_id) ";
         $this->query .= "WHERE ";
-        $this->query .= "c.cont_status = 1 AND ";
-        $this->query .= "c.cont_fk_page_pk_id = :cont_fk_page_pk_id AND ";
-        $this->query .= "c.cont_component = :cont_component;";
+        $this->query .= "c.conte_status = 1 AND ";
+        $this->query .= "c.conte_fk_page_pk_id = :conte_fk_page_pk_id AND ";
+        $this->query .= "c.conte_component = :conte_component;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":cont_fk_page_pk_id", $content->cont_fk_page_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(":cont_component", $content->cont_component, PDO::PARAM_STR);
+        $this->statement->bindParam(":conte_fk_page_pk_id", $content->conte_fk_page_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(":conte_component", $content->conte_component, PDO::PARAM_STR);
         $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
@@ -124,51 +124,51 @@ class DAOContent extends GenericDAO {
         $this->query = "SELECT ";
         $this->query .= "c.*, p.page_pk_id, p.page_name, u.user_pk_id, u.user_name ";
         $this->query .= "FROM content AS c ";
-        $this->query .= "INNER JOIN page AS p ON (c.cont_fk_page_pk_id = p.page_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (c.cont_fk_user_pk_id = u.user_pk_id) ";
+        $this->query .= "INNER JOIN page AS p ON (c.conte_fk_page_pk_id = p.page_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_user_pk_id = u.user_pk_id) ";
         $this->query .= "WHERE ";
-        $this->query .= "c.cont_fk_page_pk_id = :cont_fk_page_pk_id;";
+        $this->query .= "c.conte_fk_page_pk_id = :conte_fk_page_pk_id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":cont_fk_page_pk_id", $content->cont_fk_page_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(":conte_fk_page_pk_id", $content->conte_fk_page_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectByKey($cont_name = null) {
-        $this->query = "SELECT * FROM content WHERE cont_name = :cont_name AND cont_status = :cont_status LIMIT 1;";
-        $cont_status = true;
+    public function selectObjectByKey($conte_name = null) {
+        $this->query = "SELECT * FROM content WHERE conte_name = :conte_name AND conte_status = :conte_status LIMIT 1;";
+        $conte_status = true;
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":cont_name", $cont_name, PDO::PARAM_STR);
-        $this->statement->bindParam(":cont_status", $cont_status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(":conte_name", $conte_name, PDO::PARAM_STR);
+        $this->statement->bindParam(":conte_status", $conte_status, PDO::PARAM_BOOL);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
     public function selectObjectByObject(ModelContent $content = null) {
-        $this->query = "SELECT * FROM content WHERE cont_name=:cont_name LIMIT 1;";
+        $this->query = "SELECT * FROM content WHERE conte_name=:conte_name LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":cont_name", $content->cont_name, PDO::PARAM_STR);
+        $this->statement->bindParam(":conte_name", $content->conte_name, PDO::PARAM_STR);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
     public function selectObjectsEnabled() {
-        $this->query = "SELECT p.* FROM content AS p WHERE p.cont_status = 1;";
+        $this->query = "SELECT p.* FROM content AS p WHERE p.conte_status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -184,30 +184,30 @@ class DAOContent extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "UPDATE content SET ";
-        $this->query .= "cont_component=:cont_component, ";
-        $this->query .= "cont_title=:cont_title, ";
-        $this->query .= "cont_subtitle=:cont_subtitle, ";
-        $this->query .= "cont_text=:cont_text, ";
-        $this->query .= "cont_image=:cont_image, ";
-        $this->query .= "cont_link=:cont_link, ";
-        $this->query .= "cont_fk_user_pk_id=:cont_fk_user_pk_id, ";
-        $this->query .= "cont_fk_page_pk_id=:cont_fk_page_pk_id ";
-        $this->query .= " WHERE cont_pk_id=:cont_pk_id;";
+        $this->query .= "conte_component=:conte_component, ";
+        $this->query .= "conte_title=:conte_title, ";
+        $this->query .= "conte_subtitle=:conte_subtitle, ";
+        $this->query .= "conte_text=:conte_text, ";
+        $this->query .= "conte_image=:conte_image, ";
+        $this->query .= "conte_link=:conte_link, ";
+        $this->query .= "conte_fk_user_pk_id=:conte_fk_user_pk_id, ";
+        $this->query .= "conte_fk_page_pk_id=:conte_fk_page_pk_id ";
+        $this->query .= " WHERE conte_pk_id=:conte_pk_id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':cont_component', $content->cont_component, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_title', $content->cont_title, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_subtitle', $content->cont_subtitle, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_text', $content->cont_text, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_image', $content->cont_image, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_link', $content->cont_link, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_fk_user_pk_id', $content->cont_fk_user_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':cont_fk_page_pk_id', $content->cont_fk_page_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':cont_pk_id', $content->cont_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':conte_component', $content->conte_component, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_title', $content->conte_title, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_subtitle', $content->conte_subtitle, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_text', $content->conte_text, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_image', $content->conte_image, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_link', $content->conte_link, PDO::PARAM_STR);
+        $this->statement->bindParam(':conte_fk_user_pk_id', $content->conte_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':conte_fk_page_pk_id', $content->conte_fk_page_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':conte_pk_id', $content->conte_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
@@ -217,16 +217,16 @@ class DAOContent extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "UPDATE content SET ";
-        $this->query .= "cont_status=:cont_status ";
-        $this->query .= "WHERE cont_pk_id=:cont_pk_id;";
+        $this->query .= "conte_status=:conte_status ";
+        $this->query .= "WHERE conte_pk_id=:conte_pk_id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':cont_status', $content->cont_status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':cont_pk_id', $content->cont_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':conte_status', $content->conte_status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':conte_pk_id', $content->conte_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }

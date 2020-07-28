@@ -13,6 +13,7 @@
     <div class="col-lg-4 mb-4">
         <form action="<?php echo server_url('?page=ControllerFolhaPagamento&option=save'); ?>" enctype="multipart/form-data" method="post">
             <div class="card h-100">
+                <h4 class="card-header text-primary">Registrar Folha de Pagamento</h4>
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary">Competência:</label><br>

@@ -15,7 +15,7 @@
             <div class="col-sm-2 mb-2 mb-sm-0">
                 <div class="input-group input-group-lg">
                     <span class="input-group-text">Código</span>
-                    <input class="form-control" type="text" value="<?php echo $content->cont_fk_page_pk_id; ?>" disabled>
+                    <input class="form-control" type="text" value="<?php echo $content->conte_fk_page_pk_id; ?>" disabled>
                 </div>
             </div>
         </div>
@@ -39,14 +39,14 @@
                     echo '<tbody>';
                     foreach ($contents as $each_content) {
                         echo '<tr>';
-                        echo '<td>', $each_content->cont_pk_id, '</td>';
-                        echo '<td>', $each_content->cont_component, '</td>';
-                        echo '<td>', $each_content->cont_title, '</td>';
-                        echo '<td>', $each_content->cont_subtitle, '</td>';
-                        echo '<td>', $each_content->cont_text, '</td>';
+                        echo '<td>', $each_content->conte_pk_id, '</td>';
+                        echo '<td>', $each_content->conte_component, '</td>';
+                        echo '<td>', $each_content->conte_title, '</td>';
+                        echo '<td>', $each_content->conte_subtitle, '</td>';
+                        echo '<td>', $each_content->conte_text, '</td>';
                         echo '<td>';
-                        if ($each_content->cont_status == true) {
-                            echo '<a title="Editar dados!" href="', server_url('?page=ControllerContent&option=personalize&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                        if ($each_content->conte_status == true) {
+                            echo '<a title="Editar dados!" href="', server_url('?page=ControllerContent&option=personalize&conte_pk_id=' . $each_content->conte_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                             echo '<i class="fas fa-edit"></i>';
                             echo '</a>';
                         }
