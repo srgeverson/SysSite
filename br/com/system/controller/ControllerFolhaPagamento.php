@@ -15,7 +15,6 @@ class ControllerFolhaPagamento {
     private $daoFolhaPagamento;
     private $usuarioAutencitado;
 
-    //ok
     function __construct() {
         $this->info = 'default=default';
         $this->daoFolhaPagamento = new DAOFolhaPagamento();
@@ -25,7 +24,6 @@ class ControllerFolhaPagamento {
         }
     }
 
-    //ok
     public function delete() {
         if (GenericController::authotity()) {
             $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
@@ -47,7 +45,6 @@ class ControllerFolhaPagamento {
         }
     }
 
-    //ok
     public function disable() {
         if (GenericController::authotity()) {
             $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
@@ -117,7 +114,6 @@ class ControllerFolhaPagamento {
         }
     }
 
-    //ok
     public function edit() {
         if (GenericController::authotity()) {
             $fopa_pk_id = $_GET['fopa_pk_id'];
@@ -146,7 +142,6 @@ class ControllerFolhaPagamento {
         }
     }
 
-    //ok
     public function enable() {
         if (GenericController::authotity()) {
             $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
@@ -173,7 +168,6 @@ class ControllerFolhaPagamento {
         }
     }
 
-    //ok
     public function list() {
         if (GenericController::authotity()) {
             if (isset($_POST['func_nome']) && isset($_POST['func_cpf']) && isset($_POST['fopa_competencia'])) {
@@ -194,7 +188,6 @@ class ControllerFolhaPagamento {
         }
     }
 
-    //ok
     public function new() {
         if (GenericController::authotity()) {
             $daoFuncionario = new DAOFuncionario();
@@ -203,7 +196,6 @@ class ControllerFolhaPagamento {
         }
     }
 
-    //ok
     public function save() {
         if (GenericController::authotity()) {
             $fopa_competencia = strip_tags($_POST['fopa_competencia']);
@@ -251,7 +243,6 @@ class ControllerFolhaPagamento {
         }
     }
 
-    //ok
     public function update() {
         if (GenericController::authotity()) {
             $fopa_pk_id = strip_tags($_POST['fopa_pk_id']);
@@ -311,7 +302,6 @@ class ControllerFolhaPagamento {
         }
     }
 
-    //ok
     public function view() {
         if (GenericController::authotity()) {
             $fopa_pk_id = $_GET['fopa_pk_id'];
