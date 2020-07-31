@@ -46,7 +46,7 @@ class ControllerUser {
                         $this->info = "error=" . $erro->getMessage();
                     }
                 } else {
-                    $this->info = "error=user_not_deleted";
+                    $this->info = "error=user_image_not_deleted";
                 }
             }
             $this->list();
@@ -134,23 +134,30 @@ class ControllerUser {
             $user_password = password_hash(strip_tags($_POST['user_password']), PASSWORD_BCRYPT);
 
             $user_image = $_FILES['user_image']['name'];
+            $extensao = pathinfo($user_image, PATHINFO_EXTENSION);
+            $extensao = strtolower($extensao);
             $uploaddir = server_path('br/com/system/uploads/user/');
-            $uploadfile = $uploaddir . $user_image;
-            $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
+            $novo_nome = uniqid(time()) . '.' . $extensao;
+            $uploadfile = $uploaddir . $novo_nome;
 
             try {
-                if ($this->daoUser->selectObjectById($user_pk_id) == false) {
+                $userUpdated = $this->daoUser->selectObjectById($user_pk_id);
+                if ($userUpdated == false) {
                     $this->controllerSystem->welcome('warning=user_not_exists');
                 } else {
                     if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
                         if (move_uploaded_file($_FILES['user_image']['tmp_name'], $uploadfile)) {
-                            $user = new ModelUser();
-                            $user->user_pk_id = $user_pk_id;
-                            $user->user_name = $user_name;
-                            $user->user_password = $user_password;
-                            $user->user_image = $user_image;
-                            $this->daoUser->update_user($user);
-                            $this->controllerSystem->welcome('success=user_profile_edit');
+                            if (unlink(server_path('br/com/system/uploads/user/' . $userUpdated->user_image))) {
+                                $user = new ModelUser();
+                                $user->user_pk_id = $user_pk_id;
+                                $user->user_name = $user_name;
+                                $user->user_password = $user_password;
+                                $user->user_image = $novo_nome;
+                                $this->daoUser->update_user($user);
+                                $this->controllerSystem->welcome('success=user_profile_edit');
+                            } else {
+                                $this->info = "error=user_image_not_deleted";
+                            }
                         }
                     } else {
                         echo '<script>alert("Formato de imagem não aceito!")</script>';
