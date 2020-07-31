@@ -29,17 +29,18 @@ class ControllerFolhaPagamento {
             $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
             if (!isset($fopa_pk_id)) {
                 $this->info = 'warning=folha_pagamento_uninformed';
-            }
-            try {
-                $folhaPagamento = $this->daoFolhaPagamento->selectObjectById($fopa_pk_id);
-                if (unlink(server_path($folhaPagamento->fopa_caminho_arquivo))) {
-                    $this->daoFolhaPagamento->delete($folhaPagamento->fopa_pk_id);
-                    $this->info = "success=folha_pagamento_deleted";
-                } else {
-                    $this->info = 'error=folha_pagamento_not_deleted';
+            } else {
+                try {
+                    $folhaPagamento = $this->daoFolhaPagamento->selectObjectById($fopa_pk_id);
+                    if (unlink(server_path($folhaPagamento->fopa_caminho_arquivo))) {
+                        $this->daoFolhaPagamento->delete($folhaPagamento->fopa_pk_id);
+                        $this->info = "success=folha_pagamento_deleted";
+                    } else {
+                        $this->info = 'error=folha_pagamento_not_deleted';
+                    }
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
                 }
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
             }
             $this->list();
         }
