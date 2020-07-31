@@ -55,6 +55,7 @@ $GLOBALS['dictionary'] = array(
     'folha_pagamento_deleted' => "Folha de pagamento apagada com sucesso.",
     'folha_pagamento_disabled' => "Folha de pagamento desabilitada com sucesso.",
     'folha_pagamento_not_found' => "Folha de pagamento não encontrada.",
+    'folha_pagamento_not_deleted' => "Folha de pagamento não apagada.",
     'folha_pagamento_updated' => "Folha de pagamento atualizada com sucesso.",
     'folha_pagamento_uninformed' => "Folha de pagamento não informada.",
     'folha_pagamento_updated' => "Folha de pagamento atualizadA com sucesso.",

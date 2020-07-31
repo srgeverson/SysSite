@@ -18,4 +18,16 @@ $(document).ready(function () {
             console.log($('#info_object_button').html());
         });
     });
+    //Tela de visualizar a folha de pagamento
+    $(document).on('click', '#folha_pagamento_visualizar', function () {
+        //Testes
+        console.log('Ops....');
+
+        $('#info_object_title').html('Em desenvolvimento...!');
+        $('#info_object_content').html('Tela em indisponível no momeno...');
+        $('#info_object_button').addClass('btn-info btn-lg');
+        $('#info_object_icon').addClass('fa-info');
+        $('#info_object').modal('show');
+    });
 });
+

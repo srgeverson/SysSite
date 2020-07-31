@@ -107,8 +107,5 @@
         
         <!-- Latest compiled and minified JavaScript -->
         <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/select/js/') . 'bootstrap-select.js'; ?>"></script>
-
-        <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-        <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/select/js/') . 'defaults-*.js'; ?>"></script>
     </body>
 </html>

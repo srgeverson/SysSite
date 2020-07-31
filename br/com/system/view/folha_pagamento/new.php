@@ -20,12 +20,8 @@
                         <input class="form-control" name="fopa_competencia" type="text" placeholder="Digite a competência no formato mês/ano..." required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Arquivo:</label><br>
+                        <label class="text-primary">Contra Cheque:</label><br>
                         <input class="form-control" name="fopa_arquivo" type="file" placeholder="Selecione o arquivo...">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary">Caminho do Arquivo:</label><br>
-                        <input class="form-control" name="fopa_caminho_arquivo" type="text" placeholder="Digite o caminho do arquivo...">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Funcionário:</label><br>

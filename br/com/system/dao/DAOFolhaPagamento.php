@@ -28,9 +28,9 @@ class DAOFolhaPagamento extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO folha_pagamento ";
-        $this->query .= "(fopa_competencia, fopa_arquivo, fopa_caminho_arquivo, fopa_status, fopa_fk_funcionario_pk_id, fopa_fk_user_pk_id) ";
+        $this->query .= "(fopa_competencia, fopa_arquivo, fopa_nome_arquivo, fopa_caminho_arquivo, fopa_status, fopa_fk_funcionario_pk_id, fopa_fk_user_pk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:fopa_competencia, :fopa_arquivo, :fopa_caminho_arquivo, :fopa_status, :fopa_fk_funcionario_pk_id, :fopa_fk_user_pk_id)";
+        $this->query .= "(:fopa_competencia, :fopa_arquivo, :fopa_nome_arquivo, :fopa_caminho_arquivo, :fopa_status, :fopa_fk_funcionario_pk_id, :fopa_fk_user_pk_id)";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -39,6 +39,7 @@ class DAOFolhaPagamento extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':fopa_competencia', $folhaPagamento->fopa_competencia, PDO::PARAM_STR);
         $this->statement->bindParam(':fopa_arquivo', $folhaPagamento->fopa_arquivo, PDO::PARAM_STR);
+        $this->statement->bindParam(':fopa_nome_arquivo', $folhaPagamento->fopa_nome_arquivo, PDO::PARAM_STR);
         $this->statement->bindParam(':fopa_caminho_arquivo', $folhaPagamento->fopa_caminho_arquivo, PDO::PARAM_STR);
         $this->statement->bindParam(':fopa_fk_funcionario_pk_id', $folhaPagamento->fopa_fk_funcionario_pk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':fopa_fk_user_pk_id', $folhaPagamento->fopa_fk_user_pk_id, PDO::PARAM_INT);

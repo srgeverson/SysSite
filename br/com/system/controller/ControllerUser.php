@@ -127,6 +127,7 @@ class ControllerUser {
             }
             $user_name = strip_tags($_POST['user_name']);
             $user_password = password_hash(strip_tags($_POST['user_password']), PASSWORD_BCRYPT);
+            
             $user_image = $_FILES['user_image']['name'];
             $uploaddir = server_path('br/com/system/uploads/user/');
             $uploadfile = $uploaddir . $user_image;

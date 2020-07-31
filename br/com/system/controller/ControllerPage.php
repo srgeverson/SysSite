@@ -196,10 +196,10 @@ class ControllerPage {
 
         GenericController::valid_messages($msg);
         $daoPage = new DAOPage();
-        if($daoPage->selectObjectByKey('home')) {
+        if ($daoPage->selectObjectByKey('home')) {
             include_once server_path('br/com/system/view/page/pages/default.php');
         } else {
-            redirect(server_url('?page=ControllerUser&option=authenticate'));
+            include_once server_path('br/com/system/view/user/authenticate.php');
         }
     }
 
