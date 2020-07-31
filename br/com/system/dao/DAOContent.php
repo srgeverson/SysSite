@@ -49,18 +49,6 @@ class DAOContent extends GenericDAO {
         return true;
     }
 
-    public function select() {
-        $this->query = "SELECT * FROM content;";
-        try {
-            $conexao = $this->getInstance();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
-    }
-
     public function selectObjectById($conte_pk_id = 0) {
         $this->query = "SELECT ";
         $this->query .= "c.*, p.page_pk_id, p.page_name, u.user_pk_id, u.user_pk_id ";

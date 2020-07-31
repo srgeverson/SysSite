@@ -48,22 +48,6 @@ class DAOFolhaPagamento extends GenericDAO {
         return true;
     }
 
-    public function select() {
-        $this->query = "SELECT ";
-        $this->query .= "* ";
-        $this->query .= "FROM folha_pagamento AS fp ";
-        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.func_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (fp.fopa_fk_user_pk_id=u.user_pk_id);";
-        try {
-            $conexao = $this->getInstance();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
-    }
-
     public function selectObjectById($fopa_pk_id = 0) {
         $this->query = "SELECT ";
         $this->query .= "fp.*, f.func_pk_id, func_nome, u.user_pk_id, user_name ";

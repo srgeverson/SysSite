@@ -46,18 +46,6 @@ class DAOParameter extends GenericDAO {
         return true;
     }
 
-    public function select() {
-        $this->query = "SELECT * FROM parameter";
-        try {
-            $conexao = $this->getInstance();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
-    }
-
     public function selectObjectById($para_pk_id = 0) {
         $this->query = "SELECT * FROM parameter WHERE para_pk_id=:para_pk_id LIMIT 1;";
         try {
