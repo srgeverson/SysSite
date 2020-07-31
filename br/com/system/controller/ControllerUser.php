@@ -36,13 +36,18 @@ class ControllerUser {
             $user_pk_id = strip_tags($_GET['user_pk_id']);
             if (!isset($user_pk_id)) {
                 $this->info = 'warning=user_uninformed';
-            }
-            try {
-                $this->daoUser->delete($user_pk_id);
-                $this->info = "success=user_deleted";
-                $this->list();
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
+            } else {
+                $user = $this->daoUser->selectObjectById($user_pk_id);
+                if (unlink(server_path('br/com/system/uploads/user/' . $user->user_image))) {
+                    try {
+                        $this->daoUser->delete($user_pk_id);
+                        $this->info = "success=user_deleted";
+                    } catch (Exception $erro) {
+                        $this->info = "error=" . $erro->getMessage();
+                    }
+                } else {
+                    $this->info = "error=user_not_deleted";
+                }
             }
             $this->list();
         }
@@ -127,7 +132,7 @@ class ControllerUser {
             }
             $user_name = strip_tags($_POST['user_name']);
             $user_password = password_hash(strip_tags($_POST['user_password']), PASSWORD_BCRYPT);
-            
+
             $user_image = $_FILES['user_image']['name'];
             $uploaddir = server_path('br/com/system/uploads/user/');
             $uploadfile = $uploaddir . $user_image;
