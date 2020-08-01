@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary">Competência:</label><br>
-                        <input class="form-control" name="fopa_competencia" type="text" placeholder="Digite a competência no formato mês/ano..." required>
+                        <input class="form-control" id="competencia" name="fopa_competencia" type="text" placeholder="Digite a competência no formato mês/ano..." required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Contra Cheque:</label><br>

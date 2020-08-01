@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Competência:</label><br>
-                        <input class="form-control" name="fopa_competencia"  placeholder="Digite a competência no formato mês/ano..." type="text"  value="<?php echo $folhaPagamento->fopa_pk_id; ?>" required>
+                        <input class="form-control" id="competencia" name="fopa_competencia"  placeholder="Digite a competência no formato mês/ano..." type="text"  value="<?php echo $folhaPagamento->fopa_pk_id; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Arquivo:</label><br>
