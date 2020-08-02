@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Foto Perfil:</label><br>
-                        <input class="form-control-file" name="user_image" placeholder="Imagem do perfil..." type="file" required>
+                        <input accept="image/*" class="form-control-file" name="user_image" placeholder="Imagem do perfil..." type="file">
                     </div>
                 </div>
                 <div class="card-footer">
