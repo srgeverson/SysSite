@@ -26,16 +26,16 @@ $(document).ready(function () {
     //MASCARA PARA QUANTIDADE EM KILOGRAMAS
     $('.kilo').mask('###0.000', {reverse: true});
     //TRANSFORMAR TEXTO EM CAIXA ALTA
-//    var $camposTexto = $("input:text");
-//    $camposTexto.keypress(function () {
-//        $camposTexto.keyup(function () {
-//            $(this).val($(this).val().toUpperCase());
-//        });
-//    });
-//    var $camposObsercoes = $("textarea");
-//    $camposObsercoes.keypress(function () {
-//        $camposObsercoes.keyup(function () {
-//            $(this).val($(this).val().toUpperCase());
-//        });
-//    });
+    var $camposTexto = $(".texto");
+    $camposTexto.keypress(function () {
+        $camposTexto.keyup(function () {
+            $(this).val($(this).val().toUpperCase());
+        });
+    });
+    var $camposObsercoes = $("textarea");
+    $camposObsercoes.keypress(function () {
+        $camposObsercoes.keyup(function () {
+            $(this).val($(this).val().toUpperCase());
+        });
+    });
 });
