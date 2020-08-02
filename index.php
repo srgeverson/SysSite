@@ -6,11 +6,13 @@ and open the franze in the editor.
 -->
 <?php
 ob_start();
-ini_set('display_errors', 1);
 include_once './br/com/system/assets/php/conf.php';
 include_once './br/com/system/controller/GenericController.php';
 include_once './br/com/system/controller/ControllerParameter.php';
 include_once './br/com/system/controller/ControllerPage.php';
+
+$parameter = new ControllerParameter();
+ini_set('display_errors', $parameter->getProperty('mostrar_error'));
 
 session_start();
 if (isset($_SESSION['usuario'])) {
