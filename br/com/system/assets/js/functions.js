@@ -13,5 +13,9 @@ $(document).ready(function () {
     $(function () {
         $('#mySelect').selectpicker();
     });
+
+    //Datas
+    //$('.datepicker').datepicker()
+    $('#dpMonths').datepicker();
 });
 
