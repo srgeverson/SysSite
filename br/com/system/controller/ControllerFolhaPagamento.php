@@ -196,7 +196,7 @@ class ControllerFolhaPagamento {
         }
     }
 
-    public function batch() {
+    public function newBatch() {
         if (GenericController::authotity()) {
             include_once server_path('br/com/system/view/folha_pagamento/batch.php');
         }
@@ -309,7 +309,7 @@ class ControllerFolhaPagamento {
             $pdf = new PDFToText($arquivo);
             $resposta = false;
             $texto = $pdf->Text;
-            if (strpos($texto, $cpf)) {
+            if (strpos($texto, $cpf) || strpos($texto, str_replace('-', '', str_replace('.', '', trim('606.717.623-89'))))) {
                 $resposta = true;
             }
             return $resposta;
@@ -322,6 +322,8 @@ class ControllerFolhaPagamento {
             if ($user_logged->user_fk_authority_pk_id == 1) {
                 //echo 'Conteúdo: ' . $this->readFile('http://192.168.0.101/system/br/com/system/uploads/folha_pagamento/15963265325f260284eebde.pdf', '606.717.623-89');
                 //echo 'Conteúdo: ' . $this->searchCPFInFile('http://192.168.0.101/system/br/com/system/uploads/folha_pagamento/15963272065f2605269da0a.pdf', '606.717.623-89');   
+                //echo 'Conteúdo: ' . $this->searchCPFInFile('http://localhost/system/br/com/system/uploads/folha_pagamento/tests.pdf', str_replace('-', '', str_replace('.', '', trim('606.717.623-89'))));
+                echo 'Conteúdo: ' . $this->searchCPFInFile('http://localhost/system/br/com/system/uploads/folha_pagamento/tests.pdf', '606.717.623-89') ? 'CPF encontrado' : 'CPF não encontrado';
             } else {
                 $this->info = "warning=Usuário sem acesso a esta tela.";
                 $this->list();

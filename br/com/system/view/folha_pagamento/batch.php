@@ -13,15 +13,20 @@
     <div class="col-lg-4 mb-4">
         <form action="<?php echo server_url('?page=ControllerFolhaPagamento&option=saveBatch'); ?>" enctype="multipart/form-data" method="post">
             <div class="card h-100">
-                <h4 class="card-header text-primary">Registrar Folha de Pagamento</h4>
+                <h4 class="card-header text-primary">Registrar Lote da Folha de Pagamento</h4>
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary">Competência:</label><br>
-                        <input class="form-control" id="competencia" name="fopa_competencia" type="text" placeholder="Digite a competência no formato mês/ano..." required>
+                        <div class="input-group input-group-lg date" id="dpMonths" data-date="102/2020" data-date-format="mm/yyyy" data-date-viewmode="years" data-date-minviewmode="months">
+                            <div class="input-group-append">
+                                <span class="input-group-text add-on"><i class="fas fa-calendar"></i></span>
+                            </div>
+                            <input class="form-control" id="competencia"  name="fopa_competencia" placeholder="00/0000" type="tel" value="<?php echo date("m/Y"); ?>" required>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Contra Cheques:</label><br>
-                        <input accept=".pdf" class="form-control" multiple="multiple" name="fopa_arquivo[]" type="file" placeholder="Selecione o arquivo...">
+                        <label class="text-primary">Selecionar Lote da Folha de Pagamento:</label><br>
+                        <input accept=".pdf" class="form-control" multiple="multiple" name="fopa_arquivo[]" type="file" placeholder="Selecione o arquivo..." required>
                     </div>
                 </div>
                 <div class="card-footer">

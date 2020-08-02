@@ -17,10 +17,13 @@ class ControllerPage {
 
     private $info;
     private $daoPage;
+    private $usuarioAutencitado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoPage = new DAOPage();
+        global $user_logged;
+        $this->usuarioAutencitado = $user_logged;
     }
 
     public function about($msg = null) {
@@ -195,9 +198,12 @@ class ControllerPage {
         $outros_destaques = $daoContent->selectObjectsByObject($content);
 
         GenericController::valid_messages($msg);
-        $daoPage = new DAOPage();
-        if ($daoPage->selectObjectByKey('home')) {
-            include_once server_path('br/com/system/view/page/pages/default.php');
+        if (isset($this->usuarioAutencitado)) {
+            if ($this->daoPage->selectObjectByKey('home')) {
+                include_once server_path('br/com/system/view/page/pages/default.php');
+            } else {
+                include_once server_path('br/com/system/view/system/welcome.php');
+            }
         } else {
             include_once server_path('br/com/system/view/user/authenticate.php');
         }

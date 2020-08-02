@@ -17,7 +17,12 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary">Competência:</label><br>
-                        <input class="form-control" id="competencia" name="fopa_competencia" type="text" placeholder="Digite a competência no formato mês/ano..." required>
+                        <div class="input-group input-group-lg date" id="dpMonths" data-date="102/2020" data-date-format="mm/yyyy" data-date-viewmode="years" data-date-minviewmode="months">
+                            <div class="input-group-append">
+                                <span class="input-group-text add-on"><i class="fas fa-calendar"></i></span>
+                            </div>
+                            <input class="form-control" id="competencia"  name="fopa_competencia" placeholder="00/0000" type="tel" value="<?php echo date("m/Y"); ?>" required>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Contra Cheque:</label><br>

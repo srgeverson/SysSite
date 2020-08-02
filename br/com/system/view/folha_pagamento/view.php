@@ -23,8 +23,8 @@
                     <input class="form-control" name="fopa_competencia"  placeholder="Digite a competência no formato mês/ano..." type="text"  value="<?php echo $folhaPagamento->fopa_competencia; ?>" disabled>
                 </div>
                 <div class="form-group">
-                    <label class="text-primary">Arquivo:</label><br>
-                    <input class="form-control" name="fopa_arquivo" placeholder="Selecione o arquivo..." type="file" value="<?php echo $folhaPagamento->fopa_arquivo; ?>" disabled>
+                    <label class="text-primary">Nome do Arquivo:</label><br>
+                    <input class="form-control" name="fopa_arquivo" placeholder="Selecione o arquivo..." type="text" value="<?php echo $folhaPagamento->fopa_nome_arquivo; ?>" disabled>
                 </div>
                 <div class="form-group">
                     <label class="text-primary">Funcionário:</label><br>
