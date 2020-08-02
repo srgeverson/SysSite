@@ -13,11 +13,14 @@ class ControllerParameter {
     private $info;
     private $daoParameter;
     private $controllerSystem;
+    private $usuarioAutenticado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoParameter = new DAOParameter();
         $this->controllerSystem = new ControllerSystem();
+        global $user_logged;
+        $this->usuarioAutenticado = $user_logged;
     }
 
     public function delete() {
@@ -114,7 +117,7 @@ class ControllerParameter {
     public function getProperty($key = null) {
         try {
             $parameter = $this->daoParameter->selectObjectByKey($key);
-            if (!isset($parameter->para_value)){
+            if (!isset($parameter->para_value)) {
                 return "Vazio/Desabilitado";
             } else {
                 return $parameter->para_value;
@@ -132,6 +135,7 @@ class ControllerParameter {
                     $parameter->para_key = strip_tags($_POST['para_key']);
                     $parameter->para_value = strip_tags($_POST['para_value']);
                     $parameters = $this->daoParameter->selectObjectsByContainsObject($parameter);
+                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }

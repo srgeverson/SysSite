@@ -15,14 +15,15 @@ class ControllerFuncionario {
 
     private $info;
     private $daoFuncionario;
+    private $usuarioAutenticado;
 
-    //ok
     function __construct() {
         $this->info = 'default=default';
         $this->daoFuncionario = new DAOFuncionario();
+        global $user_logged;
+        $this->usuarioAutenticado = $user_logged;
     }
 
-    //ok
     public function delete() {
         if (GenericController::authotity()) {
             $func_pk_id = strip_tags($_GET['func_pk_id']);
@@ -57,7 +58,6 @@ class ControllerFuncionario {
         }
     }
 
-    //ok
     public function disable() {
         if (GenericController::authotity()) {
             $func_pk_id = strip_tags($_GET['func_pk_id']);
@@ -84,7 +84,6 @@ class ControllerFuncionario {
         }
     }
 
-    //ok
     public function edit() {
         if (GenericController::authotity()) {
             $func_pk_id = $_GET['func_pk_id'];
@@ -111,7 +110,6 @@ class ControllerFuncionario {
         }
     }
 
-    //ok
     public function enable() {
         if (GenericController::authotity()) {
             $func_pk_id = strip_tags($_GET['func_pk_id']);
@@ -138,7 +136,6 @@ class ControllerFuncionario {
         }
     }
 
-    //ok
     public function list() {
         if (GenericController::authotity()) {
             if (isset($_POST['func_nome']) && isset($_POST['func_cpf']) && isset($_POST['func_rg'])) {
@@ -148,6 +145,7 @@ class ControllerFuncionario {
                 $funcionario->func_rg = strip_tags($_POST['func_rg']);
                 try {
                     $funcionarios = $this->daoFuncionario->selectObjectsByContainsObject($funcionario);
+                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -159,7 +157,6 @@ class ControllerFuncionario {
         }
     }
 
-    //ok
     public function new() {
         if (GenericController::authotity()) {
             $daoEstado = new DAOEstado();
@@ -168,7 +165,6 @@ class ControllerFuncionario {
         }
     }
 
-    //ok
     public function save() {
         if (GenericController::authotity()) {
             //Usuário Logado
@@ -262,7 +258,6 @@ class ControllerFuncionario {
         }
     }
 
-    //ok
     public function searchByFkUser($user_pk_id = 0) {
         if (GenericController::authotity()) {
             $funcionario = null;

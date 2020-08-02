@@ -14,15 +14,13 @@ class ControllerFolhaPagamento {
 
     private $info;
     private $daoFolhaPagamento;
-    private $usuarioAutencitado;
+    private $usuarioAutenticado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoFolhaPagamento = new DAOFolhaPagamento();
         global $user_logged;
-        if (isset($user_logged)) {
-            $this->usuarioAutencitado = $user_logged->user_pk_id;
-        }
+        $this->usuarioAutenticado = $user_logged;
     }
 
     public function delete() {
@@ -179,6 +177,7 @@ class ControllerFolhaPagamento {
                 $folhaPagamento->fopa_competencia = strip_tags($_POST['fopa_competencia']);
                 try {
                     $folhaPagamentos = $this->daoFolhaPagamento->selectObjectsByContainsObject($folhaPagamento);
+                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -229,7 +228,7 @@ class ControllerFolhaPagamento {
                                     $folhaPagamento->fopa_nome_arquivo = $novo_nome;
                                     $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
                                     $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
-                                    $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutencitado;
+                                    $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutenticado->user_pk_id;
                                     $folhaPagamento->fopa_status = $fopa_status;
                                     try {
                                         $this->daoFolhaPagamento->save($folhaPagamento);
@@ -280,7 +279,7 @@ class ControllerFolhaPagamento {
                                         $folhaPagamento->fopa_nome_arquivo = $novo_nome;
                                         $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
                                         $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
-                                        $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutencitado;
+                                        $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutenticado->user_pk_id;
                                         $folhaPagamento->fopa_status = $fopa_status;
                                         try {
                                             $this->daoFolhaPagamento->save($folhaPagamento);
@@ -377,7 +376,7 @@ class ControllerFolhaPagamento {
                 $folhaPagamento->fopa_nome_arquivo = $novo_nome;
                 $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
                 $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
-                $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutencitado;
+                $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutenticado->user_pk_id;
 
                 try {
                     $this->daoFolhaPagamento->update($folhaPagamento);

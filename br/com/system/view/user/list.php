@@ -98,9 +98,11 @@
                         echo '<a title="Ativar dados!" href="', server_url('?page=ControllerUser&option=enable&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
-                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerUser&option=delete&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
-                        echo '<i class="fas fa-trash"></i>';
-                        echo '</a>';
+                        if ($permissao == 1) {
+                            echo '<a title="Excluir dados!" href="', server_url('?page=ControllerUser&option=delete&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                            echo '<i class="fas fa-trash"></i>';
+                            echo '</a>';
+                        }
                     }
                     echo '<a title="Gerar Nova Senha!" href="', server_url('?page=ControllerUser&option=reset&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                     echo '<i class="fas fa-key"></i>';

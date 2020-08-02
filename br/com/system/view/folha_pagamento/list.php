@@ -110,9 +110,11 @@
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
                     }
-                    echo '<a title="Excluir dados!" href="', server_url('?page=ControllerFolhaPagamento&option=delete&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
-                    echo '<i class="fas fa-trash"></i>';
-                    echo '</a>';
+                    if ($permissao == 1) {
+                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerFolhaPagamento&option=delete&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                        echo '<i class="fas fa-trash"></i>';
+                        echo '</a>';
+                    }
                     echo '</td>';
                     echo '</tr>';
                 }

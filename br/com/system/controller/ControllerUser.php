@@ -16,11 +16,14 @@ class ControllerUser {
     private $info;
     private $controllerSystem;
     private $daoUser;
+    private $usuarioAutenticado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->controllerSystem = new ControllerSystem();
         $this->daoUser = new DAOUser();
+        global $user_logged;
+        $this->usuarioAutenticado = $user_logged;
     }
 
     public function authenticate() {
@@ -215,6 +218,7 @@ class ControllerUser {
                     $users = $this->daoUser->selectObjectsByContainsObjetc($user);
                     $daoAuthority = new DAOAuthority();
                     $authorities = $daoAuthority->selectObjectsEnabled();
+                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
