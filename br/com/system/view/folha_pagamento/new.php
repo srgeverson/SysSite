@@ -21,18 +21,7 @@
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Contra Cheque:</label><br>
-                        <input class="form-control" name="fopa_arquivo" type="file" placeholder="Selecione o arquivo...">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary">Funcionário:</label><br>
-                        <select id="mySelect" name="fopa_fk_funcionario_pk_id" class="selectpicker form-control" data-live-search="true" required>
-                            <option></option>
-                            <?php
-                            foreach ($funcionarios as $each_funcionario) {
-                                echo '<option value="', $each_funcionario->func_pk_id, '">', $each_funcionario->func_nome, '</option>';
-                            }
-                            ?>
-                        </select>
+                        <input accept=".pdf" class="form-control" name="fopa_arquivo" type="file" placeholder="Selecione o arquivo..." required>
                     </div>
                 </div>
                 <div class="card-footer">

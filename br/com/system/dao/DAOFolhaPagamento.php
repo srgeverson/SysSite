@@ -89,12 +89,12 @@ class DAOFolhaPagamento extends GenericDAO {
 
     public function selectObjectsEnabled() {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.user_pk_id, u.user_name ";
-        $this->query .= "FROM folha_pagamento AS e ";
-        $this->query .= "INNER JOIN estado AS es ON (e.fopa_fk_funcionario_pk_id=es.esta_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (e.fopa_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "fp.*, f.func_pk_id, f.func_nome, f.func_cpf, u.user_pk_id, u.user_name ";
+        $this->query .= "FROM folha_pagamento AS fp ";
+        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.func_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (fp.fopa_fk_user_pk_id=u.user_pk_id) ";
         $this->query .= "WHERE ";
-        $this->query .= "p.fopa_status = 1;";
+        $this->query .= "fp.fopa_status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {

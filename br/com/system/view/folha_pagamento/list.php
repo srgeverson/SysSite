@@ -16,19 +16,19 @@
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">Nome</span>
-                        <input class="form-control" type="text" name="func_nome">
+                        <input class="form-control" name="func_nome" placeholder="Digite o nome" type="text">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">CPF</span>
-                        <input class="form-control" id="cpf" type="tel" name="func_cpf">
+                        <input class="form-control" id="cpf" name="func_cpf" placeholder="000.000.000-00"type="tel" >
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">Competência</span>
-                        <input class="form-control" id="competencia" type="tel" name="fopa_competencia">
+                        <input class="form-control" id="competencia" name="fopa_competencia" placeholder="00/0000" type="tel">
                     </div>
                 </div>
             </div>
@@ -39,7 +39,17 @@
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>
-                            <span class="text">Cadastrar</span>
+                            <span class="text">Incluir Único</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-2 mb-3 mb-sm-4">
+                    <div class="input-group input-group-lg">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=batch'); ?>" class="btn btn-primary btn-icon-split btn-lg">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-folder-plus"></i>
+                            </span>
+                            <span class="text">Incluir Lote</span>
                         </a>
                     </div>
                 </div>

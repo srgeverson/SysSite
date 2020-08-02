@@ -8,6 +8,7 @@
 include_once server_path("br/com/system/dao/DAOFolhaPagamento.php");
 include_once server_path("br/com/system/dao/DAOFuncionario.php");
 include_once server_path("br/com/system/model/ModelFolhaPagamento.php");
+include_once server_path('br/com/system/assets/php/PdfToText/PdfToText.phpclass');
 
 class ControllerFolhaPagamento {
 
@@ -191,16 +192,19 @@ class ControllerFolhaPagamento {
 
     public function new() {
         if (GenericController::authotity()) {
-            $daoFuncionario = new DAOFuncionario();
-            $funcionarios = $daoFuncionario->selectObjectsEnabled();
             include_once server_path('br/com/system/view/folha_pagamento/new.php');
+        }
+    }
+
+    public function batch() {
+        if (GenericController::authotity()) {
+            include_once server_path('br/com/system/view/folha_pagamento/batch.php');
         }
     }
 
     public function save() {
         if (GenericController::authotity()) {
             $fopa_competencia = strip_tags($_POST['fopa_competencia']);
-            //Início->Tratando arquivo para upload 
             if (isset($_FILES["fopa_arquivo"])) {
                 $arquivo_temporario = $_FILES['fopa_arquivo']['tmp_name'];
                 $fopa_nome_arquivo = $_FILES['fopa_arquivo']['name'];
@@ -210,37 +214,118 @@ class ControllerFolhaPagamento {
                 $novo_nome = uniqid(time()) . '.' . $extensao;
                 $uploadfile = $uploaddir . $novo_nome;
 
-                $abreArquivo = fopen($arquivo_temporario, 'rb');
-                $lerArquivo = fread($abreArquivo, filesize($arquivo_temporario));
-                fclose($abreArquivo);
-                $fopa_arquivo = bin2hex($lerArquivo);
-            }
-            //Fim->Tratando arquivo para upload 
-            $fopa_fk_funcionario_pk_id = strip_tags($_POST['fopa_fk_funcionario_pk_id']);
-            $fopa_status = true;
-
-            if (strstr('.pdf', $extensao)) {
-                if (move_uploaded_file($arquivo_temporario, $uploadfile)) {
-                    $folhaPagamento = new ModelFolhaPagamento();
-                    $folhaPagamento->fopa_competencia = $fopa_competencia;
-                    $folhaPagamento->fopa_arquivo = $fopa_arquivo;
-                    $folhaPagamento->fopa_nome_arquivo = $novo_nome;
-                    $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
-                    $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
-                    $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutencitado;
-                    $folhaPagamento->fopa_status = $fopa_status;
-                    try {
-                        $this->daoFolhaPagamento->save($folhaPagamento);
-                        $this->info = "success=folha_pagamento_created";
-                    } catch (Exception $erro) {
-                        $this->info = "error=" . $erro->getMessage();
+                $daoFuncionario = new DAOFuncionario();
+                $funcionarios = $daoFuncionario->selectObjectsEnabled();
+                if (!empty($funcionarios)) {
+                    foreach ($funcionarios as $each_funcionario) {
+                        if ($this->searchCPFInFile($arquivo_temporario, $each_funcionario->func_cpf)) {
+                            $fopa_fk_funcionario_pk_id = $each_funcionario->func_pk_id;
+                            $fopa_status = true;
+                            if (strstr('.pdf', $extensao)) {
+                                if (move_uploaded_file($arquivo_temporario, $uploadfile)) {
+                                    $folhaPagamento = new ModelFolhaPagamento();
+                                    $folhaPagamento->fopa_competencia = $fopa_competencia;
+                                    $folhaPagamento->fopa_arquivo = null;
+                                    $folhaPagamento->fopa_nome_arquivo = $novo_nome;
+                                    $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
+                                    $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
+                                    $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutencitado;
+                                    $folhaPagamento->fopa_status = $fopa_status;
+                                    try {
+                                        $this->daoFolhaPagamento->save($folhaPagamento);
+                                        $this->info = "success=folha_pagamento_created";
+                                    } catch (Exception $erro) {
+                                        $this->info = "error=" . $erro->getMessage();
+                                    }
+                                }
+                            }
+                        } else {
+                            $this->info = "warning=Contra cheque não pertence a nenhum funcionário";
+                        }
                     }
+                } else {
+                    $this->info = "warning=Não existe funcionários cadastrados/habilitados";
                 }
-            } else {
-                echo '<script>alert("Arquivo não aceito!")</script>';
-                redirect("javascript:window.history.go(-1)");
             }
             $this->list();
+        }
+    }
+
+    public function saveBatch() {
+        if (GenericController::authotity()) {
+            $countFileNotUpload = 0;
+            $countFileUpload = 0;
+            $fopa_competencia = strip_tags($_POST['fopa_competencia']);
+            $arquivos = $_FILES["fopa_arquivo"];
+            if (isset($arquivos)) {
+                $daoFuncionario = new DAOFuncionario();
+                $funcionarios = $daoFuncionario->selectObjectsEnabled();
+                if (!empty($funcionarios)) {
+                    for ($index = 0; $index < count($arquivos['name']); $index++) {
+                        foreach ($funcionarios as $each_funcionario) {
+                            if ($this->searchCPFInFile($arquivos['tmp_name'][$index], $each_funcionario->func_cpf)) {
+                                $extensao = pathinfo($arquivos['name'][$index], PATHINFO_EXTENSION);
+                                $extensao = strtolower($extensao);
+                                $uploaddir = server_path('br/com/system/uploads/folha_pagamento/');
+                                $novo_nome = uniqid(time()) . '.' . $extensao;
+                                $uploadfile = $uploaddir . $novo_nome;
+
+                                $fopa_fk_funcionario_pk_id = $each_funcionario->func_pk_id;
+                                $fopa_status = true;
+                                if (strstr('.pdf', $extensao)) {
+                                    if (move_uploaded_file($arquivos['tmp_name'][$index], $uploadfile)) {
+                                        $folhaPagamento = new ModelFolhaPagamento();
+                                        $folhaPagamento->fopa_competencia = $fopa_competencia;
+                                        $folhaPagamento->fopa_arquivo = null;
+                                        $folhaPagamento->fopa_nome_arquivo = $novo_nome;
+                                        $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
+                                        $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
+                                        $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutencitado;
+                                        $folhaPagamento->fopa_status = $fopa_status;
+                                        try {
+                                            $this->daoFolhaPagamento->save($folhaPagamento);
+                                            $countFileUpload++;
+                                        } catch (Exception $erro) {
+                                            $this->info = "error=" . $erro->getMessage();
+                                        }
+                                    }
+                                }
+                            } else {
+                                $countFileNotUpload++;
+                            }
+                        }
+                    }
+                    $this->info = 'success=' . $countFileUpload . ' Arquivos salvos, e ' . $countFileNotUpload . ' Arquivos descartados.';
+                } else {
+                    $this->info = "warning=Não existe funcionários cadastrados/habilitados";
+                }
+            }
+            $this->list();
+        }
+    }
+
+    public function searchCPFInFile($arquivo, $cpf) {
+        if (GenericController::authotity()) {
+            $pdf = new PDFToText($arquivo);
+            $resposta = false;
+            $texto = $pdf->Text;
+            if (strpos($texto, $cpf)) {
+                $resposta = true;
+            }
+            return $resposta;
+        }
+    }
+
+    public function tests() {
+        global $user_logged;
+        if (GenericController::authotity()) {
+            if ($user_logged->user_fk_authority_pk_id == 1) {
+                //echo 'Conteúdo: ' . $this->readFile('http://192.168.0.101/system/br/com/system/uploads/folha_pagamento/15963265325f260284eebde.pdf', '606.717.623-89');
+                //echo 'Conteúdo: ' . $this->searchCPFInFile('http://192.168.0.101/system/br/com/system/uploads/folha_pagamento/15963272065f2605269da0a.pdf', '606.717.623-89');   
+            } else {
+                $this->info = "warning=Usuário sem acesso a esta tela.";
+                $this->list();
+            }
         }
     }
 
@@ -250,53 +335,57 @@ class ControllerFolhaPagamento {
             if (!isset($fopa_pk_id)) {
                 $this->info = 'warning=folha_pagamento_uninformed';
             } else {
-                $folhaPagamento = $this->daoFolhaPagamento->selectObjectById($fopa_pk_id);
+                try {
+                    $folhaPagamentoAntigo = $this->daoFolhaPagamento->selectObjectById($fopa_pk_id);
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                }
                 $fopa_competencia = strip_tags($_POST['fopa_competencia']);
-                //Início->Tratando arquivo para upload 
-                if (isset($_FILES["fopa_arquivo"])) {
+                $fopa_nome_arquivo = $_FILES['fopa_arquivo']['name'];
+                $novo_nome = null;
+
+                if ($fopa_nome_arquivo !== "") {
+                    //Início->Tratando arquivo para upload 
                     $arquivo_temporario = $_FILES['fopa_arquivo']['tmp_name'];
-                    $fopa_nome_arquivo = $_FILES['fopa_arquivo']['name'];
                     $extensao = pathinfo($fopa_nome_arquivo, PATHINFO_EXTENSION);
                     $extensao = strtolower($extensao);
                     $uploaddir = server_path('br/com/system/uploads/folha_pagamento/');
                     $novo_nome = uniqid(time()) . '.' . $extensao;
                     $uploadfile = $uploaddir . $novo_nome;
-
-                    $abreArquivo = fopen($arquivo_temporario, 'rb');
-                    $lerArquivo = fread($abreArquivo, filesize($arquivo_temporario));
-                    fclose($abreArquivo);
-                    $fopa_arquivo = bin2hex($lerArquivo);
-
                     //Fim->Tratando arquivo para upload 
-                    $fopa_fk_funcionario_pk_id = strip_tags($_POST['fopa_fk_funcionario_pk_id']);
-
                     if (strstr('.pdf', $extensao)) {
-                        unlink(server_path($folhaPagamento->fopa_caminho_arquivo));
                         if (move_uploaded_file($arquivo_temporario, $uploadfile)) {
-                            $folhaPagamento = new ModelFolhaPagamento();
-                            $folhaPagamento->fopa_pk_id = $fopa_pk_id;
-                            $folhaPagamento->fopa_competencia = $fopa_competencia;
-                            $folhaPagamento->fopa_arquivo = $fopa_arquivo;
-                            $folhaPagamento->fopa_nome_arquivo = $novo_nome;
-                            $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
-                            $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
-                            $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutencitado;
-
-                            try {
-                                $this->daoFolhaPagamento->update($folhaPagamento);
-                                if ($folhaPagamento == null) {
-                                    $this->info = 'warning=folha_pagamento_not_exists';
-                                } else {
-                                    $this->info = 'success=folha_pagamento_updated';
-                                }
-                            } catch (Exception $erro) {
-                                $this->info = "error=" . $erro->getMessage();
+                            if ($folhaPagamentoAntigo->fopa_caminho_arquivo) {
+                                unlink(server_path($folhaPagamentoAntigo->fopa_caminho_arquivo));
                             }
                         }
                     } else {
                         echo '<script>alert("Arquivo não aceito!")</script>';
                         redirect("javascript:window.history.go(-1)");
                     }
+                } else {
+                    $novo_nome = $folhaPagamentoAntigo->fopa_nome_arquivo;
+                }
+                $fopa_fk_funcionario_pk_id = strip_tags($_POST['fopa_fk_funcionario_pk_id']);
+
+                $folhaPagamento = new ModelFolhaPagamento();
+                $folhaPagamento->fopa_pk_id = $fopa_pk_id;
+                $folhaPagamento->fopa_competencia = $fopa_competencia;
+                $folhaPagamento->fopa_arquivo = null;
+                $folhaPagamento->fopa_nome_arquivo = $novo_nome;
+                $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
+                $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
+                $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutencitado;
+
+                try {
+                    $this->daoFolhaPagamento->update($folhaPagamento);
+                    if ($folhaPagamento == null) {
+                        $this->info = 'warning=folha_pagamento_not_exists';
+                    } else {
+                        $this->info = 'success=folha_pagamento_updated';
+                    }
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
                 }
             }
             $this->list();
