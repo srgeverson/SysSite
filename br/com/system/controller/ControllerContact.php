@@ -35,6 +35,7 @@ class ControllerContact {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
+            $this->list();
         }
     }
 
@@ -184,7 +185,7 @@ class ControllerContact {
             $parameter = new ControllerParameter();
             $mail = new PHPMailer();
             $mail->IsSMTP();
-            $mail->SMTPDebug = 1;
+            $mail->SMTPDebug = $parameter->getProperty('servidor_debug_email');
             $mail->SMTPAuth = true;
             $mail->SMTPSecure = $parameter->getProperty('servidor_email_seguranca');
             $mail->Host = $parameter->getProperty('servidor_email_smtp');

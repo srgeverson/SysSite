@@ -13,29 +13,20 @@
     <div class="col-lg-4 mb-4">
         <form action="<?php echo server_url('?page=ControllerFolhaPagamento&option=save'); ?>" enctype="multipart/form-data" method="post">
             <div class="card h-100">
+                <h4 class="card-header text-primary">Registrar Folha de Pagamento</h4>
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary">Competência:</label><br>
-                        <input class="form-control" name="fopa_competencia" type="text" placeholder="Digite a competência no formato mês/ano..." required>
+                        <div class="input-group input-group-lg date" id="dpMonths" data-date="102/2020" data-date-format="mm/yyyy" data-date-viewmode="years" data-date-minviewmode="months">
+                            <div class="input-group-append">
+                                <span class="input-group-text add-on"><i class="fas fa-calendar"></i></span>
+                            </div>
+                            <input class="form-control" id="competencia"  name="fopa_competencia" placeholder="00/0000" type="tel" value="<?php echo date("m/Y"); ?>" required>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Arquivo:</label><br>
-                        <input class="form-control" name="fopa_arquivo" type="file" placeholder="Selecione o arquivo...">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary">Caminho do Arquivo:</label><br>
-                        <input class="form-control" name="fopa_caminho_arquivo" type="text" placeholder="Digite o caminho do arquivo...">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary">Funcionário:</label><br>
-                        <select id="mySelect" name="fopa_fk_funcionario_pk_id" class="selectpicker form-control" data-live-search="true" required>
-                            <option></option>
-                            <?php
-                            foreach ($funcionarios as $each_funcionario) {
-                                echo '<option value="', $each_funcionario->func_pk_id, '">', $each_funcionario->func_nome, '</option>';
-                            }
-                            ?>
-                        </select>
+                        <label class="text-primary">Contra Cheque:</label><br>
+                        <input accept=".pdf" class="form-control" name="fopa_arquivo" type="file" placeholder="Selecione o arquivo..." required>
                     </div>
                 </div>
                 <div class="card-footer">

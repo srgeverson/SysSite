@@ -16,11 +16,14 @@ class ControllerUser {
     private $info;
     private $controllerSystem;
     private $daoUser;
+    private $usuarioAutenticado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->controllerSystem = new ControllerSystem();
         $this->daoUser = new DAOUser();
+        global $user_logged;
+        $this->usuarioAutenticado = $user_logged;
     }
 
     public function authenticate() {
@@ -36,13 +39,18 @@ class ControllerUser {
             $user_pk_id = strip_tags($_GET['user_pk_id']);
             if (!isset($user_pk_id)) {
                 $this->info = 'warning=user_uninformed';
-            }
-            try {
-                $this->daoUser->delete($user_pk_id);
-                $this->info = "success=user_deleted";
-                $this->list();
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
+            } else {
+                $user = $this->daoUser->selectObjectById($user_pk_id);
+                if (unlink(server_path('br/com/system/uploads/user/' . $user->user_image))) {
+                    try {
+                        $this->daoUser->delete($user_pk_id);
+                        $this->info = "success=user_deleted";
+                    } catch (Exception $erro) {
+                        $this->info = "error=" . $erro->getMessage();
+                    }
+                } else {
+                    $this->info = "error=user_image_not_deleted";
+                }
             }
             $this->list();
         }
@@ -127,32 +135,44 @@ class ControllerUser {
             }
             $user_name = strip_tags($_POST['user_name']);
             $user_password = password_hash(strip_tags($_POST['user_password']), PASSWORD_BCRYPT);
-            $user_image = $_FILES['user_image']['name'];
-            $uploaddir = server_path('br/com/system/uploads/user/');
-            $uploadfile = $uploaddir . $user_image;
-            $extensao = pathinfo($uploadfile, PATHINFO_EXTENSION);
 
-            try {
-                if ($this->daoUser->selectObjectById($user_pk_id) == false) {
-                    $this->controllerSystem->welcome('warning=user_not_exists');
-                } else {
+            $user_image = $_FILES['user_image']['name'];
+            $extensao = pathinfo($user_image, PATHINFO_EXTENSION);
+            $extensao = strtolower($extensao);
+            $uploaddir = server_path('br/com/system/uploads/user/');
+            $novo_nome = uniqid(time()) . '.' . $extensao;
+            $uploadfile = $uploaddir . $novo_nome;
+
+
+            $userUpdated = $this->daoUser->selectObjectById($user_pk_id);
+            if ($userUpdated == false) {
+                $this->controllerSystem->welcome('warning=user_not_exists');
+            } else {
+                if ($user_image !== "") {
                     if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
                         if (move_uploaded_file($_FILES['user_image']['tmp_name'], $uploadfile)) {
-                            $user = new ModelUser();
-                            $user->user_pk_id = $user_pk_id;
-                            $user->user_name = $user_name;
-                            $user->user_password = $user_password;
-                            $user->user_image = $user_image;
-                            $this->daoUser->update_user($user);
-                            $this->controllerSystem->welcome('success=user_profile_edit');
+                            if ($userUpdated->user_image !== "" || $userUpdated->user_image !== null) {
+                                unlink(server_path('br/com/system/uploads/user/' . $userUpdated->user_image));
+                            }
                         }
                     } else {
                         echo '<script>alert("Formato de imagem não aceito!")</script>';
                         redirect("javascript:window.history.go(-1)");
                     }
+                } else {
+                    $novo_nome = $userUpdated->user_image;
                 }
-            } catch (Exception $erro) {
-                $this->controllerSystem->welcome('error=' . $erro->getMessage());
+                try {
+                    $user = new ModelUser();
+                    $user->user_pk_id = $user_pk_id;
+                    $user->user_name = $user_name;
+                    $user->user_password = $user_password;
+                    $user->user_image = $novo_nome;
+                    $this->daoUser->update_user($user);
+                    $this->controllerSystem->welcome('success=user_profile_edit');
+                } catch (Exception $erro) {
+                    $this->controllerSystem->welcome('error=' . $erro->getMessage());
+                }
             }
         }
     }
@@ -198,6 +218,7 @@ class ControllerUser {
                     $users = $this->daoUser->selectObjectsByContainsObjetc($user);
                     $daoAuthority = new DAOAuthority();
                     $authorities = $daoAuthority->selectObjectsEnabled();
+                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }

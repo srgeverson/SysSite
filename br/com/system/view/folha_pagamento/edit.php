@@ -7,27 +7,23 @@
 ?>
 <br>
 <div class="row">
-
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
-        <form action="<?php echo server_url('?page=ControllerFolhaPagamento&option=update'); ?>" method="post">
+        <form action="<?php echo server_url('?page=ControllerFolhaPagamento&option=update'); ?>" enctype="multipart/form-data" method="post">
             <div class="card h-100">
+                <h4 class="card-header text-primary">Alterar Folha de Pagamento</h4>
                 <div class="card-body">
                     <div class="form-group">
                         <input class="form-control" name="fopa_pk_id" type="hidden" value="<?php echo $folhaPagamento->fopa_pk_id; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Competência:</label><br>
-                        <input class="form-control" name="fopa_competencia"  placeholder="Digite a competência no formato mês/ano..." type="text"  value="<?php echo $folhaPagamento->fopa_pk_id; ?>" required>
+                        <input class="form-control" id="competencia" name="fopa_competencia"  placeholder="Digite a competência no formato mês/ano..." type="text"  value="<?php echo $folhaPagamento->fopa_competencia; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Arquivo:</label><br>
-                        <input class="form-control" name="fopa_arquivo" placeholder="Selecione o arquivo..." type="file" value="<?php echo $folhaPagamento->fopa_arquivo; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary">Caminho do Arquivo:</label><br>
-                        <input class="form-control" name="fopa_caminho_arquivo" placeholder="Digite o caminho do arquivo..." type="text" value="<?php echo $folhaPagamento->fopa_caminho_arquivo; ?>" >
+                        <input accept=".pdf" class="form-control" name="fopa_arquivo" placeholder="Selecione o arquivo..." type="file" >
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Funcionário:</label><br>

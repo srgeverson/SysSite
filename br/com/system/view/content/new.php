@@ -16,31 +16,31 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary">Componente:</label><br>
-                        <input class="form-control" name="cont_component" type="text" placeholder="Digite um nome do component..." required>
+                        <input class="form-control" name="conte_component" type="text" placeholder="Digite um nome do component..." required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Título:</label><br>
-                        <input class="form-control" name="cont_title" type="text" placeholder="Digite um título...">
+                        <input class="form-control" name="conte_title" type="text" placeholder="Digite um título...">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Subtítulo:</label><br>
-                        <input class="form-control" name="cont_subtitle" type="text" placeholder="Digite um subtítulo...">
+                        <input class="form-control" name="conte_subtitle" type="text" placeholder="Digite um subtítulo...">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Imagem:</label><br>
-                        <input class="form-control-file" name="cont_image" placeholder="Imagem..." type="file">
+                        <input class="form-control-file" name="conte_image" placeholder="Imagem..." type="file">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Link:</label><br>
-                        <input class="form-control" name="cont_link" type="text" placeholder="Cole o link aqui...">
+                        <input class="form-control" name="conte_link" type="text" placeholder="Cole o link aqui...">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Texto:</label><br>
-                        <textarea class="form-control" name="cont_text" placeholder="Texto para o conteúdo..." ></textarea>
+                        <textarea class="form-control" name="conte_text" placeholder="Texto para o conteúdo..." ></textarea>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Página:</label><br>
-                        <select name="cont_fk_page_pk_id" class="form-control" required>
+                        <select name="conte_fk_page_pk_id" class="form-control" required>
                             <option></option>
                             <?php
                             foreach ($pages as $each_page) {

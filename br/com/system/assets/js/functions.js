@@ -6,10 +6,16 @@
 
 // Chamadas de Funções Necessárias
 $(document).ready(function () {
+    //Tabelas
     $('#dataTable').DataTable();
 
+    //Combox
     $(function () {
         $('#mySelect').selectpicker();
     });
+
+    //Datas
+    //$('.datepicker').datepicker()
+    $('#dpMonths').datepicker();
 });
 

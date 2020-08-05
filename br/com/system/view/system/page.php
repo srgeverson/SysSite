@@ -31,9 +31,12 @@
 
         <!-- Custom styles for this template -->
         <link href="<?php echo server_url('br/com/system/assets/css/') . 'modern-business.css'; ?>" rel="stylesheet">
-                
+
         <!-- Latest compiled and minified CSS -->
         <link href="<?php echo server_url('br/com/system/assets/vendor/bootstrap/select/css/') . 'bootstrap-select.css'; ?>" rel="stylesheet" type="text/css">
+
+        <!-- datapiker CSS -->
+        <link href="<?php echo server_url('br/com/system/assets/vendor/bootstrap/datepicker/css/') . 'datepicker.css'; ?>" rel="stylesheet" type="text/css">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $parameter->getProperty('google_analytics'); ?>"></script>
         <script>
@@ -104,11 +107,11 @@
         <script src="<?php echo server_url('br/com/system/assets/js/') . 'info.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/js/') . 'masks.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/js/') . 'validator.js'; ?>"></script>
-        
+
         <!-- Latest compiled and minified JavaScript -->
         <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/select/js/') . 'bootstrap-select.js'; ?>"></script>
-
-        <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-        <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/select/js/') . 'defaults-*.js'; ?>"></script>
+        
+        <!-- Datepicker bootstrap -->
+        <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/datepicker/js/') . 'bootstrap-datepicker.js'; ?>"></script>
     </body>
 </html>

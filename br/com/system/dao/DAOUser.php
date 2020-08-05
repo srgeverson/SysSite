@@ -70,38 +70,6 @@ class DAOUser extends GenericDAO {
         return true;
     }
 
-    public function select() {
-        $this->query = "SELECT ";
-        $this->query .= "u.*, a.auth_pk_id, a.auth_description ";
-        $this->query .= "FROM user AS u ";
-        $this->query .= "INNER JOIN authority AS a ON (u.user_fk_auth_pk_id = a.auth_pk_id);";
-        try {
-            $conexao = $this->getInstance();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function selectLogAccess($user_pk_id = null) {
-        $this->query = "SELECT ";
-        $this->query .= "* ";
-        $this->query .= "FROM user AS u ";
-        $this->query .= "RIGHT JOIN log_user AS lu ON (u.user_pk_id = lu.lusua_id_tabela) ";
-        $this->query .= "WHERE u.user_pk_id = :user_pk_id AND lu.lusua_o_que_modificou = 'Data Ultimo Acesso';";
-        try {
-            $conexao = $this->getInstance();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':user_pk_id', $user_pk_id, PDO::PARAM_INT);
-        $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
-    }
-
     public function selectObjectById($user_pk_id = "") {
         $this->query = "SELECT ";
         $this->query .= "u.*, a.auth_pk_id, a.auth_description ";

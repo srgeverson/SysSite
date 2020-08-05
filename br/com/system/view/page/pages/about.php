@@ -31,11 +31,11 @@
         echo '<div class="row">';
         foreach ($modern_business as $each_modern_business) {
             echo '<div class="col-lg-6">';
-            echo '<img class="img-fluid rounded mb-4" src="', isset($each_modern_business->cont_image) ? server_url('br/com/system/uploads/content/' . $each_modern_business->cont_image) : server_url('br/com/system/assets/img/img_not_found.png'), '" alt = "', $each_modern_business->cont_title, '">';
+            echo '<img class="img-fluid rounded mb-4" src="', isset($each_modern_business->conte_image) ? server_url('br/com/system/uploads/content/' . $each_modern_business->conte_image) : server_url('br/com/system/assets/img/img_not_found.png'), '" alt = "', $each_modern_business->conte_title, '">';
             echo '</div>';
             echo '<div class="col-lg-6">';
-            echo '<h2>', $each_modern_business->cont_title, '</h2>';
-            echo '<p>', $each_modern_business->cont_text, '</p>';
+            echo '<h2>', $each_modern_business->conte_title, '</h2>';
+            echo '<p>', $each_modern_business->conte_text, '</p>';
             echo '</div>';
         }
         echo '</div>';
@@ -51,14 +51,14 @@
         foreach ($our_team as $each_our_team) {
             echo '<div class="col-lg-4 mb-4">';
             echo ' <div class="card h-100 text-center">';
-            echo '<img class = "img-fluid" src="', isset($each_our_team->cont_image) ? server_url('br/com/system/uploads/content/' . $each_our_team->cont_image) : server_url('br/com/system/assets/img/img_not_found.png'), '" alt = "', $each_our_team->cont_title, '">';
+            echo '<img class = "img-fluid" src="', isset($each_our_team->conte_image) ? server_url('br/com/system/uploads/content/' . $each_our_team->conte_image) : server_url('br/com/system/assets/img/img_not_found.png'), '" alt = "', $each_our_team->conte_title, '">';
             echo '<div class="card-body">';
-            echo '<h4 class="card-title">', $each_our_team->cont_title, '</h4>';
-            echo '<h6 class="card-subtitle mb-2 text-muted">', $each_our_team->cont_subtitle, '</h6>';
-            echo '<p class="card-text">', $each_our_team->cont_text, '</p>';
+            echo '<h4 class="card-title">', $each_our_team->conte_title, '</h4>';
+            echo '<h6 class="card-subtitle mb-2 text-muted">', $each_our_team->conte_subtitle, '</h6>';
+            echo '<p class="card-text">', $each_our_team->conte_text, '</p>';
             echo '</div>';
             echo '<div class="card-footer">';
-            echo '<a href="', isset($each_our_team->cont_link) ? $each_our_team->cont_link : '#', '">Saiba mais...</a>';
+            echo '<a href="', isset($each_our_team->conte_link) ? $each_our_team->conte_link : '#', '">Saiba mais...</a>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -76,7 +76,7 @@
         echo '<div class="row">';
         foreach ($our_customers as $each_our_customer) {
             echo '<div class="col-lg-2 col-sm-4 mb-4">';
-            echo '<img class = "img-fluid" src="', isset($each_our_customer->cont_image) ? server_url('br/com/system/uploads/content/' . $each_our_customer->cont_image) : server_url('br/com/system/assets/img/img_not_found.png'), '" alt = "', $each_our_customer->cont_title, '">';
+            echo '<img class = "img-fluid" src="', isset($each_our_customer->conte_image) ? server_url('br/com/system/uploads/content/' . $each_our_customer->conte_image) : server_url('br/com/system/assets/img/img_not_found.png'), '" alt = "', $each_our_customer->conte_title, '">';
             echo '</div>';
             echo '</a>';
         }

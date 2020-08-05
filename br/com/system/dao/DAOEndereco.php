@@ -75,22 +75,6 @@ class DAOEndereco extends GenericDAO {
         return $conexao->lastInsertId();
     }
 
-    public function select() {
-        $this->query = "SELECT ";
-        $this->query .= "* ";
-        $this->query .= "FROM endereco AS e ";
-        $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_endereco_pk_id=es.esta_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (e.ende_fk_user_pk_id=u.user_pk_id);";
-        try {
-            $conexao = $this->getInstance();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
-    }
-
     public function selectObjectById($ende_pk_id = 0) {
         $this->query = "SELECT ";
         $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.user_pk_id, u.user_name ";

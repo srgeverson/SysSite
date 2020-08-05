@@ -39,7 +39,7 @@
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">Componente</span>
-                        <input class="form-control" type="text" name="cont_component">
+                        <input class="form-control" type="text" name="conte_component">
                     </div>
                 </div>
                 <div class="col-sm-2 mb-2 mb-sm-0">
@@ -75,25 +75,25 @@
                     echo '<tbody>';
                     foreach ($contents as $each_content) {
                         echo '<tr>';
-                        echo '<td>', $each_content->cont_pk_id, '</td>';
-                        echo '<td>', $each_content->cont_component, '</td>';
-                        echo '<td>', $each_content->cont_title, '</td>';
-                        echo '<td>', $each_content->cont_subtitle, '</td>';
-                        echo '<td>', $each_content->cont_text, '</td>';
+                        echo '<td>', $each_content->conte_pk_id, '</td>';
+                        echo '<td>', $each_content->conte_component, '</td>';
+                        echo '<td>', $each_content->conte_title, '</td>';
+                        echo '<td>', $each_content->conte_subtitle, '</td>';
+                        echo '<td>', $each_content->conte_text, '</td>';
                         echo '<td>', $each_content->page_name, '</td>';
                         echo '<td>';
-                        if ($each_content->cont_status == true) {
-                            echo '<a title="Desenable dados!" href="', server_url('?page=ControllerContent&option=disable&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                        if ($each_content->conte_status == true) {
+                            echo '<a title="Desenable dados!" href="', server_url('?page=ControllerContent&option=disable&conte_pk_id=' . $each_content->conte_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                             echo '<i class="fas fa-times-circle"></i>';
                             echo '</a>';
                         } else {
-                            echo '<a title="Editar dados!" href="', server_url('?page=ControllerContent&option=edit&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                            echo '<a title="Editar dados!" href="', server_url('?page=ControllerContent&option=edit&conte_pk_id=' . $each_content->conte_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                             echo '<i class="fas fa-edit"></i>';
                             echo '</a>';
-                            echo '<a title="Ativar dados!" href="', server_url('?page=ControllerContent&option=enable&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
+                            echo '<a title="Ativar dados!" href="', server_url('?page=ControllerContent&option=enable&conte_pk_id=' . $each_content->conte_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                             echo '<i class="fas fa-check-circle"></i>';
                             echo '</a>';
-                            echo '<a title="Excluir dados!" href="', server_url('?page=ControllerContent&option=delete&cont_pk_id=' . $each_content->cont_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                            echo '<a title="Excluir dados!" href="', server_url('?page=ControllerContent&option=delete&conte_pk_id=' . $each_content->conte_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                             echo '<i class="fas fa-trash"></i>';
                             echo '</a>';
                         }

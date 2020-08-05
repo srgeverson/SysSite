@@ -22,7 +22,7 @@
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">CPF</span>
-                        <input class="form-control" type="text" name="func_cpf">
+                        <input class="form-control" id="cpf" type="text" name="func_cpf">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
@@ -95,9 +95,11 @@
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
                     }
-                    echo '<a title="Excluir dados!" href="', server_url('?page=ControllerFuncionario&option=delete&func_pk_id=' . $each_funcionario->func_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
-                    echo '<i class="fas fa-trash"></i>';
-                    echo '</a>';
+                    if ($permissao == 1) {
+                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerFuncionario&option=delete&func_pk_id=' . $each_funcionario->func_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                        echo '<i class="fas fa-trash"></i>';
+                        echo '</a>';
+                    }
                     echo '</td>';
                     echo '</tr>';
                 }

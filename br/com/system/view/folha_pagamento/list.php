@@ -16,19 +16,21 @@
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">Nome</span>
-                        <input class="form-control" type="text" name="func_nome">
+                        <input class="form-control" name="func_nome" placeholder="Digite o nome" type="text">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">CPF</span>
-                        <input class="form-control" id="cpf" type="tel" name="func_cpf">
+                        <input class="form-control" id="cpf" name="func_cpf" placeholder="000.000.000-00"type="tel" >
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-text">Competência</span>
-                        <input class="form-control" id="competencia" type="tel" name="fopa_competencia">
+                    <div class="input-group input-group-lg date" id="dpMonths" data-date="102/2020" data-date-format="mm/yyyy" data-date-viewmode="years" data-date-minviewmode="months">
+                        <div class="input-group-append">
+                            <span class="input-group-text add-on"><i class="fas fa-calendar"></i></span>
+                        </div>
+                        <input class="form-control" id="competencia" name="fopa_competencia" placeholder="00/0000" type="tel" value="<?php echo date("m/Y"); ?>">
                     </div>
                 </div>
             </div>
@@ -39,7 +41,17 @@
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>
-                            <span class="text">Cadastrar</span>
+                            <span class="text">Incluir Único</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-2 mb-3 mb-sm-4">
+                    <div class="input-group input-group-lg">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=newBatch'); ?>" class="btn btn-primary btn-icon-split btn-lg">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-folder-plus"></i>
+                            </span>
+                            <span class="text">Incluir Lote</span>
                         </a>
                     </div>
                 </div>
@@ -98,9 +110,11 @@
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
                     }
-                    echo '<a title="Excluir dados!" href="', server_url('?page=ControllerFolhaPagamento&option=delete&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
-                    echo '<i class="fas fa-trash"></i>';
-                    echo '</a>';
+                    if ($permissao == 1) {
+                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerFolhaPagamento&option=delete&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                        echo '<i class="fas fa-trash"></i>';
+                        echo '</a>';
+                    }
                     echo '</td>';
                     echo '</tr>';
                 }

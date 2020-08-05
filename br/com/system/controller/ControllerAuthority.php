@@ -13,10 +13,13 @@ class ControllerAuthority {
 
     private $info;
     private $daoAuthority;
+    private $usuarioAutencitado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoAuthority = new DAOAuthority();
+        global $user_logged;
+        $this->usuarioAutencitado = $user_logged;
     }
 
     public function delete() {
@@ -125,6 +128,7 @@ class ControllerAuthority {
                 $authority->auth_description = strip_tags($_POST['auth_description']);
                 try {
                     $authorities = $this->daoAuthority->selectObjectsByContainsObject($authority);
+                    $permissao = $this->usuarioAutencitado->user_fk_authority_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }

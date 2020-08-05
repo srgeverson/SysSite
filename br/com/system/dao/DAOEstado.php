@@ -46,18 +46,6 @@ class DAOEstado extends GenericDAO {
         return true;
     }
 
-    public function select() {
-        $this->query = "SELECT * FROM estado";
-        try {
-            $conexao = $this->getInstance();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
-    }
-
     public function selectObjectById($esta_pk_id = 0) {
         $this->query = "SELECT ";
         $this->query .= "e.*, p.pais_pk_id, p.pais_nome, u.user_pk_id, u.user_name ";

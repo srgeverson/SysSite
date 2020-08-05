@@ -28,9 +28,9 @@ class DAOFolhaPagamento extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO folha_pagamento ";
-        $this->query .= "(fopa_competencia, fopa_arquivo, fopa_caminho_arquivo, fopa_status, fopa_fk_funcionario_pk_id, fopa_fk_user_pk_id) ";
+        $this->query .= "(fopa_competencia, fopa_arquivo, fopa_nome_arquivo, fopa_caminho_arquivo, fopa_status, fopa_fk_funcionario_pk_id, fopa_fk_user_pk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:fopa_competencia, :fopa_arquivo, :fopa_caminho_arquivo, :fopa_status, :fopa_fk_funcionario_pk_id, :fopa_fk_user_pk_id)";
+        $this->query .= "(:fopa_competencia, :fopa_arquivo, :fopa_nome_arquivo, :fopa_caminho_arquivo, :fopa_status, :fopa_fk_funcionario_pk_id, :fopa_fk_user_pk_id)";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -39,28 +39,13 @@ class DAOFolhaPagamento extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':fopa_competencia', $folhaPagamento->fopa_competencia, PDO::PARAM_STR);
         $this->statement->bindParam(':fopa_arquivo', $folhaPagamento->fopa_arquivo, PDO::PARAM_STR);
+        $this->statement->bindParam(':fopa_nome_arquivo', $folhaPagamento->fopa_nome_arquivo, PDO::PARAM_STR);
         $this->statement->bindParam(':fopa_caminho_arquivo', $folhaPagamento->fopa_caminho_arquivo, PDO::PARAM_STR);
         $this->statement->bindParam(':fopa_fk_funcionario_pk_id', $folhaPagamento->fopa_fk_funcionario_pk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':fopa_fk_user_pk_id', $folhaPagamento->fopa_fk_user_pk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':fopa_status', $folhaPagamento->fopa_status, PDO::PARAM_BOOL);
         $this->statement->execute();
         return true;
-    }
-
-    public function select() {
-        $this->query = "SELECT ";
-        $this->query .= "* ";
-        $this->query .= "FROM folha_pagamento AS fp ";
-        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.func_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (fp.fopa_fk_user_pk_id=u.user_pk_id);";
-        try {
-            $conexao = $this->getInstance();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function selectObjectById($fopa_pk_id = 0) {
@@ -104,12 +89,12 @@ class DAOFolhaPagamento extends GenericDAO {
 
     public function selectObjectsEnabled() {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.user_pk_id, u.user_name ";
-        $this->query .= "FROM folha_pagamento AS e ";
-        $this->query .= "INNER JOIN estado AS es ON (e.fopa_fk_funcionario_pk_id=es.esta_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (e.fopa_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "fp.*, f.func_pk_id, f.func_nome, f.func_cpf, u.user_pk_id, u.user_name ";
+        $this->query .= "FROM folha_pagamento AS fp ";
+        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.func_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (fp.fopa_fk_user_pk_id=u.user_pk_id) ";
         $this->query .= "WHERE ";
-        $this->query .= "p.fopa_status = 1;";
+        $this->query .= "fp.fopa_status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {

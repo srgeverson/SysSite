@@ -20,10 +20,10 @@
             echo '<div class="carousel-inner" role="listbox">';
             $i = 0;
             foreach ($slide_apresentacao as $each_slide_apresentacao) {
-                echo '<div class="carousel-item ', $i == 0 ? 'active' : '', '" style="background-image: url(', isset($each_slide_apresentacao->cont_image) ? server_url('br/com/system/uploads/content/' . $each_slide_apresentacao->cont_image) : server_url('br/com/system/assets/img/1900x1080.png'), '">';
+                echo '<div class="carousel-item ', $i == 0 ? 'active' : '', '" style="background-image: url(', isset($each_slide_apresentacao->conte_image) ? server_url('br/com/system/uploads/content/' . $each_slide_apresentacao->conte_image) : server_url('br/com/system/assets/img/1900x1080.png'), '">';
                 echo '<div class="carousel-caption d-none d-md-block">';
-                echo '<h3>', $each_slide_apresentacao->cont_title, '</h3>';
-                echo '<p>', $each_slide_apresentacao->cont_subtitle, '</p>';
+                echo '<h3>', $each_slide_apresentacao->conte_title, '</h3>';
+                echo '<p>', $each_slide_apresentacao->conte_subtitle, '</p>';
                 echo '</div>';
                 echo '</div>';
                 $i++;
@@ -51,12 +51,12 @@
         foreach ($nossos_destaques as $each_nossos_destaques) {
             echo '<div class="col-lg-4 col-sm-6 portfolio-item">';
                     echo '<div class="card h-100">';
-                            echo '<a href="#"><img class="card-img-top" src="', isset($each_slide_apresentacao->cont_image) ? server_url('br/com/system/uploads/content/' . $each_slide_apresentacao->cont_image) : server_url('br/com/system/assets/img/700x400.png'), '" alt=""></a>';
+                            echo '<a href="#"><img class="card-img-top" src="', isset($each_slide_apresentacao->conte_image) ? server_url('br/com/system/uploads/content/' . $each_slide_apresentacao->conte_image) : server_url('br/com/system/assets/img/700x400.png'), '" alt=""></a>';
                             echo '<div class="card-body">';
                                     echo '<h4 class="card-title">';
-                                    echo '<a href="', isset($each_nossos_destaques->cont_link) ? $each_nossos_destaques->cont_link : '#', '" class="btn btn-primary">', $each_nossos_destaques->cont_title, '</a>';
+                                    echo '<a href="', isset($each_nossos_destaques->conte_link) ? $each_nossos_destaques->conte_link : '#', '" class="btn btn-primary">', $each_nossos_destaques->conte_title, '</a>';
                                     echo '</h4>';
-                                    echo '<p>', $each_nossos_destaques->cont_text, '</p>';
+                                    echo '<p>', $each_nossos_destaques->conte_text, '</p>';
                             echo '</div>';
                     echo '</div>';
             echo '</div>';
@@ -72,12 +72,12 @@
         foreach ($outros_destaques as $each_outros_destaques) {
             echo '<div class="col-lg-4 mb-4">';
                     echo '<div class="card h-100">';
-                        echo '<h4 class="card-header">', $each_outros_destaques->cont_title, '</h4>';
+                        echo '<h4 class="card-header">', $each_outros_destaques->conte_title, '</h4>';
                             echo '<div class="card-body">';
-                                echo '<p>', $each_outros_destaques->cont_text, '</p>';
+                                echo '<p>', $each_outros_destaques->conte_text, '</p>';
                             echo '</div>';
                             echo '<div class="card-footer">';
-                                echo '<a href="', isset($each_outros_destaques->cont_link) ? $each_outros_destaques->cont_link : '#', '" class="btn btn-primary">Saiba mais</a>';
+                                echo '<a href="', isset($each_outros_destaques->conte_link) ? $each_outros_destaques->conte_link : '#', '" class="btn btn-primary">Saiba mais</a>';
                             echo '</div>';
                         echo '</div>';
                     echo '</div>';

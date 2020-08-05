@@ -45,18 +45,6 @@ class DAOAuthority extends GenericDAO {
         return true;
     }
 
-    public function select() {
-        $this->query = "SELECT * FROM authority";
-        try {
-            $conexao = $this->getInstance();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
-    }
-
     public function selectObjectById($auth_pk_id = 0) {
         $this->query = "SELECT * FROM authority WHERE auth_pk_id=:auth_pk_id LIMIT 1;";
         try {
