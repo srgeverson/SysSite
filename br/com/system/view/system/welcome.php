@@ -4,10 +4,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once server_path("br/com/system/controller/ControllerFuncionario.php");
-$controllerFuncionario = new ControllerFuncionario();
+include_once server_path("br/com/system/controller/ControllerFuncionarioUser.php");
+$controllerFuncionarioUser = new ControllerFuncionarioUser();
 global $user_logged;
-if (($controllerFuncionario->searchByFkUser($user_logged->user_pk_id) === false) && $user_logged->user_fk_authority_pk_id == 3) {
+if (($controllerFuncionarioUser->searchByFkUser($user_logged->user_pk_id) == false) && ($user_logged->user_fk_authority_pk_id == 3)) {
     $controllerSystem = new ControllerSystem();
     $controllerSystem->funcionario_info('warning=funcionario_not_associated');
 }

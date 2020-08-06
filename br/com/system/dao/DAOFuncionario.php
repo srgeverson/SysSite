@@ -50,6 +50,33 @@ class DAOFuncionario extends GenericDAO {
         return true;
     }
 
+    public function saveAndReturnPkId(ModelFuncionario $funcionario = null) {
+        if (!is_object($funcionario)) {
+            throw new Exception("Dados incompletos");
+        }
+        $this->query = "INSERT INTO funcionario ";
+        $this->query .= "(func_nome, func_cpf, func_rg, func_pis, func_data_nascimento, func_status, func_fk_contact_pk_id, func_fk_endereco_pk_id, func_fk_user_pk_id) ";
+        $this->query .= "VALUES ";
+        $this->query .= "(:func_nome, :func_cpf, :func_rg, :func_pis, :func_data_nascimento, :func_status, :func_fk_contact_pk_id, :func_fk_endereco_pk_id, :func_fk_user_pk_id);";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(':func_nome', $funcionario->func_nome, PDO::PARAM_STR);
+        $this->statement->bindParam(':func_cpf', $funcionario->func_cpf, PDO::PARAM_STR);
+        $this->statement->bindParam(':func_rg', $funcionario->func_rg, PDO::PARAM_STR);
+        $this->statement->bindParam(':func_pis', $funcionario->func_pis, PDO::PARAM_STR);
+        $this->statement->bindParam(':func_data_nascimento', $funcionario->func_data_nascimento, PDO::PARAM_STR);
+        $this->statement->bindParam(':func_fk_contact_pk_id', $funcionario->func_fk_contact_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':func_fk_endereco_pk_id', $funcionario->func_fk_endereco_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':func_fk_user_pk_id', $funcionario->func_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':func_status', $funcionario->func_status, PDO::PARAM_BOOL);
+        $this->statement->execute();
+        return $conexao->lastInsertId();
+    }
+
     public function selectObjectById($func_pk_id = 0) {
         $this->query = "SELECT ";
         $this->query .= "* ";
@@ -107,25 +134,6 @@ class DAOFuncionario extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function selectObjectByFkUser($user_pk_id = 0) {
-        $this->query = "SELECT ";
-        $this->query .= "f.*, u.user_pk_id, u.user_name ";
-        $this->query .= "FROM funcionario_user AS fu ";
-        $this->query .= "INNER JOIN user AS u ON (fu.fuus_fk_user_pk_id=u.user_pk_id) ";
-        $this->query .= "INNER JOIN funcionario AS f  ON (fu.fuus_fk_funcionario_pk_id=f.func_pk_id) ";
-        $this->query .= "WHERE ";
-        $this->query .= "fu.fuus_fk_user_pk_id = :fuus_fk_user_pk_id LIMIT 1;";
-        try {
-            $conexao = $this->getInstance();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":fuus_fk_user_pk_id", $user_pk_id, PDO::PARAM_INT);
-        $this->statement->execute();
-        return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
     public function update(ModelFuncionario $funcionario = null) {

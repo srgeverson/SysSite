@@ -5,11 +5,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+include_once server_path("br/com/system/controller/ControllerFuncionarioUser.php");
+include_once server_path("br/com/system/controller/ControllerSystem.php");
 include_once server_path("br/com/system/dao/DAOEstado.php");
 include_once server_path("br/com/system/dao/DAOFuncionario.php");
 include_once server_path("br/com/system/model/ModelContact.php");
 include_once server_path("br/com/system/model/ModelEndereco.php");
 include_once server_path("br/com/system/model/ModelFuncionario.php");
+include_once server_path("br/com/system/model/ModelFuncionarioUser.php");
 
 class ControllerFuncionario {
 
@@ -167,6 +170,9 @@ class ControllerFuncionario {
 
     public function save() {
         if (GenericController::authotity()) {
+            //0 = Administração/TI e 3 = Usuários
+            $user_fk_authority_pk_id = strip_tags($_GET['user_fk_authority_pk_id']);
+
             //Usuário Logado
             global $user_logged;
 
@@ -249,33 +255,33 @@ class ControllerFuncionario {
             $funcionario->func_status = $func_status;
 
             try {
-                $this->daoFuncionario->save($funcionario);
-                $this->info = "success=funcionario_created";
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
-            }
-            $this->list();
-        }
-    }
-
-    public function searchByFkUser($user_pk_id = 0) {
-        if (GenericController::authotity()) {
-            $funcionario = null;
-            try {
-                $funcionario = $this->daoFuncionario->selectObjectByFkUser($user_pk_id);
-                if (!isset($funcionario)) {
-                    $this->info = 'warning=funcionario_not_exists';
+                $func_pk_id = $this->daoFuncionario->saveAndReturnPkId($funcionario);
+                if ($user_fk_authority_pk_id == 0) {
+                    $this->info = "success=funcionario_created";
+                    $this->list();
+                } else {
+                    $funcionarioUser = new ModelFuncionarioUser();
+                    $funcionarioUser->fuus_fk_funcionario_pk_id = $func_pk_id;
+                    $funcionarioUser->fuus_fk_user_pk_id = $user_logged->user_pk_id;
+                    $funcionarioUser->fuus_status = true;
+                    $controllerFunconarioUser = new ControllerFuncionarioUser();
+                    $controllerFunconarioUser->save($funcionarioUser);
                 }
             } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
+                if ($user_fk_authority_pk_id == 0) {
+                    $this->info = "error=" . $erro->getMessage();
+                    $this->list();
+                }
             }
-            return $funcionario;
         }
     }
 
     public function update() {
         if (GenericController::authotity()) {
             if (GenericController::authotity()) {
+                //0 = Administração/TI e 3 = Usuários
+                $user_fk_authority_pk_id = strip_tags($_GET['user_fk_authority_pk_id']);
+
                 $func_pk_id = strip_tags($_POST['func_pk_id']);
                 if (!isset($func_pk_id)) {
                     $this->info = 'warning=funcionario_uninformed';
@@ -364,17 +370,43 @@ class ControllerFuncionario {
                             //Tratando exceção do funcionário
                             try {
                                 $this->daoFuncionario->update($funcionario);
-                                $this->info = "success=funcionario_created";
+                                if ($user_fk_authority_pk_id == 0) {
+                                    $this->info = "success=funcionario_updated";
+                                } else {
+                                    $this->info = "success=funcionario_updated";
+                                    $controlerSystem = new ControllerSystem();
+                                    $controlerSystem->welcome($this->info);
+                                }
                             } catch (Exception $erro) {
-                                $this->info = "error=" . $erro->getMessage();
+                                if ($user_fk_authority_pk_id == 0) {
+                                    $this->info = "error=" . $erro->getMessage();
+                                    $this->list();
+                                } else {
+                                    $this->info = "error=" . $erro->getMessage();
+                                    $controlerSystem = new ControllerSystem();
+                                    $controlerSystem->welcome($this->info);
+                                }
                             }
                         } catch (Exception $erro) {
-                            $this->info = "error=Endereço: " . $erro->getMessage();
+                            if ($user_fk_authority_pk_id == 0) {
+                                $this->info = "error=Endereço: " . $erro->getMessage();
+                                $this->list();
+                            } else {
+                                $this->info = "error=" . $erro->getMessage();
+                                $controlerSystem = new ControllerSystem();
+                                $controlerSystem->welcome($this->info);
+                            }
                         }
                     } catch (Exception $erro) {
-                        $this->info = "error=Contato: " . $erro->getMessage();
+                        if ($user_fk_authority_pk_id == 0) {
+                            $this->info = "error=Contato: " . $erro->getMessage();
+                            $this->list();
+                        } else {
+                            $this->info = "error=" . $erro->getMessage();
+                            $controlerSystem = new ControllerSystem();
+                            $controlerSystem->welcome($this->info);
+                        }
                     }
-                    $this->list();
                 }
             }
         }

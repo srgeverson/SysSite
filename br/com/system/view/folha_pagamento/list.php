@@ -4,6 +4,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+include_once server_path("br/com/system/controller/ControllerFolhaPagamento.php");
+include_once server_path("br/com/system/controller/ControllerFuncionarioUser.php");
+$controllerFuncionarioUser = new ControllerFuncionarioUser();
+global $user_logged;
+$funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->user_pk_id);
 ?>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -22,7 +27,7 @@
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">CPF</span>
-                        <input class="form-control" id="cpf" name="func_cpf" placeholder="000.000.000-00"type="tel" >
+                        <input class="form-control" id="cpf" name="func_cpf" placeholder="000.000.000-00"type="tel" value="<?php echo $user_logged->user_fk_authority_pk_id == 3 ? $funcionario->func_cpf : ''; ?>" <?php echo $user_logged->user_fk_authority_pk_id == 3 ? 'readonly' : ''; ?>>
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
@@ -37,22 +42,30 @@
             <div class="form-group row">
                 <div class="col-sm-2 mb-3 mb-sm-4">
                     <div class="input-group input-group-lg">
-                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=new'); ?>" class="btn btn-primary btn-icon-split btn-lg">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                            <span class="text">Incluir Único</span>
-                        </a>
+                        <?php
+                        if ($user_logged->user_fk_authority_pk_id != 3) {
+                            echo '<a  title="Cadastrar dados!" href="', server_url('?page = ControllerFolhaPagamento&option=new'), '" class="btn btn-primary btn-icon-split btn-lg">';
+                            echo ' <span class="icon text-white-50">';
+                            echo '<i class="fas fa-plus"></i>';
+                            echo ' </span>';
+                            echo '<span class="text">Incluir Único</span>';
+                            echo ' </a>';
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="col-sm-2 mb-3 mb-sm-4">
                     <div class="input-group input-group-lg">
-                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=newBatch'); ?>" class="btn btn-primary btn-icon-split btn-lg">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-folder-plus"></i>
-                            </span>
-                            <span class="text">Incluir Lote</span>
-                        </a>
+                        <?php
+                        if ($user_logged->user_fk_authority_pk_id != 3) {
+                            echo '<a title = "Cadastrar dados!" href = "', server_url('?page=ControllerFolhaPagamento&option=newBatch'), '" class = "btn btn-primary btn-icon-split btn-lg">';
+                            echo '<span class = "icon text-white-50">';
+                            echo '<i class = "fas fa-folder-plus"></i>';
+                            echo'</span>';
+                            echo '<span class = "text">Incluir Lote</span>';
+                            echo ' </a> ';
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="col-sm-2 mb-4 mb-sm-0">
@@ -72,9 +85,9 @@
         <div class="table-responsive">
             <?php
             if (!isset($folhaPagamentos)) {
-                echo '<h2>Use o filtro para ver os funcionários cadastrados</h2>';
+                echo '<h2>Use o filtro para ver as folhas de pagamentos cadastrados</h2>';
             } else {
-                echo '<table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">';
+                echo '<table cellspacing = "0" class = "table table-bordered" id = "dataTable" width = "100%">';
                 echo '<thead>';
                 echo '<tr>';
                 echo '<th>Código</th>';
@@ -95,24 +108,26 @@
                     $data = new DateTime($each_folha_pagamentos->func_data_nascimento);
                     echo '<td>', $data->format('d-m-Y'), '</td>';
                     echo '<td>';
-                    echo '<a title="Visualizar dados!" href="', server_url('?page=ControllerFolhaPagamento&option=view&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class="btn btn-info btn-circle btn-sm" style="margin: 5px">';
-                    echo '<i class="fas fa-search"></i>';
+                    echo '<a title = "Visualizar dados!" href = "', server_url('?page=ControllerFolhaPagamento&option=view&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class = "btn btn-info btn-circle btn-sm" style = "margin: 5px">';
+                    echo '<i class = "fas fa-search"></i>';
                     echo '</a>';
-                    echo '<a title="Editar dados!" href="', server_url('?page=ControllerFolhaPagamento&option=edit&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
-                    echo '<i class="fas fa-edit"></i>';
-                    echo '</a>';
-                    if ($each_folha_pagamentos->fopa_status) {
-                        echo '<a title="Desabilitar dados!" href="', server_url('?page=ControllerFolhaPagamento&option=disable&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
-                        echo '<i class="fas fa-times-circle"></i>';
-                        echo '</a>';
-                    } else {
-                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerFolhaPagamento&option=enable&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
-                        echo '<i class="fas fa-check-circle"></i>';
+                    if ($user_logged->user_fk_authority_pk_id != 3) {
+                        echo '<a title = "Editar dados!" href = "', server_url('?page=ControllerFolhaPagamento&option=edit&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class = "btn btn-warning btn-circle btn-sm" style = "margin: 5px">';
+                        echo '<i class = "fas fa-edit"></i>';
                         echo '</a>';
                     }
-                    if ($permissao == 1) {
-                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerFolhaPagamento&option=delete&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
-                        echo '<i class="fas fa-trash"></i>';
+                    if ($each_folha_pagamentos->fopa_status) {
+                        echo '<a title = "Marcar como visualizada!" href = "', server_url('?page=ControllerFolhaPagamento&option=disable&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class = "btn btn-danger btn-circle btn-sm excluir" style = "margin: 5px">';
+                        echo '<i class = "fas fa-times-circle"></i>';
+                        echo '</a>';
+                    } else {
+                        echo '<a title = "Marcar como não visualizada!" href = "', server_url('?page=ControllerFolhaPagamento&option=enable&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class = "btn btn-success btn-circle btn-sm excluir" style = "margin: 5px">';
+                        echo '<i class = "fas fa-check-circle"></i>';
+                        echo '</a>';
+                    }
+                    if ($user_logged->user_fk_authority_pk_id == 1) {
+                        echo '<a title = "Excluir dados!" href = "', server_url('?page=ControllerFolhaPagamento&option=delete&fopa_pk_id=' . $each_folha_pagamentos->fopa_pk_id), '" class = "btn btn-danger btn-circle btn-sm excluir" onclick = "return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style = "margin: 5px">';
+                        echo '<i class = "fas fa-trash"></i>';
                         echo '</a>';
                     }
                     echo '</td>';

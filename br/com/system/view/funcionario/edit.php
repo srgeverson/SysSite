@@ -4,13 +4,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+include_once server_path("br/com/system/controller/ControllerFolhaPagamento.php");
+include_once server_path("br/com/system/controller/ControllerFuncionarioUser.php");
+$controllerFuncionarioUser = new ControllerFuncionarioUser();
+global $user_logged;
 ?>
 <br>
 <div class="row">
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
-        <form action="<?php echo server_url('?page=ControllerFuncionario&option=update'); ?>" method="post">
+        <!--        <form action="<?php
+        //$funcionarioUser = $controllerFuncionarioUser->searchByFkUser($user_logged->user_pk_id);
+        //echo server_url($funcionarioUser != false ? '?page=ControllerFuncionario&option=updateFuncionarioUser' : '?page=ControllerFuncionario&option=update');
+        ?>" method="post">-->
+        <form action="
+        <?php
+        global $user_logged;
+        echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerFuncionario&option=update&user_fk_authority_pk_id=' . $user_logged->user_pk_id : '?page=ControllerFuncionario&option=update&user_fk_authority_pk_id=' . 0);
+        ?>" 
+              enctype="multipart/form-data" method="post">
             <nav>
                 <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-dados-pessoais-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Dados Pessoais</a>
@@ -26,15 +39,15 @@
                                 <input class="form-control" name="func_pk_id" type="hidden" value="<?php echo $funcionario->func_pk_id; ?>">
                             </div>
                             <div class="form-group">
-                                <label class="text-primary">Nome:</label><br>
+                                <label class="text-primary">Nome*:</label><br>
                                 <input class="form-control" name="func_nome" type="text" placeholder="Digite o nome completo..." value="<?php echo $funcionario->func_nome; ?>" required>
                             </div>
                             <div class="form-group">
-                                <label class="text-primary">CPF:</label><br>
+                                <label class="text-primary">CPF*:</label><br>
                                 <input class="form-control" id="cpf" name="func_cpf" type="text" placeholder="Digite o CPF..."  value="<?php echo $funcionario->func_cpf; ?>" required>
                             </div>
                             <div class="form-group">
-                                <label class="text-primary">RG:</label><br>
+                                <label class="text-primary">RG*:</label><br>
                                 <input class="form-control" name="func_rg" type="text" placeholder="Digite o RG..."  value="<?php echo $funcionario->func_rg; ?>" required>
                             </div>
                             <div class="form-group">
@@ -42,7 +55,7 @@
                                 <input class="form-control" name="func_pis" type="text" placeholder="Digite o PIS/PASEP..."  value="<?php echo $funcionario->func_pis; ?>">
                             </div>
                             <div class="form-group">
-                                <label class="text-primary">Data Nascimento:</label><br>
+                                <label class="text-primary">Data Nascimento*:</label><br>
                                 <input class="form-control" name="func_data_nascimento" type="date" placeholder="Digite a data de nascimento..."  value="<?php echo $funcionario->func_data_nascimento; ?>" required>
                             </div>
                         </div>
@@ -106,7 +119,7 @@
                         </div>
                         <div class="form-group">
                             <label class="text-primary">CEP:</label><br>
-                            <input class="form-control" name="ende_cep" id="cell" type="text" placeholder="Digite o CEP..." value="<?php echo $funcionario->ende_cep; ?>">
+                            <input class="form-control" name="ende_cep" id="cep" type="text" placeholder="Digite o CEP..." value="<?php echo $funcionario->ende_cep; ?>">
                         </div>
                         <div class="form-group">
                             <label class="text-primary">Cidade:</label><br>
@@ -135,7 +148,10 @@
                                 </button>
                             </div>
                             <div class="input-group">
-                                <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerFuncionario&option=list'); ?>" type="submit">
+                                <a  class="btn btn-danger btn-icon-split" href="<?php
+                                $funcionarioUser = $controllerFuncionarioUser->searchByFkUser($user_logged->user_pk_id);
+                                echo server_url($funcionarioUser != false ? '?page=ControllerSystem&option=welcome' : '?page=ControllerFuncionario&option=list');
+                                ?>" type="submit">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-window-close"></i>
                                     </span>

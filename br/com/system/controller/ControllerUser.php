@@ -299,9 +299,10 @@ class ControllerUser {
             $user->user_status = $user_status;
             $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
             try {
+                $controllerContact = new ControllerContact();
                 if (!isset($this->daoUser->selectObjectByName($user_login)->user_login)) {
                     $this->daoUser->createOtherUser($user);
-                    if ($this->controllerSystem->send_email($contact)) {
+                    if ($controllerContact->send_email($contact)) {
                         $this->info = "success=user_created";
                     } else {
                         $this->info = "error=contact_not_send_email";
