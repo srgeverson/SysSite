@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: 23-Jul-2020 às 22:46
--- Versão do servidor: 5.7.30-0ubuntu0.18.04.1
+-- Generation Time: 06-Ago-2020 às 00:27
+-- Versão do servidor: 5.7.31-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -39,9 +39,9 @@ CREATE TABLE `authority` (
 --
 
 INSERT INTO `authority` (`auth_pk_id`, `auth_description`, `auth_status`, `auth_screen`, `auth_function`) VALUES
-(1, 'TI', 1, 'ti.php', 'Gerenciamento completo do sistema para auxiliar nossos clientes.'),
-(2, 'Administrador', 1, 'administrador.php', 'Aqui você vai poder gerenciar suas Vendas, Clientes, Produtos...'),
-(3, 'Funcionário', 1, 'funcionario.php', 'Essa área foi desenvolvida e reservada para você acompanhar seus pedidos, seus pagamentos e produtos disponíveis...');
+(1, 'TI', 0, 'ti.php', 'Gerenciamento completo do sistema para auxiliar nossos clientes.'),
+(2, 'Administrador', 1, 'administrador.php', 'ÁREA RESERVADA PARA GERENCIAR OPERAÇÕES E FAZER LANÇAMENTOS DAS FOLHA DE PAGAMENTOS'),
+(3, 'Funcionário', 1, 'funcionario.php', 'ÁREA RESERVADA PARA ACOMPANHAMENTO DE SEUS CONTRA CHECHE');
 
 -- --------------------------------------------------------
 
@@ -69,8 +69,7 @@ CREATE TABLE `contact` (
 --
 
 INSERT INTO `contact` (`cont_pk_id`, `cont_description`, `cont_phone`, `cont_cell_phone`, `cont_whatsapp`, `cont_email`, `cont_facebook`, `cont_instagram`, `cont_twitter`, `cont_status`, `cont_text`, `cont_fk_user_pk_id`) VALUES
-(1, 'Dados Pessoais', '(00)0000-0000', '(00)00000-0000', '00000000000', 'email@email.com', 'usurio', '@usuario', NULL, 1, 'Dados do sistema', 0),
-(19, 'PESSOAL', '(85)8771-3985', '(85)98771-3985', '(85)98771-3985', 'geversonjosedesouza@gmail.com', '@GEVERSON', '@SR_GEVERSON', NULL, 1, 'EU1', 1);
+(1, 'Dados Pessoais', '(00)0000-0000', '(00)00000-0000', '00000000000', 'email@email.com', 'usurio', '@usuario', NULL, 1, 'Dados do sistema', 0);
 
 -- --------------------------------------------------------
 
@@ -137,9 +136,7 @@ CREATE TABLE `endereco` (
 --
 
 INSERT INTO `endereco` (`ende_pk_id`, `ende_logradouro`, `ende_numero`, `ende_bairro`, `ende_cep`, `ende_cidade`, `ende_status`, `ende_fk_estado_pk_id`, `ende_fk_user_pk_id`) VALUES
-(1, 'Rua Teste', '00', 'Bairro Teste', '00.000-000', 'Municio Teste', 1, 6, 1),
-(11, 'RUA PAULA LOPES', '05', 'PARQUE HAVAI', '61.760-000', 'EUSEBIO', 1, 6, 1),
-(12, 'RUA PAULA LOPES', '05', 'PARQUE HAVAI', '61.760-000', 'EUSEBIO', 1, 25, 1);
+(1, 'Rua Teste', '00', 'Bairro Teste', '00.000-000', 'Municio Teste', 1, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -198,8 +195,10 @@ INSERT INTO `estado` (`esta_pk_id`, `esta_nome`, `esta_sigla`, `esta_status`, `e
 CREATE TABLE `folha_pagamento` (
   `fopa_pk_id` int(11) NOT NULL,
   `fopa_competencia` varchar(7) NOT NULL,
-  `fopa_arquivo` blob,
+  `fopa_nome_arquivo` varchar(255) DEFAULT NULL,
+  `fopa_tamanho_arquivo` int(11) DEFAULT NULL,
   `fopa_caminho_arquivo` varchar(255) DEFAULT NULL,
+  `fopa_arquivo` longblob,
   `fopa_status` tinyint(1) NOT NULL DEFAULT '1',
   `fopa_fk_funcionario_pk_id` int(11) NOT NULL,
   `fopa_fk_user_pk_id` int(11) NOT NULL
@@ -224,12 +223,19 @@ CREATE TABLE `funcionario` (
   `func_fk_contact_pk_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Extraindo dados da tabela `funcionario`
+-- Estrutura da tabela `funcionario_user`
 --
 
-INSERT INTO `funcionario` (`func_pk_id`, `func_nome`, `func_cpf`, `func_rg`, `func_pis`, `func_data_nascimento`, `func_status`, `func_fk_user_pk_id`, `func_fk_endereco_pk_id`, `func_fk_contact_pk_id`) VALUES
-(1, 'GEVERSON JOSE DE SOUZ', '606.717.623-89', '20077178836', '18811656156', '1993-04-12', 1, 1, 12, 19);
+CREATE TABLE `funcionario_user` (
+  `fuus_pk_id` int(11) NOT NULL,
+  `fuus_fk_user_pk_id` int(11) NOT NULL,
+  `fuus_fk_funcionario_pk_id` int(11) NOT NULL,
+  `fuus_status` tinyint(1) NOT NULL DEFAULT '1',
+  `fuus_data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin;
 
 -- --------------------------------------------------------
 
@@ -307,12 +313,14 @@ INSERT INTO `parameter` (`para_pk_id`, `para_key`, `para_value`, `para_descripti
 (7, 'endereco', '1', 'Endereço do dono/empresa do sistema', 1, 1),
 (8, 'sobre_titulo', 'Geverson', '', 1, 1),
 (9, 'contato_titulo', 'Contato', '', 1, 1),
-(10, 'contato', '1', '', 1, 1),
+(10, 'contato', '1', 'Chave Estrangeira da tabela contatos', 1, 1),
 (11, 'servicos_titulo', 'Serviços', 'Título da página de serviços', 1, 1),
 (12, 'google_analytics', 'G-5ZS0PB48KT', 'Códifo do Google Analytics', 1, 1),
 (13, 'servidor_email_smtp', 'smtp.gmail.com', 'Protocolo de E-mail', 1, 1),
-(14, 'servidor_email_porta', '465', 'Porta do Servidor de E-mail', 1, 1),
-(15, 'servidor_email_seguranca', 'ssl', 'Tipo da Segurança do Envio de E-mail', 1, 1);
+(14, 'servidor_email_porta', '587', 'Porta do Servidor de E-mail', 1, 1),
+(15, 'servidor_email_seguranca', 'tls', 'Tipo da Segurança do Envio de E-mail', 1, 1),
+(16, 'mostrar_error', '1', 'Mostrar erros das páginas PHP', 1, 1),
+(17, 'servidor_debug_email', '1', 'MOSTRAR ERROR AO ENVIAR EMAIL', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -336,10 +344,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_pk_id`, `user_name`, `user_login`, `user_password`, `user_last_login`, `user_image`, `user_status`, `user_fk_authority_pk_id`) VALUES
-(1, 'Geverson', 'geversonjosedesouza@gmail.com', '$2y$10$mNM/bzucj9T68.Ft5MdvS.N/Bb62KO0BfhnXj0Tw1RBLWOMfGpPFS', '2020-07-24 00:30:07', 'IMG_20190920_170641_783.jpg', 1, 1),
-(2, 'Geverson J de Souza', 'geversonjosedesouza@hotmail.com', '$2y$10$iyBqjNHyi/lrpqJBFZpBz.cHWasRjQGWsfCzF09oqhQYEtIs./lPO', '2020-07-21 00:59:39', 'av_parcial_01.png', 1, 3),
-(3, 'root', 'root@root', '$2y$10$LW5eueN7wYMSqoe17Mo3y.2p96Wapy/8JMx3qffFulYlA0RgKDwTC', '2020-07-17 02:37:34', 'IMG_20190920_170641_783.jpg', 0, 3),
-(4, 'Geverson J de Souza', 'geversonjosedesouza@hoatmail.com', '$2y$10$r5cXidzF9i4j8KENQDOIfe5EotNoSmRy94KHJiqOyloFaVocj5WYK', NULL, NULL, 0, 3);
+(1, 'Geverson', 'geversonjosedesouza@gmail.com', '$2y$10$oYqNXVg3obhKpxqNzhwNteDfiJnG4Z5GvmSG1vA7eEzGBNbmNuGtC', '2020-08-06 02:45:37', '15963791245f26cff46fbfc.jpg', 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -400,6 +405,14 @@ ALTER TABLE `funcionario`
   ADD KEY `func_fk_contact_pk_id_idx` (`func_fk_contact_pk_id`);
 
 --
+-- Indexes for table `funcionario_user`
+--
+ALTER TABLE `funcionario_user`
+  ADD PRIMARY KEY (`fuus_pk_id`),
+  ADD UNIQUE KEY `fuus_fk_user_pk_id_UNIQUE` (`fuus_fk_user_pk_id`),
+  ADD UNIQUE KEY `fuus_fk_funcionario_pk_id_UNIQUE` (`fuus_fk_funcionario_pk_id`);
+
+--
 -- Indexes for table `page`
 --
 ALTER TABLE `page`
@@ -442,7 +455,7 @@ ALTER TABLE `authority`
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `content`
 --
@@ -452,22 +465,27 @@ ALTER TABLE `content`
 -- AUTO_INCREMENT for table `endereco`
 --
 ALTER TABLE `endereco`
-  MODIFY `ende_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ende_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `esta_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `esta_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `folha_pagamento`
 --
 ALTER TABLE `folha_pagamento`
-  MODIFY `fopa_pk_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `fopa_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 --
 -- AUTO_INCREMENT for table `funcionario`
 --
 ALTER TABLE `funcionario`
-  MODIFY `func_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `func_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `funcionario_user`
+--
+ALTER TABLE `funcionario_user`
+  MODIFY `fuus_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `page`
 --
@@ -482,12 +500,12 @@ ALTER TABLE `pais`
 -- AUTO_INCREMENT for table `parameter`
 --
 ALTER TABLE `parameter`
-  MODIFY `para_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `para_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --
@@ -527,6 +545,13 @@ ALTER TABLE `funcionario`
   ADD CONSTRAINT `func_fk_contact_pk_id` FOREIGN KEY (`func_fk_contact_pk_id`) REFERENCES `contact` (`cont_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `func_fk_endereco_pk_id` FOREIGN KEY (`func_fk_endereco_pk_id`) REFERENCES `endereco` (`ende_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `func_fk_user_pk_id` FOREIGN KEY (`func_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Limitadores para a tabela `funcionario_user`
+--
+ALTER TABLE `funcionario_user`
+  ADD CONSTRAINT `fuus_fk_funcionario_pk_id` FOREIGN KEY (`fuus_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fuus_fk_user_pk_id` FOREIGN KEY (`fuus_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `page`
