@@ -38,6 +38,7 @@ global $user_logged;
                             <div class="form-group">
                                 <label class="text-primary">CPF*:</label><br>
                                 <input class="form-control" id="cpf" name="func_cpf" type="text" placeholder="Digite o CPF..."  required>
+                                <p class="help-block text-danger text-bold" id="resultado_cpf"></p>
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">RG*:</label><br>
@@ -58,7 +59,7 @@ global $user_logged;
                                     echo '<select id="mySelect" name="user_pk_id" class="selectpicker form-control" data-live-search="true" required>';
                                     echo '<option></option>';
                                     foreach ($users as $each_user) {
-                                        echo '<option value="', $each_user->user_pk_id, '">', $each_user->user_name, '</option>';
+                                        echo '<option value="', $each_user->user_pk_id, '">', $each_user->user_login, '</option>';
                                     }
 
                                     echo '</select>';
@@ -131,7 +132,7 @@ global $user_logged;
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Estado:</label><br>
-                                <select name="ende_fk_estado_pk_id" class="form-control" required>
+                                <select  id="estados" name="ende_fk_estado_pk_id" class="selectpicker form-control" data-live-search="true" required>
                                     <option></option>
                                     <?php
                                     foreach ($estados as $each_estado) {
@@ -144,7 +145,7 @@ global $user_logged;
                         <div class="card-footer">
                             <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar com grupos de botões">
                                 <div class="input-group">
-                                    <button class="btn btn-primary btn-icon-split">
+                                    <button class="btn btn-primary btn-icon-split" disabled id="salvar_dados">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-save"></i>
                                         </span>

@@ -19,7 +19,7 @@
         echo $parameter->getProperty('titulo_site');
         echo '</title>';
         //Icone da página
-        echo '<link rel = "icon" href = "', server_url('br/com/system/uploads/parameter/') . $parameter->getProperty('icone_site'), '">';
+        echo '<link rel="icon" href="', $parameter->getProperty('icone_site') != 'Vazio/Desabilitado' ? server_url('br/com/system/uploads/parameter/') . $parameter->getProperty('icone_site') : '', '">';
         ?>
 
         <!-- Custom fonts for this template-->
@@ -91,6 +91,7 @@
         <script src="<?php echo server_url('br/com/system/assets/vendor/jquery/') . 'jquery.min.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/vendor/jquery/') . 'jquery.mask.js'; ?>"></script>
         <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/js/') . 'bootstrap.bundle.min.js'; ?>"></script>
+        <script src="<?php echo server_url('br/com/system/assets/js/') . 'jqBootstrapValidation.js'; ?>"></script>
 
         <!-- Custom scripts for all pages-->
         <script src="<?php echo server_url('br/com/system/assets/js/') . 'sb-admin-2.js'; ?>"></script>
@@ -110,7 +111,7 @@
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/select/js/') . 'bootstrap-select.js'; ?>"></script>
-        
+
         <!-- Datepicker bootstrap -->
         <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/datepicker/js/') . 'bootstrap-datepicker.js'; ?>"></script>
     </body>

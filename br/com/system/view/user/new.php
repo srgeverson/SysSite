@@ -20,10 +20,10 @@
                     </div>
                     <div class="form-group">
                         <label class="text-primary">E-mail:</label><br>
-                        <input class="form-control" name="user_login" type="text" placeholder="Digite um email..."  required>
+                        <input class="form-control" name="user_login" type="email" placeholder="Digite um email..."  required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Permissão:</label><br>
+                        <label class="text-primary">Perfil:</label><br>
                         <select name="user_fk_authority_pk_id" class="form-control" required>
                             <option></option>
                             <?php

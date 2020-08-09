@@ -13,9 +13,12 @@ $(document).ready(function () {
     $(function () {
         $('#mySelect').selectpicker();
     });
+    
+     $(function () {
+        $('#estados').selectpicker();
+    });
 
     //Datas
-    //$('.datepicker').datepicker()
     $('#dpMonths').datepicker();
 });
 

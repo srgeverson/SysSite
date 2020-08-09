@@ -7,7 +7,6 @@
 ?>
 <br>
 <div class="row">
-
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
