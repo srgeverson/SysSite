@@ -112,7 +112,7 @@ class ControllerFuncionario {
                 $funcionario = $this->daoFuncionario->selectObjectById($func_pk_id);
                 $estadoUFAtual = $daoEstado->selectObjectById($funcionario->ende_fk_estado_pk_id);
                 $controllerUser = new ControllerUser();
-                $users = $controllerUser->listExcept();
+                $users = $controllerUser->selectObjectsNotInFuncionarioUser();
                 if (!isset($funcionario)) {
                     $this->info = 'warning=funcionario_not_exists';
                     $this->list();
@@ -179,7 +179,7 @@ class ControllerFuncionario {
             $daoEstado = new DAOEstado();
             $estados = $daoEstado->selectObjectsEnabled();
             $controllerUser = new ControllerUser();
-            $users = $controllerUser->listExcept();
+            $users = $controllerUser->selectObjectsNotInFuncionarioUser();
             include_once server_path('br/com/system/view/funcionario/new.php');
         }
     }

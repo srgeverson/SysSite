@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this franze file, choose Tools | Templates
-and open the franze in the editor.
--->
 <?php
 ob_start();
 include_once './br/com/system/assets/php/conf.php';

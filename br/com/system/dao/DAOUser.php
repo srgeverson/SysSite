@@ -140,11 +140,14 @@ class DAOUser extends GenericDAO {
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectsExcept() {
+    public function selectObjectsNotInFuncionarioUser() {
         $this->query = "SELECT ";
         $this->query .= "* ";
         $this->query .= "FROM user AS u ";
-        $this->query .= "WHERE u.user_status = 1;";
+        $this->query .= "WHERE ";
+        $this->query .= "u.user_pk_id NOT IN (SELECT fu.fuus_fk_user_pk_id FROM funcionario_user AS fu) AND ";
+        $this->query .= "u.user_pk_id <> 1 AND ";
+        $this->query .= "u.user_status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {

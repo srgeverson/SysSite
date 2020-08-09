@@ -229,8 +229,8 @@ class ControllerUser {
         }
     }
 
-    public function listExcept() {
-        return $this->daoUser->selectObjectsExcept();
+    public function selectObjectsNotInFuncionarioUser() {
+        return $this->daoUser->selectObjectsNotInFuncionarioUser();
     }
 
     public function logon() {
