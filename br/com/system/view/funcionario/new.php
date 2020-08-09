@@ -19,8 +19,7 @@ global $user_logged;
         <?php
         global $user_logged;
         echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerFuncionario&option=save&user_fk_authority_pk_id=' . $user_logged->user_pk_id : '?page=ControllerFuncionario&option=save&user_fk_authority_pk_id=' . 0);
-        ?>" 
-              enctype="multipart/form-data" method="post">
+        ?>" method="post">
             <nav>
                 <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-dados-pessoais-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Dados Pessoais</a>
@@ -51,6 +50,20 @@ global $user_logged;
                             <div class="form-group">
                                 <label class="text-primary">Data Nascimento*:</label><br>
                                 <input class="form-control" name="func_data_nascimento" type="date" placeholder="Digite a data de nascimento..."  required>
+                            </div>
+                            <div class="form-group">
+                                <?php
+                                if ($user_logged->user_fk_authority_pk_id != 3) {
+                                    echo '<label class="text-primary">Usuário:</label><br>';
+                                    echo '<select id="mySelect" name="user_pk_id" class="selectpicker form-control" data-live-search="true" required>';
+                                    echo '<option></option>';
+                                    foreach ($users as $each_user) {
+                                        echo '<option value="', $each_user->user_pk_id, '">', $each_user->user_name, '</option>';
+                                    }
+
+                                    echo '</select>';
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>

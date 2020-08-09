@@ -47,6 +47,16 @@ class ControllerFuncionarioUser {
         }
     }
 
+    public function deleteFuncionarioUserByFuncionario($func_pk_id = 0) {
+        if (GenericController::authotity()) {
+            try {
+                $this->daoFuncionarioUser->deleteByFuncionario($func_pk_id);
+            } catch (Exception $erro) {
+                $this->info = "error=" . $erro->getMessage();
+            }
+        }
+    }
+
     public function disable() {
         if (GenericController::authotity()) {
             $fuus_pk_id = strip_tags($_GET['fuus_pk_id']);
@@ -147,63 +157,67 @@ class ControllerFuncionarioUser {
         }
     }
 
-    public function save(ModelFuncionarioUser $funcionarioUser) {
+    public function saveFuncionarioUser(ModelFuncionarioUser $funcionarioUser) {
         if (GenericController::authotity()) {
+            global $user_logged;
+            $controlerSystem = new ControllerSystem();
             try {
                 $this->daoFuncionarioUser->save($funcionarioUser);
                 $this->info = "success=funcionario_user_created";
-                $controlerSystem = new ControllerSystem();
-                $controlerSystem->welcome($this->info);
+                if ($user_logged->user_fk_authority_pk_id == 3) {
+                    $controlerSystem->welcome($this->info);
+                }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
-                $controlerSystem->welcome($this->info);
+                if ($user_logged->user_fk_authority_pk_id == 3) {
+                    $controlerSystem->welcome($this->info);
+                }
             }
         }
     }
 
-    public function searchByFkUser($user_pk_id = 0) {
+    public function searchByFkFucionario($func_pk_id = 0) {
         if (GenericController::authotity()) {
-            $funcionario = null;
+            $funcionarioUser = null;
             try {
-                $funcionario = $this->daoFuncionarioUser->selectObjectByFkUser($user_pk_id);
-                if (!isset($funcionario)) {
+                $funcionarioUser = $this->daoFuncionarioUser->selectObjectByFkFuncionario($func_pk_id);
+                if (!isset($funcionarioUser)) {
                     $this->info = 'warning=funcionario_not_exists';
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            return $funcionario;
+            return $funcionarioUser;
         }
     }
 
-    public function update() {
+    public function searchByFkUser($user_pk_id = 0) {
         if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
-                $fuus_pk_id = strip_tags($_POST['fuus_pk_id']);
-                if (!isset($fuus_pk_id)) {
-                    $this->info = 'warning=authority_uninformed';
+            $funcionarioUser = null;
+            try {
+                $funcionarioUser = $this->daoFuncionarioUser->selectObjectByFkUser($user_pk_id);
+                if (!isset($funcionarioUser)) {
+                    $this->info = 'warning=funcionario_not_exists';
                 }
-                $fuus_description = strip_tags($_POST['fuus_description']);
-                $fuus_screen = strip_tags($_POST['fuus_screen']);
-                $fuus_function = strip_tags($_POST['fuus_function']);
+            } catch (Exception $erro) {
+                $this->info = "error=" . $erro->getMessage();
+            }
+            return $funcionarioUser;
+        }
+    }
 
-                $authority = new ModelFuncionarioUser();
-                $authority->fuus_pk_id = $fuus_pk_id;
-                $authority->fuus_description = $fuus_description;
-                $authority->fuus_screen = $fuus_screen;
-                $authority->fuus_function = $fuus_function;
-
-                try {
-                    $this->daoFuncionarioUser->update($authority);
-                    if ($authority == null) {
-                        $this->info = 'warning=authority_not_exists';
-                        $this->list();
-                    }
-                    $this->info = 'success=authority_updated';
-                } catch (Exception $erro) {
-                    $this->info = "error=" . $erro->getMessage();
-                }
-                $this->list();
+    public function updateFuncionarioUser($funcionarioUser) {
+        if (GenericController::authotity()) {
+            try {
+                $this->daoFuncionarioUser->update($funcionarioUser);
+                $this->info = "success=funcionario_updated";
+            } catch (Exception $erro) {
+                $this->info = "error=" . $erro->getMessage();
+            }
+            $controlerSystem = new ControllerSystem();
+            global $user_logged;
+            if ($user_logged->user_fk_authority_pk_id == 3) {
+                $controlerSystem->welcome($this->info);
             }
         }
     }

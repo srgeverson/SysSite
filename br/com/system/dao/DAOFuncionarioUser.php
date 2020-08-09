@@ -23,6 +23,19 @@ class DAOFuncionarioUser extends GenericDAO {
         return true;
     }
 
+    public function deleteByFuncionario($func_pk_id = 0) {
+        try {
+            $this->query = "DELETE FROM funcionario_user WHERE fuus_fk_funcionario_pk_id=:fuus_fk_funcionario_pk_id;";
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(":fuus_fk_funcionario_pk_id", $func_pk_id, PDO::PARAM_INT);
+            $this->statement->execute();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        return true;
+    }
+
     public function save(ModelFuncionarioUser $funcionarioUser = null) {
         if (!is_object($funcionarioUser)) {
             throw new Exception("Dados incompletos");
@@ -83,6 +96,26 @@ class DAOFuncionarioUser extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function selectObjectByFkFuncionario($func_pk_id = 0) {
+        $this->query = "SELECT ";
+        $this->query .= "* ";
+        $this->query .= "FROM funcionario_user AS fu ";
+        $this->query .= "INNER JOIN user AS u ON (fu.fuus_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "INNER JOIN funcionario AS f ON (fu.fuus_fk_funcionario_pk_id=f.func_pk_id) ";
+        $this->query .= "WHERE ";
+        $this->query .= "fu.fuus_fk_funcionario_pk_id = :fuus_fk_funcionario_pk_id LIMIT 1;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(":fuus_fk_funcionario_pk_id", $func_pk_id, PDO::PARAM_INT);
+        $this->statement->execute();
+
+        return $this->statement->fetch(PDO::FETCH_OBJ);
+    }
+
     public function selectObjectByFkUser($user_pk_id = 0) {
         $this->query = "SELECT ";
         $this->query .= "* ";
@@ -99,10 +132,8 @@ class DAOFuncionarioUser extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(":fuus_fk_user_pk_id", $user_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
-        
+
         return $this->statement->fetch(PDO::FETCH_OBJ);
-        
-        var_dump($user_pk_id);
     }
 
     public function selectObjectsEnabled() {

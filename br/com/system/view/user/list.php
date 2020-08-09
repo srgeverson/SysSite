@@ -75,7 +75,7 @@
                 echo '<th>Código</th>';
                 echo '<th>Nome</th>';
                 echo '<th>Login</th>';
-                echo '<th>Função</th>';
+                echo '<th>Perfil</th>';
                 echo '<th>Opções</th>';
                 echo '</tr>';
                 echo '</thead>';
@@ -115,7 +115,7 @@
                 echo '<th>Código</th>';
                 echo '<th>Nome</th>';
                 echo '<th>Login</th>';
-                echo '<th>Função</th>';
+                echo '<th>Perfil</th>';
                 echo '<th>Opções</th>';
                 echo '</tr>';
                 echo '</tfoot>';

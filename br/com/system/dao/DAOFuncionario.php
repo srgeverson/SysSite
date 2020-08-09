@@ -83,9 +83,11 @@ class DAOFuncionario extends GenericDAO {
         $this->query .= "FROM funcionario AS f ";
         $this->query .= "INNER JOIN endereco AS e ON (f.func_fk_endereco_pk_id=e.ende_pk_id) ";
         $this->query .= "INNER JOIN contact AS c ON (f.func_fk_contact_pk_id=c.cont_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (f.func_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "INNER JOIN funcionario_user AS fu ON (f.func_pk_id=fu.fuus_fk_funcionario_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (fu.fuus_fk_user_pk_id=u.user_pk_id) ";
         $this->query .= "WHERE ";
         $this->query .= "f.func_pk_id=:func_pk_id LIMIT 1;";
+        
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {

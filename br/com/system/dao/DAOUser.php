@@ -140,6 +140,21 @@ class DAOUser extends GenericDAO {
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
+    public function selectObjectsExcept() {
+        $this->query = "SELECT ";
+        $this->query .= "* ";
+        $this->query .= "FROM user AS u ";
+        $this->query .= "WHERE u.user_status = 1;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function update(ModelUser $user = null) {
         if (!is_object($user)) {
             throw new Exception("Dados incompletos");
