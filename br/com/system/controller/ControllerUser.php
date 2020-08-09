@@ -41,15 +41,14 @@ class ControllerUser {
                 $this->info = 'warning=user_uninformed';
             } else {
                 $user = $this->daoUser->selectObjectById($user_pk_id);
-                if (unlink(server_path('br/com/system/uploads/user/' . $user->user_image))) {
-                    try {
-                        $this->daoUser->delete($user_pk_id);
-                        $this->info = "success=user_deleted";
-                    } catch (Exception $erro) {
-                        $this->info = "error=" . $erro->getMessage();
-                    }
-                } else {
-                    $this->info = "error=user_image_not_deleted";
+                if ($user->user_image != null || $user->user_image != '') {
+                    unlink(server_path('br/com/system/uploads/user/' . $user->user_image));
+                }
+                try {
+                    $this->daoUser->delete($user_pk_id);
+                    $this->info = "success=user_deleted";
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
                 }
             }
             $this->list();
@@ -230,6 +229,10 @@ class ControllerUser {
         }
     }
 
+    public function listExcept() {
+        return $this->daoUser->selectObjectsExcept();
+    }
+
     public function logon() {
         $user_login = strip_tags($_POST['user_login']);
         $user_password = strip_tags($_POST['user_password']);
@@ -301,8 +304,8 @@ class ControllerUser {
             try {
                 $controllerContact = new ControllerContact();
                 if (!isset($this->daoUser->selectObjectByName($user_login)->user_login)) {
-                    $this->daoUser->createOtherUser($user);
                     if ($controllerContact->send_email($contact)) {
+                        $this->daoUser->createOtherUser($user);
                         $this->info = "success=user_created";
                     } else {
                         $this->info = "error=contact_not_send_email";
