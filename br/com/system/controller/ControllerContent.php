@@ -155,7 +155,7 @@ class ControllerContent {
                 GenericController::valid_messages($this->info);
             }
             $daoPage = new DAOPage();
-            $pages = $daoPage->select();
+            $pages = $daoPage->selectObjectsEnabled();
             include_once server_path('br/com/system/view/content/list.php');
         }
     }
