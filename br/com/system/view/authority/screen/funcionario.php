@@ -53,7 +53,7 @@ global $user_logged;
                 }
                 if (isset($funcionario->func_pk_id)) {
                     //echo '<a class="dropdown-item text-center small text-gray-500" href="', server_url("?page=ControllerFolhaPagamento&option=filterByFuncionario&func_pk_id=" . $funcionario->func_pk_id), '">Todas folhas de pagamento</a>';
-                    echo '<a class="dropdown-item text-center small text-gray-500" href="', server_url("?page=ControllerFolhaPagamento&option=list"), '">Todas folhas de pagamento</a>';
+                    echo '<a class="dropdown-item text-center small text-gray-500" href="', server_url("?page=ControllerFolhaPagamento&option=listar"), '">Todas folhas de pagamento</a>';
                 }
                 echo '</div>';
                 echo '</li>';

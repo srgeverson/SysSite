@@ -155,7 +155,7 @@ global $user_logged;
                                 <div class="input-group">
                                     <a  class="btn btn-danger btn-icon-split" href="<?php
                                     $funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->user_pk_id);
-                                    echo server_url($funcionario != false ? '?page=ControllerSystem&option=welcome' : '?page=ControllerFuncionario&option=list');
+                                    echo server_url($funcionario != false ? '?page=ControllerSystem&option=welcome' : '?page=ControllerFuncionario&option=listar');
                                     ?>">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-window-close"></i>

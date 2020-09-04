@@ -28,7 +28,7 @@ class ControllerEndereco {
             try {
                 $this->daoEndereco->delete($ende_pk_id);
                 $this->info = "success=endereco_deleted";
-                $this->list();
+                $this->listar();
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
@@ -57,7 +57,7 @@ class ControllerEndereco {
             } else {
                 $this->info = 'warning=endereco_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -66,7 +66,7 @@ class ControllerEndereco {
             $ende_pk_id = $_GET['ende_pk_id'];
             if (!isset($ende_pk_id)) {
                 $this->info = 'warning=endereco_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $daoEstado = new DAOEstado();
@@ -74,7 +74,7 @@ class ControllerEndereco {
                 $endereco = $this->daoEndereco->selectObjectById($ende_pk_id);
                 if (!isset($endereco)) {
                     $this->info = 'warning=endereco_not_exists';
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -108,11 +108,11 @@ class ControllerEndereco {
             } else {
                 $this->info = 'warning=endereco_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['ende_logradouro']) && isset($_POST['ende_cidade'])) {
                 $endereco = new ModelEndereco();
@@ -131,7 +131,7 @@ class ControllerEndereco {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             $daoEstado = new DAOEstado();
             $estados = $daoEstado->selectObjectsEnabled();
@@ -167,7 +167,7 @@ class ControllerEndereco {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -201,13 +201,13 @@ class ControllerEndereco {
                     $this->daoEndereco->update($endereco);
                     if ($endereco == null) {
                         $this->info = 'warning=endereco_not_exists';
-                        $this->list();
+                        $this->listar();
                     }
                     $this->info = 'success=endereco_updated';
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }

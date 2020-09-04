@@ -30,7 +30,7 @@ class ControllerEstado {
             try {
                 $this->daoEstado->delete($esta_pk_id);
                 $this->info = "success=estado_deleted";
-                $this->list();
+                $this->listar();
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
@@ -59,7 +59,7 @@ class ControllerEstado {
             } else {
                 $this->info = "warning=estado_uninformed";
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -68,7 +68,7 @@ class ControllerEstado {
             $esta_pk_id = $_GET['esta_pk_id'];
             if (!isset($esta_pk_id)) {
                 $this->info = 'warning=estado_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $estado = $this->daoEstado->selectObjectById($esta_pk_id);
@@ -76,7 +76,7 @@ class ControllerEstado {
                 $paises = $daoPais->selectObjectsEnabled();
                 if (!isset($estado)) {
                     $this->info = 'warning=estado_not_exists';
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -110,11 +110,11 @@ class ControllerEstado {
             } else {
                 $this->info = 'warning=estado_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['esta_nome']) && isset($_POST['pais_nome'])) {
                 $estado = new ModelEstado();
@@ -139,7 +139,7 @@ class ControllerEstado {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             $daoPais = new DAOPais();
             $paises = $daoPais->selectObjectsEnabled();
@@ -168,7 +168,7 @@ class ControllerEstado {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -202,7 +202,7 @@ class ControllerEstado {
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }

@@ -73,7 +73,7 @@
                         ?>
                     </div>
                     <div class="input-group">
-                        <a  class="btn btn-success btn-icon-split" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=list'); ?>">
+                        <a  class="btn btn-success btn-icon-split" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=listar'); ?>">
                             <span class="icon text-white-50">
                                 <i class="fas fa-arrow-left"></i>
                             </span>

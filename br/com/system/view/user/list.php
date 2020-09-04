@@ -7,7 +7,7 @@
 ?>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <form action="<?php echo server_url('?page=ControllerUser&option=list'); ?>" method="post">
+        <form action="<?php echo server_url('?page=ControllerUser&option=listar'); ?>" method="post">
             <h3 class="m-0 font-weight-bold text-primary">
                 <span>Listar Usuários</span>
             </h3>

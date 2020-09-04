@@ -34,7 +34,7 @@ class ControllerFuncionario {
             $funcionario = null;
             if (!isset($func_pk_id)) {
                 $this->info = 'warning=funcionario_uninformed';
-                $this->list();
+                $this->listar();
             } else {
                 //DAOs
                 $daoContact = new DAOContact();
@@ -52,22 +52,22 @@ class ControllerFuncionario {
                             $daoContact->delete($funcionario->func_fk_contact_pk_id);
                             try {
                                 $daoEndereco->delete($funcionario->func_fk_endereco_pk_id);
-                                $this->list();
+                                $this->listar();
                             } catch (Exception $exc) {
                                 $this->info = "error=Endereço: " . $erro->getMessage();
-                                $this->list();
+                                $this->listar();
                             }
                         } catch (Exception $erro) {
                             $this->info = "error=Contato: " . $erro->getMessage();
-                            $this->list();
+                            $this->listar();
                         }
                     } catch (Exception $erro) {
                         $this->info = "error=Funcionário: " . $erro->getMessage();
-                        $this->list();
+                        $this->listar();
                     }
                 } catch (Exception $erro) {
                     $this->info = "error=Funcionário Usuário: " . $erro->getMessage();
-                    $this->list();
+                    $this->listar();
                 }
             }
         }
@@ -95,7 +95,7 @@ class ControllerFuncionario {
             } else {
                 $this->info = 'warning=funcionario_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -104,7 +104,7 @@ class ControllerFuncionario {
             $func_pk_id = $_GET['func_pk_id'];
             if (!isset($func_pk_id)) {
                 $this->info = 'warning=funcionario_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $daoEstado = new DAOEstado();
@@ -115,7 +115,7 @@ class ControllerFuncionario {
                 $users = $controllerUser->selectObjectsNotInFuncionarioUser();
                 if (!isset($funcionario)) {
                     $this->info = 'warning=funcionario_not_exists';
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -149,11 +149,11 @@ class ControllerFuncionario {
             } else {
                 $this->info = 'warning=funcionario_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['func_nome']) && isset($_POST['func_cpf']) && isset($_POST['func_rg'])) {
                 $funcionario = new ModelFuncionario();
@@ -174,7 +174,7 @@ class ControllerFuncionario {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             $daoEstado = new DAOEstado();
             $estados = $daoEstado->selectObjectsEnabled();
@@ -288,12 +288,12 @@ class ControllerFuncionario {
 
                 if ($user_fk_authority_pk_id == 0) {
                     $this->info = "success=funcionario_created";
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 if ($user_fk_authority_pk_id == 0) {
                     $this->info = "error=" . $erro->getMessage();
-                    $this->list();
+                    $this->listar();
                 }
             }
         }
@@ -409,12 +409,12 @@ class ControllerFuncionario {
                                 $controllerFunconarioUser->updateFuncionarioUser($funcionarioUser);
                                 if ($user_fk_authority_pk_id == 0) {
                                     $this->info = "success=funcionario_updated";
-                                    $this->list();
+                                    $this->listar();
                                 }
                             } catch (Exception $erro) {
                                 if ($user_fk_authority_pk_id == 0) {
                                     $this->info = "error=" . $erro->getMessage();
-                                    $this->list();
+                                    $this->listar();
                                 } else {
                                     $this->info = "error=" . $erro->getMessage();
                                     $controlerSystem = new ControllerSystem();
@@ -424,7 +424,7 @@ class ControllerFuncionario {
                         } catch (Exception $erro) {
                             if ($user_fk_authority_pk_id == 0) {
                                 $this->info = "error=Endereço: " . $erro->getMessage();
-                                $this->list();
+                                $this->listar();
                             } else {
                                 $this->info = "error=" . $erro->getMessage();
                                 $controlerSystem = new ControllerSystem();
@@ -434,7 +434,7 @@ class ControllerFuncionario {
                     } catch (Exception $erro) {
                         if ($user_fk_authority_pk_id == 0) {
                             $this->info = "error=Contato: " . $erro->getMessage();
-                            $this->list();
+                            $this->listar();
                         } else {
                             $this->info = "error=" . $erro->getMessage();
                             $controlerSystem = new ControllerSystem();

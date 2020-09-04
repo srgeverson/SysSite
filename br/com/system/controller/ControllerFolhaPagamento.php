@@ -41,7 +41,7 @@ class ControllerFolhaPagamento {
                     $this->info = "error=" . $erro->getMessage();
                 }
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -67,7 +67,7 @@ class ControllerFolhaPagamento {
             } else {
                 $this->info = 'warning=folha_pagamento_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -78,7 +78,7 @@ class ControllerFolhaPagamento {
                 $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
                 if (!isset($fopa_pk_id)) {
                     $this->info = 'warning=folha_pagamento_uninformed';
-                    $this->list();
+                    $this->listar();
                 }
 
                 $folhaPagamento = $this->daoFolhaPagamento->selectObjectById($fopa_pk_id);
@@ -109,7 +109,7 @@ class ControllerFolhaPagamento {
 
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
-                $this->list();
+                $this->listar();
             }
         }
     }
@@ -119,7 +119,7 @@ class ControllerFolhaPagamento {
             $fopa_pk_id = $_GET['fopa_pk_id'];
             if (!isset($fopa_pk_id)) {
                 $this->info = 'warning=folha_pagamento_uninformed';
-                $this->list();
+                $this->listar();
             } else {
                 try {
                     $daoFuncionario = new DAOFuncionario();
@@ -127,15 +127,15 @@ class ControllerFolhaPagamento {
                     $folhaPagamento = $this->daoFolhaPagamento->selectObjectById($fopa_pk_id);
                     if (!isset($folhaPagamento)) {
                         $this->info = 'warning=folha_pagamento_not_exists';
-                        $this->list();
+                        $this->listar();
                     }
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
-                    $this->list();
+                    $this->listar();
                 }
                 if ($folhaPagamento == false) {
                     $this->info = "warning=folha_pagamento_not_found";
-                    $this->list();
+                    $this->listar();
                 }
                 include_once server_path('br/com/system/view/folha_pagamento/edit.php');
             }
@@ -164,7 +164,7 @@ class ControllerFolhaPagamento {
             } else {
                 $this->info = 'warning=folha_pagamento_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -189,7 +189,7 @@ class ControllerFolhaPagamento {
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['func_nome']) && isset($_POST['func_cpf']) && isset($_POST['fopa_competencia'])) {
                 $folhaPagamento = new ModelFolhaPagamento();
@@ -233,7 +233,7 @@ class ControllerFolhaPagamento {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             include_once server_path('br/com/system/view/folha_pagamento/new.php');
         }
@@ -291,7 +291,7 @@ class ControllerFolhaPagamento {
                     $this->info = "warning=Não existe funcionários cadastrados/habilitados";
                 }
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -345,7 +345,7 @@ class ControllerFolhaPagamento {
                     $this->info = "warning=Não existe funcionários cadastrados/habilitados";
                 }
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -373,7 +373,7 @@ class ControllerFolhaPagamento {
 //                echo 'Conteúdo: ' . $this->searchCPFInFile($folhaPagamento->fopa_arquivo, '1606.717.623-89') ? 'CPF encontrado' : 'CPF não encontrado';
             } else {
                 $this->info = "warning=Usuário sem acesso a esta tela.";
-                $this->list();
+                $this->listar();
             }
         }
     }
@@ -437,7 +437,7 @@ class ControllerFolhaPagamento {
                     $this->info = "error=" . $erro->getMessage();
                 }
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -446,7 +446,7 @@ class ControllerFolhaPagamento {
             $fopa_pk_id = $_GET['fopa_pk_id'];
             if (!isset($fopa_pk_id)) {
                 $this->info = 'warning=folha_pagamento_uninformed';
-                $this->list();
+                $this->listar();
             } else {
                 try {
                     $daoFuncionario = new DAOFuncionario();
@@ -454,15 +454,15 @@ class ControllerFolhaPagamento {
                     $folhaPagamento = $this->daoFolhaPagamento->selectObjectById($fopa_pk_id);
                     if (!isset($folhaPagamento)) {
                         $this->info = 'warning=folha_pagamento_not_exists';
-                        $this->list();
+                        $this->listar();
                     }
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
-                    $this->list();
+                    $this->listar();
                 }
                 if ($folhaPagamento == false) {
                     $this->info = "warning=folha_pagamento_not_found";
-                    $this->list();
+                    $this->listar();
                 }
                 include_once server_path('br/com/system/view/folha_pagamento/view.php');
             }

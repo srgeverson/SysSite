@@ -34,7 +34,7 @@ class ControllerFuncionarioUser {
                 if (empty($daoUser->selectCountObjectsByFKAuthority($fuus_pk_id))) {
                     if (!$this->daoFuncionarioUser->delete($fuus_pk_id)) {
                         $this->info = 'warning=authority_not_exists';
-                        $this->list();
+                        $this->listar();
                     }
                     $this->info = "success=authority_deleted";
                 } else {
@@ -43,7 +43,7 @@ class ControllerFuncionarioUser {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -79,7 +79,7 @@ class ControllerFuncionarioUser {
             } else {
                 $this->info = 'warning=authority_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -88,13 +88,13 @@ class ControllerFuncionarioUser {
             $fuus_pk_id = $_GET['fuus_pk_id'];
             if (!isset($fuus_pk_id)) {
                 $this->info = 'warning=authority_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $authority = $this->daoFuncionarioUser->selectObjectById($fuus_pk_id);
                 if (!isset($authority)) {
                     $this->info = 'warning=authority_not_exists';
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -128,11 +128,11 @@ class ControllerFuncionarioUser {
             } else {
                 $this->info = 'warning=authority_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['fuus_description'])) {
                 $authority = new ModelFuncionarioUser();
@@ -151,7 +151,7 @@ class ControllerFuncionarioUser {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             include_once server_path('br/com/system/view/authority/new.php');
         }

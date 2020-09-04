@@ -22,7 +22,7 @@
 
             $i = 0; //rever essa variável
             foreach ($pages_enableds as $each_page) {
-                echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&cont_fk_page_pk_id=' . $each_page->page_pk_id), '">';
+                echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&conte_fk_page_pk_id=' . $each_page->page_pk_id), '">';
                 echo '  <i class = "fas fa-', $each_page->page_icon, ' fa-sm fa-fw mr-2 text-gray-400"></i>';
                 echo $each_page->page_label;
                 echo '</a>';
@@ -43,17 +43,17 @@
                 <span>Recursos Humanos</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFuncionario&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFuncionario&option=listar"); ?>">
                     <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
                     Funcionários
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContact&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContact&option=listar"); ?>">
                     <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
                     Contatos
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFolhaPagamento&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFolhaPagamento&option=listar"); ?>">
                     <i class="fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Folha de Pagamento
                 </a>
@@ -66,17 +66,17 @@
                 <span>Outros</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerEndereco&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerEndereco&option=listar"); ?>">
                     <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
                     Endereços
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerEstado&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerEstado&option=listar"); ?>">
                     <i class="fas fa-city fa-sm fa-fw mr-2 text-gray-400"></i>
                     Estados
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerPais&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerPais&option=listar"); ?>">
                     <i class="fas fa-university fa-sm fa-fw mr-2 text-gray-400"></i>
                     Países
                 </a>
@@ -89,27 +89,27 @@
                 <span>Sistema</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerUser&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerUser&option=listar"); ?>">
                     <i class="fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                     Usuários
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerAuthority&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerAuthority&option=listar"); ?>">
                     <i class="fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400"></i>
                     Permissões
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerParameter&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerParameter&option=listar"); ?>">
                     <i class="fas fa-tasks fa-sm fa-fw mr-2 text-gray-400"></i>
                     Parâmetros
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerPage&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerPage&option=listar"); ?>">
                     <i class="fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Páginas do Site
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContent&option=list"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContent&option=listar"); ?>">
                     <i class="fas fa-file-code fa-sm fa-fw mr-2 text-gray-400"></i>
                     Conteúdo das Páginas
                 </a>

@@ -35,7 +35,7 @@ class ControllerParameter {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -61,7 +61,7 @@ class ControllerParameter {
             } else {
                 $this->info = 'warning=parameter_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -70,13 +70,13 @@ class ControllerParameter {
             $para_pk_id = $_GET['param_pk_id'];
             if (!isset($para_pk_id)) {
                 $this->info = 'warning=parameter_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $parameter = $this->daoParameter->selectObjectById($para_pk_id);
                 if (!isset($parameter)) {
                     $this->info = 'warning=parameter_not_exists';
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -110,7 +110,7 @@ class ControllerParameter {
             } else {
                 $this->info = 'warning=parameter_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -127,7 +127,7 @@ class ControllerParameter {
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['para_key']) && isset($_POST['para_value'])) {
                 try {
@@ -147,7 +147,7 @@ class ControllerParameter {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             include_once server_path('br/com/system/view/parameter/new.php');
         }
@@ -178,7 +178,7 @@ class ControllerParameter {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -200,14 +200,14 @@ class ControllerParameter {
                 try {
                     if ($parameter == null) {
                         $this->info = 'warning=parameter_not_exists';
-                        $this->list();
+                        $this->listar();
                     }
                     $this->daoParameter->update($parameter);
                     $this->info = 'success=parameter_updated';
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }

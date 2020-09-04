@@ -44,7 +44,7 @@ class ControllerSystem {
             $msg = $this->info;
         }
         GenericController::valid_messages($msg);
-        include_once server_path('br/com/system/view/user/default.php');
+        include_once server_path('br/com/system/view/page/pages/default.php');
     }
 
     public function user_info($msg = null) {

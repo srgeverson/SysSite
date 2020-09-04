@@ -30,7 +30,7 @@ class ControllerPais {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -56,7 +56,7 @@ class ControllerPais {
             } else {
                 $this->info = 'warning=pais_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -65,13 +65,13 @@ class ControllerPais {
             $pais_pk_id = $_GET['pais_pk_id'];
             if (!isset($pais_pk_id)) {
                 $this->info = 'warning=pais_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $pais = $this->daoPais->selectObjectById($pais_pk_id);
                 if (!isset($pais)) {
                     $this->info = 'warning=pais_not_exists';
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -105,11 +105,11 @@ class ControllerPais {
             } else {
                 $this->info = 'warning=pais_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['pais_nome'])) {
                 $pais = new ModelPais();
@@ -127,7 +127,7 @@ class ControllerPais {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             include_once server_path('br/com/system/view/pais/new.php');
         }
@@ -153,7 +153,7 @@ class ControllerPais {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -179,13 +179,13 @@ class ControllerPais {
                     $this->daoPais->update($pais);
                     if ($pais == null) {
                         $this->info = 'warning=pais_not_exists';
-                        $this->list();
+                        $this->listar();
                     }
                     $this->info = 'success=pais_updated';
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }

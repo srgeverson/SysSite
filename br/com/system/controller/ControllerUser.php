@@ -51,7 +51,7 @@ class ControllerUser {
                     $this->info = "error=" . $erro->getMessage();
                 }
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -77,7 +77,7 @@ class ControllerUser {
             } else {
                 $this->info = "warning=user_uninformed";
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -86,7 +86,7 @@ class ControllerUser {
             $user_pk_id = $_GET['user_pk_id'];
             if (!isset($user_pk_id)) {
                 $this->info = 'warning=user_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $user = $this->daoUser->selectObjectById($user_pk_id);
@@ -94,7 +94,7 @@ class ControllerUser {
                 $authorities = $daoAuthority->selectObjectsEnabled();
                 if (!isset($user)) {
                     $this->info = 'warning=user_not_exists';
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -198,11 +198,11 @@ class ControllerUser {
             } else {
                 $this->info = 'warning=user_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['user_fk_authority_pk_id'])) {
                 $user = new ModelUser();
@@ -272,7 +272,7 @@ class ControllerUser {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             $daoAuthority = new DAOAuthority();
             $authorities = $daoAuthority->selectObjectsEnabled();
@@ -316,7 +316,7 @@ class ControllerUser {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -348,7 +348,7 @@ class ControllerUser {
         } catch (Exception $erro) {
             $this->info = "error=" . $erro->getMessage();
         }
-        $this->list();
+        $this->listar();
     }
 
     public function submit() {
@@ -415,7 +415,7 @@ class ControllerUser {
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }

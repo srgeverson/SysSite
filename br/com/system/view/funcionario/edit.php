@@ -160,7 +160,7 @@ global $user_logged;
                                 </div>
                                 <div class="input-group">
                                     <a  class="btn btn-danger btn-icon-split" href="<?php
-                                    echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerSystem&option=welcome' : '?page=ControllerFuncionario&option=list');
+                                    echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerSystem&option=welcome' : '?page=ControllerFuncionario&option=listar');
                                     ?>" type="submit">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-window-close"></i>

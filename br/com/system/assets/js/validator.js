@@ -14,6 +14,9 @@ $(document).ready(function () {
             $('#editar_perfil').attr('disabled', '');
         }
     });
+    $("#cpf").focus(function () {
+        console.log($('#cpf').val());
+    });
     //Validando CPF
     $("#cpf").focusout(function () {
         var conteudoCPF = $('#cpf').val();

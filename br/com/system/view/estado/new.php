@@ -45,7 +45,7 @@
                             </button>
                         </div>
                         <div class="input-group">
-                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerEstado&option=list'); ?>">
+                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerEstado&option=listar'); ?>">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-window-close"></i>
                                 </span>
