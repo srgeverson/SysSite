@@ -44,7 +44,7 @@ $funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->user_pk_
                     <div class="input-group input-group-lg">
                         <?php
                         if ($user_logged->user_fk_authority_pk_id != 3) {
-                            echo '<a  title="Cadastrar dados!" href="', server_url('?page=ControllerFolhaPagamento&option=new'), '" class="btn btn-primary btn-icon-split btn-lg">';
+                            echo '<a  title="Cadastrar dados!" href="', server_url('?page=ControllerFolhaPagamento&option=novo'), '" class="btn btn-primary btn-icon-split btn-lg">';
                             echo '<span class="icon text-white-50">';
                             echo '<i class="fas fa-plus"></i>';
                             echo '</span>';
@@ -58,7 +58,7 @@ $funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->user_pk_
                     <div class="input-group input-group-lg">
                         <?php
                         if ($user_logged->user_fk_authority_pk_id != 3) {
-                            echo '<a title = "Cadastrar dados!" href = "', server_url('?page=ControllerFolhaPagamento&option=newBatch'), '" class = "btn btn-primary btn-icon-split btn-lg">';
+                            echo '<a title = "Cadastrar dados!" href = "', server_url('?page=ControllerFolhaPagamento&option=novoLote'), '" class = "btn btn-primary btn-icon-split btn-lg">';
                             echo '<span class = "icon text-white-50">';
                             echo '<i class = "fas fa-folder-plus"></i>';
                             echo '</span>';

@@ -239,7 +239,7 @@ class ControllerFolhaPagamento {
         }
     }
 
-    public function newBatch() {
+    public function novoLote() {
         if (GenericController::authotity()) {
             include_once server_path('br/com/system/view/folha_pagamento/batch.php');
         }

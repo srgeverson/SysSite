@@ -15,7 +15,7 @@
             <div class="form-group row">
                 <div class="col-sm-2 mb-3 mb-sm-0">
                     <div class="input-group input-group-lg">
-                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerContact&option=new'); ?>" class="btn btn-primary btn-icon-split btn-lg">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerContact&option=novo'); ?>" class="btn btn-primary btn-icon-split btn-lg">
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>

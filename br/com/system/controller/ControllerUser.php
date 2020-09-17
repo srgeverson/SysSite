@@ -10,6 +10,8 @@ include_once server_path("br/com/system/dao/DAOUser.php");
 include_once server_path("br/com/system/controller/ControllerContact.php");
 include_once server_path("br/com/system/model/ModelUser.php");
 include_once server_path("br/com/system/model/ModelContact.php");
+//Para versões do PHP 5.x
+//include_once server_path("br/com/system/assets/php/random_compat/lib/random.php");
 
 class ControllerUser {
 

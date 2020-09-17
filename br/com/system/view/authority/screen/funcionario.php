@@ -71,7 +71,7 @@ global $user_logged;
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="<?php
-                    echo server_url($funcionario == false ? '?page=ControllerFuncionario&option=new' : '?page=ControllerFuncionario&option=edit&func_pk_id=' . $funcionario->func_pk_id);
+                    echo server_url($funcionario == false ? '?page=ControllerFuncionario&option=novo' : '?page=ControllerFuncionario&option=edit&func_pk_id=' . $funcionario->func_pk_id);
                     ?>">
                         <i class="fas fa-address-card fa-sm fa-fw mr-2 text-gray-400"></i>
                         Dados Profissionais

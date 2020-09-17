@@ -14,16 +14,12 @@ $(document).ready(function () {
             $('#editar_perfil').attr('disabled', '');
         }
     });
-    $("#cpf").focus(function () {
-        console.log($('#cpf').val());
-    });
     //Validando CPF
-    $("#cpf").focusout(function () {
+    $("#cpf").keyup(function () {
         var conteudoCPF = $('#cpf').val();
         var Soma;
         var Resto;
         Soma = 0;
-
         conteudoCPF = conteudoCPF.replace('.', '');//Remove o 1º ponto
         conteudoCPF = conteudoCPF.replace('.', '');//Remove o 1º ponto
         conteudoCPF = conteudoCPF.replace('-', '');//Remove o hífen
