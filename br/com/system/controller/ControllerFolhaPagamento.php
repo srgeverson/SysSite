@@ -101,7 +101,7 @@ class ControllerFolhaPagamento {
                     $bin = "";
                     $i = 0;
                     do {
-                        $bin .= chr(hexdec($str{$i} . $str{($i + 1)}));
+                        $bin .= chr(hexdec($str[$i] . $str[($i + 1)]));
                         $i += 2;
                     } while ($i < strlen($str));
                     return $bin;
