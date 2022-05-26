@@ -312,7 +312,9 @@ INSERT INTO `parameter` (`para_pk_id`, `para_key`, `para_value`, `para_descripti
 (12, 'google_analytics', 'G-5ZS0PB48KT', 'Códifo do Google Analytics', 1, 1),
 (13, 'servidor_email_smtp', 'smtp.gmail.com', 'Protocolo de E-mail', 1, 1),
 (14, 'servidor_email_porta', '465', 'Porta do Servidor de E-mail', 1, 1),
-(15, 'servidor_email_seguranca', 'ssl', 'Tipo da Segurança do Envio de E-mail', 1, 1);
+(15, 'servidor_email_seguranca', 'ssl', 'Tipo da Segurança do Envio de E-mail', 1, 1),
+(16, 'mostrar_error', '1', 'Habilita a apresentação de erros no PHP', 1, 1);
+
 
 -- --------------------------------------------------------
 
