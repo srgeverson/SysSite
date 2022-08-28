@@ -33,6 +33,6 @@ $ http://localhost/system
 
 * **Geverson Souza** - [Geverson Souza](https://www.linkedin.com/in/srgeverson/)
 
-## 📌 Versão ainda em desenvolvimento
+## 📌 Versão 1.0.1
 
 Nós usamos [Github](https://github.com/) para controle de versão.
