@@ -140,6 +140,24 @@ class DAOUser extends GenericDAO {
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
+    public function selectObjectsNotInFuncionarioUser() {
+        $this->query = "SELECT ";
+        $this->query .= "* ";
+        $this->query .= "FROM user AS u ";
+        $this->query .= "WHERE ";
+        $this->query .= "u.user_pk_id NOT IN (SELECT fu.fuus_fk_user_pk_id FROM funcionario_user AS fu) AND ";
+        $this->query .= "u.user_pk_id <> 1 AND ";
+        $this->query .= "u.user_status = 1;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function update(ModelUser $user = null) {
         if (!is_object($user)) {
             throw new Exception("Dados incompletos");

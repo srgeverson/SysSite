@@ -10,6 +10,8 @@ include_once server_path("br/com/system/dao/DAOUser.php");
 include_once server_path("br/com/system/controller/ControllerContact.php");
 include_once server_path("br/com/system/model/ModelUser.php");
 include_once server_path("br/com/system/model/ModelContact.php");
+//Para versões do PHP 5.x
+//include_once server_path("br/com/system/assets/php/random_compat/lib/random.php");
 
 class ControllerUser {
 
@@ -41,18 +43,17 @@ class ControllerUser {
                 $this->info = 'warning=user_uninformed';
             } else {
                 $user = $this->daoUser->selectObjectById($user_pk_id);
-                if (unlink(server_path('br/com/system/uploads/user/' . $user->user_image))) {
-                    try {
-                        $this->daoUser->delete($user_pk_id);
-                        $this->info = "success=user_deleted";
-                    } catch (Exception $erro) {
-                        $this->info = "error=" . $erro->getMessage();
-                    }
-                } else {
-                    $this->info = "error=user_image_not_deleted";
+                if ($user->user_image != null || $user->user_image != '') {
+                    unlink(server_path('br/com/system/uploads/user/' . $user->user_image));
+                }
+                try {
+                    $this->daoUser->delete($user_pk_id);
+                    $this->info = "success=user_deleted";
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
                 }
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -78,7 +79,7 @@ class ControllerUser {
             } else {
                 $this->info = "warning=user_uninformed";
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -87,7 +88,7 @@ class ControllerUser {
             $user_pk_id = $_GET['user_pk_id'];
             if (!isset($user_pk_id)) {
                 $this->info = 'warning=user_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $user = $this->daoUser->selectObjectById($user_pk_id);
@@ -95,7 +96,7 @@ class ControllerUser {
                 $authorities = $daoAuthority->selectObjectsEnabled();
                 if (!isset($user)) {
                     $this->info = 'warning=user_not_exists';
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -199,11 +200,11 @@ class ControllerUser {
             } else {
                 $this->info = 'warning=user_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['user_fk_authority_pk_id'])) {
                 $user = new ModelUser();
@@ -228,6 +229,10 @@ class ControllerUser {
             }
             include_once server_path('br/com/system/view/user/list.php');
         }
+    }
+
+    public function selectObjectsNotInFuncionarioUser() {
+        return $this->daoUser->selectObjectsNotInFuncionarioUser();
     }
 
     public function logon() {
@@ -269,7 +274,7 @@ class ControllerUser {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             $daoAuthority = new DAOAuthority();
             $authorities = $daoAuthority->selectObjectsEnabled();
@@ -299,9 +304,10 @@ class ControllerUser {
             $user->user_status = $user_status;
             $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
             try {
+                $controllerContact = new ControllerContact();
                 if (!isset($this->daoUser->selectObjectByName($user_login)->user_login)) {
-                    $this->daoUser->createOtherUser($user);
-                    if ($this->controllerSystem->send_email($contact)) {
+                    if ($controllerContact->send_email($contact)) {
+                        $this->daoUser->createOtherUser($user);
                         $this->info = "success=user_created";
                     } else {
                         $this->info = "error=contact_not_send_email";
@@ -312,7 +318,7 @@ class ControllerUser {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -344,7 +350,7 @@ class ControllerUser {
         } catch (Exception $erro) {
             $this->info = "error=" . $erro->getMessage();
         }
-        $this->list();
+        $this->listar();
     }
 
     public function submit() {
@@ -411,7 +417,7 @@ class ControllerUser {
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }

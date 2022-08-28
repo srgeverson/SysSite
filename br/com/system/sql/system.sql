@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: 23-Jul-2020 às 22:46
--- Versão do servidor: 5.7.30-0ubuntu0.18.04.1
+-- Generation Time: 10-Ago-2020 às 00:25
+-- Versão do servidor: 5.7.31-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -39,9 +39,9 @@ CREATE TABLE `authority` (
 --
 
 INSERT INTO `authority` (`auth_pk_id`, `auth_description`, `auth_status`, `auth_screen`, `auth_function`) VALUES
-(1, 'TI', 1, 'ti.php', 'Gerenciamento completo do sistema para auxiliar nossos clientes.'),
-(2, 'Administrador', 1, 'administrador.php', 'Aqui você vai poder gerenciar suas Vendas, Clientes, Produtos...'),
-(3, 'Funcionário', 1, 'funcionario.php', 'Essa área foi desenvolvida e reservada para você acompanhar seus pedidos, seus pagamentos e produtos disponíveis...');
+(1, 'TI', 0, 'ti.php', 'Gerenciamento completo do sistema para auxiliar nossos clientes.'),
+(2, 'Administrador', 1, 'administrador.php', 'ÁREA RESERVADA PARA GERENCIAR OPERAÇÕES E FAZER LANÇAMENTOS DAS FOLHA DE PAGAMENTOS'),
+(3, 'Funcionário', 1, 'funcionario.php', 'ÁREA RESERVADA PARA ACOMPANHAMENTO DE SEUS CONTRA CHECHE');
 
 -- --------------------------------------------------------
 
@@ -70,7 +70,7 @@ CREATE TABLE `contact` (
 
 INSERT INTO `contact` (`cont_pk_id`, `cont_description`, `cont_phone`, `cont_cell_phone`, `cont_whatsapp`, `cont_email`, `cont_facebook`, `cont_instagram`, `cont_twitter`, `cont_status`, `cont_text`, `cont_fk_user_pk_id`) VALUES
 (1, 'Dados Pessoais', '(00)0000-0000', '(00)00000-0000', '00000000000', 'email@email.com', 'usurio', '@usuario', NULL, 1, 'Dados do sistema', 0),
-(19, 'PESSOAL', '(85)8771-3985', '(85)98771-3985', '(85)98771-3985', 'geversonjosedesouza@gmail.com', '@GEVERSON', '@SR_GEVERSON', NULL, 1, 'EU1', 1);
+(37, '123', '123', '123', '123', '123@123', '123', '123', NULL, 1, '123', 1);
 
 -- --------------------------------------------------------
 
@@ -138,8 +138,7 @@ CREATE TABLE `endereco` (
 
 INSERT INTO `endereco` (`ende_pk_id`, `ende_logradouro`, `ende_numero`, `ende_bairro`, `ende_cep`, `ende_cidade`, `ende_status`, `ende_fk_estado_pk_id`, `ende_fk_user_pk_id`) VALUES
 (1, 'Rua Teste', '00', 'Bairro Teste', '00.000-000', 'Municio Teste', 1, 6, 1),
-(11, 'RUA PAULA LOPES', '05', 'PARQUE HAVAI', '61.760-000', 'EUSEBIO', 1, 6, 1),
-(12, 'RUA PAULA LOPES', '05', 'PARQUE HAVAI', '61.760-000', 'EUSEBIO', 1, 25, 1);
+(30, 'RUA PAULA LOPES', '1234', '123', '22.222-222', 'EUSEBIO', 1, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -198,8 +197,10 @@ INSERT INTO `estado` (`esta_pk_id`, `esta_nome`, `esta_sigla`, `esta_status`, `e
 CREATE TABLE `folha_pagamento` (
   `fopa_pk_id` int(11) NOT NULL,
   `fopa_competencia` varchar(7) NOT NULL,
-  `fopa_arquivo` blob,
+  `fopa_nome_arquivo` varchar(255) DEFAULT NULL,
+  `fopa_tamanho_arquivo` int(11) DEFAULT NULL,
   `fopa_caminho_arquivo` varchar(255) DEFAULT NULL,
+  `fopa_arquivo` longblob,
   `fopa_status` tinyint(1) NOT NULL DEFAULT '1',
   `fopa_fk_funcionario_pk_id` int(11) NOT NULL,
   `fopa_fk_user_pk_id` int(11) NOT NULL
@@ -229,7 +230,95 @@ CREATE TABLE `funcionario` (
 --
 
 INSERT INTO `funcionario` (`func_pk_id`, `func_nome`, `func_cpf`, `func_rg`, `func_pis`, `func_data_nascimento`, `func_status`, `func_fk_user_pk_id`, `func_fk_endereco_pk_id`, `func_fk_contact_pk_id`) VALUES
-(1, 'GEVERSON JOSE DE SOUZ', '606.717.623-89', '20077178836', '18811656156', '1993-04-12', 1, 1, 12, 19);
+(19, '123', '606.717.623-89', '123', '123', '1212-03-12', 1, 1, 30, 37);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `funcionario_user`
+--
+
+CREATE TABLE `funcionario_user` (
+  `fuus_pk_id` int(11) NOT NULL,
+  `fuus_fk_user_pk_id` int(11) NOT NULL,
+  `fuus_fk_funcionario_pk_id` int(11) NOT NULL,
+  `fuus_status` tinyint(1) NOT NULL DEFAULT '1',
+  `fuus_data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin;
+
+--
+-- Extraindo dados da tabela `funcionario_user`
+--
+
+INSERT INTO `funcionario_user` (`fuus_pk_id`, `fuus_fk_user_pk_id`, `fuus_fk_funcionario_pk_id`, `fuus_status`, `fuus_data`) VALUES
+(13, 6, 19, 1, '2020-08-09 15:16:10');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `log_user`
+--
+
+CREATE TABLE `log_user` (
+  `luser_id_tabela` int(11) DEFAULT NULL,
+  `luser_fk_usuario_pk_id` int(11) DEFAULT NULL,
+  `luser_operacao` varchar(6) COLLATE ascii_bin DEFAULT NULL,
+  `luser_campo_modificado` varchar(45) COLLATE ascii_bin DEFAULT NULL,
+  `luser_valor_antigo` text COLLATE ascii_bin,
+  `luser_valor_atual` text COLLATE ascii_bin,
+  `luser_data_operacao` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin;
+
+--
+-- Extraindo dados da tabela `log_user`
+--
+
+INSERT INTO `log_user` (`luser_id_tabela`, `luser_fk_usuario_pk_id`, `luser_operacao`, `luser_campo_modificado`, `luser_valor_antigo`, `luser_valor_atual`, `luser_data_operacao`) VALUES
+(1, NULL, 'UPDATE', 'user_last_access', '2020-08-09 15:49:31', '2020-08-09 23:31:33', '2020-08-09 23:31:33'),
+(1, NULL, 'UPDATE', 'user_name', 'Geverson', 'Geverson J de Souza', '2020-08-09 23:32:35'),
+(1, NULL, 'UPDATE', 'user_password', '$2y$10$7V6yhg6xSHut0jJ4Qs9CieXgRefbUrofSx3YizQDa5qG/8sOWMV62', '$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy', '2020-08-09 23:32:35'),
+(6, NULL, 'UPDATE', 'user_password', '$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS', '$2y$10$ppKWSgMr3KBq1fsGa2m/l.7UUu2AQTBiC0wl21M3U/TqoFgsBZRV6', '2020-08-09 23:33:29'),
+(0, NULL, 'INSERT', 'user_pk_id', '0', NULL, '2020-08-10 00:15:49'),
+(0, NULL, 'INSERT', 'user_name', 'g', NULL, '2020-08-10 00:15:49'),
+(0, NULL, 'INSERT', 'user_login', 'root@root1', NULL, '2020-08-10 00:15:49'),
+(0, NULL, 'INSERT', 'user_password', '$2y$10$ggNgki2BK1lUFiQpH6En4eSLWPprI69P/0g.IEsuiBtxkSWlE4sdu', NULL, '2020-08-10 00:15:49'),
+(0, NULL, 'INSERT', 'user_status', '1', NULL, '2020-08-10 00:15:49'),
+(0, NULL, 'INSERT', 'user_fk_authority_pk_id', '2', NULL, '2020-08-10 00:15:49'),
+(0, NULL, 'INSERT', 'user_pk_id', '0', NULL, '2020-08-10 00:17:19'),
+(0, NULL, 'INSERT', 'user_name', 'teste1', NULL, '2020-08-10 00:17:19'),
+(0, NULL, 'INSERT', 'user_login', 'asd@asd', NULL, '2020-08-10 00:17:19'),
+(0, NULL, 'INSERT', 'user_password', '$2y$10$V7o4ORE1d2ysUqFWYql6xe3UZ4oGmZ.ZmjoqhaVVK0b5GXW279.EW', NULL, '2020-08-10 00:17:19'),
+(0, NULL, 'INSERT', 'user_last_login', NULL, NULL, '2020-08-10 00:17:19'),
+(0, NULL, 'INSERT', 'user_image', NULL, NULL, '2020-08-10 00:17:19'),
+(0, NULL, 'INSERT', 'user_status', '1', NULL, '2020-08-10 00:17:19'),
+(0, NULL, 'INSERT', 'user_fk_authority_pk_id', '2', NULL, '2020-08-10 00:17:19'),
+(11, NULL, 'UPDATE', 'user_status', '1', '0', '2020-08-10 00:20:06'),
+(11, NULL, 'DELETE', 'user_pk_id', '11', NULL, '2020-08-10 00:20:11'),
+(11, NULL, 'DELETE', 'user_name', 'teste1', NULL, '2020-08-10 00:20:11'),
+(11, NULL, 'DELETE', 'user_login', 'asd@asd', NULL, '2020-08-10 00:20:11'),
+(11, NULL, 'DELETE', 'user_password', '$2y$10$V7o4ORE1d2ysUqFWYql6xe3UZ4oGmZ.ZmjoqhaVVK0b5GXW279.EW', NULL, '2020-08-10 00:20:11'),
+(11, NULL, 'DELETE', 'user_last_login', NULL, NULL, '2020-08-10 00:20:11'),
+(11, NULL, 'DELETE', 'user_image', NULL, NULL, '2020-08-10 00:20:11'),
+(11, NULL, 'DELETE', 'user_status', '0', NULL, '2020-08-10 00:20:11'),
+(11, NULL, 'DELETE', 'user_fk_authority_pk_id', '2', NULL, '2020-08-10 00:20:11'),
+(10, NULL, 'UPDATE', 'user_status', '1', '0', '2020-08-10 00:20:50'),
+(10, NULL, 'DELETE', 'user_pk_id', '10', NULL, '2020-08-10 00:20:54'),
+(10, NULL, 'DELETE', 'user_name', 'g', NULL, '2020-08-10 00:20:54'),
+(10, NULL, 'DELETE', 'user_login', 'root@root1', NULL, '2020-08-10 00:20:54'),
+(10, NULL, 'DELETE', 'user_password', '$2y$10$ggNgki2BK1lUFiQpH6En4eSLWPprI69P/0g.IEsuiBtxkSWlE4sdu', NULL, '2020-08-10 00:20:54'),
+(10, NULL, 'DELETE', 'user_last_login', NULL, NULL, '2020-08-10 00:20:54'),
+(10, NULL, 'DELETE', 'user_image', NULL, NULL, '2020-08-10 00:20:54'),
+(10, NULL, 'DELETE', 'user_status', '0', NULL, '2020-08-10 00:20:54'),
+(10, NULL, 'DELETE', 'user_fk_authority_pk_id', '2', NULL, '2020-08-10 00:20:54'),
+(0, NULL, 'INSERT', 'user_pk_id', '0', NULL, '2020-08-10 00:21:08'),
+(0, NULL, 'INSERT', 'user_name', 'g', NULL, '2020-08-10 00:21:08'),
+(0, NULL, 'INSERT', 'user_login', 'root@root1', NULL, '2020-08-10 00:21:08'),
+(0, NULL, 'INSERT', 'user_password', '$2y$10$w6zSx4hQjlX2lKVPBk3BxueZZGaEoN3RMiiB35yjiIpaZ8fOZflzG', NULL, '2020-08-10 00:21:08'),
+(0, NULL, 'INSERT', 'user_last_login', NULL, NULL, '2020-08-10 00:21:08'),
+(0, NULL, 'INSERT', 'user_image', NULL, NULL, '2020-08-10 00:21:08'),
+(0, NULL, 'INSERT', 'user_status', '1', NULL, '2020-08-10 00:21:08'),
+(0, NULL, 'INSERT', 'user_fk_authority_pk_id', '2', NULL, '2020-08-10 00:21:08'),
+(6, NULL, 'UPDATE', 'user_password', '$2y$10$ppKWSgMr3KBq1fsGa2m/l.7UUu2AQTBiC0wl21M3U/TqoFgsBZRV6', '$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS', '2020-08-10 00:25:09');
 
 -- --------------------------------------------------------
 
@@ -307,14 +396,14 @@ INSERT INTO `parameter` (`para_pk_id`, `para_key`, `para_value`, `para_descripti
 (7, 'endereco', '1', 'Endereço do dono/empresa do sistema', 1, 1),
 (8, 'sobre_titulo', 'Geverson', '', 1, 1),
 (9, 'contato_titulo', 'Contato', '', 1, 1),
-(10, 'contato', '1', '', 1, 1),
+(10, 'contato', '1', 'Chave Estrangeira da tabela contatos', 1, 1),
 (11, 'servicos_titulo', 'Serviços', 'Título da página de serviços', 1, 1),
 (12, 'google_analytics', 'G-5ZS0PB48KT', 'Códifo do Google Analytics', 1, 1),
 (13, 'servidor_email_smtp', 'smtp.gmail.com', 'Protocolo de E-mail', 1, 1),
-(14, 'servidor_email_porta', '465', 'Porta do Servidor de E-mail', 1, 1),
-(15, 'servidor_email_seguranca', 'ssl', 'Tipo da Segurança do Envio de E-mail', 1, 1),
-(16, 'mostrar_error', '1', 'Habilita a apresentação de erros no PHP', 1, 1);
-
+(14, 'servidor_email_porta', '587', 'Porta do Servidor de E-mail', 1, 1),
+(15, 'servidor_email_seguranca', 'tls', 'Tipo da Segurança do Envio de E-mail', 1, 1),
+(16, 'mostrar_error', '1', 'Mostrar erros das páginas PHP', 1, 1),
+(17, 'servidor_debug_email', '0', 'MOSTRAR ERROR AO ENVIAR EMAIL', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -338,10 +427,99 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_pk_id`, `user_name`, `user_login`, `user_password`, `user_last_login`, `user_image`, `user_status`, `user_fk_authority_pk_id`) VALUES
-(1, 'Geverson', 'geversonjosedesouza@gmail.com', '$2y$10$mNM/bzucj9T68.Ft5MdvS.N/Bb62KO0BfhnXj0Tw1RBLWOMfGpPFS', '2020-07-24 00:30:07', 'IMG_20190920_170641_783.jpg', 1, 1),
-(2, 'Geverson J de Souza', 'geversonjosedesouza@hotmail.com', '$2y$10$iyBqjNHyi/lrpqJBFZpBz.cHWasRjQGWsfCzF09oqhQYEtIs./lPO', '2020-07-21 00:59:39', 'av_parcial_01.png', 1, 3),
-(3, 'root', 'root@root', '$2y$10$LW5eueN7wYMSqoe17Mo3y.2p96Wapy/8JMx3qffFulYlA0RgKDwTC', '2020-07-17 02:37:34', 'IMG_20190920_170641_783.jpg', 0, 3),
-(4, 'Geverson J de Souza', 'geversonjosedesouza@hoatmail.com', '$2y$10$r5cXidzF9i4j8KENQDOIfe5EotNoSmRy94KHJiqOyloFaVocj5WYK', NULL, NULL, 0, 3);
+(1, 'Geverson J de Souza', 'geversonjosedesouza@gmail.com', '$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy', '2020-08-10 02:31:33', '15969434015f2f6c29364fb.jpg', 1, 1),
+(4, 'Geverson J de Souza', 'geversonjosedesouza@hotmail.com', '$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS', '2020-08-09 14:37:10', NULL, 1, 3),
+(6, 'root', 'root@root', '$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS', '2020-08-10 02:20:49', NULL, 1, 3),
+(12, 'g', 'root@root1', '$2y$10$w6zSx4hQjlX2lKVPBk3BxueZZGaEoN3RMiiB35yjiIpaZ8fOZflzG', NULL, NULL, 1, 2);
+
+--
+-- Acionadores `user`
+--
+DELIMITER $$
+CREATE TRIGGER `trigger_user_delete` BEFORE DELETE ON `user` FOR EACH ROW BEGIN
+	INSERT INTO log_user 
+		(luser_id_tabela, luser_operacao, luser_campo_modificado, luser_valor_antigo, luser_data_operacao)
+    VALUES
+		(OLD.user_pk_id, 'DELETE', 'user_pk_id', OLD.user_pk_id, now()),
+        (OLD.user_pk_id, 'DELETE','user_name', OLD.user_name, now()),
+        (OLD.user_pk_id, 'DELETE','user_login', OLD.user_login, now()),
+        (OLD.user_pk_id, 'DELETE','user_password', OLD.user_password, now()),
+        (OLD.user_pk_id, 'DELETE','user_last_login', OLD.user_last_login, now()),
+        (OLD.user_pk_id, 'DELETE','user_image', OLD.user_image, now()),
+        (OLD.user_pk_id, 'DELETE','user_status', OLD.user_status, now()),
+        (OLD.user_pk_id, 'DELETE','user_fk_authority_pk_id', OLD.user_fk_authority_pk_id, now());
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `trigger_user_insert` BEFORE INSERT ON `user` FOR EACH ROW BEGIN
+	INSERT INTO log_user 
+		(luser_id_tabela, luser_operacao, luser_campo_modificado, luser_valor_antigo, luser_data_operacao)
+    VALUES 
+		(NEW.user_pk_id, 'INSERT', 'user_pk_id', NEW.user_pk_id, now()),
+        (NEW.user_pk_id, 'INSERT','user_name', NEW.user_name, now()),
+        (NEW.user_pk_id, 'INSERT','user_login', NEW.user_login, now()),
+        (NEW.user_pk_id, 'INSERT','user_password', NEW.user_password, now()),
+        (NEW.user_pk_id, 'INSERT','user_last_login', NEW.user_last_login, now()),
+        (NEW.user_pk_id, 'INSERT','user_image', NEW.user_image, now()),
+        (NEW.user_pk_id, 'INSERT','user_status', NEW.user_status, now()),
+        (NEW.user_pk_id, 'INSERT','user_fk_authority_pk_id', NEW.user_fk_authority_pk_id, now());
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `trigger_user_update` BEFORE UPDATE ON `user` FOR EACH ROW BEGIN
+	IF (OLD.user_name <> NEW.user_name or (OLD.user_name IS NULL and NEW.user_name IS NOT NULL)) THEN
+		INSERT INTO log_user
+            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+        VALUES 
+			('user_name', OLD.user_name, NEW.user_name, now(), 'UPDATE', OLD.user_pk_id);
+	 END IF;
+    
+	IF (OLD.user_login <> NEW.user_login or (OLD.user_login IS NULL and NEW.user_login IS NOT NULL)) THEN
+			INSERT INTO log_user
+            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+            VALUES 
+            ('user_login', OLD.user_login, NEW.user_login, now(), 'UPDATE', OLD.user_pk_id);
+	END IF;
+    
+	IF (OLD.user_password <> NEW.user_password or (OLD.user_password IS NULL and NEW.user_password IS NOT NULL)) THEN
+			INSERT INTO log_user 
+            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+            VALUES 
+            ('user_password', OLD.user_password, NEW.user_password, now(), 'UPDATE', OLD.user_pk_id);
+	END IF;
+    
+	IF (OLD.user_status <> NEW.user_status or (OLD.user_status IS NULL and NEW.user_status IS NOT NULL)) THEN
+			INSERT INTO log_user
+            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+            VALUES
+            ('user_status', OLD.user_status, NEW.user_status, now(), 'UPDATE', OLD.user_pk_id);
+	END IF;
+
+	IF (OLD.user_image <> NEW.user_image or (OLD.user_image IS NULL and NEW.user_image IS NOT NULL)) THEN
+			INSERT INTO log_user 
+                        (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+            VALUES
+            ('user_image', OLD.user_image, NEW.user_image, now(), 'UPDATE', OLD.user_pk_id);
+	END IF;
+
+	IF (OLD.user_last_login <> NEW.user_last_login or (OLD.user_last_login IS NULL and NEW.user_last_login IS NOT NULL)) THEN
+			INSERT INTO log_user 
+            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+            VALUES 
+            ('user_last_access', OLD.user_last_login, NEW.user_last_login, now(), 'UPDATE', OLD.user_pk_id);
+	END IF;
+    
+	IF (OLD.user_fk_authority_pk_id <> NEW.user_fk_authority_pk_id or (OLD.user_fk_authority_pk_id IS NULL and NEW.user_fk_authority_pk_id IS NOT NULL)) THEN
+			INSERT INTO log_user 
+            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+            VALUES
+            ('user_fk_authority_pk_id', OLD.user_fk_authority_pk_id, NEW.user_fk_authority_pk_id, now(), 'UPDATE', OLD.user_pk_id);
+	END IF;
+END
+$$
+DELIMITER ;
 
 --
 -- Indexes for dumped tables
@@ -402,6 +580,15 @@ ALTER TABLE `funcionario`
   ADD KEY `func_fk_contact_pk_id_idx` (`func_fk_contact_pk_id`);
 
 --
+-- Indexes for table `funcionario_user`
+--
+ALTER TABLE `funcionario_user`
+  ADD PRIMARY KEY (`fuus_pk_id`,`fuus_fk_user_pk_id`,`fuus_fk_funcionario_pk_id`),
+  ADD UNIQUE KEY `fuus_fk_user_pk_id_UNIQUE` (`fuus_fk_user_pk_id`),
+  ADD UNIQUE KEY `fuus_fk_funcionario_pk_id_UNIQUE` (`fuus_fk_funcionario_pk_id`),
+  ADD UNIQUE KEY `fuus_pk_id_UNIQUE` (`fuus_pk_id`);
+
+--
 -- Indexes for table `page`
 --
 ALTER TABLE `page`
@@ -444,7 +631,7 @@ ALTER TABLE `authority`
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `cont_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `content`
 --
@@ -454,22 +641,27 @@ ALTER TABLE `content`
 -- AUTO_INCREMENT for table `endereco`
 --
 ALTER TABLE `endereco`
-  MODIFY `ende_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ende_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `esta_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `esta_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `folha_pagamento`
 --
 ALTER TABLE `folha_pagamento`
-  MODIFY `fopa_pk_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `fopa_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=236;
 --
 -- AUTO_INCREMENT for table `funcionario`
 --
 ALTER TABLE `funcionario`
-  MODIFY `func_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `func_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT for table `funcionario_user`
+--
+ALTER TABLE `funcionario_user`
+  MODIFY `fuus_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `page`
 --
@@ -484,12 +676,12 @@ ALTER TABLE `pais`
 -- AUTO_INCREMENT for table `parameter`
 --
 ALTER TABLE `parameter`
-  MODIFY `para_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `para_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_pk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- Constraints for dumped tables
 --
@@ -529,6 +721,13 @@ ALTER TABLE `funcionario`
   ADD CONSTRAINT `func_fk_contact_pk_id` FOREIGN KEY (`func_fk_contact_pk_id`) REFERENCES `contact` (`cont_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `func_fk_endereco_pk_id` FOREIGN KEY (`func_fk_endereco_pk_id`) REFERENCES `endereco` (`ende_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `func_fk_user_pk_id` FOREIGN KEY (`func_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Limitadores para a tabela `funcionario_user`
+--
+ALTER TABLE `funcionario_user`
+  ADD CONSTRAINT `fuus_fk_funcionario_pk_id` FOREIGN KEY (`fuus_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fuus_fk_user_pk_id` FOREIGN KEY (`fuus_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `page`

@@ -7,7 +7,6 @@
 ?>
 <br>
 <div class="row">
-
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
@@ -40,7 +39,7 @@
                             </button>
                         </div>
                         <div class="input-group">
-                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=list'); ?>">
+                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=listar'); ?>">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-window-close"></i>
                                 </span>

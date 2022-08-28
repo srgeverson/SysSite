@@ -32,7 +32,7 @@ class ControllerContent {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -58,7 +58,7 @@ class ControllerContent {
             } else {
                 $this->info = 'warning=content_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -83,7 +83,7 @@ class ControllerContent {
                 }
             } else {
                 $this->info = 'warning=content_not_found';
-                $this->list();
+                $this->listar();
             }
         }
     }
@@ -110,7 +110,7 @@ class ControllerContent {
             } else {
                 $this->info = 'warning=content_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -135,7 +135,7 @@ class ControllerContent {
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['conte_component']) && isset($_POST['page_name'])) {
                 try {
@@ -155,7 +155,7 @@ class ControllerContent {
                 GenericController::valid_messages($this->info);
             }
             $daoPage = new DAOPage();
-            $pages = $daoPage->select();
+            $pages = $daoPage->selectObjectsEnabled();
             include_once server_path('br/com/system/view/content/list.php');
         }
     }
@@ -173,7 +173,7 @@ class ControllerContent {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             $daoPage = new DAOPage();
             $pages = $daoPage->selectObjectsEnabled();
@@ -187,7 +187,7 @@ class ControllerContent {
                 $conte_pk_id = $_GET['conte_pk_id'];
                 if (!isset($conte_pk_id)) {
                     $this->info = 'warning=content_uninformed';
-                    $this->list();
+                    $this->listar();
                 } else {
                     try {
                         $content = $this->daoContent->selectObjectById($conte_pk_id);
@@ -196,7 +196,7 @@ class ControllerContent {
                         }
                         if (!isset($content)) {
                             $this->info = 'warning=content_not_exists';
-                            $this->list();
+                            $this->listar();
                         } else {
                             include_once server_path('br/com/system/view/content/personalize.php');
                         }
@@ -269,7 +269,7 @@ class ControllerContent {
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }
@@ -299,7 +299,7 @@ class ControllerContent {
                 try {
                     if ($conte_pk_id == null) {
                         $this->info = 'warning=content_not_exists';
-                        $this->list();
+                        $this->listar();
                     } else {
                         if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
                             if (move_uploaded_file($_FILES['conte_image']['tmp_name'], $uploadfile)) {
@@ -324,7 +324,7 @@ class ControllerContent {
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }

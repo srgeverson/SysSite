@@ -66,7 +66,7 @@ class ControllerPage {
 
         $content = null;
         $content = new ModelContent();
-        $content->conte_fk_page_pk_id = 3;
+        $content->conte_fk_page_pk_id = 2;
         $content->conte_component = "our_contact";
         $our_contacts = $daoContent->selectObjectsByObject($content);
 
@@ -91,7 +91,7 @@ class ControllerPage {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -117,7 +117,7 @@ class ControllerPage {
             } else {
                 $this->info = 'warning=page_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -126,7 +126,7 @@ class ControllerPage {
             $page_pk_id = $_GET['page_pk_id'];
             if (!isset($page_pk_id)) {
                 $this->info = 'warning=page_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $page = $this->daoPage->selectObjectById($page_pk_id);
@@ -135,7 +135,7 @@ class ControllerPage {
                 }
                 if (!isset($page)) {
                     $this->info = 'warning=page_not_exists';
-                    $this->list();
+                    $this->listar();
                 } else {
                     include_once server_path('br/com/system/view/page/edit.php');
                 }
@@ -167,7 +167,7 @@ class ControllerPage {
             } else {
                 $this->info = 'warning=page_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -199,17 +199,17 @@ class ControllerPage {
 
         GenericController::valid_messages($msg);
         if (isset($this->usuarioAutencitado)) {
+            include_once server_path('br/com/system/view/system/welcome.php');
+        } else {
             if ($this->daoPage->selectObjectByKey('home')) {
                 include_once server_path('br/com/system/view/page/pages/default.php');
             } else {
-                include_once server_path('br/com/system/view/system/welcome.php');
+                include_once server_path('br/com/system/view/user/authenticate.php');
             }
-        } else {
-            include_once server_path('br/com/system/view/user/authenticate.php');
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['page_name']) && isset($_POST['page_description'])) {
                 try {
@@ -239,7 +239,7 @@ class ControllerPage {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             include_once server_path('br/com/system/view/page/new.php');
         }
@@ -273,7 +273,7 @@ class ControllerPage {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -303,13 +303,13 @@ class ControllerPage {
                     $this->daoPage->update($page);
                     if ($page == null) {
                         $this->info = 'warning=page_not_exists';
-                        $this->list();
+                        $this->listar();
                     }
                     $this->info = 'success=page_updated';
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }

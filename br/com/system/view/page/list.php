@@ -7,7 +7,7 @@
 ?>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <form action="<?php echo server_url('?page=ControllerPage&option=list'); ?>" method="post">
+        <form action="<?php echo server_url('?page=ControllerPage&option=listar'); ?>" method="post">
             <h3 class="m-0 font-weight-bold text-primary">
                 <span>Listar Paginas do Site</span>
             </h3>
@@ -15,7 +15,7 @@
             <div class="form-group row">
                 <div class="col-sm-2 mb-3 mb-sm-0">
                     <div class="input-group input-group-lg">
-                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerPage&option=new'); ?>" class="btn btn-primary btn-icon-split btn-lg">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerPage&option=novo'); ?>" class="btn btn-primary btn-icon-split btn-lg">
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>

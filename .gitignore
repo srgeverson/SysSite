@@ -1,4 +1,12 @@
+#Imagens
 *.jpg
 *.jpeg
 *.png
+#Documentos
 *.pdf
+*.txt
+#Instaladores
+*.exe
+*.msi
+*.bat
+#

@@ -60,15 +60,20 @@
             <div class="card-footer">
                 <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar com grupos de botões">
                     <div class="input-group">
-                        <a  class="btn btn-warning btn-icon-split" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=edit&fopa_pk_id=') . $folhaPagamento->fopa_pk_id; ?>">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-edit"></i>
-                            </span>
-                            <span class="text">Editar</span>
-                        </a>
+                        <?php
+                        global $user_logged;
+                        if ($user_logged->user_fk_authority_pk_id != 3) {
+                            echo '<a  class="btn btn-warning btn-icon-split" href="' . server_url('?page=ControllerFolhaPagamento&option=edit&fopa_pk_id=') . $folhaPagamento->fopa_pk_id . '">';
+                            echo '<span class = "icon text-white-50">';
+                            echo '<i class = "fas fa-edit"></i>';
+                            echo '</span>';
+                            echo '<span class = "text">Editar</span>';
+                            echo '</a>';
+                        }
+                        ?>
                     </div>
                     <div class="input-group">
-                        <a  class="btn btn-success btn-icon-split" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=list'); ?>">
+                        <a  class="btn btn-success btn-icon-split" href="<?php echo server_url('?page=ControllerFolhaPagamento&option=listar'); ?>">
                             <span class="icon text-white-50">
                                 <i class="fas fa-arrow-left"></i>
                             </span>

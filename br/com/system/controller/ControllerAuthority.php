@@ -33,7 +33,7 @@ class ControllerAuthority {
                 if (empty($daoUser->selectCountObjectsByFKAuthority($auth_pk_id))) {
                     if (!$this->daoAuthority->delete($auth_pk_id)) {
                         $this->info = 'warning=authority_not_exists';
-                        $this->list();
+                        $this->listar();
                     }
                     $this->info = "success=authority_deleted";
                 } else {
@@ -42,7 +42,7 @@ class ControllerAuthority {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -68,7 +68,7 @@ class ControllerAuthority {
             } else {
                 $this->info = 'warning=authority_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -77,13 +77,13 @@ class ControllerAuthority {
             $auth_pk_id = $_GET['auth_pk_id'];
             if (!isset($auth_pk_id)) {
                 $this->info = 'warning=authority_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $authority = $this->daoAuthority->selectObjectById($auth_pk_id);
                 if (!isset($authority)) {
                     $this->info = 'warning=authority_not_exists';
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -117,11 +117,11 @@ class ControllerAuthority {
             } else {
                 $this->info = 'warning=authority_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['auth_description'])) {
                 $authority = new ModelAuthority();
@@ -140,7 +140,7 @@ class ControllerAuthority {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             include_once server_path('br/com/system/view/authority/new.php');
         }
@@ -164,7 +164,7 @@ class ControllerAuthority {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -189,13 +189,13 @@ class ControllerAuthority {
                     $this->daoAuthority->update($authority);
                     if ($authority == null) {
                         $this->info = 'warning=authority_not_exists';
-                        $this->list();
+                        $this->listar();
                     }
                     $this->info = 'success=authority_updated';
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }

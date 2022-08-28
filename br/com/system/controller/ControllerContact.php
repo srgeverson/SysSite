@@ -31,11 +31,11 @@ class ControllerContact {
             try {
                 $this->daoContact->delete($cont_pk_id);
                 $this->info = "success=contact_deleted";
-                $this->list();
+                $this->listar();
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -61,7 +61,7 @@ class ControllerContact {
             } else {
                 $this->info = 'warning=contact_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -70,13 +70,13 @@ class ControllerContact {
             $cont_pk_id = $_GET['cont_pk_id'];
             if (!isset($cont_pk_id)) {
                 $this->info = 'warning=contact_uninformed';
-                $this->list();
+                $this->listar();
             }
             try {
                 $contact = $this->daoContact->selectObjectById($cont_pk_id);
                 if (!isset($contact)) {
                     $this->info = 'warning=contact_not_exists';
-                    $this->list();
+                    $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -110,11 +110,11 @@ class ControllerContact {
             } else {
                 $this->info = 'warning=contact_uninformed';
             }
-            $this->list();
+            $this->listar();
         }
     }
 
-    public function list() {
+    public function listar() {
         if (GenericController::authotity()) {
             if (isset($_POST['cont_description']) && isset($_POST['cont_cell_phone'])) {
                 $contact = new ModelContact();
@@ -133,7 +133,7 @@ class ControllerContact {
         }
     }
 
-    public function new() {
+    public function novo() {
         if (GenericController::authotity()) {
             include_once server_path('br/com/system/view/contact/new.php');
         }
@@ -168,7 +168,7 @@ class ControllerContact {
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->list();
+            $this->listar();
         }
     }
 
@@ -275,13 +275,13 @@ class ControllerContact {
                     $this->daoContact->update($contact);
                     if ($contact == null) {
                         $this->info = 'warning=contact_not_exists';
-                        $this->list();
+                        $this->listar();
                     }
                     $this->info = 'success=contact_updated';
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
-                $this->list();
+                $this->listar();
             }
         }
     }
