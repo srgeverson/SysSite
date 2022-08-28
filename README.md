@@ -19,7 +19,7 @@ $ cd C:\xampp
 $ git clone https://srgeverson@github.com/system.git
 
 # Execute o script de banco de dados.
-$ cd br/com/system/sql
+$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < /system/br/com/system/sql/system.sql
 
 # Abra no navegador
 $ http://localhost/system
