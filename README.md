@@ -7,6 +7,13 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 [Git](https://git-scm.com), [Servidor Apache](https://httpd.apache.org/download.cgi), [MySQL](https://www.mysql.com/downloads/) e [PHP](https://www.php.net/downloads.php) ou [XAMPP](https://www.apachefriends.org/). 
 Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
 
+## 🔧 Bibliotecas utilizadas
+
+* **PdfToText**
+* **phpmailer**
+* **random_compat**
+* **bootstrap**
+
 ## 🛠️ Configurando o ambiente
 
 ```bash
