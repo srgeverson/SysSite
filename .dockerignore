@@ -5,3 +5,5 @@
 *.md
 !README*.md
 README-secret.md
+
+nbproject/

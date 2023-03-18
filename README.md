@@ -29,19 +29,33 @@ $ http://localhost/system
 ## 🎲 Executando projeto
 
 ```bash
-# 
-$ docker run -d php:7.4-apache
-* ou
-$ docker inspect \ -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \ apache_server
-$ docker run -tid \ -p 8000:80 \ --name apache_server \ -v YOUR_HOST_WWW_ROOT:/var/www/html \ php:7.4-apache
+
 # Clone o projeto.
 $ git clone https://srgeverson@github.com/system.git
 
-# Execute o script de banco de dados.
-$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < /system/br/com/system/sql/system.sql
+# Baixar as imagems e executar os containers em modo não iterativo(deve ser utilizado na primeira execução)
+$ docker-compose up -d
+
+# Baixar as imagems e executar os containers em modo iterativo(deve ser utilizado na primeira execução)
+$ docker-compose up
+
+# Inicializa quando precisa executar os container depois da primeira vez
+$ docker-compose start
+
+# Para os containers
+$ docker-compose stop
+
+# Reiniciar os containers
+$ docker-compose restart
+
+# Apagar as imagems e parar os containers (deve ser utilizado quando precisar recriar as imagens)
+$ docker-compose down
+
+# Instalar driver de banco de dados
+$ docker-compose exec site_system docker-php-ext-install pdo pdo_mysql mysqli
 
 # Abra no navegador
-$ http://localhost/system
+$ http://localhost
 
 ```
 
