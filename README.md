@@ -26,6 +26,25 @@ $ http://localhost/system
 
 ```
 
+## 🎲 Executando projeto
+
+```bash
+# 
+$ docker run -d php:7.4-apache
+* ou
+$ docker inspect \ -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \ apache_server
+$ docker run -tid \ -p 8000:80 \ --name apache_server \ -v YOUR_HOST_WWW_ROOT:/var/www/html \ php:7.4-apache
+# Clone o projeto.
+$ git clone https://srgeverson@github.com/system.git
+
+# Execute o script de banco de dados.
+$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < /system/br/com/system/sql/system.sql
+
+# Abra no navegador
+$ http://localhost/system
+
+```
+
 ## 👨‍💻 Equipe de Desenvolvimento
 
 * **Geverson Souza** - [Geverson Souza](https://www.linkedin.com/in/srgeverson/)
