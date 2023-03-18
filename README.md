@@ -13,6 +13,10 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 * **phpmailer**
 * **random_compat**
 * **bootstrap**
+* **fontawesome-free**
+* **chart.js**
+* **datatables**
+* **jquery**
 
 ## 🛠️ Configurando o ambiente
 
