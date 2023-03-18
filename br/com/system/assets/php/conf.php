@@ -5,8 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/system/";
-$GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/system/";
+$GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/";
+$GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/";
 
 $GLOBALS['dictionary'] = array(
     'authority_created' => "Permissão cadastrada com sucesso.",
