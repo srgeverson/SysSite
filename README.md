@@ -29,6 +29,9 @@ $ cd C:\xampp
 # Clone o projeto.
 $ git clone https://srgeverson@github.com/system.git
 
+# Acessando a pasta clonada
+$ cd system/
+
 # Execute o script de banco de dados.
 $ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < /system/br/com/system/sql/system.sql
 
@@ -43,6 +46,9 @@ $ http://localhost/system
 
 # Clone o projeto.
 $ git clone https://srgeverson@github.com/system.git
+
+# Acessando a pasta clonada
+$ cd system/
 
 # Baixar as imagems e executar os containers em modo não iterativo(deve ser utilizado na primeira execução)
 $ docker-compose up -d
@@ -67,6 +73,26 @@ $ docker-compose exec site_system docker-php-ext-install pdo pdo_mysql mysqli
 
 # Abra no navegador
 $ http://localhost
+
+```
+
+## 📃 Backup/Restore de dados
+
+```bash
+# Em ambientes windows execute o seguinte comando
+$ cd C:\Program Files\MySQL\MySQL Server 8.0\bin\
+
+# Autenticando no banco de dados em seguida será solicitado a senha
+$ mysql -u root -p
+
+# Saindo da autenticação
+$ exit;
+
+# Salvando dados
+$ mysqldump -u root -p system > {PASTA_DE_DESTINO_DO_BACACKUP}/backup_db_system.sql
+
+# Resraurando
+$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < {PASTA_ONDE_O_PROJETO_FOI_CLONADO}/system/br/com/system/sql/system.sql
 
 ```
 
