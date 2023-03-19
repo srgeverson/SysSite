@@ -1,5 +1,8 @@
 site_system:
-    image: php:7.4-apache
+    #image: php:7.4-apache
+    build:
+      context: .docker/
+      dockerfile: Dockerfile
     container_name: conteiner_site_system
     ports: 
       - "80:80"
