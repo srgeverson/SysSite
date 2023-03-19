@@ -32,6 +32,13 @@ $ git clone https://srgeverson@github.com/system.git
 # Acessando a pasta clonada
 $ cd system/
 
+# No arquivo /br/com/system/assets/php/conf.php conferir/alterar as seguintes variáveis globais para a seguinte maneira
+$ $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/system/";
+$ $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/system/";
+
+# No arquivo /br/com/system/dao/GenericDAO.php especificar no atributo $host o IP ou nome do domínio
+$ $this->host='localhost' 
+
 # Execute o script de banco de dados.
 $ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < /system/br/com/system/sql/system.sql
 
@@ -49,6 +56,13 @@ $ git clone https://srgeverson@github.com/system.git
 
 # Acessando a pasta clonada
 $ cd system/
+
+# No arquivo /br/com/system/assets/php/conf.php conferir/alterar as seguintes variáveis globais para a seguinte maneira
+$ $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/";
+$ $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/";
+
+# No arquivo /br/com/system/dao/GenericDAO.php especificar no atributo $host o nome do serviço do docker
+$ $this->host='db_system' 
 
 # Baixar as imagems e executar os containers em modo não iterativo(deve ser utilizado na primeira execução)
 $ docker-compose up -d
