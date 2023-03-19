@@ -18,15 +18,17 @@ class GenericDAO {
 
     function __construct() {
         $this->comp = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
+        $this->host = "db_system";
+        $this->port = 3306;
         $this->user = "root";
         $this->pass = "12345678";
-        $this->host = "db_system";
+        $this->dbname = "system";
     }
 
     public function getInstance() {
         if (!isset($this->instance)) {
             try {
-                $this->instance = new PDO('mysql:host=' . $this->host . ';dbname=system;', $this->user, $this->pass, $this->comp);
+                $this->instance = new PDO('mysql:host=' . $this->host . ';port=' . $this->port .';dbname=' . $this->dbname . ';', $this->user, $this->pass, $this->comp);
                 $this->instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $this->instance->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING);
             } catch (Exception $erro) {
