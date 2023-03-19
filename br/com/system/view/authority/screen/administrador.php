@@ -37,11 +37,13 @@
         }
         ?>
         <!-- Processos-->
+        <!-- Tranferir essa funcionalidade para o banco de dados
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-chalkboard-teacher fa-fw"></i>
                 <span>Recursos Humanos</span>
             </a>
+            -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFuncionario&option=listar"); ?>">
                     <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
