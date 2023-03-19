@@ -38,10 +38,13 @@
         ?>
         <!-- Processos-->
         <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-chalkboard-teacher fa-fw"></i>
-                <span>Recursos Humanos</span>
-            </a>
+            <!-- Tranferir essa funcionalidade para o banco de dados
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-chalkboard-teacher fa-fw"></i>
+                    <span>Recursos Humanos</span>
+                </a>
+            
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFuncionario&option=listar"); ?>">
                     <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -58,6 +61,7 @@
                     Folha de Pagamento
                 </a>
             </div>
+            -->
         </li>
         <!-- Outros-->
         <li class="nav-item dropdown no-arrow mx-1">
@@ -118,7 +122,7 @@
         <!-- Perfil-->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="img-profile rounded-circle" style="width: 30px; height: 30px" src="<?php echo isset($user_logged->user_image) ? server_url('br/com/system/uploads/user/' . $user_logged->user_image) : server_url('br/com/system/assets/img/img_not_found.png'); ?>">
+                <img class="img-profile rounded-circle" style="width: 30px; height: 30px" src="<?php echo isset($user_logged->user_image) ? server_url('br/com/system/uploads/user/' . $user_logged->user_image) : server_url('br/com/system/uploads/user/not_found.png'); ?>">
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="<?php echo server_url("?page=ControllerUser&option=editProfile&user_pk_id=" . $user_logged->user_pk_id); ?>">
@@ -133,7 +137,7 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="<?php echo server_url('?page=ControllerUser&option=logout'); ?>">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
+                    Sair
                 </a>
             </div>
         </li>
