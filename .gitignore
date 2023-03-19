@@ -110,6 +110,8 @@ $RECYCLE.BIN/
 *.jpg
 *.jpeg
 *.png
+!admin.jpg
+!not_found.png
 #Documentos
 *.pdf
 *.txt
