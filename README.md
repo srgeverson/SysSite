@@ -9,14 +9,16 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 
 ## 🔧 Bibliotecas utilizadas
 
-* **PdfToText**
-* **phpmailer**
-* **random_compat**
-* **bootstrap**
-* **fontawesome-free**
-* **chart.js**
-* **datatables**
-* **jquery**
+* **[PdfToText](https://www.phpclasses.org/package/9732-PHP-Extract-text-contents-from-PDF-files.html)**
+* **[phpmailer](https://github.com/PHPMailer/PHPMailer)**
+* **[random_compat]()**
+* **[bootstrap v4.1.3](https://getbootstrap.com/)**
+* **[fontawesome-free 5.8.2](https://fontawesome.com)**
+* **[chart.js v2.8.0](https://www.chartjs.org)**
+* **[datatables 1.10.19](https://www.datatables.net/)**
+* **[jquery v3.4.1](https://jquery.com/)**
+* **[datepicker](https://www.eyecon.ro/bootstrap-datepicker/)**
+* **[select v1.13.18](https://developer.snapappointments.com/bootstrap-select/)**
 
 ## 🛠️ Configurando o ambiente
 
