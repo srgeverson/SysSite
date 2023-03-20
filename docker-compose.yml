@@ -4,6 +4,8 @@ version: '3.9'
 networks:
   system_network:
     driver: bridge
+  system_network_public:
+    driver: bridge
     #external: true
 
 services:
@@ -13,11 +15,12 @@ services:
       dockerfile: Dockerfile
     container_name: conteiner_site_system
     # command: [".docker/wait-for-it.sh", "db_system:3306", "-t", "30"]
-    ports: 
-      - '80:80'
+    # ports: 
+      # - '80:80'
       #- '443:443' #quando utilizar um certificado especificar essa porta
     networks:
       - system_network
+      - system_network_public
     volumes:
       - .:/var/www/html
     links:
@@ -26,8 +29,8 @@ services:
   db_system:
     image: mysql:latest
     container_name: container_site_system_db
-    ports:
-      - '3306:3306'
+    # ports:
+      # - '3306:3306'
     networks:
       - system_network
     volumes:
@@ -37,13 +40,12 @@ services:
       #- MYSQL_USER=user_teste
       #- MYSQL_PASS=12345678
   
-  #Quando utilizar https subir esse serviço
-  # system_proxy:
-  #   build: ./nginx
-  #   image: system_proxy
-  #   ports:
-  #     - "80:80"
-  #   networks:
-  #     - system_network
-  #   links:
-  #     - site_system
+  system_proxy:
+    build: ./nginx
+    image: system_proxy
+    ports:
+      - "80:80"
+    networks:
+      - system_network_public
+    links:
+      - site_system
