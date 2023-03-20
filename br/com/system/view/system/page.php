@@ -11,15 +11,16 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="author" content="Geverson Souza">
         <?php
-        $parameter = new ControllerParameter();
-        echo '<meta name="description" content="', $parameter->getProperty('nome_fantazia'), '">';
-        echo '<title title="', $parameter->getProperty('titulo_site'), '">';
-        echo $parameter->getProperty('titulo_site');
-        echo '</title>';
-        //Icone da página
-        echo '<link rel="icon" href="', $parameter->getProperty('icone_site') != 'Vazio/Desabilitado' ? server_url('br/com/system/uploads/parameter/') . $parameter->getProperty('icone_site') : '', '">';
+            $parameter = new ControllerParameter();
+            $icone = $parameter->getProperty('icone_site');
+            echo '<meta name="author" content="', $parameter->getProperty('autor_site'),'">';
+            echo '<meta name="description" content="', $parameter->getProperty('nome_fantazia'), '">';
+            echo '<title>';
+            echo $parameter->getProperty('titulo_site');
+            echo '</title>';
+            //Icone da página
+            echo '<link rel="icon" href="', $icone != 'Vazio/Desabilitado' ? server_url('br/com/system/uploads/parameter/') . $icone : '', '">';
         ?>
 
         <!-- Custom fonts for this template-->

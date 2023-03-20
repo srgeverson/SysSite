@@ -8,6 +8,7 @@ include_once './br/com/system/controller/ControllerPage.php';
 $parameter = new ControllerParameter();
 ini_set('display_errors', $parameter->getProperty('mostrar_error'));
 
+session_cache_expire($parameter->getProperty('tempo_sessao_site') != '' ? $parameter->getProperty('mostrar_error') : 60);
 session_start();
 if (isset($_SESSION['usuario'])) {
     $user_logged = $_SESSION['usuario'];
