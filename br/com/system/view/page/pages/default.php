@@ -51,7 +51,7 @@
         foreach ($nossos_destaques as $each_nossos_destaques) {
             echo '<div class="col-lg-4 col-sm-6 portfolio-item">';
                     echo '<div class="card h-100">';
-                            echo '<a href="#"><img class="card-img-top" src="', isset($each_slide_apresentacao->conte_image) ? server_url('br/com/system/uploads/content/' . $each_slide_apresentacao->conte_image) : server_url('br/com/system/assets/img/700x400.png'), '" alt=""></a>';
+                            echo '<a href="#"><img class="card-img-top" src="', isset($each_nossos_destaques->conte_image) ? server_url('br/com/system/uploads/content/' . $each_nossos_destaques->conte_image) : server_url('br/com/system/assets/img/700x400.png'), '" alt="' . $each_nossos_destaques->conte_image . '"></a>';
                             echo '<div class="card-body">';
                                     echo '<h4 class="card-title">';
                                     echo '<a href="', isset($each_nossos_destaques->conte_link) ? $each_nossos_destaques->conte_link : '#', '" class="btn btn-primary">', $each_nossos_destaques->conte_title, '</a>';
