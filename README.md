@@ -63,8 +63,12 @@ $ cd system/
 $ $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/";
 $ $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/";
 
-# No arquivo /br/com/system/dao/GenericDAO.php especificar no atributo $host o nome do serviço do docker
-$ $this->host='db_system' 
+# Crie um banco de dados e adicione ao arquivo .env na raiz do projeto as seguintes configurações:
+$ BANCO_HOST_IP=db_system
+$ BANCO_PORTA=3306
+$ BANCO_USUARIO=root
+$ BANCO_SENHA=12345678
+$ BANCO_NOME=system
 
 # Baixar as imagems e executar os containers em modo não iterativo(deve ser utilizado na primeira execução)
 $ docker-compose up -d

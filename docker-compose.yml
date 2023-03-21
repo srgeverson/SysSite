@@ -23,6 +23,12 @@ services:
       - system_network_public
     volumes:
       - .:/var/www/html
+    environment:
+      - BANCO_HOST_IP=$BANCO_HOST_IP
+      - BANCO_PORTA=$BANCO_PORTA
+      - BANCO_USUARIO=$BANCO_USUARIO
+      - BANCO_SENHA=$BANCO_SENHA
+      - BANCO_NOME=$BANCO_NOME
     links:
       - db_system
         

@@ -18,11 +18,11 @@ class GenericDAO {
 
     function __construct() {
         $this->comp = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
-        $this->host = "db_system";
-        $this->port = 3306;
-        $this->user = "root";
-        $this->pass = "12345678";
-        $this->dbname = "system";
+        $this->host = $_ENV['BANCO_HOST_IP'];
+        $this->port = $_ENV['BANCO_PORTA'];
+        $this->user = $_ENV['BANCO_USUARIO'];
+        $this->pass = $_ENV['BANCO_SENHA'];
+        $this->dbname = $_ENV['BANCO_NOME'];
     }
 
     public function getInstance() {
