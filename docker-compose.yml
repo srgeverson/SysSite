@@ -42,7 +42,7 @@ services:
     volumes:
       - '.docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql'
     environment:
-      - MYSQL_ROOT_PASSWORD=12345678 #Não deve utilizar essa senha
+      - MYSQL_ROOT_PASSWORD=$BANCO_SENHA
       #- MYSQL_USER=user_teste
       #- MYSQL_PASS=12345678
   
