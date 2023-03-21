@@ -434,7 +434,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Administrator','admin@adminl.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-03-19 16:17:22',NULL,1,1),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2023-03-19 21:17:52',NULL,1,1),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2020-08-10 02:20:49',NULL,1,3);
+INSERT INTO `user` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-03-19 16:17:22',NULL,1,1),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2023-03-19 21:17:52',NULL,1,1),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2020-08-10 02:20:49',NULL,1,3);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
