@@ -17,9 +17,12 @@
                     <div class="form-group">
                         <input class="form-control" name="conte_pk_id" type="hidden" value="<?php echo $content->conte_pk_id; ?>">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group was-validated">
                         <label class="text-primary">Componente:</label><br>
                         <input class="form-control" name="conte_component" placeholder="Digite um nome do component..." type="text"  value="<?php echo $content->conte_component; ?>" required>
+                        <div class="invalid-feedback">
+                            Este é um campo chave utilizado internamente pelo sistema
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Título:</label><br>

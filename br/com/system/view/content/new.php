@@ -14,9 +14,12 @@
             <div class="card h-100">
                 <h4 class="card-header text-primary">Adicionar Conteúdo</h4>
                 <div class="card-body">
-                    <div class="form-group">
+                    <div class="form-group was-validated">
                         <label class="text-primary">Componente:</label><br>
                         <input class="form-control" name="conte_component" type="text" placeholder="Digite um nome do component..." required>
+                        <div class="invalid-feedback">
+                            Este é um campo chave utilizado internamente pelo sistema
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Título:</label><br>

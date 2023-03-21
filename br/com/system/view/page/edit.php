@@ -17,9 +17,12 @@
                     <div class="form-group">
                         <input class="form-control" name="page_pk_id" type="hidden" value="<?php echo $page->page_pk_id; ?>">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group  was-validated">
                         <label class="text-primary">Nome da Página:</label><br>
                         <input class="form-control" name="page_name" type="text" placeholder="Digite um nome..." value="<?php echo $page->page_name; ?>" required>
+                        <div class="invalid-feedback">
+                            Este é um campo chave utilizado internamente pelo sistema
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Descrição:</label><br>
