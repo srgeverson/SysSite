@@ -38,7 +38,6 @@
         ?>
         <!-- Processos-->
         <li class="nav-item dropdown no-arrow mx-1">
-            <!-- Tranferir essa funcionalidade para o banco de dados
             <li class="nav-item dropdown no-arrow mx-1">
                 <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-chalkboard-teacher fa-fw"></i>
@@ -61,7 +60,7 @@
                     Folha de Pagamento
                 </a>
             </div>
-            -->
+           
         </li>
         <!-- Outros-->
         <li class="nav-item dropdown no-arrow mx-1">

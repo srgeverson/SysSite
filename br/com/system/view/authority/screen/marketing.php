@@ -19,7 +19,6 @@
             echo '  </a>';
             echo '  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">';
 
-
             $i = 0; //rever essa variável
             foreach ($pages_enableds as $each_page) {
                 echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&conte_fk_page_pk_id=' . $each_page->page_pk_id), '">';
@@ -36,49 +35,6 @@
             echo '</li>';
         }
         ?>
-        <!-- Processos-->
-        <!-- Tranferir essa funcionalidade para o banco de dados
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-chalkboard-teacher fa-fw"></i>
-                <span>Recursos Humanos</span>
-            </a>
-            -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFuncionario&option=listar"); ?>">
-                    <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Funcionários
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerFolhaPagamento&option=listar"); ?>">
-                    <i class="fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Folha de Pagamento
-                </a>
-            </div>
-        </li>
-        <!--Sistema-->
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-cogs fa-fw"></i>
-                <span>Sistema</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerUser&option=listar"); ?>">
-                    <i class="fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Usuários
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerAuthority&option=listar"); ?>">
-                    <i class="fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Permissões
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerParameter&option=listar"); ?>">
-                    <i class="fas fa-tasks fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Parâmetros
-                </a>
-            </div>
-        </li>
         <!-- Perfil-->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

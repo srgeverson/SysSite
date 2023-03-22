@@ -10,6 +10,8 @@ include_once server_path("br/com/system/dao/DAOUser.php");
 include_once server_path("br/com/system/controller/ControllerContact.php");
 include_once server_path("br/com/system/model/ModelUser.php");
 include_once server_path("br/com/system/model/ModelContact.php");
+include_once server_path("br/com/system/dao/DAOParameter.php");
+include_once server_path("br/com/system/model/ModelParameter.php");
 //Para versões do PHP 5.x
 //include_once server_path("br/com/system/assets/php/random_compat/lib/random.php");
 
@@ -19,6 +21,7 @@ class ControllerUser {
     private $controllerSystem;
     private $daoUser;
     private $usuarioAutenticado;
+    private $daoParameter;
 
     function __construct() {
         $this->info = 'default=default';
@@ -26,6 +29,7 @@ class ControllerUser {
         $this->daoUser = new DAOUser();
         global $user_logged;
         $this->usuarioAutenticado = $user_logged;
+        $this->daoParameter = new DAOParameter();
     }
 
     public function authenticate() {
@@ -359,13 +363,19 @@ class ControllerUser {
         $password = random_int(100000, 99999999); //senha aleatoria
         $user_password = password_hash($password, PASSWORD_BCRYPT);
         $user_status = true; // usuário ativo
-        $user_fk_authority_pk_id = 3; //permissão de funcionário
+        //Consultando módulo do sistema para cadastro de usuário padrão
+        $parameter = $this->daoParameter->selectObjectByKey('modulos_sistema');
+        if (!isset($parameter->para_value)) {
+            $user_fk_authority_pk_id = null;
+        } else {
+            $user_fk_authority_pk_id = $parameter->para_value;
+        }
+        
         //Enviando email para acesso ao sistema
         $contact = new ModelContact();
         $contact->cont_descricao = $user_name;
         $contact->cont_email = $user_login;
         $contact->cont_texto = 'Senha Provisória: ' . $password;
-
 
         $user = new ModelUser();
         $user->user_name = $user_name;
