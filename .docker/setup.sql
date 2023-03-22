@@ -63,7 +63,7 @@ CREATE TABLE `contact` (
   `cont_twitter` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `cont_status` tinyint(1) NOT NULL DEFAULT '1',
   `cont_text` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `cont_fk_user_pk_id` int NOT NULL,
+  `cont_fk_user_pk_id` int NULL,
   PRIMARY KEY (`cont_pk_id`),
   KEY `cont_fk_user_pk_id_idx` (`cont_fk_user_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
