@@ -36,7 +36,7 @@
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text">Nome</span>
-                        <input class="form-control" type="text" name="test_nome" value="<?php echo $test_name; ?>">
+                        <input class="form-control" type="text" name="test_name" value="<?php echo $test_name; ?>">
                     </div>
                 </div>
                 <div class="col-sm-2 mb-4 mb-sm-0">

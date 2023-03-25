@@ -128,3 +128,8 @@ function redirect($caminho = "") {
     echo "location.href='$caminho';";
     echo '</script>';
 }
+
+function validateImages($extensao){
+    $extensoes_permitidas = array('jpg', 'gif', 'png');
+    return in_array($extensao, $extensoes_permitidas) === true;
+}
