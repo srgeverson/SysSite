@@ -575,7 +575,7 @@ DROP TABLE IF EXISTS `tests`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tests` (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
