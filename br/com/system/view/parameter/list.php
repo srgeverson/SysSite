@@ -14,8 +14,8 @@
             <hr>
             <div class="form-group row">
                 <div class="col-sm-2 mb-3 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerParameter&option=novo'); ?>" class="btn btn-primary btn-icon-split btn-lg">
+                    <div class="input-group input-group">
+                        <a  title="Cadastrar dados!" class="btn btn-primary btn-icon-split btn" href="<?php echo server_url('?page=ControllerParameter&option=novo'); ?>">
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>
@@ -24,20 +24,20 @@
                     </div>
                 </div>
                 <div class="col-sm-4 mb-3 mb-sm-0">
-                    <div class="input-group input-group-lg">
+                    <div class="input-group input-group">
                         <span class="input-group-text">Chave</span>
                         <input class="form-control" type="text" name="para_key">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-3 mb-sm-0">
-                    <div class="input-group input-group-lg">
+                    <div class="input-group input-group">
                         <span class="input-group-text">Valor</span>
                         <input class="form-control" type="text" name="para_value">
                     </div>
                 </div>
                 <div class="col-sm-2 mb-3 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <button class="btn btn-success btn-icon-split btn-lg">
+                    <div class="input-group input-group">
+                        <button class="btn btn-success btn-icon-split btn">
                             <span class="icon text-white-50">
                                 <i class="fas fa-search"></i>
                             </span>
