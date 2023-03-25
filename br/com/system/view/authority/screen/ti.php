@@ -116,6 +116,11 @@
                     <i class="fas fa-file-code fa-sm fa-fw mr-2 text-gray-400"></i>
                     Conteúdo das Páginas
                 </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerTest&option=listar"); ?>">
+                    <i class="fas fa-file-code fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Teste de Desenvolvimento
+                </a>
             </div>
         </li>
         <!-- Perfil-->
