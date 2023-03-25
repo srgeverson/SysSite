@@ -13,8 +13,8 @@
             </h3>
             <hr>
             <div class="form-group row">
-            <div class="col-sm-1 mb-1 mb-sm-0">
-                    <div class="input-group input-group-sm">
+                <div class="col-sm-1 mb-1">
+                    <div class="input-group">
                         <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerTest&option=new'); ?>" class="btn btn-primary btn-icon-split btn-sm">
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div class="col-sm-2 mb-2 mb-sm-0">
-                    <div class="input-group input-group-sm">
+                    <div class="input-group">
                         <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerTest&option=new_ajax'); ?>" class="btn btn-primary btn-icon-split btn-sm">
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
@@ -33,15 +33,25 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-sm-4 mb-4 mb-sm-0">
-                    <div class="input-group input-group-sm">
+                <div class="col-sm-2 mb-2">
+                    <div class="input-group">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerTest&option=teste'); ?>" class="btn btn-primary btn-icon-split btn-sm">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span class="text">Área de Teste</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-4 mb-4">
+                    <div class="input-group">
                         <span class="input-group-text">Nome</span>
                         <input class="form-control" type="text" name="test_name" value="<?php echo $test_name; ?>">
                     </div>
                 </div>
-                <div class="col-sm-2 mb-4 mb-sm-0">
-                    <div class="input-group input-group-sm">
-                        <button class="btn btn-success btn-icon-split btn-sm">
+                <div class="col-sm-2 mb-4">
+                    <div class="input-group">
+                        <button class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-search"></i>
                             </span>
@@ -94,8 +104,6 @@
                 echo '<tr>';
                 echo '<th>Código</th>';
                 echo '<th>Descrição</th>';
-                echo '<th>Tela</th>';
-                echo '<th>Função</th>';
                 echo '<th>Opções</th>';
                 echo '</tr>';
                 echo '</tfoot>';

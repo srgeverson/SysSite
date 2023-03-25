@@ -199,36 +199,29 @@ class ControllerTest {
     }
 
     public function uploadImagem(){
-        // echo 'ops... PHP'. "<br>";
-        // echo "Today is " . date("Y/m/d H:i:s") . "<br>";
-        // echo "Today is " . date("Y.m.d") . "<br>";
-        // echo "Today is " . date("Y-m-d") . "<br>";
-        // echo "Today is " . date("l");
-
-        // echo''  . "<br>";
-        // print_r($test);
         $nome_arquivo = $_FILES['test_name']['name'];
         $arquivo = $_FILES["test_name"]['tmp_name'];
         
         if (isset($arquivo) && isset($nome_arquivo) ){
             $extensao = pathinfo($nome_arquivo, PATHINFO_EXTENSION);
             $extensao = strtolower($extensao);
-            $uploaddir = server_path('br/com/system/uploads/test/');
+            $uploaddir = server_path($pasta_aplicacao);
             $novo_nome = uniqid(time()) . '.' . $extensao;
             $uploadfile = $uploaddir . $novo_nome;
             if (validateImages($extensao)) {
                 if(move_uploaded_file($arquivo, $uploadfile)){
                     try {
                         $test = new ModelTest();
-                        $test->name = $uploadfile;
+                        $test->name = $nome_arquivo;
                         $test->status = true;
                         $this->daoTest->save($test);
                         $this->info = "success=test_created";
+                        $this->listar();
                     } catch (Exception $erro) {
                         $this->info = "error=" . $erro->getMessage();
                     }
                 }
-            }else {
+            } else {
                 echo '<script>alert("Formato de imagem não aceito!")</script>';
                 redirect("javascript:window.history.go(-1)");
             }
@@ -236,22 +229,17 @@ class ControllerTest {
         
         // header('Content-Type: application/json');
         //return json_encode($test);
-        // $this->listar();
     }
 
     public function teste(){
         try{
             $parameter = $this->daoParameter->selectObjectByKey('teste_ambiente_sistema');
-            if (isset($parameter->para_value)) 
-                $teste = settype($parameter->para_value, 'boolean');
-            else
-                $teste = null;
-            if (GenericController::authotity() || $teste == true) {
-                redirect(server_url('?'));
+            if (boolval($parameter->para_value) === true) {
                 echo 'Ops...' . "\n";
                 print_r($_ENV);
                 //echo getenv('SENHA')."\n";
-            }
+            } else
+                GenericController::authotity();
         } catch (Exception $erro) {
             $this->info = "error=" . $erro->getMessage();
         }

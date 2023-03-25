@@ -116,56 +116,34 @@
         <!-- Datepicker bootstrap -->
         <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/datepicker/js/') . 'bootstrap-datepicker.js'; ?>"></script>
         <script>
-            if(false)
-            $(document).on('submit', 'form', function (e) {
-				e.preventDefault();
-                if(true){
+            function uploadImagem(){
+                $('#envio-teste').submit(function(e){
+                    e.preventDefault();
+                    //Receber os dados
                     $form = $(this);				
                     var formdata = new FormData($form[0]);
+				
                     //Criar a conexao com o servidor
                     var request = new XMLHttpRequest();
+				
                     //Progresso do Upload
                     request.upload.addEventListener('progress', function (e) {
                         var percent = Math.round(e.loaded / e.total * 100);
                         $form.find('.progress-bar').width(percent + '%').html(percent + '%');
                     });
+				
                     //Upload completo limpar a barra de progresso
                     request.addEventListener('load', function(e){
-					$form.find('.progress-bar').addClass('progress-bar-success').html('upload completo...');
-					//Atualizar a página após o upload completo
-					setTimeout("window.open(self.location, '_self');", 1000);
-				});
-                console.log($form.id);
-                //alert('Opes!!!!! teste');
-                //Arquivo responsável em fazer o upload da imagem
-				request.open('post', '?page=ControllerTest&option=uploadImagem');
-				request.send(formdata);
-            }else{
-                //$('#uploadImagem').focusout(function () {
-                    //var dados = $(this).closest('form').serialize();
-                    //console.log(dados);
-                    $form = $(this);				
-                    var formdata = new FormData($form[0]);
-                    console.log(formdata);
-                $.ajax({
-                    url: '?page=ControllerTest&option=uploadImagem',
-                    data: null,
-                    dataType: "html",
-                    type: "POST",
-                    success: function (data) {
-                        //$("#mensagem").dialog();
-                       console.log(data);
-                    },
-                    error:function(a,b,c){
-                        alert('erro');
-                        console.log(a);
-                        console.log(b);
-                        console.log(c);
-
-                    }
+                        $form.find('.progress-bar').addClass('progress-bar-success').html('upload completo...');
+                        //Atualizar a página após o upload completo
+                        setTimeout("window.open(self.location, '_self');", 1000);
+                    });
+				
+                    //Arquivo responsável em fazer o upload da imagem
+                    request.open('post', '?page=ControllerTest&option=uploadImagem');
+                    request.send(formdata);
                 });
             }
-        });
         </script>
     </body>
 </html>
