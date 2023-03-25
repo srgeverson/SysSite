@@ -205,7 +205,7 @@ class ControllerTest {
         if (isset($arquivo) && isset($nome_arquivo) ){
             $extensao = pathinfo($nome_arquivo, PATHINFO_EXTENSION);
             $extensao = strtolower($extensao);
-            $uploaddir = server_path($pasta_aplicacao);
+            $uploaddir = server_path('br/com/system/uploads/test/');;
             $novo_nome = uniqid(time()) . '.' . $extensao;
             $uploadfile = $uploaddir . $novo_nome;
             if (validateImages($extensao)) {
