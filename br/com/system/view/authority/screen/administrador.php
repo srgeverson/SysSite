@@ -77,6 +77,21 @@
                     <i class="fas fa-tasks fa-sm fa-fw mr-2 text-gray-400"></i>
                     Parâmetros
                 </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContact&option=listar"); ?>">
+                    <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Contatos
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerPage&option=listar"); ?>">
+                    <i class="fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Páginas do Site
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContent&option=listar"); ?>">
+                    <i class="fas fa-file-code fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Conteúdo das Páginas
+                </a>                
             </div>
         </li>
         <!-- Perfil-->
