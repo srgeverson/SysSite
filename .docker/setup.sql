@@ -3,8 +3,6 @@
 -- Host: localhost    Database: system
 -- ------------------------------------------------------
 -- Server version	8.0.32
-CREATE DATABASE IF NOT EXISTS `system`;
-USE `system`; 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,7 +29,7 @@ CREATE TABLE `authority` (
   `auth_screen` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `auth_function` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   PRIMARY KEY (`auth_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +61,7 @@ CREATE TABLE `contact` (
   `cont_twitter` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `cont_status` tinyint(1) NOT NULL DEFAULT '1',
   `cont_text` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `cont_fk_user_pk_id` int NULL,
+  `cont_fk_user_pk_id` int DEFAULT NULL,
   PRIMARY KEY (`cont_pk_id`),
   KEY `cont_fk_user_pk_id_idx` (`cont_fk_user_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
@@ -102,7 +100,7 @@ CREATE TABLE `content` (
   KEY `conte_fk_user_pk_id_idx` (`conte_fk_user_pk_id`),
   CONSTRAINT `conte_fk_page_pk_id` FOREIGN KEY (`conte_fk_page_pk_id`) REFERENCES `page` (`page_pk_id`),
   CONSTRAINT `conte_fk_user_pk_id` FOREIGN KEY (`conte_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +109,7 @@ CREATE TABLE `content` (
 
 LOCK TABLES `content` WRITE;
 /*!40000 ALTER TABLE `content` DISABLE KEYS */;
-INSERT INTO `content` VALUES (1,'destaques_servicos','destaques_servicos','','','1200x300.png','',1,3,1),(2,'modern_business','A empresa...','','    Para ser percebida como uma empresa social e ambientalmente responsável e atuante, a Natura parte da premissa de que os impactos ambientais de sua atividade decorrem de uma cadeia de transformações, da qual representa somente uma parte. Por isso, acredita que, para ter eficácia, as ações ambientais precisam: considerar cada cadeia produtiva de maneira integral.','750x450.png','',1,4,1),(3,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',1,4,1),(4,'our_customers','our_customers','','','500x300.png','123',1,4,1),(5,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(6,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',1,4,1),(7,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',1,4,1),(8,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(9,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(10,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(11,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(12,'slide_apresentacao','Primeiro Destaque','Descrição destaque','','1900x1080.png','',0,1,1),(13,'slide_apresentacao','Segundo Destaque','Descrição destaque 2','','1900x1080.png','',0,1,1),(14,'slide_apresentacao','Terceiro Destaque','Descrição destaque 3','','1900x1080.png','',0,1,1),(15,'outros_destaques','Outroes Destaque','','Descrição destaque 3\r\nDescrição destaque 3\r\nDescrição destaque 3\r\nDescrição destaque 3','','',0,1,1),(16,'nossos_destaques','nossos_destaques','','nossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaques','700x400.png','',0,1,1),(17,'nossos_servicos','nossos_servicos','nossos_servicos','nossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos',NULL,'',1,3,1), (18,'our_contact','Nosso contato','Nosso contato','Nosso contato',NULL,NULL,1,2,1);
+INSERT INTO `content` VALUES (1,'destaques_servicos','destaques_servicos','','','1200x300.png','',1,3,1),(2,'modern_business','A empresa...','','    Para ser percebida como uma empresa social e ambientalmente responsável e atuante, a Natura parte da premissa de que os impactos ambientais de sua atividade decorrem de uma cadeia de transformações, da qual representa somente uma parte. Por isso, acredita que, para ter eficácia, as ações ambientais precisam: considerar cada cadeia produtiva de maneira integral.','750x450.png','',1,4,1),(3,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',1,4,1),(4,'our_customers','our_customers','','','500x300.png','123',1,4,1),(5,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(6,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',1,4,1),(7,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',1,4,1),(8,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(9,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(10,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(11,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(12,'slide_apresentacao','Primeiro Destaque','Descrição destaque','','1900x1080.png','',0,1,1),(13,'slide_apresentacao','Segundo Destaque','Descrição destaque 2','','1900x1080.png','',0,1,1),(14,'slide_apresentacao','Terceiro Destaque','Descrição destaque 3','','1900x1080.png','',0,1,1),(15,'outros_destaques','Outroes Destaque','','Descrição destaque 3\r\nDescrição destaque 3\r\nDescrição destaque 3\r\nDescrição destaque 3','','',0,1,1),(16,'nossos_destaques','nossos_destaques','','nossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaques','700x400.png','',0,1,1),(17,'nossos_servicos','nossos_servicos','nossos_servicos','nossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos',NULL,'',1,3,1),(18,'our_contact','Nosso contato','Nosso contato','Nosso contato',NULL,NULL,1,2,1);
 /*!40000 ALTER TABLE `content` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -315,6 +313,74 @@ INSERT INTO `log_user` VALUES (1,NULL,'UPDATE','user_last_access','2020-08-09 15
 UNLOCK TABLES;
 
 --
+-- Table structure for table `menu`
+--
+
+DROP TABLE IF EXISTS `menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `menu` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `class` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `icone` varchar(255) DEFAULT NULL,
+  `sistema_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_fk_sistema_idx` (`sistema_id`),
+  KEY `menu_fk_usuario_idx` (`usuario_id`),
+  CONSTRAINT `menu_fk_sistema` FOREIGN KEY (`sistema_id`) REFERENCES `sistema` (`id`),
+  CONSTRAINT `menu_fk_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `user` (`user_pk_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menu`
+--
+
+LOCK TABLES `menu` WRITE;
+/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+INSERT INTO `menu` VALUES (1,'Perfil','Perfil do usuário',1,NULL,NULL,NULL,'1',1,1),(2,'Sistema','Configurações do Sistema',1,NULL,NULL,NULL,'fas fa-cogs fa-fw',1,1),(3,'Outros','Outras operações',1,NULL,NULL,NULL,'fas fa-arrows-alt fa-fw',1,1),(4,'Recursos Humanos','Operações de RH',1,NULL,NULL,NULL,'fas fa-chalkboard-teacher fa-fw',1,1);
+/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `menu_item`
+--
+
+DROP TABLE IF EXISTS `menu_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `menu_item` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `class` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `icone` varchar(255) DEFAULT NULL,
+  `menu_item_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_item_id` (`menu_item_id`),
+  CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menu_item`
+--
+
+LOCK TABLES `menu_item` WRITE;
+/*!40000 ALTER TABLE `menu_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `menu_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `page`
 --
 
@@ -392,7 +458,7 @@ CREATE TABLE `parameter` (
   UNIQUE KEY `para_key` (`para_key`),
   KEY `empr_fk_user_pk_id_idx` (`para_fk_user_pk_id`),
   CONSTRAINT `empr_fk_user_pk_id` FOREIGN KEY (`para_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -403,6 +469,57 @@ LOCK TABLES `parameter` WRITE;
 /*!40000 ALTER TABLE `parameter` DISABLE KEYS */;
 INSERT INTO `parameter` VALUES (1,'nome_fantazia','','Nome como que todos conhecem',1,1),(2,'razao_social','','Nome como está no documento',1,1),(3,'titulo_site','','Nome para o site',1,1),(4,'icone_site','favicon.png','Imagem do Ícone do Site',1,1),(5,'email','paulistensetecnologia@gmail.com','Email para envio automático',1,1),(6,'senha','@G182534','Senha do email para envio automático',1,1),(7,'endereco','1','Endereço do dono/empresa do sistema',1,1),(8,'sobre_titulo','Sobre','',1,1),(9,'contato_titulo','Contato','',1,1),(10,'contato','1','Chave Estrangeira da tabela contatos',1,1),(11,'servicos_titulo','Serviços','Título da página de serviços',1,1),(12,'google_analytics','G-5ZS0PB48KT','Códifo do Google Analytics',1,1),(13,'servidor_email_smtp','smtp.gmail.com','Protocolo de E-mail',1,1),(14,'servidor_email_porta','587','Porta do Servidor de E-mail',1,1),(15,'servidor_email_seguranca','tls','Tipo da Segurança do Envio de E-mail',1,1),(16,'mostrar_error','1','Mostrar erros das páginas PHP',1,1),(17,'servidor_debug_email','0','MOSTRAR ERROR AO ENVIAR EMAIL',1,1),(18,'tempo_sessao_site','60','Tempo de usuário ficar logado',1,1),(19,'autor_site','Geverson Souza','Quem criou o site',1,1),(20,'modulos_sistema','2','Módulo do sistema que está ativo/contratado',1,1),(21,'teste_ambiente_sistema','1','Teste ambiente sistema',1,1);
 /*!40000 ALTER TABLE `parameter` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sistema`
+--
+
+DROP TABLE IF EXISTS `sistema`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sistema` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nome_UNIQUE` (`nome`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sistema`
+--
+
+LOCK TABLES `sistema` WRITE;
+/*!40000 ALTER TABLE `sistema` DISABLE KEYS */;
+INSERT INTO `sistema` VALUES (1,'SysSite','Sistema Integrado com Site',1);
+/*!40000 ALTER TABLE `sistema` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tests`
+--
+
+DROP TABLE IF EXISTS `tests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tests` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tests`
+--
+
+LOCK TABLES `tests` WRITE;
+/*!40000 ALTER TABLE `tests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tests` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -420,7 +537,7 @@ CREATE TABLE `user` (
   `user_last_login` timestamp NULL DEFAULT NULL,
   `user_image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `user_status` tinyint(1) NOT NULL DEFAULT '0',
-  `user_fk_authority_pk_id` int NULL,
+  `user_fk_authority_pk_id` int DEFAULT NULL,
   PRIMARY KEY (`user_pk_id`),
   UNIQUE KEY `user_login_UNIQUE` (`user_login`),
   KEY `user_fk_authority_pk_id_idx` (`user_fk_authority_pk_id`),
@@ -565,19 +682,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-
---
--- Table structure for table `tests`
---
-
-DROP TABLE IF EXISTS `tests`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tests` (
-  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
--- Dump completed on 2023-03-19 18:22:54
+-- Dump completed on 2023-03-26 19:29:51

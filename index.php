@@ -50,7 +50,8 @@ function navbar() {
     if (!isset($user_logged)) {
         include_once server_path("br/com/system/view/system/nav_offline.php");
     } else {
-        include_once server_path("br/com/system/view/authority/screen/" . $user_logged->auth_screen);
+        include_once server_path("br/com/system/view/authority/screen/menu.php");
+        // include_once server_path("br/com/system/view/authority/screen/" . $user_logged->auth_screen);
     }
 }
 
