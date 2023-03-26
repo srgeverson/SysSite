@@ -7,7 +7,7 @@
  */
 include_once server_path('br/com/system/controller/ControllerSystem.php');
 
-class GenericController {
+class HelperController {
 
     public static function authotity() {
         if (!isset($_SESSION['usuario'])) {
@@ -66,7 +66,7 @@ class GenericController {
                     $alert_class = "danger";
                     $alert_icon = "exclamation-triangle";
             }
-            $alert_text = GenericController::dictionary($info);
+            $alert_text = HelperController::dictionary($info);
             include server_path('br/com/system/view/system/alert.php');
         }
     }

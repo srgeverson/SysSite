@@ -24,7 +24,7 @@ class ControllerParameter {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $para_pk_id = strip_tags($_GET['param_pk_id']);
             if (!isset($para_pk_id)) {
                 $this->info = 'warning=parameter_uninformed';
@@ -40,7 +40,7 @@ class ControllerParameter {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $para_pk_id = strip_tags($_GET['param_pk_id']);
             if (isset($para_pk_id)) {
                 $para_status = false;
@@ -66,7 +66,7 @@ class ControllerParameter {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $para_pk_id = $_GET['param_pk_id'];
             if (!isset($para_pk_id)) {
                 $this->info = 'warning=parameter_uninformed';
@@ -89,7 +89,7 @@ class ControllerParameter {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $para_pk_id = strip_tags($_GET['param_pk_id']);
             if (isset($para_pk_id)) {
                 $para_status = true;
@@ -128,7 +128,7 @@ class ControllerParameter {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['para_key']) && isset($_POST['para_value'])) {
                 try {
                     $parameter = new ModelParameter();
@@ -141,20 +141,20 @@ class ControllerParameter {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/parameter/list.php');
         }
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/parameter/new.php');
         }
     }
 
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $para_key = strip_tags($_POST['para_key']);
             $para_value = strip_tags($_POST['para_value']);
             $para_description = strip_tags($_POST['para_description']);
@@ -183,8 +183,8 @@ class ControllerParameter {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $para_pk_id = strip_tags($_POST['para_pk_id']);
                 if (!isset($para_pk_id)) {
                     $this->info = 'warning=parameter_uninformed';

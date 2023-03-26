@@ -23,7 +23,7 @@ class ControllerAuthority {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $auth_pk_id = strip_tags($_GET['auth_pk_id']);
             if (!isset($auth_pk_id)) {
                 $this->info = 'warning=authority_uninformed';
@@ -47,7 +47,7 @@ class ControllerAuthority {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $auth_pk_id = strip_tags($_GET['auth_pk_id']);
             if (isset($auth_pk_id)) {
                 $auth_status = false;
@@ -73,7 +73,7 @@ class ControllerAuthority {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $auth_pk_id = $_GET['auth_pk_id'];
             if (!isset($auth_pk_id)) {
                 $this->info = 'warning=authority_uninformed';
@@ -96,7 +96,7 @@ class ControllerAuthority {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $auth_pk_id = strip_tags($_GET['auth_pk_id']);
             if (isset($auth_pk_id)) {
                 $auth_status = true;
@@ -122,7 +122,7 @@ class ControllerAuthority {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['auth_description'])) {
                 $authority = new ModelAuthority();
                 $authority->auth_description = strip_tags($_POST['auth_description']);
@@ -134,20 +134,20 @@ class ControllerAuthority {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/authority/list.php');
         }
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/authority/new.php');
         }
     }
 
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $auth_description = strip_tags($_POST['auth_description']);
             $auth_screen = strip_tags($_POST['auth_screen']);
             $auth_function = strip_tags($_POST['auth_function']);
@@ -169,8 +169,8 @@ class ControllerAuthority {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $auth_pk_id = strip_tags($_POST['auth_pk_id']);
                 if (!isset($auth_pk_id)) {
                     $this->info = 'warning=authority_uninformed';

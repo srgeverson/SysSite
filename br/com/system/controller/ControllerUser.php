@@ -41,7 +41,7 @@ class ControllerUser {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $user_pk_id = strip_tags($_GET['user_pk_id']);
             if (!isset($user_pk_id)) {
                 $this->info = 'warning=user_uninformed';
@@ -62,7 +62,7 @@ class ControllerUser {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $user_pk_id = strip_tags($_GET['user_pk_id']);
             if (isset($user_pk_id)) {
                 $user_status = false;
@@ -88,7 +88,7 @@ class ControllerUser {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $user_pk_id = $_GET['user_pk_id'];
             if (!isset($user_pk_id)) {
                 $this->info = 'warning=user_uninformed';
@@ -113,7 +113,7 @@ class ControllerUser {
     }
 
     public function editProfile() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $user_pk_id = strip_tags($_GET['user_pk_id']);
             if (!isset($user_pk_id)) {
                 $this->controllerSystem->welcome('warning=user_uninformed');
@@ -133,7 +133,7 @@ class ControllerUser {
     }
 
     public function editUser() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $user_pk_id = strip_tags($_POST['user_pk_id']);
             if (!isset($user_pk_id)) {
                 $this->controllerSystem->welcome('warning=user_uninformed');
@@ -183,7 +183,7 @@ class ControllerUser {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $user_pk_id = strip_tags($_GET['user_pk_id']);
             if (isset($user_pk_id)) {
                 $user_status = true;
@@ -209,7 +209,7 @@ class ControllerUser {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['user_name']) && isset($_POST['user_login']) && isset($_POST['user_fk_authority_pk_id'])) {
                 $user = new ModelUser();
                 $user->user_name = strip_tags($_POST['user_name']);
@@ -229,7 +229,7 @@ class ControllerUser {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/user/list.php');
         }
@@ -269,7 +269,7 @@ class ControllerUser {
     }
 
     public function logout() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             session_destroy();
             $this->info = 'success=user_logout';
             $controllerPage = new ControllerPage();
@@ -279,7 +279,7 @@ class ControllerUser {
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $daoAuthority = new DAOAuthority();
             $authorities = $daoAuthority->selectObjectsEnabled();
             include_once server_path('br/com/system/view/user/new.php');
@@ -287,7 +287,7 @@ class ControllerUser {
     }
 
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $user_name = strip_tags($_POST['user_name']); //nome do usuário
             $user_login = strip_tags($_POST['user_login']); //email para acesso
             $password = random_int(100000, 99999999); //senha aleatoria
@@ -401,8 +401,8 @@ class ControllerUser {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $user_pk_id = strip_tags($_POST['user_pk_id']);
                 if (!isset($user_pk_id)) {
                     $this->info = 'warning=user_uninformed';

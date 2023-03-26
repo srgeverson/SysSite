@@ -23,7 +23,7 @@ class ControllerContact {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $cont_pk_id = strip_tags($_GET['cont_pk_id']);
             if (!isset($cont_pk_id)) {
                 $this->info = 'warning=contact_uninformed';
@@ -40,7 +40,7 @@ class ControllerContact {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $cont_pk_id = strip_tags($_GET['cont_pk_id']);
             if (isset($cont_pk_id)) {
                 $cont_status = false;
@@ -66,7 +66,7 @@ class ControllerContact {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $cont_pk_id = $_GET['cont_pk_id'];
             if (!isset($cont_pk_id)) {
                 $this->info = 'warning=contact_uninformed';
@@ -89,7 +89,7 @@ class ControllerContact {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $cont_pk_id = strip_tags($_GET['cont_pk_id']);
             if (isset($cont_pk_id)) {
                 $cont_status = true;
@@ -115,7 +115,7 @@ class ControllerContact {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['cont_description']) && isset($_POST['cont_cell_phone'])) {
                 $contact = new ModelContact();
                 $contact->cont_description = strip_tags($_POST['cont_description']);
@@ -127,20 +127,20 @@ class ControllerContact {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/contact/list.php');
         }
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/contact/new.php');
         }
     }
 
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $cont_description = strip_tags($_POST['cont_description']);
             $cont_phone = strip_tags($_POST['cont_phone']);
             $cont_cell_phone = strip_tags($_POST['cont_cell_phone']);
@@ -244,8 +244,8 @@ class ControllerContact {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $cont_pk_id = strip_tags($_POST['cont_pk_id']);
                 if (!isset($cont_pk_id)) {
                     $this->info = 'warning=contact_uninformed';

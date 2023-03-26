@@ -1,7 +1,7 @@
 <?php
 ob_start();
 include_once './br/com/system/assets/php/conf.php';
-include_once './br/com/system/controller/GenericController.php';
+include_once './br/com/system/controller/HelperController.php';
 include_once './br/com/system/controller/ControllerParameter.php';
 include_once './br/com/system/controller/ControllerPage.php';
 
@@ -29,7 +29,7 @@ function footer() {
 
 function main() {
     global $user_logged;
-    if (!GenericController::filter()) {
+    if (!HelperController::filter()) {
         if (!isset($user_logged)) {
             $controllerPage = new ControllerPage();
             $pages_enableds = $controllerPage->listEnableds();

@@ -29,7 +29,7 @@ class ControllerFuncionario {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $func_pk_id = strip_tags($_GET['func_pk_id']);
             $funcionario = null;
             if (!isset($func_pk_id)) {
@@ -74,7 +74,7 @@ class ControllerFuncionario {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $func_pk_id = strip_tags($_GET['func_pk_id']);
             if (isset($func_pk_id)) {
                 $func_status = false;
@@ -100,7 +100,7 @@ class ControllerFuncionario {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $func_pk_id = $_GET['func_pk_id'];
             if (!isset($func_pk_id)) {
                 $this->info = 'warning=funcionario_uninformed';
@@ -128,7 +128,7 @@ class ControllerFuncionario {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $func_pk_id = strip_tags($_GET['func_pk_id']);
             if (isset($func_pk_id)) {
                 $func_status = true;
@@ -154,7 +154,7 @@ class ControllerFuncionario {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['func_nome']) && isset($_POST['func_cpf']) && isset($_POST['func_rg'])) {
                 $funcionario = new ModelFuncionario();
                 $funcionario->func_nome = strip_tags($_POST['func_nome']);
@@ -168,14 +168,14 @@ class ControllerFuncionario {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/funcionario/list.php');
         }
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $daoEstado = new DAOEstado();
             $estados = $daoEstado->selectObjectsEnabled();
             $controllerUser = new ControllerUser();
@@ -185,7 +185,7 @@ class ControllerFuncionario {
     }
 
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $user_fk_authority_pk_id = strip_tags($_GET['user_fk_authority_pk_id']);
 
             global $user_logged;
@@ -300,8 +300,8 @@ class ControllerFuncionario {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $func_pk_id = strip_tags($_POST['func_pk_id']);
                 if (!isset($func_pk_id)) {
                     $this->info = 'warning=funcionario_uninformed';

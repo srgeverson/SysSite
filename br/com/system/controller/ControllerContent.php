@@ -21,7 +21,7 @@ class ControllerContent {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $conte_pk_id = strip_tags($_GET['conte_pk_id']);
             if (!isset($conte_pk_id)) {
                 $this->info = 'warning=content_uninformed';
@@ -37,7 +37,7 @@ class ControllerContent {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $conte_pk_id = strip_tags($_GET['conte_pk_id']);
             if (isset($conte_pk_id)) {
                 $conte_status = false;
@@ -63,7 +63,7 @@ class ControllerContent {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_GET['conte_pk_id'])) {
                 $content_pk_id = strip_tags($_GET['conte_pk_id']);
                 try {
@@ -89,7 +89,7 @@ class ControllerContent {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $conte_pk_id = strip_tags($_GET['conte_pk_id']);
             if (isset($conte_pk_id)) {
                 $conte_status = true;
@@ -115,7 +115,7 @@ class ControllerContent {
     }
 
     public function filterByPage() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_GET['conte_fk_page_pk_id'])) {
                 try {
                     $conte_fk_page_pk_id = strip_tags($_GET['conte_fk_page_pk_id']);
@@ -129,14 +129,14 @@ class ControllerContent {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/content/content.php');
         }
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['conte_component']) && isset($_POST['page_name'])) {
                 try {
                     $content = new ModelContent();
@@ -152,7 +152,7 @@ class ControllerContent {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             $daoPage = new DAOPage();
             $pages = $daoPage->selectObjectsEnabled();
@@ -161,20 +161,20 @@ class ControllerContent {
     }
 
     public function listEnableds() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             try {
                 return $this->daoContent->selectObjectsEnabled();
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
         }
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $daoPage = new DAOPage();
             $pages = $daoPage->selectObjectsEnabled();
             include_once server_path('br/com/system/view/content/new.php');
@@ -182,7 +182,7 @@ class ControllerContent {
     }
 
     public function personalize() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_GET['conte_pk_id'])) {
                 $conte_pk_id = $_GET['conte_pk_id'];
                 if (!isset($conte_pk_id)) {
@@ -209,7 +209,7 @@ class ControllerContent {
     }
 
     public function personalizeRedirect(ModelContent $content = null) {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($content)) {
                 try {
                     $daoPage = new DAOPage();
@@ -220,15 +220,15 @@ class ControllerContent {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/content/content.php');
         }
     }
 
     public function save() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $conte_component = strip_tags($_POST['conte_component']);
                 $conte_title = strip_tags($_POST['conte_title']);
                 $conte_subtitle = strip_tags($_POST['conte_subtitle']);
@@ -275,8 +275,8 @@ class ControllerContent {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $conte_pk_id = strip_tags($_POST['conte_pk_id']);
                 $conte_component = strip_tags($_POST['conte_component']);
                 $conte_title = strip_tags($_POST['conte_title']);
@@ -330,7 +330,7 @@ class ControllerContent {
     }
 
     public function submit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $conte_pk_id = strip_tags($_POST['conte_pk_id']);
             $conte_component = strip_tags($_POST['conte_component']);
             $conte_title = strip_tags($_POST['conte_title']);

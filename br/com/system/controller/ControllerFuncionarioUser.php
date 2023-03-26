@@ -24,7 +24,7 @@ class ControllerFuncionarioUser {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fuus_pk_id = strip_tags($_GET['fuus_pk_id']);
             if (!isset($fuus_pk_id)) {
                 $this->info = 'warning=authority_uninformed';
@@ -48,7 +48,7 @@ class ControllerFuncionarioUser {
     }
 
     public function deleteFuncionarioUserByFuncionario($func_pk_id = 0) {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             try {
                 $this->daoFuncionarioUser->deleteByFuncionario($func_pk_id);
             } catch (Exception $erro) {
@@ -58,7 +58,7 @@ class ControllerFuncionarioUser {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fuus_pk_id = strip_tags($_GET['fuus_pk_id']);
             if (isset($fuus_pk_id)) {
                 $fuus_status = false;
@@ -84,7 +84,7 @@ class ControllerFuncionarioUser {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fuus_pk_id = $_GET['fuus_pk_id'];
             if (!isset($fuus_pk_id)) {
                 $this->info = 'warning=authority_uninformed';
@@ -107,7 +107,7 @@ class ControllerFuncionarioUser {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fuus_pk_id = strip_tags($_GET['fuus_pk_id']);
             if (isset($fuus_pk_id)) {
                 $fuus_status = true;
@@ -133,7 +133,7 @@ class ControllerFuncionarioUser {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['fuus_description'])) {
                 $authority = new ModelFuncionarioUser();
                 $authority->fuus_description = strip_tags($_POST['fuus_description']);
@@ -145,20 +145,20 @@ class ControllerFuncionarioUser {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/authority/list.php');
         }
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/authority/new.php');
         }
     }
 
     public function saveFuncionarioUser(ModelFuncionarioUser $funcionarioUser) {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             global $user_logged;
             $controlerSystem = new ControllerSystem();
             try {
@@ -177,7 +177,7 @@ class ControllerFuncionarioUser {
     }
 
     public function searchByFkFucionario($func_pk_id = 0) {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $funcionarioUser = null;
             try {
                 $funcionarioUser = $this->daoFuncionarioUser->selectObjectByFkFuncionario($func_pk_id);
@@ -192,7 +192,7 @@ class ControllerFuncionarioUser {
     }
 
     public function searchByFkUser($user_pk_id = 0) {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $funcionarioUser = null;
             try {
                 $funcionarioUser = $this->daoFuncionarioUser->selectObjectByFkUser($user_pk_id);
@@ -207,7 +207,7 @@ class ControllerFuncionarioUser {
     }
 
     public function updateFuncionarioUser($funcionarioUser) {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             try {
                 $this->daoFuncionarioUser->update($funcionarioUser);
                 $this->info = "success=funcionario_updated";

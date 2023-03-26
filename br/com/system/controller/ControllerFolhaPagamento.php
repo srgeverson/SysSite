@@ -24,7 +24,7 @@ class ControllerFolhaPagamento {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
             if (!isset($fopa_pk_id)) {
                 $this->info = 'warning=folha_pagamento_uninformed';
@@ -46,7 +46,7 @@ class ControllerFolhaPagamento {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
             if (isset($fopa_pk_id)) {
                 $fopa_status = false;
@@ -73,7 +73,7 @@ class ControllerFolhaPagamento {
 
     //Em desenvolvimento
     public function downloadFile() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             try {
                 $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
                 if (!isset($fopa_pk_id)) {
@@ -115,7 +115,7 @@ class ControllerFolhaPagamento {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fopa_pk_id = $_GET['fopa_pk_id'];
             if (!isset($fopa_pk_id)) {
                 $this->info = 'warning=folha_pagamento_uninformed';
@@ -143,7 +143,7 @@ class ControllerFolhaPagamento {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fopa_pk_id = strip_tags($_GET['fopa_pk_id']);
             if (isset($fopa_pk_id)) {
                 $fopa_status = true;
@@ -169,7 +169,7 @@ class ControllerFolhaPagamento {
     }
 
     public function filterByFuncionario() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['func_nome']) && isset($_POST['func_cpf']) && isset($_POST['fopa_competencia'])) {
                 $folhaPagamento = new ModelFolhaPagamento();
                 $folhaPagamento->func_nome = strip_tags($_POST['func_nome']);
@@ -183,14 +183,14 @@ class ControllerFolhaPagamento {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/folha_pagamento/listByFuncionario.php');
         }
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['func_nome']) && isset($_POST['func_cpf']) && isset($_POST['fopa_competencia'])) {
                 $folhaPagamento = new ModelFolhaPagamento();
                 $folhaPagamento->func_nome = strip_tags($_POST['func_nome']);
@@ -203,14 +203,14 @@ class ControllerFolhaPagamento {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/folha_pagamento/list.php');
         }
     }
 
     public function listEnableds() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $folhaPagamentos = null;
             try {
                 $folhaPagamentos = $this->daoFolhaPagamento->selectObjectsEnabled();
@@ -222,7 +222,7 @@ class ControllerFolhaPagamento {
     }
 
     public function listEnabledsByFuncionario($fopa_fk_funcionario_pk_id) {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $folhaPagamentos = null;
             try {
                 $folhaPagamentos = $this->daoFolhaPagamento->selectObjectsEnabledByFuncionario($fopa_fk_funcionario_pk_id);
@@ -234,19 +234,19 @@ class ControllerFolhaPagamento {
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/folha_pagamento/new.php');
         }
     }
 
     public function novoLote() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/folha_pagamento/batch.php');
         }
     }
 
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fopa_competencia = strip_tags($_POST['fopa_competencia']);
             if (isset($_FILES["fopa_arquivo"])) {
                 $arquivo_temporario = $_FILES['fopa_arquivo']['tmp_name'];
@@ -296,7 +296,7 @@ class ControllerFolhaPagamento {
     }
 
     public function saveBatch() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $countFileNotUpload = 0;
             $countFileUpload = 0;
             $fopa_competencia = strip_tags($_POST['fopa_competencia']);
@@ -350,7 +350,7 @@ class ControllerFolhaPagamento {
     }
 
     public function searchCPFInFile($arquivo, $cpf) {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $pdf = new PDFToText($arquivo);
             $resposta = false;
             $texto = $pdf->Text;
@@ -363,7 +363,7 @@ class ControllerFolhaPagamento {
 
     public function tests() {
         global $user_logged;
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if ($user_logged->user_fk_authority_pk_id == 1) {
                 //echo 'Conteúdo: ' . $this->readFile('http://192.168.0.101/system/br/com/system/uploads/folha_pagamento/15963265325f260284eebde.pdf', '606.717.623-89');
                 //echo 'Conteúdo: ' . $this->searchCPFInFile('http://192.168.0.101/system/br/com/system/uploads/folha_pagamento/15963272065f2605269da0a.pdf', '606.717.623-89');   
@@ -379,7 +379,7 @@ class ControllerFolhaPagamento {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fopa_pk_id = strip_tags($_POST['fopa_pk_id']);
             if (!isset($fopa_pk_id)) {
                 $this->info = 'warning=folha_pagamento_uninformed';
@@ -442,7 +442,7 @@ class ControllerFolhaPagamento {
     }
 
     public function view() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $fopa_pk_id = $_GET['fopa_pk_id'];
             if (!isset($fopa_pk_id)) {
                 $this->info = 'warning=folha_pagamento_uninformed';

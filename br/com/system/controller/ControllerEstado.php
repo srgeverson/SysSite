@@ -22,7 +22,7 @@ class ControllerEstado {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $esta_pk_id = strip_tags($_GET['esta_pk_id']);
             if (!isset($esta_pk_id)) {
                 $this->info = 'warning=estado_uninformed';
@@ -38,7 +38,7 @@ class ControllerEstado {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $esta_pk_id = strip_tags($_GET['esta_pk_id']);
             if (isset($esta_pk_id)) {
                 $esta_status = false;
@@ -64,7 +64,7 @@ class ControllerEstado {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $esta_pk_id = $_GET['esta_pk_id'];
             if (!isset($esta_pk_id)) {
                 $this->info = 'warning=estado_uninformed';
@@ -89,7 +89,7 @@ class ControllerEstado {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $esta_pk_id = strip_tags($_GET['esta_pk_id']);
             if (isset($esta_pk_id)) {
                 $esta_status = true;
@@ -115,7 +115,7 @@ class ControllerEstado {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['esta_nome']) && isset($_POST['pais_nome'])) {
                 $estado = new ModelEstado();
                 $estado->esta_nome = strip_tags($_POST['esta_nome']);
@@ -131,7 +131,7 @@ class ControllerEstado {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             $daoPais = new DAOPais();
             $paises = $daoPais->selectObjectsEnabled();
@@ -140,7 +140,7 @@ class ControllerEstado {
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $daoPais = new DAOPais();
             $paises = $daoPais->selectObjectsEnabled();
             include_once server_path('br/com/system/view/estado/new.php');
@@ -148,7 +148,7 @@ class ControllerEstado {
     }
 
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $esta_nome = strip_tags($_POST['esta_nome']);
             $esta_sigla = strip_tags($_POST['esta_sigla']);
             $esta_status = true;
@@ -173,8 +173,8 @@ class ControllerEstado {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $esta_pk_id = strip_tags($_POST['esta_pk_id']);
                 if (!isset($esta_pk_id)) {
                     $this->info = 'warning=estado_uninformed';

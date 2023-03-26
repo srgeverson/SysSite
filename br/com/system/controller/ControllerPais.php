@@ -19,7 +19,7 @@ class ControllerPais {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $pais_pk_id = strip_tags($_GET['pais_pk_id']);
             if (!isset($pais_pk_id)) {
                 $this->info = 'warning=pais_uninformed';
@@ -35,7 +35,7 @@ class ControllerPais {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $pais_pk_id = strip_tags($_GET['pais_pk_id']);
             if (isset($pais_pk_id)) {
                 $pais_status = false;
@@ -61,7 +61,7 @@ class ControllerPais {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $pais_pk_id = $_GET['pais_pk_id'];
             if (!isset($pais_pk_id)) {
                 $this->info = 'warning=pais_uninformed';
@@ -84,7 +84,7 @@ class ControllerPais {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $pais_pk_id = strip_tags($_GET['pais_pk_id']);
             if (isset($pais_pk_id)) {
                 $pais_status = true;
@@ -110,7 +110,7 @@ class ControllerPais {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['pais_nome'])) {
                 $pais = new ModelPais();
                 $pais->pais_nome = strip_tags($_POST['pais_nome']);
@@ -121,20 +121,20 @@ class ControllerPais {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/pais/list.php');
         }
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/pais/new.php');
         }
     }
 
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $pais_nome = strip_tags($_POST['pais_nome']);
             $pais_sigla = strip_tags($_POST['pais_sigla']);
             $pais_status = true;
@@ -158,8 +158,8 @@ class ControllerPais {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $pais_pk_id = strip_tags($_POST['pais_pk_id']);
                 if (!isset($pais_pk_id)) {
                     $this->info = 'warning=pais_uninformed';

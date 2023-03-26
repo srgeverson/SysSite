@@ -29,7 +29,7 @@ class ControllerTest {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $test_id = strip_tags($_GET['test_id']);
             if (!isset($test_id)) {
                 $this->info = 'warning=test_uninformed';
@@ -50,7 +50,7 @@ class ControllerTest {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $test_id = strip_tags($_GET['test_id']);
             if (isset($test_id)) {
                 try {
@@ -75,7 +75,7 @@ class ControllerTest {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $test_id = $_GET['test_id'];
             if (!isset($test_id)) {
                 $this->info = 'warning=test_uninformed';
@@ -98,7 +98,7 @@ class ControllerTest {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $test_id = strip_tags($_GET['test_id']);
             if (isset($test_id)) {
                 try {
@@ -123,7 +123,7 @@ class ControllerTest {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $test_name = strip_tags($_POST['test_name']);
             if (isset($test_name)) {
                 $test = new ModelTest();
@@ -135,26 +135,26 @@ class ControllerTest {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/test/list.php');
         }
     }
 
     public function new() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/test/new.php');
         }
     }
 
     public function new_ajax() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/test/new_ajax.php');
         }
     }
 
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $name = strip_tags($_POST['test_name']); //nome do usuário
 
             $test = new ModelTest();
@@ -171,8 +171,8 @@ class ControllerTest {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $test_id = strip_tags($_POST['test_id']);
                 if (!isset($test_id)) {
                     $this->info = 'warning=test_uninformed';
@@ -239,7 +239,7 @@ class ControllerTest {
                 print_r($_ENV);
                 //echo getenv('SENHA')."\n";
             } else
-                GenericController::authotity();
+                HelperController::authotity();
         } catch (Exception $erro) {
             $this->info = "error=" . $erro->getMessage();
         }

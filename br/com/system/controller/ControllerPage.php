@@ -30,7 +30,7 @@ class ControllerPage {
         if (!isset($msg)) {
             $msg = $this->info;
         }
-        GenericController::valid_messages($msg);
+        HelperController::valid_messages($msg);
 
         $daoContent = new DAOContent();
         $content = new ModelContent();
@@ -60,7 +60,7 @@ class ControllerPage {
         if (!isset($msg)) {
             $msg = $this->info;
         }
-        GenericController::valid_messages($msg);
+        HelperController::valid_messages($msg);
         $daoContent = new DAOContent();
         $content = new ModelContent();
 
@@ -80,7 +80,7 @@ class ControllerPage {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $page_pk_id = strip_tags($_GET['page_pk_id']);
             if (!isset($page_pk_id)) {
                 $this->info = 'warning=page_uninformed';
@@ -96,7 +96,7 @@ class ControllerPage {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $page_pk_id = strip_tags($_GET['page_pk_id']);
             if (isset($page_pk_id)) {
                 $page_status = false;
@@ -122,7 +122,7 @@ class ControllerPage {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $page_pk_id = $_GET['page_pk_id'];
             if (!isset($page_pk_id)) {
                 $this->info = 'warning=page_uninformed';
@@ -146,7 +146,7 @@ class ControllerPage {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $page_pk_id = strip_tags($_GET['page_pk_id']);
             if (isset($page_pk_id)) {
                 $page_status = true;
@@ -197,7 +197,7 @@ class ControllerPage {
         $content->conte_component = "outros_destaques";
         $outros_destaques = $daoContent->selectObjectsByObject($content);
 
-        GenericController::valid_messages($msg);
+        HelperController::valid_messages($msg);
         if (isset($this->usuarioAutencitado)) {
             include_once server_path('br/com/system/view/system/welcome.php');
         } else {
@@ -210,7 +210,7 @@ class ControllerPage {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['page_name']) && isset($_POST['page_description'])) {
                 try {
                     $page = new ModelPage();
@@ -222,7 +222,7 @@ class ControllerPage {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/page/list.php');
         }
@@ -235,19 +235,19 @@ class ControllerPage {
             $this->info = "error=" . $erro->getMessage();
         }
         if (isset($this->info)) {
-            GenericController::valid_messages($this->info);
+            HelperController::valid_messages($this->info);
         }
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/page/new.php');
         }
     }
 
     //pk
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $page_name = strip_tags($_POST['page_name']);
             $page_description = strip_tags($_POST['page_description']);
             $page_icon = strip_tags($_POST['page_icon']);
@@ -278,8 +278,8 @@ class ControllerPage {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $page_pk_id = strip_tags($_POST['page_pk_id']);
                 if (!isset($page_pk_id)) {
                     $this->info = 'warning=page_uninformed';
@@ -318,7 +318,7 @@ class ControllerPage {
         if (!isset($msg)) {
             $msg = $this->info;
         }
-        GenericController::valid_messages($msg);
+        HelperController::valid_messages($msg);
         $daoContent = new DAOContent();
         $content = new ModelContent();
 

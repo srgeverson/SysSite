@@ -20,7 +20,7 @@ class ControllerSystem {
         if (!isset($msg)) {
             $msg = $this->info;
         }
-        GenericController::valid_messages($msg);
+        HelperController::valid_messages($msg);
         include_once server_path('br/com/system/view/page/pages/contact.php');
     }
 
@@ -28,7 +28,7 @@ class ControllerSystem {
         if (!isset($msg)) {
             $msg = $this->info;
         }
-        GenericController::valid_messages($msg);
+        HelperController::valid_messages($msg);
         include_once server_path('br/com/system/view/page/pages/contact.php');
     }  
     
@@ -36,14 +36,14 @@ class ControllerSystem {
         if (!isset($msg)) {
             $msg = $this->info;
         }
-        GenericController::valid_messages($msg);
+        HelperController::valid_messages($msg);
     }
 
     public function parameter_info($msg = null) {
         if (!isset($msg)) {
             $msg = $this->info;
         }
-        GenericController::valid_messages($msg);
+        HelperController::valid_messages($msg);
         include_once server_path('br/com/system/view/page/pages/default.php');
     }
 
@@ -51,16 +51,16 @@ class ControllerSystem {
         if (!isset($msg)) {
             $msg = $this->info;
         }
-        GenericController::valid_messages($msg);
+        HelperController::valid_messages($msg);
         include_once server_path('br/com/system/view/user/authenticate.php');
     }
 
     public function welcome($msg = null) {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (!isset($msg)) {
                 $msg = $this->info;
             }
-            GenericController::valid_messages($msg);
+            HelperController::valid_messages($msg);
             include_once server_path('br/com/system/view/system/welcome.php');
         }
     }

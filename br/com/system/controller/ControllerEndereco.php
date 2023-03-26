@@ -20,7 +20,7 @@ class ControllerEndereco {
     }
 
     public function delete() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $ende_pk_id = strip_tags($_GET['ende_pk_id']);
             if (!isset($ende_pk_id)) {
                 $this->info = 'warning=endereco_uninformed';
@@ -36,7 +36,7 @@ class ControllerEndereco {
     }
 
     public function disable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $ende_pk_id = strip_tags($_GET['ende_pk_id']);
             if (isset($ende_pk_id)) {
                 $ende_status = false;
@@ -62,7 +62,7 @@ class ControllerEndereco {
     }
 
     public function edit() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $ende_pk_id = $_GET['ende_pk_id'];
             if (!isset($ende_pk_id)) {
                 $this->info = 'warning=endereco_uninformed';
@@ -87,7 +87,7 @@ class ControllerEndereco {
     }
 
     public function enable() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $ende_pk_id = strip_tags($_GET['ende_pk_id']);
             if (isset($ende_pk_id)) {
                 $ende_status = true;
@@ -113,7 +113,7 @@ class ControllerEndereco {
     }
 
     public function listar() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             if (isset($_POST['ende_logradouro']) && isset($_POST['ende_cidade'])) {
                 $endereco = new ModelEndereco();
                 $endereco->ende_logradouro = strip_tags($_POST['ende_logradouro']);
@@ -125,14 +125,14 @@ class ControllerEndereco {
                 }
             }
             if (isset($this->info)) {
-                GenericController::valid_messages($this->info);
+                HelperController::valid_messages($this->info);
             }
             include_once server_path('br/com/system/view/endereco/list.php');
         }
     }
 
     public function novo() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $daoEstado = new DAOEstado();
             $estados = $daoEstado->selectObjectsEnabled();
             include_once server_path('br/com/system/view/endereco/new.php');
@@ -140,7 +140,7 @@ class ControllerEndereco {
     }
 
     public function save() {
-        if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
             $ende_logradouro = strip_tags($_POST['ende_logradouro']);
             $ende_numero = strip_tags($_POST['ende_numero']);
             $ende_bairro = strip_tags($_POST['ende_bairro']);
@@ -172,8 +172,8 @@ class ControllerEndereco {
     }
 
     public function update() {
-        if (GenericController::authotity()) {
-            if (GenericController::authotity()) {
+        if (HelperController::authotity()) {
+            if (HelperController::authotity()) {
                 $ende_pk_id = strip_tags($_POST['ende_pk_id']);
                 if (!isset($ende_pk_id)) {
                     $this->info = 'warning=endereco_uninformed';
