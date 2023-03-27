@@ -12,7 +12,7 @@ class DAOMenuItem extends GenericDAO {
 
     public function delete($id = 0) {
         try {
-            $this->query = "DELETE FROM menu_item WHERE id=:id;";
+            $this->query = "DELETE FROM menu_itens WHERE id=:id;";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
             $this->statement->bindParam(":id", $id, PDO::PARAM_INT);
@@ -48,7 +48,7 @@ class DAOMenuItem extends GenericDAO {
     }
 
     public function selectObjectById($id = 0) {
-        $this->query = "SELECT * FROM menu_item WHERE id=:id LIMIT 1;";
+        $this->query = "SELECT * FROM menu_itens WHERE id=:id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -63,7 +63,7 @@ class DAOMenuItem extends GenericDAO {
     public function selectObjectsByContainsObject(ModelMenuItem $menuItem = null) {
         $this->query = "SELECT ";
         $this->query .= "mi.*, u.user_pk_id, u.user_name ";
-        $this->query .= "FROM menu_item AS mi  ";
+        $this->query .= "FROM menu_itens AS mi  ";
         $this->query .= "INNER JOIN user AS u ON (mi.sistema_id = u.user_pk_id) ";
         $this->query .= "WHERE ";
         $this->query .= "mi.nome LIKE '%$menuItem->nome%' AND ";
@@ -107,7 +107,7 @@ class DAOMenuItem extends GenericDAO {
     }
 
     public function selectObjectsEnabled() {
-        $this->query = "SELECT mi.* FROM menu_item AS mi  WHERE mi.status = 1;";
+        $this->query = "SELECT mi.* FROM menu_itens AS mi  WHERE mi.status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -119,7 +119,7 @@ class DAOMenuItem extends GenericDAO {
     }
 
     public function selectObjectsEnabledAndFkMenu($menu_id = null) {
-        $this->query = "SELECT mi.* FROM menu_item AS mi  WHERE mi.status = 1 AND menu_id=:menu_id;";
+        $this->query = "SELECT mi.* FROM menu_itens AS mi  WHERE mi.status = 1 AND menu_id=:menu_id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {

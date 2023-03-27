@@ -12,7 +12,7 @@ class DAOMenu extends GenericDAO {
 
     public function delete($id = 0) {
         try {
-            $this->query = "DELETE FROM menu WHERE id=:id;";
+            $this->query = "DELETE FROM menus WHERE id=:id;";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
             $this->statement->bindParam(":id", $id, PDO::PARAM_INT);
@@ -23,11 +23,11 @@ class DAOMenu extends GenericDAO {
         return true;
     }
 
-    public function save(ModelMenu $menu = null) {
+    public function save(ModelMenu $menus = null) {
         if (!is_object($menu)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "INSERT INTO menu ";
+        $this->query = "INSERT INTO menus ";
         $this->query .= "(nome, descricao, icone, imagem, status, sistema_id) ";
         $this->query .= "VALUES ";
         $this->query .= "(:nome, :descricao, :icone, :imagem, :status, :sistema_id);";
@@ -48,7 +48,7 @@ class DAOMenu extends GenericDAO {
     }
 
     public function selectObjectById($id = 0) {
-        $this->query = "SELECT * FROM menu WHERE id=:id LIMIT 1;";
+        $this->query = "SELECT * FROM menus WHERE id=:id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -60,10 +60,10 @@ class DAOMenu extends GenericDAO {
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectsByContainsObject(ModelMenu $menu = null) {
+    public function selectObjectsByContainsObject(ModelMenu $menus = null) {
         $this->query = "SELECT ";
         $this->query .= "m.*, u.user_pk_id, u.user_name ";
-        $this->query .= "FROM menu AS m  ";
+        $this->query .= "FROM menus AS m  ";
         $this->query .= "INNER JOIN user AS u ON (m.sistema_id = u.user_pk_id) ";
         $this->query .= "WHERE ";
         $this->query .= "m.nome LIKE '%$menu->nome%' AND ";
@@ -79,7 +79,7 @@ class DAOMenu extends GenericDAO {
     }
 
     public function selectObjectByKey($nome = null) {
-        $this->query = "SELECT * FROM menu WHERE nome = :nome AND status = :status LIMIT 1;";
+        $this->query = "SELECT * FROM menus WHERE nome = :nome AND status = :status LIMIT 1;";
         $status = true;
         try {
             $conexao = $this->getInstance();
@@ -93,8 +93,8 @@ class DAOMenu extends GenericDAO {
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectByObject(ModelMenu $menu = null) {
-        $this->query = "SELECT * FROM menu WHERE nome=:nome LIMIT 1;";
+    public function selectObjectByObject(ModelMenu $menus = null) {
+        $this->query = "SELECT * FROM menus WHERE nome=:nome LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -107,7 +107,7 @@ class DAOMenu extends GenericDAO {
     }
 
     public function selectObjectsEnabled() {
-        $this->query = "SELECT m.* FROM menu AS m  WHERE m.status = 1 AND m.sistema_id = 1 ORDER BY id DESC;";
+        $this->query = "SELECT m.* FROM menus AS m  WHERE m.status = 1 AND m.sistema_id = 1 ORDER BY id DESC;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -118,11 +118,11 @@ class DAOMenu extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function update(ModelMenu $menu = null) {
+    public function update(ModelMenu $menus = null) {
         if (!is_object($menu)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE menu SET ";
+        $this->query = "UPDATE menus SET ";
         $this->query .= "nome=:nome, ";
         $this->query .= "descricao=:descricao, ";
         $this->query .= "icone=:icone, ";
@@ -145,11 +145,11 @@ class DAOMenu extends GenericDAO {
         return true;
     }
 
-    public function updateStatus(ModelMenu $menu = null) {
+    public function updateStatus(ModelMenu $menus = null) {
         if (!is_object($menu)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE menu SET ";
+        $this->query = "UPDATE menus SET ";
         $this->query .= "status=:status ";
         $this->query .= "WHERE id=:id;";
         try {

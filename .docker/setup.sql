@@ -316,49 +316,13 @@ INSERT INTO `log_user` VALUES (1,NULL,'UPDATE','user_last_access','2020-08-09 15
 UNLOCK TABLES;
 
 --
--- Table structure for table `menu`
+-- Table structure for table `menu_itens`
 --
 
-DROP TABLE IF EXISTS `menu`;
+DROP TABLE IF EXISTS `menu_itens`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `menu` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) DEFAULT NULL,
-  `descricao` varchar(100) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  `class` varchar(255) DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `icone` varchar(255) DEFAULT NULL,
-  `sistema_id` int NOT NULL,
-  `usuario_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `menu_fk_sistema_idx` (`sistema_id`),
-  KEY `menu_fk_usuario_idx` (`usuario_id`),
-  CONSTRAINT `menu_fk_sistema` FOREIGN KEY (`sistema_id`) REFERENCES `sistema` (`id`),
-  CONSTRAINT `menu_fk_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `user` (`user_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `menu`
---
-
-LOCK TABLES `menu` WRITE;
-/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,'Perfil','Perfil do usuário',1,NULL,NULL,NULL,'1',1,1),(2,'Sistema','Configurações do Sistema',1,NULL,NULL,NULL,'fas fa-cogs fa-fw',1,1),(3,'Outros','Outras operações',1,NULL,NULL,NULL,'fas fa-arrows-alt fa-fw',1,1),(4,'Recursos Humanos','Operações de RH',1,NULL,NULL,NULL,'fas fa-chalkboard-teacher fa-fw',1,1),(5,'Contra-cheque','Caixa de Menssagens',1,NULL,NULL,NULL,'fas fa-envelope fa-fw',1,1);
-/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `menu_item`
---
-
-DROP TABLE IF EXISTS `menu_item`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `menu_item` (
+CREATE TABLE `menu_itens` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) DEFAULT NULL,
   `descricao` varchar(100) DEFAULT NULL,
@@ -370,23 +334,60 @@ CREATE TABLE `menu_item` (
   `icone` varchar(255) DEFAULT NULL,
   `menu_item_id` int DEFAULT NULL,
   `menu_id` int NOT NULL,
-  `menu_itemcol` varchar(45) DEFAULT NULL,
+  `usuario_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_menu_item_menu_idx` (`menu_id`),
   KEY `fk_menu_item_submenu` (`menu_item_id`),
-  CONSTRAINT `fk_menu_item_menu` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`),
-  CONSTRAINT `fk_menu_item_submenu` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`)
+  KEY `fk_menu_itens_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_menu_item_menu` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`),
+  CONSTRAINT `fk_menu_itens_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `menu_item`
+-- Dumping data for table `menu_itens`
 --
 
-LOCK TABLES `menu_item` WRITE;
-/*!40000 ALTER TABLE `menu_item` DISABLE KEYS */;
-INSERT INTO `menu_item` VALUES (1,'Perfil','Perfil do Usuário',1,NULL,NULL,'?page=ControllerUser&option=editProfile&user_pk_id=usuario_logado_user_pk_id',NULL,'fas fa-user fa-sm fa-fw mr-2 text-gray-400',1,1,NULL),(2,'Boas vindas','Boas vindas',1,NULL,NULL,'?page=ControllerSystem&option=welcome',NULL,'fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400',1,1,NULL),(3,'Sair','Sair',1,NULL,NULL,'?page=ControllerUser&option=logout',NULL,'fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400',1,1,NULL),(4,'Usuários','Usuários',1,NULL,NULL,'?page=ControllerUser&option=listar',NULL,'fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(5,'Permissões','Permissões',1,NULL,NULL,'?page=ControllerAuthority&option=listar',NULL,'fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(6,'Parâmetros','Parâmetros',1,NULL,NULL,'?page=ControllerParameter&option=listar',NULL,'fas fa-tasks fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(7,'Páginas do Site','Páginas do Site',1,NULL,NULL,'?page=ControllerPage&option=listar',NULL,'fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(8,'Conteúdo das Páginas','Conteúdo das Páginas',1,NULL,NULL,'?page=ControllerContent&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(9,'Teste de Desenvolvimento','Teste de Desenvolvimento',1,NULL,NULL,'?page=ControllerTest&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(10,'Endereços','Endereços',1,NULL,NULL,'?page=ControllerEndereco&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,3,NULL),(11,'Estados','Estados',1,NULL,NULL,'?page=ControllerEstado&option=listar',NULL,'fas fa-city fa-sm fa-fw mr-2 text-gray-400',1,3,NULL),(12,'Países','Países',1,NULL,NULL,'?page=ControllerPais&option=listar',NULL,'fas fa-university fa-sm fa-fw mr-2 text-gray-400',1,3,NULL),(13,'Funcionários','Funcionários',1,NULL,NULL,'?page=ControllerFuncionario&option=listar',NULL,'fas fa-users fa-sm fa-fw mr-2 text-gray-400',1,4,NULL),(14,'Contatos','Contatos',1,NULL,NULL,'?page=ControllerContact&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,4,NULL),(15,'Folha de Pagamento','Folha de Pagamento',1,NULL,NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400',1,4,NULL),(16,'Todas folhas de pagamento','Lista de contracheques disponíveis',1,'Não existe folha de pagamento lançado',NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'dropdown-item text-center small text-gray-500',1,5,NULL);
-/*!40000 ALTER TABLE `menu_item` ENABLE KEYS */;
+LOCK TABLES `menu_itens` WRITE;
+/*!40000 ALTER TABLE `menu_itens` DISABLE KEYS */;
+INSERT INTO `menu_itens` VALUES (1,'Perfil','Perfil do Usuário',1,NULL,NULL,'?page=ControllerUser&option=editProfile&user_pk_id=usuario_logado_user_pk_id',NULL,'fas fa-user fa-sm fa-fw mr-2 text-gray-400',1,1,1),(2,'Boas vindas','Boas vindas',1,NULL,NULL,'?page=ControllerSystem&option=welcome',NULL,'fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400',1,1,1),(3,'Sair','Sair',1,NULL,NULL,'?page=ControllerUser&option=logout',NULL,'fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400',1,1,1),(4,'Usuários','Usuários',1,NULL,NULL,'?page=ControllerUser&option=listar',NULL,'fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400',1,2,1),(5,'Permissões','Permissões',1,NULL,NULL,'?page=ControllerAuthority&option=listar',NULL,'fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400',1,2,1),(6,'Parâmetros','Parâmetros',1,NULL,NULL,'?page=ControllerParameter&option=listar',NULL,'fas fa-tasks fa-sm fa-fw mr-2 text-gray-400',1,2,1),(7,'Páginas do Site','Páginas do Site',1,NULL,NULL,'?page=ControllerPage&option=listar',NULL,'fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400',1,2,1),(8,'Conteúdo das Páginas','Conteúdo das Páginas',1,NULL,NULL,'?page=ControllerContent&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2,1),(9,'Teste de Desenvolvimento','Teste de Desenvolvimento',1,NULL,NULL,'?page=ControllerTest&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2,1),(10,'Endereços','Endereços',1,NULL,NULL,'?page=ControllerEndereco&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,3,1),(11,'Estados','Estados',1,NULL,NULL,'?page=ControllerEstado&option=listar',NULL,'fas fa-city fa-sm fa-fw mr-2 text-gray-400',1,3,1),(12,'Países','Países',1,NULL,NULL,'?page=ControllerPais&option=listar',NULL,'fas fa-university fa-sm fa-fw mr-2 text-gray-400',1,3,1),(13,'Funcionários','Funcionários',1,NULL,NULL,'?page=ControllerFuncionario&option=listar',NULL,'fas fa-users fa-sm fa-fw mr-2 text-gray-400',1,4,1),(14,'Contatos','Contatos',1,NULL,NULL,'?page=ControllerContact&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,4,1),(15,'Folha de Pagamento','Folha de Pagamento',1,NULL,NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400',1,4,1),(16,'Todas folhas de pagamento','Lista de contracheques disponíveis',1,'Não existe folha de pagamento lançado',NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'dropdown-item text-center small text-gray-500',1,5,1);
+/*!40000 ALTER TABLE `menu_itens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `menus`
+--
+
+DROP TABLE IF EXISTS `menus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `menus` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `class` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `icone` varchar(255) DEFAULT NULL,
+  `sistema_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_fk_usuario_idx` (`usuario_id`),
+  KEY `menu_fk_sistema_idx` (`sistema_id`,`usuario_id`),
+  CONSTRAINT `menu_fk_sistema` FOREIGN KEY (`sistema_id`) REFERENCES `sistemas` (`id`),
+  CONSTRAINT `menu_fk_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menus`
+--
+
+LOCK TABLES `menus` WRITE;
+/*!40000 ALTER TABLE `menus` DISABLE KEYS */;
+INSERT INTO `menus` VALUES (1,'Perfil','Perfil do usuário',1,NULL,NULL,NULL,'1',1,1),(2,'Sistema','Configurações do Sistema',1,NULL,NULL,NULL,'fas fa-cogs fa-fw',1,1),(3,'Outros','Outras operações',1,NULL,NULL,NULL,'fas fa-arrows-alt fa-fw',1,1),(4,'Recursos Humanos','Operações de RH',1,NULL,NULL,NULL,'fas fa-chalkboard-teacher fa-fw',1,1),(5,'Contra-cheque','Caixa de Menssagens',1,NULL,NULL,NULL,'fas fa-envelope fa-fw',1,1);
+/*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -481,30 +482,33 @@ INSERT INTO `parameter` VALUES (1,'nome_fantazia','','Nome como que todos conhec
 UNLOCK TABLES;
 
 --
--- Table structure for table `sistema`
+-- Table structure for table `sistemas`
 --
 
-DROP TABLE IF EXISTS `sistema`;
+DROP TABLE IF EXISTS `sistemas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sistema` (
+CREATE TABLE `sistemas` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `descricao` varchar(100) DEFAULT NULL,
   `status` tinyint(1) DEFAULT '1',
+  `usuario_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `nome_UNIQUE` (`nome`)
+  UNIQUE KEY `nome_UNIQUE` (`nome`),
+  KEY `sitemas_fk_usuario_idx` (`usuario_id`),
+  CONSTRAINT `sitemas_fk_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sistema`
+-- Dumping data for table `sistemas`
 --
 
-LOCK TABLES `sistema` WRITE;
-/*!40000 ALTER TABLE `sistema` DISABLE KEYS */;
-INSERT INTO `sistema` VALUES (1,'SysSite','Sistema Integrado com Site',1);
-/*!40000 ALTER TABLE `sistema` ENABLE KEYS */;
+LOCK TABLES `sistemas` WRITE;
+/*!40000 ALTER TABLE `sistemas` DISABLE KEYS */;
+INSERT INTO `sistemas` VALUES (1,'SysSite','Sistema Integrado com Site',1,NULL);
+/*!40000 ALTER TABLE `sistemas` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -681,6 +685,36 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) DEFAULT NULL,
+  `login` varchar(255) NOT NULL,
+  `senha` varchar(255) DEFAULT NULL,
+  `ultimo_acesso` timestamp NULL DEFAULT NULL,
+  `imagem` varchar(255) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `login_UNIQUE` (`login`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy',NULL,NULL,1),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma',NULL,NULL,1),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma',NULL,NULL,1);
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -691,4 +725,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-26 22:16:36
+-- Dump completed on 2023-03-27  7:24:22
