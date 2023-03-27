@@ -12,16 +12,19 @@ include_once server_path("br/com/system/model/ModelMenu.php");
 // include_once server_path("br/com/system/dao/DAOContent.php");
 // include_once server_path("br/com/system/dao/DAOEndereco.php");
 include_once server_path("br/com/system/dao/DAOMenu.php");
+include_once server_path("br/com/system/dao/DAOMenuItem.php");
 
 class ControllerMenu {
 
     private $info;
     private $daoMenu;
+    private $daoMenuItem;
     private $usuarioAutencitado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoMenu = new DAOMenu();
+        $this->daoMenuItem = new DAOMenuItem();
         global $user_logged;
         $this->usuarioAutencitado = $user_logged;
     }
@@ -139,7 +142,16 @@ class ControllerMenu {
 
     public function listEnableds() {
         try {
-            return $this->daoMenu->selectObjectsEnabled();
+            $menus = $this->daoMenu->selectObjectsEnabled();
+            $menusComItem = array();
+            foreach ($menus as $each_menu) {
+               $itens = $this->daoMenuItem->selectObjectsEnabledAndFkMenu($each_menu->id);
+               if(!empty($itens)){
+                    $each_menu->itens = $itens;
+                    array_push($menusComItem, $each_menu);
+                }
+            }
+            return $menusComItem;
         } catch (Exception $erro) {
             $this->info = "error=" . $erro->getMessage();
         }

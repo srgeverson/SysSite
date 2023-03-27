@@ -365,10 +365,13 @@ CREATE TABLE `menu_item` (
   `image` varchar(255) DEFAULT NULL,
   `icone` varchar(255) DEFAULT NULL,
   `menu_item_id` int DEFAULT NULL,
+  `menu_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `menu_item_id` (`menu_item_id`),
-  CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_menu_item_menu_idx` (`menu_id`),
+  KEY `fk_menu_item_submenu` (`menu_item_id`),
+  CONSTRAINT `fk_menu_item_menu` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`),
+  CONSTRAINT `fk_menu_item_submenu` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -377,6 +380,7 @@ CREATE TABLE `menu_item` (
 
 LOCK TABLES `menu_item` WRITE;
 /*!40000 ALTER TABLE `menu_item` DISABLE KEYS */;
+INSERT INTO `menu_item` VALUES (1,'Perfil','Perfil do Usuário',1,NULL,'?page=ControllerUser&option=editProfile&user_pk_id=usuario_logado_user_pk_id',NULL,'fas fa-user fa-sm fa-fw mr-2 text-gray-400',1,1),(2,'Boas vindas','Boas vindas',1,NULL,'?page=ControllerSystem&option=welcome',NULL,'fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400',1,1),(3,'Sair','Sair',1,NULL,'?page=ControllerUser&option=logout',NULL,'fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400',1,1),(4,'Usuários','Usuários',1,NULL,'?page=ControllerUser&option=listar',NULL,'fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400',1,2),(5,'Permissões','Permissões',1,NULL,'?page=ControllerAuthority&option=listar',NULL,'fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400',1,2),(6,'Parâmetros','Parâmetros',1,NULL,'?page=ControllerParameter&option=listar',NULL,'fas fa-tasks fa-sm fa-fw mr-2 text-gray-400',1,2),(7,'Páginas do Site','Páginas do Site',1,NULL,'?page=ControllerPage&option=listar',NULL,'fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400',1,2),(8,'Conteúdo das Páginas','Conteúdo das Páginas',1,NULL,'?page=ControllerContent&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2),(9,'Teste de Desenvolvimento','Teste de Desenvolvimento',1,NULL,'?page=ControllerTest&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2),(10,'Endereços','Endereços',1,NULL,'?page=ControllerEndereco&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,3),(11,'Estados','Estados',1,NULL,'?page=ControllerEstado&option=listar',NULL,'fas fa-city fa-sm fa-fw mr-2 text-gray-400',1,3),(12,'Países','Países',1,NULL,'?page=ControllerPais&option=listar',NULL,'fas fa-university fa-sm fa-fw mr-2 text-gray-400',1,3),(13,'Funcionários','Funcionários',1,NULL,'?page=ControllerFuncionario&option=listar',NULL,'fas fa-users fa-sm fa-fw mr-2 text-gray-400',1,4),(14,'Contatos','Contatos',1,NULL,'?page=ControllerContact&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,4),(15,'Folha de Pagamento','Folha de Pagamento',1,NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400',1,4);
 /*!40000 ALTER TABLE `menu_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -682,4 +686,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-26 19:29:51
+-- Dump completed on 2023-03-26 21:04:58

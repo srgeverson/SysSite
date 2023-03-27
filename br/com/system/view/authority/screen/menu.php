@@ -9,8 +9,8 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
     echo '<ul class="navbar-nav ml-auto">';
     // echo 'Ops';
         $controllerMenu = new ControllerMenu();
-        $menus=$controllerMenu->listEnableds();
-        
+        $menus = $controllerMenu->listEnableds();
+        //print_r($menus);
         foreach ($menus as $each_menu) {
             echo '<li class="nav-item dropdown no-arrow">';
             echo '  <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
@@ -26,17 +26,14 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
             echo '  </a>';
             echo '  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">';
 
-            // $i = 0; //rever essa variável
-            // foreach ($pages_enableds as $each_page) {
-            //     echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&conte_fk_page_pk_id=' . $each_page->page_pk_id), '">';
-            //     echo '  <i class = "fas fa-', $each_page->page_icon, ' fa-sm fa-fw mr-2 text-gray-400"></i>';
-            //     echo $each_page->page_label;
-            //     echo '</a>';
-            //     if (count($pages_enableds) > 1 && $i < count($pages_enableds) - 1) {
-            //         echo '<div class="dropdown-divider"></div>';
-            //     }
-            //     $i++;
-            // }
+            foreach ($each_menu->itens as $each_item) {
+                $url = str_replace('usuario_logado_user_pk_id', $user_logged->user_pk_id, $each_item->url);
+                echo '<a class="dropdown-item" href="', server_url($url), '">';
+                echo '  <i class = "' . $each_item->icone . '"></i>';
+                echo $each_item->nome;
+                echo '</a>';
+                echo '<div class="dropdown-divider"></div>';
+            }
 
             echo '  </div>';
             echo '</li>';
@@ -51,12 +48,11 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
             echo '  </a>';
             echo '  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">';
 
-
             $i = 0; //rever essa variável
-            foreach ($pages_enableds as $each_page) {
-                echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&conte_fk_page_pk_id=' . $each_page->page_pk_id), '">';
-                echo '  <i class = "fas fa-', $each_page->page_icon, ' fa-sm fa-fw mr-2 text-gray-400"></i>';
-                echo $each_page->page_label;
+            foreach ($pages_enableds as $each_item) {
+                echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&conte_fk_page_pk_id=' . $each_item->page_pk_id), '">';
+                echo '  <i class = "fas fa-', $each_item->page_icon, ' fa-sm fa-fw mr-2 text-gray-400"></i>';
+                echo $each_item->page_label;
                 echo '</a>';
                 if (count($pages_enableds) > 1 && $i < count($pages_enableds) - 1) {
                     echo '<div class="dropdown-divider"></div>';
