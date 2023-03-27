@@ -335,7 +335,7 @@ CREATE TABLE `menu` (
   KEY `menu_fk_usuario_idx` (`usuario_id`),
   CONSTRAINT `menu_fk_sistema` FOREIGN KEY (`sistema_id`) REFERENCES `sistema` (`id`),
   CONSTRAINT `menu_fk_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `user` (`user_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,7 +344,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,'Perfil','Perfil do usuário',1,NULL,NULL,NULL,'1',1,1),(2,'Sistema','Configurações do Sistema',1,NULL,NULL,NULL,'fas fa-cogs fa-fw',1,1),(3,'Outros','Outras operações',1,NULL,NULL,NULL,'fas fa-arrows-alt fa-fw',1,1),(4,'Recursos Humanos','Operações de RH',1,NULL,NULL,NULL,'fas fa-chalkboard-teacher fa-fw',1,1);
+INSERT INTO `menu` VALUES (1,'Perfil','Perfil do usuário',1,NULL,NULL,NULL,'1',1,1),(2,'Sistema','Configurações do Sistema',1,NULL,NULL,NULL,'fas fa-cogs fa-fw',1,1),(3,'Outros','Outras operações',1,NULL,NULL,NULL,'fas fa-arrows-alt fa-fw',1,1),(4,'Recursos Humanos','Operações de RH',1,NULL,NULL,NULL,'fas fa-chalkboard-teacher fa-fw',1,1),(5,'Contra-cheque','Caixa de Menssagens',1,NULL,NULL,NULL,'fas fa-envelope fa-fw',1,1);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -360,18 +360,20 @@ CREATE TABLE `menu_item` (
   `nome` varchar(100) DEFAULT NULL,
   `descricao` varchar(100) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
+  `titulo` varchar(255) DEFAULT NULL,
   `class` varchar(255) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `icone` varchar(255) DEFAULT NULL,
   `menu_item_id` int DEFAULT NULL,
   `menu_id` int NOT NULL,
+  `menu_itemcol` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_menu_item_menu_idx` (`menu_id`),
   KEY `fk_menu_item_submenu` (`menu_item_id`),
   CONSTRAINT `fk_menu_item_menu` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`),
   CONSTRAINT `fk_menu_item_submenu` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -380,7 +382,7 @@ CREATE TABLE `menu_item` (
 
 LOCK TABLES `menu_item` WRITE;
 /*!40000 ALTER TABLE `menu_item` DISABLE KEYS */;
-INSERT INTO `menu_item` VALUES (1,'Perfil','Perfil do Usuário',1,NULL,'?page=ControllerUser&option=editProfile&user_pk_id=usuario_logado_user_pk_id',NULL,'fas fa-user fa-sm fa-fw mr-2 text-gray-400',1,1),(2,'Boas vindas','Boas vindas',1,NULL,'?page=ControllerSystem&option=welcome',NULL,'fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400',1,1),(3,'Sair','Sair',1,NULL,'?page=ControllerUser&option=logout',NULL,'fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400',1,1),(4,'Usuários','Usuários',1,NULL,'?page=ControllerUser&option=listar',NULL,'fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400',1,2),(5,'Permissões','Permissões',1,NULL,'?page=ControllerAuthority&option=listar',NULL,'fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400',1,2),(6,'Parâmetros','Parâmetros',1,NULL,'?page=ControllerParameter&option=listar',NULL,'fas fa-tasks fa-sm fa-fw mr-2 text-gray-400',1,2),(7,'Páginas do Site','Páginas do Site',1,NULL,'?page=ControllerPage&option=listar',NULL,'fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400',1,2),(8,'Conteúdo das Páginas','Conteúdo das Páginas',1,NULL,'?page=ControllerContent&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2),(9,'Teste de Desenvolvimento','Teste de Desenvolvimento',1,NULL,'?page=ControllerTest&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2),(10,'Endereços','Endereços',1,NULL,'?page=ControllerEndereco&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,3),(11,'Estados','Estados',1,NULL,'?page=ControllerEstado&option=listar',NULL,'fas fa-city fa-sm fa-fw mr-2 text-gray-400',1,3),(12,'Países','Países',1,NULL,'?page=ControllerPais&option=listar',NULL,'fas fa-university fa-sm fa-fw mr-2 text-gray-400',1,3),(13,'Funcionários','Funcionários',1,NULL,'?page=ControllerFuncionario&option=listar',NULL,'fas fa-users fa-sm fa-fw mr-2 text-gray-400',1,4),(14,'Contatos','Contatos',1,NULL,'?page=ControllerContact&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,4),(15,'Folha de Pagamento','Folha de Pagamento',1,NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400',1,4);
+INSERT INTO `menu_item` VALUES (1,'Perfil','Perfil do Usuário',1,NULL,NULL,'?page=ControllerUser&option=editProfile&user_pk_id=usuario_logado_user_pk_id',NULL,'fas fa-user fa-sm fa-fw mr-2 text-gray-400',1,1,NULL),(2,'Boas vindas','Boas vindas',1,NULL,NULL,'?page=ControllerSystem&option=welcome',NULL,'fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400',1,1,NULL),(3,'Sair','Sair',1,NULL,NULL,'?page=ControllerUser&option=logout',NULL,'fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400',1,1,NULL),(4,'Usuários','Usuários',1,NULL,NULL,'?page=ControllerUser&option=listar',NULL,'fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(5,'Permissões','Permissões',1,NULL,NULL,'?page=ControllerAuthority&option=listar',NULL,'fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(6,'Parâmetros','Parâmetros',1,NULL,NULL,'?page=ControllerParameter&option=listar',NULL,'fas fa-tasks fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(7,'Páginas do Site','Páginas do Site',1,NULL,NULL,'?page=ControllerPage&option=listar',NULL,'fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(8,'Conteúdo das Páginas','Conteúdo das Páginas',1,NULL,NULL,'?page=ControllerContent&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(9,'Teste de Desenvolvimento','Teste de Desenvolvimento',1,NULL,NULL,'?page=ControllerTest&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2,NULL),(10,'Endereços','Endereços',1,NULL,NULL,'?page=ControllerEndereco&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,3,NULL),(11,'Estados','Estados',1,NULL,NULL,'?page=ControllerEstado&option=listar',NULL,'fas fa-city fa-sm fa-fw mr-2 text-gray-400',1,3,NULL),(12,'Países','Países',1,NULL,NULL,'?page=ControllerPais&option=listar',NULL,'fas fa-university fa-sm fa-fw mr-2 text-gray-400',1,3,NULL),(13,'Funcionários','Funcionários',1,NULL,NULL,'?page=ControllerFuncionario&option=listar',NULL,'fas fa-users fa-sm fa-fw mr-2 text-gray-400',1,4,NULL),(14,'Contatos','Contatos',1,NULL,NULL,'?page=ControllerContact&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,4,NULL),(15,'Folha de Pagamento','Folha de Pagamento',1,NULL,NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400',1,4,NULL),(16,'Todas folhas de pagamento','Lista de contracheques disponíveis',1,'Não existe folha de pagamento lançado',NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'dropdown-item text-center small text-gray-500',1,5,NULL);
 /*!40000 ALTER TABLE `menu_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -686,4 +688,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-26 21:04:58
+-- Dump completed on 2023-03-26 22:16:36

@@ -5,6 +5,9 @@
  * and open the template in the editor.
  */
 include_once server_path("br/com/system/controller/ControllerMenu.php");
+include_once server_path("br/com/system/controller/ControllerFolhaPagamento.php");
+include_once server_path("br/com/system/controller/ControllerFuncionarioUser.php");
+
 echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
     echo '<ul class="navbar-nav ml-auto">';
     // echo 'Ops';
@@ -14,50 +17,68 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
         foreach ($menus as $each_menu) {
             echo '<li class="nav-item dropdown no-arrow">';
             echo '  <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-            if ($each_menu->nome == 'Perfil'){
+            if ($each_menu->nome == 'Perfil' && $each_menu->id == 1){
                 if (isset($each_menu->imagem))
                     echo '<img class="img-profile rounded-circle" style="width: 30px; height: 30px" src="' . server_url('br/com/system/uploads/user/') . $each_menu->imagem . '">';
                 else
                     echo '<img class="img-profile rounded-circle" style="width: 30px; height: 30px" src="' . server_url('br/com/system/uploads/user/not_found.png') . '">';
-            }else{
-                   echo '<i class="' . $each_menu->icone . '"></i>';
-                   echo '      <span>' . $each_menu->nome . '</span>';
+            } else if($each_menu->nome == 'Contra-cheque' /*&& $each_menu->id == 5*/){
+                $controllerFuncionarioUser = new ControllerFuncionarioUser();
+                $funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->user_pk_id);
+                if (isset($funcionario)) {
+                    $controllerFolhaPagamento = new ControllerFolhaPagamento();
+                    $listaFolhaPagamento = $controllerFolhaPagamento->listEnabledsByFuncionario(isset($funcionario->func_pk_id) ? $funcionario->func_pk_id : 0);
+                }    
+                echo '<i class="' . $each_menu->icone . '"></i>';
+                if (isset($funcionario->func_pk_id)) {
+                    echo '<span class="badge badge-danger badge-counter">', count($listaFolhaPagamento), '</span>';
+                }
+                echo '<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">';
+                echo '<h6 class="dropdown-header">' . $each_menu->descricao . '</h6>';
+            } else {
+                echo '<i class="' . $each_menu->icone . '"></i>';
+                echo '      <span>' . $each_menu->nome . '</span>';
             }
             echo '  </a>';
             echo '  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">';
 
             foreach ($each_menu->itens as $each_item) {
                 $url = str_replace('usuario_logado_user_pk_id', $user_logged->user_pk_id, $each_item->url);
-                echo '<a class="dropdown-item" href="', server_url($url), '">';
-                echo '  <i class = "' . $each_item->icone . '"></i>';
-                echo $each_item->nome;
-                echo '</a>';
-                echo '<div class="dropdown-divider"></div>';
-            }
-
-            echo '  </div>';
-            echo '</li>';
-        }
-        
-        $pages_enableds = null;
-        if (!empty($pages_enableds)) {
-            echo '<li class="nav-item dropdown no-arrow">';
-            echo '  <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-            echo '      <i class="fas fa-sliders-h fa-fw"></i>';
-            echo '      <span>Site</span>';
-            echo '  </a>';
-            echo '  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">';
-
-            $i = 0; //rever essa variável
-            foreach ($pages_enableds as $each_item) {
-                echo '<a class="dropdown-item" href="', server_url("?page=ControllerContent&option=filterByPage" . '&conte_fk_page_pk_id=' . $each_item->page_pk_id), '">';
-                echo '  <i class = "fas fa-', $each_item->page_icon, ' fa-sm fa-fw mr-2 text-gray-400"></i>';
-                echo $each_item->page_label;
-                echo '</a>';
-                if (count($pages_enableds) > 1 && $i < count($pages_enableds) - 1) {
+                if($each_menu->nome == 'Contra-cheque'/*$each_menu->id == 5 && $each_item->id == 16*/){
+                    echo $each_item->id;
+                    if (count($listaFolhaPagamento) > 0) {
+                        for ($index = 0; $index < count($listaFolhaPagamento); $index++) {
+                            echo '<a class="dropdown-item d-flex align-items-center" href="#">';
+                            echo '<div class="mr-3">';
+                            echo '<div class="icon-circle bg-info">';
+                            echo '<i class="fas fa-exclamation-triangle text-white"></i>';
+                            echo '</div>';
+                            echo '</div>';
+                            echo '<div>';
+                            echo '<div class="small text-gray-500">Não visualizado</div>';
+                            echo 'Competência: ' . $listaFolhaPagamento[$index]->fopa_competencia;
+                            echo '</div>';
+                            echo '</a>';
+                            if ($index == 3) {
+                                $index = count($listaFolhaPagamento);
+                            }
+                        }
+                    } else {
+                        echo '<a class="dropdown-item d-flex align-items-center" href="#">';
+                        echo '<h2>' . $each_item->titulo . '1.</h2>';
+                        echo '</a>';
+                    }
+                    if (isset($funcionario->func_pk_id)) {
+                        echo '<a class="' . $each_item->icone . '" href="', server_url($url), '"> ' . $each_item->nome . '</a>';
+                    }
+                    echo 'ops';
+                } else {
+                    echo '<a class="dropdown-item" href="', server_url($url), '">';
+                    echo '  <i class = "' . $each_item->icone . '"></i>';
+                    echo $each_item->nome;
+                    echo '</a>';
                     echo '<div class="dropdown-divider"></div>';
                 }
-                $i++;
             }
 
             echo '  </div>';
