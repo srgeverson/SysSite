@@ -16,33 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `authority`
---
-
-DROP TABLE IF EXISTS `authority`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `authority` (
-  `auth_pk_id` int NOT NULL AUTO_INCREMENT,
-  `auth_description` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `auth_status` tinyint(1) NOT NULL,
-  `auth_screen` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `auth_function` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  PRIMARY KEY (`auth_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `authority`
---
-
-LOCK TABLES `authority` WRITE;
-/*!40000 ALTER TABLE `authority` DISABLE KEYS */;
-INSERT INTO `authority` VALUES (1,'TI',0,'ti.php','Gerenciamento completo do sistema para auxiliar nossos clientes.'),(2,'Administrador',1,'administrador.php','ÁREA RESERVADA PARA GERENCIAR OPERAÇÕES E FAZER LANÇAMENTOS DAS FOLHA DE PAGAMENTOS'),(3,'Funcionário',1,'funcionario.php','ÁREA RESERVADA PARA ACOMPANHAMENTO DE SEUS CONTRA CHECHE'),(4,'Marketing',1,'marketing.php','ÁREA RESERVADA PARA GERENCIAMENTO DO CONTEÚDO DO SITE');
-/*!40000 ALTER TABLE `authority` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `cidades`
 --
 
@@ -407,6 +380,63 @@ INSERT INTO `funcionario_user` VALUES (13,3,1,1,'2023-03-19 19:44:44');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `grupos`
+--
+
+DROP TABLE IF EXISTS `grupos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `grupos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(60) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `usuario_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_grupos_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_grupos_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grupos`
+--
+
+LOCK TABLES `grupos` WRITE;
+/*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grupos_permissoes`
+--
+
+DROP TABLE IF EXISTS `grupos_permissoes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `grupos_permissoes` (
+  `grupo_id` int NOT NULL,
+  `permisao_id` int NOT NULL,
+  `usuario_id` int DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`grupo_id`,`permisao_id`),
+  KEY `fk_grupos_permissoes_usuario_idx` (`usuario_id`),
+  KEY `fk_grupos_permissoes_permissao_idx` (`permisao_id`),
+  CONSTRAINT `fk_grupos_permissoes_grupo` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`),
+  CONSTRAINT `fk_grupos_permissoes_permissao` FOREIGN KEY (`permisao_id`) REFERENCES `permissoes` (`id`),
+  CONSTRAINT `fk_grupos_permissoes_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grupos_permissoes`
+--
+
+LOCK TABLES `grupos_permissoes` WRITE;
+/*!40000 ALTER TABLE `grupos_permissoes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grupos_permissoes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `logs`
 --
 
@@ -431,7 +461,7 @@ CREATE TABLE `logs` (
 
 LOCK TABLES `logs` WRITE;
 /*!40000 ALTER TABLE `logs` DISABLE KEYS */;
-INSERT INTO `logs` VALUES ('usuarios',2,NULL,'UPDATE','ultimo_acesso',NULL,'2023-03-28 03:53:05','2023-03-28 03:53:05'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:53:05','2023-03-28 03:53:46','2023-03-28 03:53:46'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:53:46','2023-03-28 03:54:39','2023-03-28 03:54:39'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:54:39','2023-03-28 03:58:49','2023-03-28 03:58:49');
+INSERT INTO `logs` VALUES ('usuarios',2,NULL,'UPDATE','ultimo_acesso',NULL,'2023-03-28 03:53:05','2023-03-28 03:53:05'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:53:05','2023-03-28 03:53:46','2023-03-28 03:53:46'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:53:46','2023-03-28 03:54:39','2023-03-28 03:54:39'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:54:39','2023-03-28 03:58:49','2023-03-28 03:58:49'),('estados',1,NULL,'UPDATE','status','1','0','2023-03-28 12:58:41'),('estados',1,NULL,'UPDATE','status','0','1','2023-03-28 12:58:53'),('paises',1,NULL,'UPDATE','status','1','0','2023-03-28 13:00:14'),('paises',1,NULL,'UPDATE','status','0','1','2023-03-28 13:00:24'),('paises',0,NULL,'INSERT','id','0',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','nome','a',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','sigla','s',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','status','1',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','usuario_id','2',NULL,'2023-03-28 13:00:34');
 /*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -555,7 +585,7 @@ CREATE TABLE `paises` (
   PRIMARY KEY (`id`),
   KEY `fk_paises_usuario_idx` (`usuario_id`),
   CONSTRAINT `fk_paises_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -564,7 +594,7 @@ CREATE TABLE `paises` (
 
 LOCK TABLES `paises` WRITE;
 /*!40000 ALTER TABLE `paises` DISABLE KEYS */;
-INSERT INTO `paises` VALUES (1,'Brasil','BRA',1,2);
+INSERT INTO `paises` VALUES (1,'Brasil','BRA',1,2),(3,'a','s',1,2);
 /*!40000 ALTER TABLE `paises` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -689,6 +719,38 @@ INSERT INTO `parameter` VALUES (1,'nome_fantazia','','Nome como que todos conhec
 UNLOCK TABLES;
 
 --
+-- Table structure for table `permissoes`
+--
+
+DROP TABLE IF EXISTS `permissoes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `permissoes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) COLLATE utf8mb3_bin NOT NULL,
+  `descricao` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `menu_item_id` int NOT NULL,
+  `usuario_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nome_UNIQUE` (`nome`),
+  KEY `fk_permissoes_menu_item_idx` (`menu_item_id`),
+  KEY `fk_permissoes_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_permissoes_menu_item` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_itens` (`id`),
+  CONSTRAINT `fk_permissoes_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permissoes`
+--
+
+LOCK TABLES `permissoes` WRITE;
+/*!40000 ALTER TABLE `permissoes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permissoes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sistemas`
 --
 
@@ -716,30 +778,6 @@ LOCK TABLES `sistemas` WRITE;
 /*!40000 ALTER TABLE `sistemas` DISABLE KEYS */;
 INSERT INTO `sistemas` VALUES (1,'SysSite','Sistema Integrado com Site',1,NULL);
 /*!40000 ALTER TABLE `sistemas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tests`
---
-
-DROP TABLE IF EXISTS `tests`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tests` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tests`
---
-
-LOCK TABLES `tests` WRITE;
-/*!40000 ALTER TABLE `tests` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tests` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -882,6 +920,114 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `usuarios_grupos`
+--
+
+DROP TABLE IF EXISTS `usuarios_grupos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuarios_grupos` (
+  `usuario_id` int NOT NULL,
+  `grupo_id` int NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`usuario_id`,`grupo_id`),
+  KEY `fk_usuarios_grupos_grupos_idx` (`grupo_id`),
+  CONSTRAINT `fk_usuarios_grupos_grupos` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`),
+  CONSTRAINT `fk_usuarios_grupos_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios_grupos`
+--
+
+LOCK TABLES `usuarios_grupos` WRITE;
+/*!40000 ALTER TABLE `usuarios_grupos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuarios_grupos` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_grupos_AFTER_INSERT` AFTER INSERT ON `usuarios_grupos` FOR EACH ROW BEGIN
+  INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+  VALUES
+      ('usuarios_grupos', NULL, 'INSERT','status', NEW.status, now()),
+      ('usuarios_grupos', NULL, 'INSERT','usuario_id', NEW.usuario_id, now()),
+      ('usuarios_grupos', NULL, 'INSERT','grupo_id', NEW.grupo_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_grupos_BEFORE_UPDATE` BEFORE UPDATE ON `usuarios_grupos` FOR EACH ROW BEGIN
+    
+	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES
+            ('usuarios_grupos', 'status', OLD.status, NEW.status, now(), 'UPDATE', NULL);
+	END IF;
+
+  IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+    INSERT INTO logs 
+          (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+          VALUES 
+          ('usuarios_grupos', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.usuario_id);
+  END IF;
+
+	IF (OLD.grupo_id <> NEW.grupo_id or (OLD.grupo_id IS NULL and NEW.grupo_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('grupos_grupos', 'grupo_id', OLD.grupo_id, NEW.grupo_id, now(), 'UPDATE', OLD.grupo_id);
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_grupos_BEFORE_DELETE` BEFORE DELETE ON `usuarios_grupos` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+        ('usuarios_grupos', OLD.usuario_id, 'DELETE','usuario_id', OLD.usuario_id, now()),
+        ('usuarios_grupos', OLD.grupo_id, 'DELETE','grupo_id', OLD.grupo_id, now()),
+        ('usuarios_grupos', OLD.status, 'DELETE','status', OLD.status, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -892,4 +1038,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-28  9:57:38
+-- Dump completed on 2023-03-28 10:58:29
