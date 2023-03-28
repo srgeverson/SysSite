@@ -13,27 +13,17 @@
             </h3>
             <hr>
             <div class="form-group row">
-                <div class="col-sm-2 mb-3 mb-sm-4">
-                    <div class="input-group input-group-lg">
-                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerEstado&option=novo'); ?>" class="btn btn-primary btn-icon-split btn-lg">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                            <span class="text">Cadastrar</span>
-                        </a>
-                    </div>
-                </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
+                    <div class="input-group">
                         <span class="input-group-text">Nome</span>
-                        <input class="form-control" type="text" name="esta_nome">
+                        <input class="form-control" type="text" name="nome" value="<?php echo $estado->nome; ?>">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
+                    <div class="input-group">
                         <span class="input-group-text">País</span>
-                        <select class="form-control form-control-lg" name="nome">
-                            <option>Todas</option>
+                        <select class="form-control" name="nome_pais">
+                            <option>Todos</option>
                             <?php
                             foreach ($paises as $each_pais) {
                                 echo '<option value="', $each_pais->nome, '">', $each_pais->nome, '</option>';
@@ -42,9 +32,27 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-sm-4 mb-4 mb-sm-0">
+                    <div>
+                        <input type="checkbox" name="todos" <?php echo $estado->todos ? 'checked' : ''; ?>>
+                        <span>Todos</span>
+                    </div> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2 mb-3 mb-sm-4">
+                    <div class="input-group">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerEstado&option=novo'); ?>" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span class="text">Cadastrar</span>
+                        </a>
+                    </div>
+                </div>
                 <div class="col-sm-2 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <button class="btn btn-success btn-icon-split btn-lg">
+                    <div class="input-group">
+                        <button class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-search"></i>
                             </span>
@@ -74,23 +82,23 @@
                 echo '<tbody>';
                 foreach ($estados as $each_estado) {
                     echo '<tr>';
-                    echo '<td>', $each_estado->esta_pk_id, '</td>';
-                    echo '<td>', $each_estado->esta_nome, '</td>';
-                    echo '<td>', $each_estado->esta_sigla, '</td>';
+                    echo '<td>', $each_estado->id, '</td>';
                     echo '<td>', $each_estado->nome, '</td>';
+                    echo '<td>', $each_estado->sigla, '</td>';
+                    echo '<td>', $each_estado->pais_nome, '</td>';
                     echo '<td>';
-                    if ($each_estado->esta_status == true) {
-                        echo '<a title="Desabilitar dados!" href="', server_url('?page=ControllerEstado&option=disable&esta_pk_id=' . $each_estado->esta_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                    if ($each_estado->status == true) {
+                        echo '<a title="Desabilitar dados!" href="', server_url('?page=ControllerEstado&option=disable&id=' . $each_estado->id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
                     } else {
-                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerEstado&option=edit&esta_pk_id=' . $each_estado->esta_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerEstado&option=edit&id=' . $each_estado->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                         echo '<i class="fas fa-edit"></i>';
                         echo '</a>';
-                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerEstado&option=enable&esta_pk_id=' . $each_estado->esta_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerEstado&option=enable&id=' . $each_estado->id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
-                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerEstado&option=delete&esta_pk_id=' . $each_estado->esta_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerEstado&option=delete&id=' . $each_estado->id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                         echo '<i class="fas fa-trash"></i>';
                         echo '</a>';
                     }

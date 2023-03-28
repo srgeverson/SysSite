@@ -70,7 +70,7 @@
                     echo '<td>', $each_endereco->ende_pk_id, '</td>';
                     echo '<td>', $each_endereco->ende_logradouro, ' N° ', $each_endereco->ende_numero, ', ', $each_endereco->ende_bairro, ', CEP: ', $each_endereco->ende_cep, '</td>';
                     echo '<td>', $each_endereco->ende_cidade, '</td>';
-                    echo '<td>', $each_endereco->esta_sigla, '</td>';
+                    echo '<td>', $each_endereco->sigla, '</td>';
                     echo '<td>';
                     if ($each_endereco->ende_status == true) {
                         echo '<a title="Desenable dados!" href="', server_url('?page=ControllerEndereco&option=disable&ende_pk_id=' . $each_endereco->ende_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';

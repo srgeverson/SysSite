@@ -23,12 +23,12 @@ class ControllerEstado {
 
     public function delete() {
         if (HelperController::authotity()) {
-            $esta_pk_id = strip_tags($_GET['esta_pk_id']);
-            if (!isset($esta_pk_id)) {
+            $id = strip_tags($_GET['id']);
+            if (!isset($id)) {
                 $this->info = 'warning=estado_uninformed';
             }
             try {
-                $this->daoEstado->delete($esta_pk_id);
+                $this->daoEstado->delete($id);
                 $this->info = "success=estado_deleted";
                 $this->listar();
             } catch (Exception $erro) {
@@ -39,16 +39,16 @@ class ControllerEstado {
 
     public function disable() {
         if (HelperController::authotity()) {
-            $esta_pk_id = strip_tags($_GET['esta_pk_id']);
-            if (isset($esta_pk_id)) {
-                $esta_status = false;
+            $id = strip_tags($_GET['id']);
+            if (isset($id)) {
+                $status = false;
                 try {
-                    if (($this->daoEstado->selectObjectById($esta_pk_id)) === null) {
+                    if (($this->daoEstado->selectObjectById($id)) === null) {
                         $this->info = "warning=estado_not_exists";
                     } else {
                         $estado = new ModelEstado();
-                        $estado->esta_pk_id = $esta_pk_id;
-                        $estado->esta_status = $esta_status;
+                        $estado->id = $id;
+                        $estado->status = $status;
 
                         $this->daoEstado->updateStatus($estado);
                         $this->info = "success=estado_disabled";
@@ -65,13 +65,13 @@ class ControllerEstado {
 
     public function edit() {
         if (HelperController::authotity()) {
-            $esta_pk_id = $_GET['esta_pk_id'];
-            if (!isset($esta_pk_id)) {
+            $id = $_GET['id'];
+            if (!isset($id)) {
                 $this->info = 'warning=estado_uninformed';
                 $this->listar();
             }
             try {
-                $estado = $this->daoEstado->selectObjectById($esta_pk_id);
+                $estado = $this->daoEstado->selectObjectById($id);
                 $daoPais = new DAOPais();
                 $paises = $daoPais->selectObjectsEnabled();
                 if (!isset($estado)) {
@@ -90,16 +90,16 @@ class ControllerEstado {
 
     public function enable() {
         if (HelperController::authotity()) {
-            $esta_pk_id = strip_tags($_GET['esta_pk_id']);
-            if (isset($esta_pk_id)) {
-                $esta_status = true;
+            $id = strip_tags($_GET['id']);
+            if (isset($id)) {
+                $status = true;
                 try {
-                    if (($this->daoEstado->selectObjectById($esta_pk_id)) === null) {
+                    if (($this->daoEstado->selectObjectById($id)) === null) {
                         $this->info = 'warning=estado_not_exists';
                     } else {
                         $estado = new ModelEstado();
-                        $estado->esta_pk_id = $esta_pk_id;
-                        $estado->esta_status = $esta_status;
+                        $estado->id = $id;
+                        $estado->status = $status;
 
                         $this->daoEstado->updateStatus($estado);
                         $this->info = 'success=estado_enabled';
@@ -116,15 +116,14 @@ class ControllerEstado {
 
     public function listar() {
         if (HelperController::authotity()) {
-            if (isset($_POST['esta_nome']) && isset($_POST['nome'])) {
-                $estado = new ModelEstado();
-                $estado->esta_nome = strip_tags($_POST['esta_nome']);
-                if (strip_tags($_POST['nome']) !== 'Todas') {
-                    $estado->nome = strip_tags($_POST['nome']);
-                } else {
-                    $estado->nome = '';
-                }
-                try {
+            $estado = new ModelEstado();
+            $estado->nome =  strip_tags($_POST['nome']);
+            $estado->todos = strip_tags($_POST['todos']);
+            if (strip_tags($_POST['pais_nome']) !== 'Todos') 
+                $estado->pais_nome = strip_tags($_POST['pais_nome']);
+
+                if (($estado->nome != null || $estado->pais_nome != null) || $estado->todos) {
+                    try {
                     $estados = $this->daoEstado->selectObjectsByContainsObject($estado);
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
@@ -149,19 +148,19 @@ class ControllerEstado {
 
     public function save() {
         if (HelperController::authotity()) {
-            $esta_nome = strip_tags($_POST['esta_nome']);
-            $esta_sigla = strip_tags($_POST['esta_sigla']);
-            $esta_status = true;
-            $esta_fk_id = strip_tags($_POST['esta_fk_id']);
+            $nome = strip_tags($_POST['nome']);
+            $sigla = strip_tags($_POST['sigla']);
+            $status = true;
+            $pais_id = strip_tags($_POST['pais_id']);
             global $user_logged;
-            $esta_fk_id = $user_logged->id;
+            $pais_id = $user_logged->id;
 
             $estado = new ModelEstado();
-            $estado->esta_nome = $esta_nome;
-            $estado->esta_sigla = $esta_sigla;
-            $estado->esta_status = $esta_status;
-            $estado->esta_fk_id = $esta_fk_id;
-            $estado->esta_fk_id = $esta_fk_id;
+            $estado->nome = $nome;
+            $estado->sigla = $sigla;
+            $estado->status = $status;
+            $estado->pais_id = $pais_id;
+            $estado->pais_id = $pais_id;
             try {
                 $this->daoEstado->save($estado);
                 $this->info = "success=estado_created";
@@ -175,22 +174,22 @@ class ControllerEstado {
     public function update() {
         if (HelperController::authotity()) {
             if (HelperController::authotity()) {
-                $esta_pk_id = strip_tags($_POST['esta_pk_id']);
-                if (!isset($esta_pk_id)) {
+                $id = strip_tags($_POST['id']);
+                if (!isset($id)) {
                     $this->info = 'warning=estado_uninformed';
                 }
-                $esta_nome = strip_tags($_POST['esta_nome']);
-                $esta_sigla = strip_tags($_POST['esta_sigla']);
-                $esta_fk_id = strip_tags($_POST['esta_fk_id']);
+                $nome = strip_tags($_POST['nome']);
+                $sigla = strip_tags($_POST['sigla']);
+                $pais_id = strip_tags($_POST['pais_id']);
                 global $user_logged;
-                $esta_fk_id = $user_logged->id;
+                $usuario_id = $user_logged->id;
 
                 $estado = new ModelEstado();
-                $estado->esta_pk_id = $esta_pk_id;
-                $estado->esta_nome = $esta_nome;
-                $estado->esta_sigla = $esta_sigla;
-                $estado->esta_fk_id = $esta_fk_id;
-                $estado->esta_fk_id = $esta_fk_id;
+                $estado->id = $id;
+                $estado->nome = $nome;
+                $estado->sigla = $sigla;
+                $estado->pais_id = $pais_id;
+                $estado->usuario_id = $usuario_id;
 
                 try {
                     $this->daoEstado->update($estado);

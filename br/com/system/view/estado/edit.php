@@ -15,20 +15,20 @@
                 <h4 class="card-header text-primary">Alterar Estado</h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <input class="form-control" name="esta_pk_id" type="hidden" value="<?php echo $estado->esta_pk_id; ?>">
+                        <input class="form-control" name="id" type="hidden" value="<?php echo $estado->id; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Nome:</label><br>
-                        <input class="form-control" name="esta_nome" type="text" placeholder="Digite o nome..." value="<?php echo $estado->esta_nome; ?>"required>
+                        <input class="form-control" name="nome" type="text" placeholder="Digite o nome..." value="<?php echo $estado->nome; ?>"required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Sigla:</label><br>
-                        <input class="form-control" name="esta_sigla" type="text" placeholder="Digite a sigla..."  value="<?php echo $estado->esta_sigla; ?>" required>
+                        <input class="form-control" name="sigla" type="text" placeholder="Digite a sigla..."  value="<?php echo $estado->sigla; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">País:</label><br>
-                        <select name="esta_fk_id" class="form-control" required>
-                            <option value="<?php echo $estado->id; ?>"><?php echo $estado->nome; ?></option>
+                        <select name="pais_id" class="form-control" required>
+                            <option value="<?php echo $estado->pais_id; ?>"><?php echo $estado->pais_nome; ?></option>
                             <?php
                             foreach ($paises as $each_pais) {
                                 echo '<option value="', $each_pais->id, '">', $each_pais->nome, '</option>';

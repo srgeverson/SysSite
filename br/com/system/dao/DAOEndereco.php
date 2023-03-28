@@ -77,9 +77,9 @@ class DAOEndereco extends GenericDAO {
 
     public function selectObjectById($ende_pk_id = 0) {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.id, u.nome ";
+        $this->query .= "e.*, es.id, es.nome, es.sigla, u.id, u.nome ";
         $this->query .= "FROM endereco AS e ";
-        $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.esta_pk_id) ";
+        $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.id) ";
         $this->query .= "INNER JOIN user AS u ON (e.ende_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "ende_pk_id=:ende_pk_id LIMIT 1;";
@@ -96,9 +96,9 @@ class DAOEndereco extends GenericDAO {
 
     public function selectObjectsByContainsObject(ModelEndereco $endereco = null) {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.id, u.nome ";
+        $this->query .= "e.*, es.id, es.nome, es.sigla, u.id, u.nome ";
         $this->query .= "FROM endereco AS e ";
-        $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.esta_pk_id) ";
+        $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.id) ";
         $this->query .= "INNER JOIN user AS u ON (e.ende_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "e.ende_logradouro LIKE '%$endereco->ende_logradouro%' AND ";
@@ -115,9 +115,9 @@ class DAOEndereco extends GenericDAO {
 
     public function selectObjectsEnabled() {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.id, u.nome ";
+        $this->query .= "e.*, es.id, es.nome, es.sigla, u.id, u.nome ";
         $this->query .= "FROM endereco AS e ";
-        $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.esta_pk_id) ";
+        $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.id) ";
         $this->query .= "INNER JOIN user AS u ON (e.ende_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "p.ende_status = 1;";

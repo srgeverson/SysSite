@@ -139,10 +139,10 @@ global $user_logged;
                             <div class="form-group">
                                 <label class="text-primary">Estado:</label><br>
                                 <select name="ende_fk_estado_pk_id" class="form-control" required>
-                                    <option value="<?php echo $estadoUFAtual->esta_pk_id; ?>"><?php echo $estadoUFAtual->esta_nome; ?></option>
+                                    <option value="<?php echo $estadoUFAtual->id; ?>"><?php echo $estadoUFAtual->nome; ?></option>
                                     <?php
                                     foreach ($estados as $each_estado) {
-                                        echo '<option value="', $each_estado->esta_pk_id, '">', $each_estado->esta_nome, '</option>';
+                                        echo '<option value="', $each_estado->id, '">', $each_estado->nome, '</option>';
                                     }
                                     ?>
                                 </select>

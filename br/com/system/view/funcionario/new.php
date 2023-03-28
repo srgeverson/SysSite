@@ -136,7 +136,7 @@ global $user_logged;
                                     <option></option>
                                     <?php
                                     foreach ($estados as $each_estado) {
-                                        echo '<option value="', $each_estado->esta_pk_id, '">', $each_estado->esta_nome, '</option>';
+                                        echo '<option value="', $each_estado->id, '">', $each_estado->nome, '</option>';
                                     }
                                     ?>
                                 </select>

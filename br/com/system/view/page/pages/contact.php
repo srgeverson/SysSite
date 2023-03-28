@@ -114,7 +114,7 @@
             echo '<p>';
             echo 'Endereço: ', $endereco->ende_logradouro . ' N° ', $endereco->ende_logradouro, ',<br>';
             echo 'Bairro: ', $endereco->ende_bairro . ', CEP: ', $endereco->ende_cep, '<br>';
-            echo 'UF: ', $endereco->esta_sigla, '<br>';
+            echo 'UF: ', $endereco->sigla, '<br>';
             echo '</p>';
             echo '<p>';
             echo '<abbr title="Nosso telefone">Telefone</abbr>: ', $contact->cont_phone, '<br>';

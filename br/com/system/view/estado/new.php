@@ -16,15 +16,15 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary">Nome:</label><br>
-                        <input class="form-control" name="esta_nome" type="text" placeholder="Digite um nome..." required>
+                        <input class="form-control" name="nome" type="text" placeholder="Digite um nome..." required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Sigla:</label><br>
-                        <input class="form-control" name="esta_sigla" type="text" placeholder="Digite uma sigla..."  required>
+                        <input class="form-control" name="sigla" type="text" placeholder="Digite uma sigla..."  required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">País:</label><br>
-                        <select name="esta_fk_id" class="form-control" required>
+                        <select name="pais_id" class="form-control" required>
                             <option></option>
                             <?php
                             foreach ($paises as $each_pais) {
