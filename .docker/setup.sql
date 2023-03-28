@@ -100,9 +100,7 @@ CREATE TABLE `content` (
   `conte_fk_user_pk_id` int NOT NULL,
   PRIMARY KEY (`conte_pk_id`),
   KEY `conte_fk_page_pk_id_idx` (`conte_fk_page_pk_id`),
-  KEY `conte_fk_user_pk_id_idx` (`conte_fk_user_pk_id`),
-  CONSTRAINT `conte_fk_page_pk_id` FOREIGN KEY (`conte_fk_page_pk_id`) REFERENCES `page` (`page_pk_id`),
-  CONSTRAINT `conte_fk_user_pk_id` FOREIGN KEY (`conte_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  CONSTRAINT `conte_fk_page_pk_id` FOREIGN KEY (`conte_fk_page_pk_id`) REFERENCES `page` (`page_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -134,10 +132,8 @@ CREATE TABLE `endereco` (
   `ende_fk_estado_pk_id` int NOT NULL,
   `ende_fk_user_pk_id` int NOT NULL,
   PRIMARY KEY (`ende_pk_id`),
-  KEY `ende_fk_user_pk_id_idx` (`ende_fk_user_pk_id`),
   KEY `ende_fk_estado_pk_id_idx` (`ende_fk_estado_pk_id`),
-  CONSTRAINT `ende_fk_estado_pk_id` FOREIGN KEY (`ende_fk_estado_pk_id`) REFERENCES `estado` (`esta_pk_id`),
-  CONSTRAINT `ende_fk_user_pk_id` FOREIGN KEY (`ende_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  CONSTRAINT `ende_fk_estado_pk_id` FOREIGN KEY (`ende_fk_estado_pk_id`) REFERENCES `estado` (`esta_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -166,10 +162,8 @@ CREATE TABLE `estado` (
   `esta_fk_pais_pk_id` int NOT NULL,
   `esta_fk_user_pk_id` int NOT NULL,
   PRIMARY KEY (`esta_pk_id`),
-  KEY `esta_fk_user_pk_id_idx` (`esta_fk_user_pk_id`),
   KEY `esta_fk_pais_pk_id_idx` (`esta_fk_pais_pk_id`),
-  CONSTRAINT `esta_fk_pais_pk_id` FOREIGN KEY (`esta_fk_pais_pk_id`) REFERENCES `pais` (`pais_pk_id`),
-  CONSTRAINT `esta_fk_user_pk_id` FOREIGN KEY (`esta_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  CONSTRAINT `esta_fk_pais_pk_id` FOREIGN KEY (`esta_fk_pais_pk_id`) REFERENCES `pais` (`pais_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -202,9 +196,7 @@ CREATE TABLE `folha_pagamento` (
   `fopa_fk_user_pk_id` int NOT NULL,
   PRIMARY KEY (`fopa_pk_id`),
   KEY `fopa_fk_funcionario_pk_id_idx` (`fopa_fk_funcionario_pk_id`),
-  KEY `func_fk_user_pk_id_idx` (`fopa_fk_user_pk_id`),
-  CONSTRAINT `fopa_fk_funcionario_pk_id` FOREIGN KEY (`fopa_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`),
-  CONSTRAINT `fopa_fk_user_pk_id` FOREIGN KEY (`fopa_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  CONSTRAINT `fopa_fk_funcionario_pk_id` FOREIGN KEY (`fopa_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=236 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -236,12 +228,10 @@ CREATE TABLE `funcionario` (
   `func_fk_endereco_pk_id` int NOT NULL,
   `func_fk_contact_pk_id` int NOT NULL,
   PRIMARY KEY (`func_pk_id`),
-  KEY `func_fk_user_pk_id_idx` (`func_fk_user_pk_id`),
   KEY `func_fk_endereco_pk_id_idx` (`func_fk_endereco_pk_id`),
   KEY `func_fk_contact_pk_id_idx` (`func_fk_contact_pk_id`),
   CONSTRAINT `func_fk_contact_pk_id` FOREIGN KEY (`func_fk_contact_pk_id`) REFERENCES `contact` (`cont_pk_id`),
-  CONSTRAINT `func_fk_endereco_pk_id` FOREIGN KEY (`func_fk_endereco_pk_id`) REFERENCES `endereco` (`ende_pk_id`),
-  CONSTRAINT `func_fk_user_pk_id` FOREIGN KEY (`func_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  CONSTRAINT `func_fk_endereco_pk_id` FOREIGN KEY (`func_fk_endereco_pk_id`) REFERENCES `endereco` (`ende_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -269,11 +259,9 @@ CREATE TABLE `funcionario_user` (
   `fuus_status` tinyint(1) NOT NULL DEFAULT '1',
   `fuus_data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`fuus_pk_id`,`fuus_fk_user_pk_id`,`fuus_fk_funcionario_pk_id`),
-  UNIQUE KEY `fuus_fk_user_pk_id_UNIQUE` (`fuus_fk_user_pk_id`),
   UNIQUE KEY `fuus_fk_funcionario_pk_id_UNIQUE` (`fuus_fk_funcionario_pk_id`),
   UNIQUE KEY `fuus_pk_id_UNIQUE` (`fuus_pk_id`),
-  CONSTRAINT `fuus_fk_funcionario_pk_id` FOREIGN KEY (`fuus_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`),
-  CONSTRAINT `fuus_fk_user_pk_id` FOREIGN KEY (`fuus_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  CONSTRAINT `fuus_fk_funcionario_pk_id` FOREIGN KEY (`fuus_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=ascii COLLATE=ascii_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -288,31 +276,32 @@ INSERT INTO `funcionario_user` VALUES (13,3,1,1,'2023-03-19 19:44:44');
 UNLOCK TABLES;
 
 --
--- Table structure for table `log_user`
+-- Table structure for table `logs`
 --
 
-DROP TABLE IF EXISTS `log_user`;
+DROP TABLE IF EXISTS `logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `log_user` (
-  `luser_id_tabela` int DEFAULT NULL,
-  `luser_fk_usuario_pk_id` int DEFAULT NULL,
-  `luser_operacao` varchar(6) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
-  `luser_campo_modificado` varchar(45) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
-  `luser_valor_antigo` text CHARACTER SET ascii COLLATE ascii_bin,
-  `luser_valor_atual` text CHARACTER SET ascii COLLATE ascii_bin,
-  `luser_data_operacao` datetime DEFAULT NULL
+CREATE TABLE `logs` (
+  `nome_tabela` varchar(100) COLLATE ascii_bin DEFAULT NULL,
+  `id_tabela` int DEFAULT NULL,
+  `usuario_id` int DEFAULT NULL,
+  `operacao` varchar(6) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
+  `campo_modificado` varchar(45) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
+  `valor_antigo` text CHARACTER SET ascii COLLATE ascii_bin,
+  `valor_atual` text CHARACTER SET ascii COLLATE ascii_bin,
+  `data_operacao` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `log_user`
+-- Dumping data for table `logs`
 --
 
-LOCK TABLES `log_user` WRITE;
-/*!40000 ALTER TABLE `log_user` DISABLE KEYS */;
-INSERT INTO `log_user` VALUES (1,NULL,'UPDATE','user_last_access','2020-08-09 15:49:31','2020-08-09 23:31:33','2020-08-09 23:31:33'),(1,NULL,'UPDATE','user_name','Geverson','Geverson J de Souza','2020-08-09 23:32:35'),(1,NULL,'UPDATE','user_password','$2y$10$7V6yhg6xSHut0jJ4Qs9CieXgRefbUrofSx3YizQDa5qG/8sOWMV62','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2020-08-09 23:32:35'),(6,NULL,'UPDATE','user_password','$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS','$2y$10$ppKWSgMr3KBq1fsGa2m/l.7UUu2AQTBiC0wl21M3U/TqoFgsBZRV6','2020-08-09 23:33:29'),(0,NULL,'INSERT','user_pk_id','0',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_name','g',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_login','root@root1',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_password','$2y$10$ggNgki2BK1lUFiQpH6En4eSLWPprI69P/0g.IEsuiBtxkSWlE4sdu',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_status','1',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_fk_authority_pk_id','2',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_pk_id','0',NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_name','teste1',NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_login','asd@asd',NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_password','$2y$10$V7o4ORE1d2ysUqFWYql6xe3UZ4oGmZ.ZmjoqhaVVK0b5GXW279.EW',NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_last_login',NULL,NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_image',NULL,NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_status','1',NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_fk_authority_pk_id','2',NULL,'2020-08-10 00:17:19'),(11,NULL,'UPDATE','user_status','1','0','2020-08-10 00:20:06'),(11,NULL,'DELETE','user_pk_id','11',NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_name','teste1',NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_login','asd@asd',NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_password','$2y$10$V7o4ORE1d2ysUqFWYql6xe3UZ4oGmZ.ZmjoqhaVVK0b5GXW279.EW',NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_last_login',NULL,NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_image',NULL,NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_status','0',NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_fk_authority_pk_id','2',NULL,'2020-08-10 00:20:11'),(10,NULL,'UPDATE','user_status','1','0','2020-08-10 00:20:50'),(10,NULL,'DELETE','user_pk_id','10',NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_name','g',NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_login','root@root1',NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_password','$2y$10$ggNgki2BK1lUFiQpH6En4eSLWPprI69P/0g.IEsuiBtxkSWlE4sdu',NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_last_login',NULL,NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_image',NULL,NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_status','0',NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_fk_authority_pk_id','2',NULL,'2020-08-10 00:20:54'),(0,NULL,'INSERT','user_pk_id','0',NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_name','g',NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_login','root@root1',NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_password','$2y$10$w6zSx4hQjlX2lKVPBk3BxueZZGaEoN3RMiiB35yjiIpaZ8fOZflzG',NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_last_login',NULL,NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_image',NULL,NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_status','1',NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_fk_authority_pk_id','2',NULL,'2020-08-10 00:21:08'),(6,NULL,'UPDATE','user_password','$2y$10$ppKWSgMr3KBq1fsGa2m/l.7UUu2AQTBiC0wl21M3U/TqoFgsBZRV6','$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS','2020-08-10 00:25:09'),(1,NULL,'UPDATE','user_last_access','2020-08-10 02:31:33','2023-03-19 16:06:10','2023-03-19 16:06:10'),(12,NULL,'DELETE','user_pk_id','12',NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_name','g',NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_login','root@root1',NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_password','$2y$10$w6zSx4hQjlX2lKVPBk3BxueZZGaEoN3RMiiB35yjiIpaZ8fOZflzG',NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_last_login',NULL,NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_image',NULL,NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_status','1',NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_fk_authority_pk_id','2',NULL,'2023-03-19 16:06:43'),(1,NULL,'UPDATE','user_name','Geverson J de Souza','Administrator','2023-03-19 16:07:12'),(1,NULL,'UPDATE','user_image','15969434015f2f6c29364fb.jpg','NULL','2023-03-19 16:07:31'),(1,NULL,'UPDATE','user_last_access','2023-03-19 16:06:10','2023-03-19 16:07:53','2023-03-19 16:07:53'),(1,NULL,'UPDATE','user_image',NULL,'admin.png','2023-03-19 16:08:06'),(1,NULL,'UPDATE','user_last_access','2023-03-19 16:07:53','2023-03-19 16:09:34','2023-03-19 16:09:34'),(1,NULL,'UPDATE','user_image','admin.png','admin.jpg','2023-03-19 16:17:11'),(1,NULL,'UPDATE','user_last_access','2023-03-19 16:09:34','2023-03-19 16:17:22','2023-03-19 16:17:22'),(1,NULL,'UPDATE','user_login','geversonjosedesouza@gmail.com','admin@adminl.com','2023-03-19 16:19:24'),(4,NULL,'UPDATE','user_login','geversonjosedesouza@hotmail.com','geversonjosedesouza@gmail.com','2023-03-19 19:39:56'),(6,NULL,'UPDATE','user_login','root@root','geversonjosedesouza@hotmail.com','2023-03-19 19:40:09'),(6,NULL,'UPDATE','user_name','root','Geverson Souza','2023-03-19 19:40:19'),(2,NULL,'UPDATE','user_fk_authority_pk_id','3','1','2023-03-19 19:45:39'),(2,NULL,'UPDATE','user_password','$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-03-19 19:46:28'),(3,NULL,'UPDATE','user_password','$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-03-19 19:46:28'),(2,NULL,'UPDATE','user_last_access','2020-08-09 14:37:10','2023-03-19 19:46:32','2023-03-19 19:46:32'),(2,NULL,'UPDATE','user_last_access','2023-03-19 19:46:32','2023-03-19 19:49:51','2023-03-19 19:49:51'),(2,NULL,'UPDATE','user_last_access','2023-03-19 19:49:51','2023-03-19 20:18:22','2023-03-19 20:18:22'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:18:22','2023-03-19 20:19:47','2023-03-19 20:19:47'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:19:47','2023-03-19 20:20:53','2023-03-19 20:20:53'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:20:53','2023-03-19 20:28:29','2023-03-19 20:28:29'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:28:29','2023-03-19 20:38:37','2023-03-19 20:38:37'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:38:37','2023-03-19 20:41:13','2023-03-19 20:41:13'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:41:13','2023-03-19 21:13:14','2023-03-19 21:13:14'),(2,NULL,'UPDATE','user_password','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2023-03-19 21:17:06'),(2,NULL,'UPDATE','user_last_access','2023-03-19 21:13:14','2023-03-19 21:17:52','2023-03-19 21:17:52'),(3,NULL,'UPDATE','user_password','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2023-03-19 21:18:56');
-/*!40000 ALTER TABLE `log_user` ENABLE KEYS */;
+LOCK TABLES `logs` WRITE;
+/*!40000 ALTER TABLE `logs` DISABLE KEYS */;
+INSERT INTO `logs` VALUES ('usuarios',2,NULL,'UPDATE','ultimo_acesso',NULL,'2023-03-28 03:53:05','2023-03-28 03:53:05'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:53:05','2023-03-28 03:53:46','2023-03-28 03:53:46'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:53:46','2023-03-28 03:54:39','2023-03-28 03:54:39');
+/*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -405,9 +394,7 @@ CREATE TABLE `page` (
   `page_label` varchar(45) NOT NULL,
   `page_status` tinyint(1) NOT NULL DEFAULT '1',
   `page_fk_user_pk_id` int NOT NULL,
-  PRIMARY KEY (`page_pk_id`),
-  KEY `page_fk_user_pk_id_idx` (`page_fk_user_pk_id`),
-  CONSTRAINT `page_fk_user_pk_id` FOREIGN KEY (`page_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  PRIMARY KEY (`page_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -434,9 +421,7 @@ CREATE TABLE `pais` (
   `pais_sigla` varchar(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `pais_status` tinyint NOT NULL DEFAULT '1',
   `pais_fk_user_pk_id` int NOT NULL,
-  PRIMARY KEY (`pais_pk_id`),
-  KEY `pais_fk_user_pk_id_idx` (`pais_fk_user_pk_id`),
-  CONSTRAINT `pais_fk_user_pk_id` FOREIGN KEY (`pais_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  PRIMARY KEY (`pais_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -465,9 +450,7 @@ CREATE TABLE `parameter` (
   `para_status` tinyint(1) NOT NULL DEFAULT '1',
   `para_fk_user_pk_id` int NOT NULL,
   PRIMARY KEY (`para_pk_id`),
-  UNIQUE KEY `para_key` (`para_key`),
-  KEY `empr_fk_user_pk_id_idx` (`para_fk_user_pk_id`),
-  CONSTRAINT `empr_fk_user_pk_id` FOREIGN KEY (`para_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  UNIQUE KEY `para_key` (`para_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -536,157 +519,6 @@ LOCK TABLES `tests` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-  `user_pk_id` int NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `user_login` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `user_password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `user_last_login` timestamp NULL DEFAULT NULL,
-  `user_image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `user_status` tinyint(1) NOT NULL DEFAULT '0',
-  `user_fk_authority_pk_id` int DEFAULT NULL,
-  PRIMARY KEY (`user_pk_id`),
-  UNIQUE KEY `user_login_UNIQUE` (`user_login`),
-  KEY `user_fk_authority_pk_id_idx` (`user_fk_authority_pk_id`),
-  CONSTRAINT `user_fk_authority_pk_id` FOREIGN KEY (`user_fk_authority_pk_id`) REFERENCES `authority` (`auth_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-03-19 16:17:22',NULL,1,2),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2023-03-19 21:17:52',NULL,1,1),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2020-08-10 02:20:49',NULL,1,4);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `trigger_user_insert` BEFORE INSERT ON `user` FOR EACH ROW BEGIN
-	INSERT INTO log_user 
-		(luser_id_tabela, luser_operacao, luser_campo_modificado, luser_valor_antigo, luser_data_operacao)
-    VALUES 
-		(NEW.user_pk_id, 'INSERT', 'user_pk_id', NEW.user_pk_id, now()),
-        (NEW.user_pk_id, 'INSERT','user_name', NEW.user_name, now()),
-        (NEW.user_pk_id, 'INSERT','user_login', NEW.user_login, now()),
-        (NEW.user_pk_id, 'INSERT','user_password', NEW.user_password, now()),
-        (NEW.user_pk_id, 'INSERT','user_last_login', NEW.user_last_login, now()),
-        (NEW.user_pk_id, 'INSERT','user_image', NEW.user_image, now()),
-        (NEW.user_pk_id, 'INSERT','user_status', NEW.user_status, now()),
-        (NEW.user_pk_id, 'INSERT','user_fk_authority_pk_id', NEW.user_fk_authority_pk_id, now());
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `trigger_user_update` BEFORE UPDATE ON `user` FOR EACH ROW BEGIN
-	IF (OLD.user_name <> NEW.user_name or (OLD.user_name IS NULL and NEW.user_name IS NOT NULL)) THEN
-		INSERT INTO log_user
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
-        VALUES 
-			('user_name', OLD.user_name, NEW.user_name, now(), 'UPDATE', OLD.user_pk_id);
-	 END IF;
-    
-	IF (OLD.user_login <> NEW.user_login or (OLD.user_login IS NULL and NEW.user_login IS NOT NULL)) THEN
-			INSERT INTO log_user
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
-            VALUES 
-            ('user_login', OLD.user_login, NEW.user_login, now(), 'UPDATE', OLD.user_pk_id);
-	END IF;
-    
-	IF (OLD.user_password <> NEW.user_password or (OLD.user_password IS NULL and NEW.user_password IS NOT NULL)) THEN
-			INSERT INTO log_user 
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
-            VALUES 
-            ('user_password', OLD.user_password, NEW.user_password, now(), 'UPDATE', OLD.user_pk_id);
-	END IF;
-    
-	IF (OLD.user_status <> NEW.user_status or (OLD.user_status IS NULL and NEW.user_status IS NOT NULL)) THEN
-			INSERT INTO log_user
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
-            VALUES
-            ('user_status', OLD.user_status, NEW.user_status, now(), 'UPDATE', OLD.user_pk_id);
-	END IF;
-
-	IF (OLD.user_image <> NEW.user_image or (OLD.user_image IS NULL and NEW.user_image IS NOT NULL)) THEN
-			INSERT INTO log_user 
-                        (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
-            VALUES
-            ('user_image', OLD.user_image, NEW.user_image, now(), 'UPDATE', OLD.user_pk_id);
-	END IF;
-
-	IF (OLD.user_last_login <> NEW.user_last_login or (OLD.user_last_login IS NULL and NEW.user_last_login IS NOT NULL)) THEN
-			INSERT INTO log_user 
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
-            VALUES 
-            ('user_last_access', OLD.user_last_login, NEW.user_last_login, now(), 'UPDATE', OLD.user_pk_id);
-	END IF;
-    
-	IF (OLD.user_fk_authority_pk_id <> NEW.user_fk_authority_pk_id or (OLD.user_fk_authority_pk_id IS NULL and NEW.user_fk_authority_pk_id IS NOT NULL)) THEN
-			INSERT INTO log_user 
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
-            VALUES
-            ('user_fk_authority_pk_id', OLD.user_fk_authority_pk_id, NEW.user_fk_authority_pk_id, now(), 'UPDATE', OLD.user_pk_id);
-	END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `trigger_user_delete` BEFORE DELETE ON `user` FOR EACH ROW BEGIN
-	INSERT INTO log_user 
-		(luser_id_tabela, luser_operacao, luser_campo_modificado, luser_valor_antigo, luser_data_operacao)
-    VALUES
-		(OLD.user_pk_id, 'DELETE', 'user_pk_id', OLD.user_pk_id, now()),
-        (OLD.user_pk_id, 'DELETE','user_name', OLD.user_name, now()),
-        (OLD.user_pk_id, 'DELETE','user_login', OLD.user_login, now()),
-        (OLD.user_pk_id, 'DELETE','user_password', OLD.user_password, now()),
-        (OLD.user_pk_id, 'DELETE','user_last_login', OLD.user_last_login, now()),
-        (OLD.user_pk_id, 'DELETE','user_image', OLD.user_image, now()),
-        (OLD.user_pk_id, 'DELETE','user_status', OLD.user_status, now()),
-        (OLD.user_pk_id, 'DELETE','user_fk_authority_pk_id', OLD.user_fk_authority_pk_id, now());
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
---
 -- Table structure for table `usuarios`
 --
 
@@ -712,9 +544,120 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy',NULL,NULL,1),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma',NULL,NULL,1),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma',NULL,NULL,1);
+INSERT INTO `usuarios` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy',NULL,NULL,1),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2023-03-28 03:54:39',NULL,1),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma',NULL,NULL,1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_BEFORE_INSERT` BEFORE INSERT ON `usuarios` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('usuarios', NEW.id, 'INSERT', 'id', NEW.id, now()),
+        ('usuarios', NEW.id, 'INSERT','nome', NEW.nome, now()),
+        ('usuarios', NEW.id, 'INSERT','login', NEW.login, now()),
+        ('usuarios', NEW.id, 'INSERT','senha', NEW.senha, now()),
+        ('usuarios', NEW.id, 'INSERT','ultimo_acesso', NEW.ultimo_acesso, now()),
+        ('usuarios', NEW.id, 'INSERT','imagem', NEW.imagem, now()),
+        ('usuarios', NEW.id, 'INSERT','status', NEW.status, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_BEFORE_UPDATE` BEFORE UPDATE ON `usuarios` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+		INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+			('usuarios', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+	 END IF;
+    
+	IF (OLD.login <> NEW.login or (OLD.login IS NULL and NEW.login IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('usuarios', 'login', OLD.login, NEW.login, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+	IF (OLD.senha <> NEW.senha or (OLD.senha IS NULL and NEW.senha IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('usuarios', 'senha', OLD.senha, NEW.senha, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES
+            ('usuarios', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+	END IF;
+
+	IF (OLD.imagem <> NEW.imagem or (OLD.imagem IS NULL and NEW.imagem IS NOT NULL)) THEN
+			INSERT INTO logs 
+                        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES
+            ('usuarios', 'imagem', OLD.imagem, NEW.imagem, now(), 'UPDATE', OLD.id);
+	END IF;
+
+	IF (OLD.ultimo_acesso <> NEW.ultimo_acesso or (OLD.ultimo_acesso IS NULL and NEW.ultimo_acesso IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('usuarios', 'ultimo_acesso', OLD.ultimo_acesso, NEW.ultimo_acesso, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+    
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_BEFORE_DELETE` BEFORE DELETE ON `usuarios` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('usuarios', OLD.id, 'DELETE', 'id', OLD.id, now()),
+        ('usuarios', OLD.id, 'DELETE','nome', OLD.nome, now()),
+        ('usuarios', OLD.id, 'DELETE','login', OLD.login, now()),
+        ('usuarios', OLD.id, 'DELETE','senha', OLD.senha, now()),
+        ('usuarios', OLD.id, 'DELETE','ultimo_acesso', OLD.ultimo_acesso, now()),
+        ('usuarios', OLD.id, 'DELETE','imagem', OLD.imagem, now()),
+        ('usuarios', OLD.id, 'DELETE','status', OLD.status, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -725,4 +668,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-27  7:24:22
+-- Dump completed on 2023-03-28  0:56:56
