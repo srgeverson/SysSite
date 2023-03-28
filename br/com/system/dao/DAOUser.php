@@ -92,11 +92,10 @@ class DAOUser extends GenericDAO {
         $this->query .= "* ";
         $this->query .= "FROM usuarios AS u ";
         //$this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.auth_pk_id) ";
-        $this->query .= "WHERE ";
-        $this->query .= "u.nome LIKE '%$user->nome%' AND ";
-        $this->query .= "u.login LIKE '%$user->login%' AND ";
+        $this->query .= "WHERE 1 = 1 ";
+        $this->query .= "AND u.nome LIKE '%$user->nome%' ";
+        $this->query .= "AND u.login LIKE '%$user->login%' ";
         //$this->query .= "u.user_fk_authority_pk_id LIKE '%$user->user_fk_authority_pk_id%';";
-
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {

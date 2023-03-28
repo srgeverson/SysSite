@@ -210,20 +210,21 @@ class ControllerUser {
 
     public function listar() {
         if (HelperController::authotity()) {
-            if (isset($_POST['nome']) && isset($_POST['login']) && isset($_POST['user_fk_authority_pk_id'])) {
-                $user = new ModelUser();
-                $user->nome = strip_tags($_POST['nome']);
-                $user->login = strip_tags($_POST['login']);
-                if (strip_tags($_POST['user_fk_authority_pk_id']) !== 'Todas') {
-                    $user->user_fk_authority_pk_id = strip_tags($_POST['user_fk_authority_pk_id']);
-                } else {
-                    $user->user_fk_authority_pk_id = '';
-                }
+            $filterUser = new ModelUser();
+            $filterUser->nome = strip_tags($_POST['nome_usuario']);
+            $filterUser->login = strip_tags($_POST['login_usuario']);
+            if ($filterUser->nome != null || $filterUser->login != null) {
+                echo $filterUser->nome;
+                // if (strip_tags($_POST['user_fk_authority_pk_id']) !== 'Todas') {
+                //     $user->user_fk_authority_pk_id = strip_tags($_POST['user_fk_authority_pk_id']);
+                // } else {
+                //     $user->user_fk_authority_pk_id = '';
+                // }
                 try {
-                    $users = $this->daoUser->selectObjectsByContainsObjetc($user);
-                    $daoAuthority = new DAOAuthority();
-                    $authorities = $daoAuthority->selectObjectsEnabled();
-                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
+                    $users = $this->daoUser->selectObjectsByContainsObjetc($filterUser);
+                    // $daoAuthority = new DAOAuthority();
+                    // $authorities = $daoAuthority->selectObjectsEnabled();
+                    // $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }

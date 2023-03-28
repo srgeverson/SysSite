@@ -16,28 +16,28 @@
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">Nome</span>
-                        <input class="form-control" type="text" name="nome">
+                        <input class="form-control" type="text" name="nome_usuario" value="<?php echo $filterUser->nome; ?>">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">E-mail</span>
-                        <input class="form-control" type="text" name="login">
+                        <input class="form-control" type="text" name="login_usuario" value="<?php echo $filterUser->login; ?>">
                     </div>
                 </div>
-                <div class="col-sm-4 mb-4 mb-sm-0">
+                <!-- <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">Permissões</span>
                         <select name="user_fk_authority_pk_id" class="form-control form-control-lg" required>
-                            <option>Todas</option>
+                            <option>Todas</option> -->
                             <?php
-                            foreach ($authorities as $each_authority) {
-                                echo '<option value="', $each_authority->auth_pk_id, '">', $each_authority->auth_description, '</option>';
-                            }
+                            //foreach ($authorities as $each_authority) {
+                           //     echo '<option value="', $each_authority->auth_pk_id, '">', $each_authority->auth_description, '</option>';
+                            //}
                             ?>
-                        </select>
+                        <!-- </select>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="form-group row">
                 <div class="col-sm-2 mb-3 mb-sm-4">
