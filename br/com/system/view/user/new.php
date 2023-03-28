@@ -16,11 +16,11 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary">Nome:</label><br>
-                        <input class="form-control" name="user_name" type="text" placeholder="Digite um nome..." required>
+                        <input class="form-control" name="nome" type="text" placeholder="Digite um nome..." required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">E-mail:</label><br>
-                        <input class="form-control" name="user_login" type="email" placeholder="Digite um email..."  required>
+                        <input class="form-control" name="login" type="email" placeholder="Digite um email..."  required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Perfil:</label><br>

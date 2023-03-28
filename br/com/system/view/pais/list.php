@@ -64,7 +64,7 @@
                     echo '<td>', $each_pais->pais_pk_id, '</td>';
                     echo '<td>', $each_pais->pais_nome, '</td>';
                     echo '<td>', $each_pais->pais_sigla, '</td>';
-                    echo '<td>', $each_pais->user_name, '</td>';
+                    echo '<td>', $each_pais->nome, '</td>';
                     echo '<td>';
                     if ($each_pais->pais_status == true) {
                         echo '<a title="Desenable dados!" href="', server_url('?page=ControllerPais&option=disable&pais_pk_id=' . $each_pais->pais_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';

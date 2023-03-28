@@ -15,16 +15,16 @@ class DAOUser extends GenericDAO {
             if (!is_object($user)) {
                 throw new Exception("Dados incompletos");
             }
-            $this->query = "INSERT INTO user ";
-            $this->query .= "(user_name, user_login, user_password, user_status, user_fk_authority_pk_id) ";
+            $this->query = "INSERT INTO usuarios ";
+            $this->query .= "(nome, login, senha, status, user_fk_authority_pk_id) ";
             $this->query .= "VALUES ";
-            $this->query .= "(:user_name, :user_login, :user_password, :user_status, :user_fk_authority_pk_id);";
+            $this->query .= "(:nome, :login, :senha, :status, :user_fk_authority_pk_id);";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
-            $this->statement->bindParam(':user_name', $user->user_name, PDO::PARAM_STR);
-            $this->statement->bindParam(':user_login', $user->user_login, PDO::PARAM_STR);
-            $this->statement->bindParam(':user_password', $user->user_password, PDO::PARAM_STR);
-            $this->statement->bindParam(':user_status', $user->user_status, PDO::PARAM_BOOL);
+            $this->statement->bindParam(':nome', $user->nome, PDO::PARAM_STR);
+            $this->statement->bindParam(':login', $user->login, PDO::PARAM_STR);
+            $this->statement->bindParam(':senha', $user->senha, PDO::PARAM_STR);
+            $this->statement->bindParam(':status', $user->status, PDO::PARAM_BOOL);
             $this->statement->bindParam(':user_fk_authority_pk_id', $user->user_fk_authority_pk_id, PDO::PARAM_INT);
             $this->statement->execute();
         } catch (Exception $erro) {
@@ -33,15 +33,15 @@ class DAOUser extends GenericDAO {
         return true;
     }
 
-    public function delete($user_pk_id = "") {
-        $this->query = "DELETE FROM user WHERE user_pk_id=:user_pk_id;";
+    public function delete($id = "") {
+        $this->query = "DELETE FROM usuarios WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":user_pk_id", $user_pk_id, PDO::PARAM_STR);
+        $this->statement->bindParam(":id", $id, PDO::PARAM_STR);
         $this->statement->execute();
 
         return true;
@@ -52,17 +52,17 @@ class DAOUser extends GenericDAO {
             if (!is_object($user)) {
                 throw new Exception("Dados incompletos");
             }
-            $this->query = "INSERT INTO user ";
-            $this->query .= "(user_name, user_login, user_password, user_status, user_image) ";
+            $this->query = "INSERT INTO usuarios ";
+            $this->query .= "(nome, login, senha, status, imagem) ";
             $this->query .= "VALUES ";
-            $this->query .= "(:user_name, :user_login, :user_password, :user_status, :user_image);";
+            $this->query .= "(:nome, :login, :senha, :status, :imagem);";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
-            $this->statement->bindParam(':user_name', $user->user_name, PDO::PARAM_STR);
-            $this->statement->bindParam(':user_login', $user->user_login, PDO::PARAM_STR);
-            $this->statement->bindParam(':user_login', $user->user_password, PDO::PARAM_STR);
-            $this->statement->bindParam(':user_status', $user->user_status, PDO::PARAM_BOOL);
-            $this->statement->bindParam(':user_image', $user->user_image, PDO::PARAM_STR);
+            $this->statement->bindParam(':nome', $user->nome, PDO::PARAM_STR);
+            $this->statement->bindParam(':login', $user->login, PDO::PARAM_STR);
+            $this->statement->bindParam(':login', $user->senha, PDO::PARAM_STR);
+            $this->statement->bindParam(':status', $user->status, PDO::PARAM_BOOL);
+            $this->statement->bindParam(':imagem', $user->imagem, PDO::PARAM_STR);
             $this->statement->execute();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
@@ -70,19 +70,19 @@ class DAOUser extends GenericDAO {
         return true;
     }
 
-    public function selectObjectById($user_pk_id = "") {
-        $this->query = "SELECT ";
-        $this->query .= "u.*, a.auth_pk_id, a.auth_description ";
-        $this->query .= "FROM user AS u ";
-        $this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.auth_pk_id) ";
-        $this->query .= "WHERE u.user_pk_id = :user_pk_id LIMIT 1;";
+    public function selectObjectById($id = "") {
+        $this->query = "SELECT u.* ";
+        //$this->query .= "u.*, a.auth_pk_id, a.auth_description ";
+        $this->query .= "FROM usuarios AS u ";
+        //$this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.auth_pk_id) ";
+        $this->query .= "WHERE u.id = :id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":user_pk_id", $user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(":id", $id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
@@ -90,12 +90,12 @@ class DAOUser extends GenericDAO {
     public function selectObjectsByContainsObjetc(ModelUser $user = null) {
         $this->query = "SELECT ";
         $this->query .= "* ";
-        $this->query .= "FROM user AS u ";
-        $this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.auth_pk_id) ";
+        $this->query .= "FROM usuarios AS u ";
+        //$this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.auth_pk_id) ";
         $this->query .= "WHERE ";
-        $this->query .= "u.user_name LIKE '%$user->user_name%' AND ";
-        $this->query .= "u.user_login LIKE '%$user->user_login%' AND ";
-        $this->query .= "u.user_fk_authority_pk_id LIKE '%$user->user_fk_authority_pk_id%';";
+        $this->query .= "u.nome LIKE '%$user->nome%' AND ";
+        $this->query .= "u.login LIKE '%$user->login%' AND ";
+        //$this->query .= "u.user_fk_authority_pk_id LIKE '%$user->user_fk_authority_pk_id%';";
 
         try {
             $conexao = $this->getInstance();
@@ -109,33 +109,33 @@ class DAOUser extends GenericDAO {
 
     public function selectCountObjectsByFKAuthority($user_fk_authority_pk_id = null) {
         $this->query = "SELECT ";
-        $this->query .= "u.user_pk_id, u.user_name ";
-        $this->query .= "FROM user AS u ";
-        $this->query .= "WHERE u.user_fk_authority_pk_id = :user_fk_authority_pk_id;";
+        $this->query .= "u.id, u.nome ";
+        $this->query .= "FROM usuarios AS u ";
+        //$this->query .= "WHERE u.user_fk_authority_pk_id = :user_fk_authority_pk_id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':user_fk_authority_pk_id', $user_fk_authority_pk_id, PDO::PARAM_INT);
+        //$this->statement->bindParam(':user_fk_authority_pk_id', $user_fk_authority_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectByName($user_login = "") {
-        $this->query = "SELECT ";
-        $this->query .= "u.*, a.* ";
-        $this->query .= "FROM user AS u ";
-        $this->query .= "INNER JOIN authority AS a ON u.user_fk_authority_pk_id = a.auth_pk_id ";
-        $this->query .= "WHERE u.user_login = :user_login LIMIT 1;";
+    public function selectObjectByName($login = "") {
+        $this->query = "SELECT u.* ";
+        //$this->query .= "u.*, a.* ";
+        $this->query .= "FROM usuarios AS u ";
+        //$this->query .= "INNER JOIN authority AS a ON u.user_fk_authority_pk_id = a.auth_pk_id ";
+        $this->query .= "WHERE u.login = :login LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':user_login', $user_login, PDO::PARAM_STR);
+        $this->statement->bindParam(':login', $login, PDO::PARAM_STR);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
@@ -143,11 +143,11 @@ class DAOUser extends GenericDAO {
     public function selectObjectsNotInFuncionarioUser() {
         $this->query = "SELECT ";
         $this->query .= "* ";
-        $this->query .= "FROM user AS u ";
+        $this->query .= "FROM usuarios AS u ";
         $this->query .= "WHERE ";
-        $this->query .= "u.user_pk_id NOT IN (SELECT fu.fuus_fk_user_pk_id FROM funcionario_user AS fu) AND ";
-        $this->query .= "u.user_pk_id <> 1 AND ";
-        $this->query .= "u.user_status = 1;";
+        $this->query .= "u.id NOT IN (SELECT fu.fuus_fk_id FROM funcionario_user AS fu) AND ";
+        $this->query .= "u.id <> 1 AND ";
+        $this->query .= "u.status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -163,21 +163,21 @@ class DAOUser extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
 
-        $this->query = "UPDATE user SET ";
-        $this->query .= "user_name=:user_name, ";
-        $this->query .= "user_login=:user_login, ";
-        $this->query .= "user_fk_authority_pk_id=:user_fk_authority_pk_id ";
-        $this->query .= "WHERE user_pk_id=:user_pk_id;";
+        $this->query = "UPDATE usuarios SET ";
+        $this->query .= "nome=:nome, ";
+        $this->query .= "login=:login, ";
+       // $this->query .= "user_fk_authority_pk_id=:user_fk_authority_pk_id ";
+        $this->query .= "WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':user_name', $user->user_name, PDO::PARAM_STR);
-        $this->statement->bindParam(':user_login', $user->user_login, PDO::PARAM_STR);
-        $this->statement->bindParam(':user_fk_authority_pk_id', $user->user_fk_authority_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':user_pk_id', $user->user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':nome', $user->nome, PDO::PARAM_STR);
+        $this->statement->bindParam(':login', $user->login, PDO::PARAM_STR);
+        //$this->statement->bindParam(':user_fk_authority_pk_id', $user->user_fk_authority_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':id', $user->id, PDO::PARAM_INT);
         $this->statement->execute();
 
         return true;
@@ -188,21 +188,21 @@ class DAOUser extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
 
-        $this->query = "UPDATE user SET ";
-        $this->query .= "user_name=:user_name, ";
-        $this->query .= "user_password=:user_password, ";
-        $this->query .= "user_image=:user_image ";
-        $this->query .= "WHERE user_pk_id=:user_pk_id;";
+        $this->query = "UPDATE usuarios SET ";
+        $this->query .= "nome=:nome, ";
+        $this->query .= "senha=:senha, ";
+        $this->query .= "imagem=:imagem ";
+        $this->query .= "WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':user_name', $user->user_name, PDO::PARAM_STR);
-        $this->statement->bindParam(':user_password', $user->user_password, PDO::PARAM_STR);
-        $this->statement->bindParam(':user_image', $user->user_image, PDO::PARAM_STR);
-        $this->statement->bindParam(':user_pk_id', $user->user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':nome', $user->nome, PDO::PARAM_STR);
+        $this->statement->bindParam(':senha', $user->senha, PDO::PARAM_STR);
+        $this->statement->bindParam(':imagem', $user->imagem, PDO::PARAM_STR);
+        $this->statement->bindParam(':id', $user->id, PDO::PARAM_INT);
         $this->statement->execute();
 
         return true;
@@ -212,17 +212,17 @@ class DAOUser extends GenericDAO {
         if (!is_object($user)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE user SET ";
-        $this->query .= "user_password=:user_password ";
-        $this->query .= "WHERE user_pk_id=:user_pk_id;";
+        $this->query = "UPDATE usuarios SET ";
+        $this->query .= "senha=:senha ";
+        $this->query .= "WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':user_password', $user->user_password, PDO::PARAM_STR);
-        $this->statement->bindParam(':user_pk_id', $user->user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':senha', $user->senha, PDO::PARAM_STR);
+        $this->statement->bindParam(':id', $user->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
@@ -231,17 +231,17 @@ class DAOUser extends GenericDAO {
         if (!is_object($user)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE user SET ";
-        $this->query .= "user_status=:user_status ";
-        $this->query .= "WHERE user_pk_id=:user_pk_id;";
+        $this->query = "UPDATE usuarios SET ";
+        $this->query .= "status=:status ";
+        $this->query .= "WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':user_status', $user->user_status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':user_pk_id', $user->user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':status', $user->status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':id', $user->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
@@ -250,17 +250,17 @@ class DAOUser extends GenericDAO {
         if (!is_object($user)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE user SET ";
-        $this->query .= "user_last_login=:user_last_login ";
-        $this->query .= "WHERE user_pk_id=:user_pk_id;";
+        $this->query = "UPDATE usuarios SET ";
+        $this->query .= "ultimo_acesso=:ultimo_acesso ";
+        $this->query .= "WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':user_last_login', $user->user_last_login, PDO::PARAM_STR);
-        $this->statement->bindParam(':user_pk_id', $user->user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':ultimo_acesso', $user->ultimo_acesso, PDO::PARAM_STR);
+        $this->statement->bindParam(':id', $user->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }

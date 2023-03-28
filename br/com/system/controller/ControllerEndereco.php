@@ -148,7 +148,7 @@ class ControllerEndereco {
             $ende_cidade = strip_tags($_POST['ende_cidade']);
             $ende_fk_estado_pk_id = strip_tags($_POST['ende_fk_estado_pk_id']);
             global $user_logged;
-            $ende_fk_user_pk_id = $user_logged->user_pk_id;
+            $ende_fk_id = $user_logged->id;
             $ende_status = true;
 
             $endereco = new ModelEndereco();
@@ -158,7 +158,7 @@ class ControllerEndereco {
             $endereco->ende_cep = $ende_cep;
             $endereco->ende_cidade = $ende_cidade;
             $endereco->ende_fk_estado_pk_id = $ende_fk_estado_pk_id;
-            $endereco->ende_fk_user_pk_id = $ende_fk_user_pk_id;
+            $endereco->ende_fk_id = $ende_fk_id;
             $endereco->ende_status = $ende_status;
             try {
                 $daoEndereco = new DAOEndereco();
@@ -185,7 +185,7 @@ class ControllerEndereco {
                 $ende_cidade = strip_tags($_POST['ende_cidade']);
                 $ende_fk_estado_pk_id = strip_tags($_POST['ende_fk_estado_pk_id']);
                 global $user_logged;
-                $ende_fk_user_pk_id = $user_logged->user_pk_id;
+                $ende_fk_id = $user_logged->id;
 
                 $endereco = new ModelEndereco();
                 $endereco->ende_pk_id = $ende_pk_id;
@@ -195,7 +195,7 @@ class ControllerEndereco {
                 $endereco->ende_cep = $ende_cep;
                 $endereco->ende_cidade = $ende_cidade;
                 $endereco->ende_fk_estado_pk_id = $ende_fk_estado_pk_id;
-                $endereco->ende_fk_user_pk_id = $ende_fk_user_pk_id;
+                $endereco->ende_fk_id = $ende_fk_id;
 
                 try {
                     $this->daoEndereco->update($endereco);

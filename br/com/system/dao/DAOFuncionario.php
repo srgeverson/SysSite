@@ -28,9 +28,9 @@ class DAOFuncionario extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO funcionario ";
-        $this->query .= "(func_nome, func_cpf, func_rg, func_pis, func_data_nascimento, func_status, func_fk_contact_pk_id, func_fk_endereco_pk_id, func_fk_user_pk_id) ";
+        $this->query .= "(func_nome, func_cpf, func_rg, func_pis, func_data_nascimento, func_status, func_fk_contact_pk_id, func_fk_endereco_pk_id, func_fk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:func_nome, :func_cpf, :func_rg, :func_pis, :func_data_nascimento, :func_status, :func_fk_contact_pk_id, :func_fk_endereco_pk_id, :func_fk_user_pk_id);";
+        $this->query .= "(:func_nome, :func_cpf, :func_rg, :func_pis, :func_data_nascimento, :func_status, :func_fk_contact_pk_id, :func_fk_endereco_pk_id, :func_fk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -44,7 +44,7 @@ class DAOFuncionario extends GenericDAO {
         $this->statement->bindParam(':func_data_nascimento', $funcionario->func_data_nascimento, PDO::PARAM_STR);
         $this->statement->bindParam(':func_fk_contact_pk_id', $funcionario->func_fk_contact_pk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':func_fk_endereco_pk_id', $funcionario->func_fk_endereco_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':func_fk_user_pk_id', $funcionario->func_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':func_fk_id', $funcionario->func_fk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':func_status', $funcionario->func_status, PDO::PARAM_BOOL);
         $this->statement->execute();
         return true;
@@ -55,9 +55,9 @@ class DAOFuncionario extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO funcionario ";
-        $this->query .= "(func_nome, func_cpf, func_rg, func_pis, func_data_nascimento, func_status, func_fk_contact_pk_id, func_fk_endereco_pk_id, func_fk_user_pk_id) ";
+        $this->query .= "(func_nome, func_cpf, func_rg, func_pis, func_data_nascimento, func_status, func_fk_contact_pk_id, func_fk_endereco_pk_id, func_fk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:func_nome, :func_cpf, :func_rg, :func_pis, :func_data_nascimento, :func_status, :func_fk_contact_pk_id, :func_fk_endereco_pk_id, :func_fk_user_pk_id);";
+        $this->query .= "(:func_nome, :func_cpf, :func_rg, :func_pis, :func_data_nascimento, :func_status, :func_fk_contact_pk_id, :func_fk_endereco_pk_id, :func_fk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -71,7 +71,7 @@ class DAOFuncionario extends GenericDAO {
         $this->statement->bindParam(':func_data_nascimento', $funcionario->func_data_nascimento, PDO::PARAM_STR);
         $this->statement->bindParam(':func_fk_contact_pk_id', $funcionario->func_fk_contact_pk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':func_fk_endereco_pk_id', $funcionario->func_fk_endereco_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':func_fk_user_pk_id', $funcionario->func_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':func_fk_id', $funcionario->func_fk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':func_status', $funcionario->func_status, PDO::PARAM_BOOL);
         $this->statement->execute();
         return $conexao->lastInsertId();
@@ -84,7 +84,7 @@ class DAOFuncionario extends GenericDAO {
         $this->query .= "INNER JOIN endereco AS e ON (f.func_fk_endereco_pk_id=e.ende_pk_id) ";
         $this->query .= "INNER JOIN contact AS c ON (f.func_fk_contact_pk_id=c.cont_pk_id) ";
         $this->query .= "INNER JOIN funcionario_user AS fu ON (f.func_pk_id=fu.fuus_fk_funcionario_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (fu.fuus_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (fu.fuus_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "f.func_pk_id=:func_pk_id LIMIT 1;";
         
@@ -105,7 +105,7 @@ class DAOFuncionario extends GenericDAO {
         $this->query .= "FROM funcionario AS f ";
         $this->query .= "INNER JOIN endereco AS e ON (f.func_fk_endereco_pk_id=e.ende_pk_id) ";
         $this->query .= "INNER JOIN contact AS c ON (f.func_fk_contact_pk_id=c.cont_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (f.func_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (f.func_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "f.func_nome LIKE '%$funcionario->func_nome%' AND ";
         $this->query .= "f.func_cpf LIKE '%$funcionario->func_cpf%' AND ";
@@ -125,7 +125,7 @@ class DAOFuncionario extends GenericDAO {
         $this->query .= "* ";
         $this->query .= "FROM funcionario AS f ";
         $this->query .= "INNER JOIN contact AS c ON (f.func_fk_contact_pk_id=c.cont_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (f.func_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (f.func_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "f.func_status = 1;";
         try {
@@ -148,7 +148,7 @@ class DAOFuncionario extends GenericDAO {
         $this->query .= "func_rg=:func_rg, ";
         $this->query .= "func_pis=:func_pis, ";
         $this->query .= "func_data_nascimento=:func_data_nascimento, ";
-        $this->query .= "func_fk_user_pk_id=:func_fk_user_pk_id ";
+        $this->query .= "func_fk_id=:func_fk_id ";
         $this->query .= " WHERE func_pk_id=:func_pk_id;";
         try {
             $conexao = $this->getInstance();
@@ -161,7 +161,7 @@ class DAOFuncionario extends GenericDAO {
         $this->statement->bindParam(':func_rg', $funcionario->func_rg, PDO::PARAM_STR);
         $this->statement->bindParam(':func_pis', $funcionario->func_pis, PDO::PARAM_STR);
         $this->statement->bindParam(':func_data_nascimento', $funcionario->func_data_nascimento, PDO::PARAM_STR);
-        $this->statement->bindParam(':func_fk_user_pk_id', $funcionario->func_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':func_fk_id', $funcionario->func_fk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':func_pk_id', $funcionario->func_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;

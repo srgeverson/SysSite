@@ -245,7 +245,7 @@ class ControllerContent {
                     $this->info = 'warning=content_uninformed';
                 }
                 global $user_logged;
-                $content_fk_user_pk_id = $user_logged->user_pk_id;
+                $content_fk_id = $user_logged->id;
 
                 try {
                     if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
@@ -257,7 +257,7 @@ class ControllerContent {
                             $content->conte_image = $conte_image;
                             $content->conte_link = $conte_link;
                             $content->conte_text = $conte_text;
-                            $content->conte_fk_user_pk_id = $content_fk_user_pk_id;
+                            $content->conte_fk_id = $content_fk_id;
                             $content->conte_fk_page_pk_id = $conte_fk_page_pk_id;
                             $this->daoContent->save($content);
                             $this->info = "success=content_created";
@@ -294,7 +294,7 @@ class ControllerContent {
                     $this->info = 'warning=content_uninformed';
                 }
                 global $user_logged;
-                $content_fk_user_pk_id = $user_logged->user_pk_id;
+                $content_fk_id = $user_logged->id;
 
                 try {
                     if ($conte_pk_id == null) {
@@ -311,7 +311,7 @@ class ControllerContent {
                                 $content->conte_image = $conte_image;
                                 $content->conte_link = $conte_link;
                                 $content->conte_text = $conte_text;
-                                $content->conte_fk_user_pk_id = $content_fk_user_pk_id;
+                                $content->conte_fk_id = $content_fk_id;
                                 $content->conte_fk_page_pk_id = $conte_fk_page_pk_id;
                                 $this->daoContent->update($content);
                                 $this->info = 'success=content_updated';
@@ -348,7 +348,7 @@ class ControllerContent {
                 $this->info = 'warning=content_uninformed';
             } else {
                 global $user_logged;
-                $content_fk_user_pk_id = $user_logged->user_pk_id;
+                $content_fk_id = $user_logged->id;
                 try {
                     if ($conte_pk_id == null) {
                         $this->info = 'warning=content_not_exists';
@@ -363,7 +363,7 @@ class ControllerContent {
                                 $content->conte_image = $conte_image;
                                 $content->conte_link = $conte_link;
                                 $content->conte_text = $conte_text;
-                                $content->conte_fk_user_pk_id = $content_fk_user_pk_id;
+                                $content->conte_fk_id = $content_fk_id;
                                 $content->conte_fk_page_pk_id = $conte_fk_page_pk_id;
                                 $this->daoContent->update($content);
                                 $this->info = 'success=content_updated';

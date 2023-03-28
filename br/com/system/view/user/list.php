@@ -16,13 +16,13 @@
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">Nome</span>
-                        <input class="form-control" type="text" name="user_name">
+                        <input class="form-control" type="text" name="nome">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">E-mail</span>
-                        <input class="form-control" type="text" name="user_login">
+                        <input class="form-control" type="text" name="login">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
@@ -82,29 +82,29 @@
                 echo '<tbody>';
                 foreach ($users as $each_user) {
                     echo '<tr>';
-                    echo '<td>', $each_user->user_pk_id, '</td>';
-                    echo '<td>', $each_user->user_name, '</td>';
-                    echo '<td>', $each_user->user_login, '</td>';
+                    echo '<td>', $each_user->id, '</td>';
+                    echo '<td>', $each_user->nome, '</td>';
+                    echo '<td>', $each_user->login, '</td>';
                     echo '<td>', $each_user->auth_description, '</td>';
                     echo '<td>';
-                    if ($each_user->user_status == true) {
-                        echo '<a title="Desabilitar dados!" href="', server_url('?page=ControllerUser&option=disable&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                    if ($each_user->status == true) {
+                        echo '<a title="Desabilitar dados!" href="', server_url('?page=ControllerUser&option=disable&id=' . $each_user->id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
                     } else {
-                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerUser&option=edit&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerUser&option=edit&id=' . $each_user->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                         echo '<i class="fas fa-edit"></i>';
                         echo '</a>';
-                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerUser&option=enable&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerUser&option=enable&id=' . $each_user->id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
                         if ($permissao == 1) {
-                            echo '<a title="Excluir dados!" href="', server_url('?page=ControllerUser&option=delete&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                            echo '<a title="Excluir dados!" href="', server_url('?page=ControllerUser&option=delete&id=' . $each_user->id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                             echo '<i class="fas fa-trash"></i>';
                             echo '</a>';
                         }
                     }
-                    echo '<a title="Gerar Nova Senha!" href="', server_url('?page=ControllerUser&option=reset&user_pk_id=' . $each_user->user_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                    echo '<a title="Gerar Nova Senha!" href="', server_url('?page=ControllerUser&option=reset&id=' . $each_user->id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                     echo '<i class="fas fa-key"></i>';
                     echo '</a>';
                     echo '</td>';

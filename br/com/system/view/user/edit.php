@@ -15,15 +15,15 @@
                 <h4 class="card-header text-primary">Alterar Usuário</h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <input class="form-control" name="user_pk_id" type="hidden" value="<?php echo $user->user_pk_id; ?>">
+                        <input class="form-control" name="id" type="hidden" value="<?php echo $user->id; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Nome:</label><br>
-                        <input class="form-control" name="user_name" type="text" placeholder="Digite um nome..." value="<?php echo $user->user_name; ?>"required>
+                        <input class="form-control" name="nome" type="text" placeholder="Digite um nome..." value="<?php echo $user->nome; ?>"required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">E-mail:</label><br>
-                        <input class="form-control" name="user_login" type="text" placeholder="Digite um email..."  value="<?php echo $user->user_login; ?>" required>
+                        <input class="form-control" name="login" type="text" placeholder="Digite um email..."  value="<?php echo $user->login; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Permissão:</label><br>

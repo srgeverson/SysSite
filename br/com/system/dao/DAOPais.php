@@ -28,9 +28,9 @@ class DAOPais extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO pais ";
-        $this->query .= "(pais_nome, pais_status, pais_sigla, pais_fk_user_pk_id) ";
+        $this->query .= "(pais_nome, pais_status, pais_sigla, pais_fk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:pais_nome, :pais_status, :pais_sigla, :pais_fk_user_pk_id);";
+        $this->query .= "(:pais_nome, :pais_status, :pais_sigla, :pais_fk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -40,7 +40,7 @@ class DAOPais extends GenericDAO {
         $this->statement->bindParam(':pais_nome', $pais->pais_nome, PDO::PARAM_STR);
         $this->statement->bindParam(':pais_status', $pais->pais_status, PDO::PARAM_BOOL);
         $this->statement->bindParam(':pais_sigla', $pais->pais_sigla, PDO::PARAM_STR);
-        $this->statement->bindParam(':pais_fk_user_pk_id', $pais->pais_fk_user_pk_id, PDO::PARAM_STR);
+        $this->statement->bindParam(':pais_fk_id', $pais->pais_fk_id, PDO::PARAM_STR);
         $this->statement->execute();
         return true;
     }
@@ -60,9 +60,9 @@ class DAOPais extends GenericDAO {
 
     public function selectObjectsByContainsObject(ModelPais $pais = null) {
         $this->query = "SELECT ";
-        $this->query .= "p.*, u.user_pk_id, u.user_name ";
+        $this->query .= "p.*, u.id, u.nome ";
         $this->query .= "FROM pais AS p ";
-        $this->query .= "INNER JOIN user AS u ON (p.pais_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (p.pais_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "p.pais_nome LIKE '%$pais->pais_nome%';";
         try {
@@ -94,7 +94,7 @@ class DAOPais extends GenericDAO {
         $this->query = "UPDATE pais SET ";
         $this->query .= "pais_nome=:pais_nome, ";
         $this->query .= "pais_sigla=:pais_sigla, ";
-        $this->query .= "pais_fk_user_pk_id=:pais_fk_user_pk_id ";
+        $this->query .= "pais_fk_id=:pais_fk_id ";
         $this->query .= " WHERE pais_pk_id=:pais_pk_id;";
         try {
             $conexao = $this->getInstance();
@@ -104,7 +104,7 @@ class DAOPais extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':pais_nome', $pais->pais_nome, PDO::PARAM_STR);
         $this->statement->bindParam(':pais_sigla', $pais->pais_sigla, PDO::PARAM_STR);
-        $this->statement->bindParam(':pais_fk_user_pk_id', $pais->pais_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':pais_fk_id', $pais->pais_fk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':pais_pk_id', $pais->pais_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;

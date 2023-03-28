@@ -62,9 +62,9 @@ class DAOMenu extends GenericDAO {
 
     public function selectObjectsByContainsObject(ModelMenu $menus = null) {
         $this->query = "SELECT ";
-        $this->query .= "m.*, u.user_pk_id, u.user_name ";
+        $this->query .= "m.*, u.id, u.nome ";
         $this->query .= "FROM menus AS m  ";
-        $this->query .= "INNER JOIN user AS u ON (m.sistema_id = u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (m.sistema_id = u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "m.nome LIKE '%$menu->nome%' AND ";
         $this->query .= "m.descricao LIKE '%$menu->descricao%';";

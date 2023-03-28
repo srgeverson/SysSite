@@ -8,7 +8,7 @@ include_once server_path("br/com/system/controller/ControllerFolhaPagamento.php"
 include_once server_path("br/com/system/controller/ControllerFuncionarioUser.php");
 $controllerFuncionarioUser = new ControllerFuncionarioUser();
 global $user_logged;
-$funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->user_pk_id);
+$funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->id);
 ?>
 <div class="card shadow mb-4">
     <div class="card-header py-3">

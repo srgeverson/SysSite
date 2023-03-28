@@ -254,14 +254,14 @@ class ControllerPage {
             $page_label = strip_tags($_POST['page_label']);
             $page_status = false;
             global $user_logged;
-            $page_fk_user_pk_id = $user_logged->user_pk_id;
+            $page_fk_id = $user_logged->id;
             $page = new ModelPage();
             $page->page_name = $page_name;
             $page->page_description = $page_description;
             $page->page_icon = $page_icon;
             $page->page_label = $page_label;
             $page->page_status = $page_status;
-            $page->page_fk_user_pk_id = $page_fk_user_pk_id;
+            $page->page_fk_id = $page_fk_id;
 
             try {
                 if (!isset($this->daoPage->selectObjectByObject($page)->page_name)) {
@@ -289,7 +289,7 @@ class ControllerPage {
                 $page_icon = strip_tags($_POST['page_icon']);
                 $page_label = strip_tags($_POST['page_label']);
                 global $user_logged;
-                $page_fk_user_pk_id = $user_logged->user_pk_id;
+                $page_fk_id = $user_logged->id;
 
                 $page = new ModelPage();
                 $page->page_pk_id = $page_pk_id;
@@ -297,7 +297,7 @@ class ControllerPage {
                 $page->page_description = $page_description;
                 $page->page_icon = $page_icon;
                 $page->page_label = $page_label;
-                $page->page_fk_user_pk_id = $page_fk_user_pk_id;
+                $page->page_fk_id = $page_fk_id;
 
                 try {
                     $this->daoPage->update($page);

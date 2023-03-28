@@ -162,14 +162,14 @@ class ControllerMenuItem {
             $menuItem_label = strip_tags($_POST['menuItem_label']);
             $menuItem_status = false;
             global $user_logged;
-            $menuItem_fk_user_pk_id = $user_logged->user_pk_id;
+            $menuItem_fk_id = $user_logged->id;
             $menuItem = new ModelMenuItem();
             $menuItem->menuItem_name = $menuItem_name;
             $menuItem->menuItem_description = $menuItem_description;
             $menuItem->menuItem_icon = $menuItem_icon;
             $menuItem->menuItem_label = $menuItem_label;
             $menuItem->menuItem_status = $menuItem_status;
-            $menuItem->menuItem_fk_user_pk_id = $menuItem_fk_user_pk_id;
+            $menuItem->menuItem_fk_id = $menuItem_fk_id;
 
             try {
                 if (!isset($this->daoMenuItem->selectObjectByObject($menuItem)->menuItem_name)) {
@@ -197,7 +197,7 @@ class ControllerMenuItem {
                 $menuItem_icon = strip_tags($_POST['menuItem_icon']);
                 $menuItem_label = strip_tags($_POST['menuItem_label']);
                 global $user_logged;
-                $menuItem_fk_user_pk_id = $user_logged->user_pk_id;
+                $menuItem_fk_id = $user_logged->id;
 
                 $menuItem = new ModelMenuItem();
                 $menuItem->menuItem_pk_id = $menuItem_pk_id;
@@ -205,7 +205,7 @@ class ControllerMenuItem {
                 $menuItem->menuItem_description = $menuItem_description;
                 $menuItem->menuItem_icon = $menuItem_icon;
                 $menuItem->menuItem_label = $menuItem_label;
-                $menuItem->menuItem_fk_user_pk_id = $menuItem_fk_user_pk_id;
+                $menuItem->menuItem_fk_id = $menuItem_fk_id;
 
                 try {
                     $this->daoMenuItem->update($menuItem);

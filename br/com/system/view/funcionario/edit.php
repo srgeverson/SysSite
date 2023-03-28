@@ -17,7 +17,7 @@ global $user_logged;
         <form action="
         <?php
         global $user_logged;
-        echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerFuncionario&option=update&user_fk_authority_pk_id=' . $user_logged->user_pk_id : '?page=ControllerFuncionario&option=update&user_fk_authority_pk_id=' . 0);
+        echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerFuncionario&option=update&user_fk_authority_pk_id=' . $user_logged->id : '?page=ControllerFuncionario&option=update&user_fk_authority_pk_id=' . 0);
         ?>" method="post">
             <nav>
                 <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
@@ -57,10 +57,10 @@ global $user_logged;
                                 <?php
                                 if ($user_logged->user_fk_authority_pk_id != 3) {
                                     echo '<label class="text-primary">Usuário:</label><br>';
-                                    echo '<select id="mySelect" name="user_pk_id" class="selectpicker form-control" data-live-search="true" required>';
-                                    echo '<option value="', $funcionario->user_pk_id, '">', $funcionario->user_login, '</option>';
+                                    echo '<select id="mySelect" name="id" class="selectpicker form-control" data-live-search="true" required>';
+                                    echo '<option value="', $funcionario->id, '">', $funcionario->login, '</option>';
                                     foreach ($users as $each_user) {
-                                        echo '<option value="', $each_user->user_pk_id, '">', $each_user->user_login, '</option>';
+                                        echo '<option value="', $each_user->id, '">', $each_user->login, '</option>';
                                     }
                                     echo '</select>';
                                 }

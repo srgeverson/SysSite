@@ -28,9 +28,9 @@ class DAOParameter extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO parameter ";
-        $this->query .= "(para_key, para_value, para_description, para_status, para_fk_user_pk_id) ";
+        $this->query .= "(para_key, para_value, para_description, para_status, para_fk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:para_key, :para_value, :para_description, :para_status, :para_fk_user_pk_id);";
+        $this->query .= "(:para_key, :para_value, :para_description, :para_status, :para_fk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -41,7 +41,7 @@ class DAOParameter extends GenericDAO {
         $this->statement->bindParam(':para_value', $parameter->para_value, PDO::PARAM_STR);
         $this->statement->bindParam(':para_description', $parameter->para_description, PDO::PARAM_STR);
         $this->statement->bindParam(':para_status', $parameter->para_status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':para_fk_user_pk_id', $parameter->para_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':para_fk_id', $parameter->para_fk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }

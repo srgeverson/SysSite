@@ -154,14 +154,14 @@ class ControllerEstado {
             $esta_status = true;
             $esta_fk_pais_pk_id = strip_tags($_POST['esta_fk_pais_pk_id']);
             global $user_logged;
-            $esta_fk_user_pk_id = $user_logged->user_pk_id;
+            $esta_fk_id = $user_logged->id;
 
             $estado = new ModelEstado();
             $estado->esta_nome = $esta_nome;
             $estado->esta_sigla = $esta_sigla;
             $estado->esta_status = $esta_status;
             $estado->esta_fk_pais_pk_id = $esta_fk_pais_pk_id;
-            $estado->esta_fk_user_pk_id = $esta_fk_user_pk_id;
+            $estado->esta_fk_id = $esta_fk_id;
             try {
                 $this->daoEstado->save($estado);
                 $this->info = "success=estado_created";
@@ -183,14 +183,14 @@ class ControllerEstado {
                 $esta_sigla = strip_tags($_POST['esta_sigla']);
                 $esta_fk_pais_pk_id = strip_tags($_POST['esta_fk_pais_pk_id']);
                 global $user_logged;
-                $esta_fk_user_pk_id = $user_logged->user_pk_id;
+                $esta_fk_id = $user_logged->id;
 
                 $estado = new ModelEstado();
                 $estado->esta_pk_id = $esta_pk_id;
                 $estado->esta_nome = $esta_nome;
                 $estado->esta_sigla = $esta_sigla;
                 $estado->esta_fk_pais_pk_id = $esta_fk_pais_pk_id;
-                $estado->esta_fk_user_pk_id = $esta_fk_user_pk_id;
+                $estado->esta_fk_id = $esta_fk_id;
 
                 try {
                     $this->daoEstado->update($estado);

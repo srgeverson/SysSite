@@ -190,11 +190,11 @@ class ControllerFuncionario {
 
             global $user_logged;
 
-            $user_pk_id = null;
-            if (isset($_POST['user_pk_id'])) {
-                $user_pk_id = strip_tags($_POST['user_pk_id']);
+            $id = null;
+            if (isset($_POST['id'])) {
+                $id = strip_tags($_POST['id']);
             } else {
-                $user_pk_id = $user_logged->user_pk_id;
+                $id = $user_logged->id;
             }
 
             //Contato
@@ -218,7 +218,7 @@ class ControllerFuncionario {
             $contact->cont_instagram = $cont_instagram;
             $contact->cont_text = $cont_text;
             $contact->cont_status = $cont_status;
-            $contact->cont_fk_user_pk_id = $user_logged->user_pk_id;
+            $contact->cont_fk_id = $user_logged->id;
 
 
             //Endereço
@@ -228,7 +228,7 @@ class ControllerFuncionario {
             $ende_cep = strip_tags($_POST['ende_cep']);
             $ende_cidade = strip_tags($_POST['ende_cidade']);
             $ende_fk_estado_pk_id = strip_tags($_POST['ende_fk_estado_pk_id']);
-            $ende_fk_user_pk_id = $user_logged->user_pk_id;
+            $ende_fk_id = $user_logged->id;
             $ende_status = true;
 
             $endereco = new ModelEndereco();
@@ -238,7 +238,7 @@ class ControllerFuncionario {
             $endereco->ende_cep = $ende_cep;
             $endereco->ende_cidade = $ende_cidade;
             $endereco->ende_fk_estado_pk_id = $ende_fk_estado_pk_id;
-            $endereco->ende_fk_user_pk_id = $ende_fk_user_pk_id;
+            $endereco->ende_fk_id = $ende_fk_id;
             $endereco->ende_status = $ende_status;
 
             //DAOs
@@ -261,7 +261,7 @@ class ControllerFuncionario {
             } catch (Exception $erro) {
                 $this->info = "error=Endereço: " . $erro->getMessage();
             }
-            $func_fk_user_pk_id = $user_logged->user_pk_id;
+            $func_fk_id = $user_logged->id;
             $func_status = true;
 
             $funcionario = new ModelFuncionario();
@@ -272,7 +272,7 @@ class ControllerFuncionario {
             $funcionario->func_data_nascimento = $func_data_nascimento;
             $funcionario->func_fk_contact_pk_id = $func_fk_contact_pk_id;
             $funcionario->func_fk_endereco_pk_id = $func_fk_endereco_pk_id;
-            $funcionario->func_fk_user_pk_id = $func_fk_user_pk_id;
+            $funcionario->func_fk_id = $func_fk_id;
             $funcionario->func_status = $func_status;
 
             try {
@@ -280,7 +280,7 @@ class ControllerFuncionario {
 
                 $funcionarioUser = new ModelFuncionarioUser();
                 $funcionarioUser->fuus_fk_funcionario_pk_id = $func_pk_id;
-                $funcionarioUser->fuus_fk_user_pk_id = $user_pk_id;
+                $funcionarioUser->fuus_fk_id = $id;
                 $funcionarioUser->fuus_status = true;
 
                 $controllerFunconarioUser = new ControllerFuncionarioUser();
@@ -333,7 +333,7 @@ class ControllerFuncionario {
                     $contact->cont_instagram = $cont_instagram;
                     $contact->cont_text = $cont_text;
                     $contact->cont_status = $cont_status;
-                    $contact->cont_fk_user_pk_id = $user_logged->user_pk_id;
+                    $contact->cont_fk_id = $user_logged->id;
 
 
                     //Endereço
@@ -344,7 +344,7 @@ class ControllerFuncionario {
                     $ende_cep = strip_tags($_POST['ende_cep']);
                     $ende_cidade = strip_tags($_POST['ende_cidade']);
                     $ende_fk_estado_pk_id = strip_tags($_POST['ende_fk_estado_pk_id']);
-                    $ende_fk_user_pk_id = $user_logged->user_pk_id;
+                    $ende_fk_id = $user_logged->id;
                     $ende_status = true;
 
                     $endereco = new ModelEndereco();
@@ -355,7 +355,7 @@ class ControllerFuncionario {
                     $endereco->ende_cep = $ende_cep;
                     $endereco->ende_cidade = $ende_cidade;
                     $endereco->ende_fk_estado_pk_id = $ende_fk_estado_pk_id;
-                    $endereco->ende_fk_user_pk_id = $ende_fk_user_pk_id;
+                    $endereco->ende_fk_id = $ende_fk_id;
                     $endereco->ende_status = $ende_status;
 
                     //DAOs
@@ -369,7 +369,7 @@ class ControllerFuncionario {
                     $func_rg = strip_tags($_POST['func_rg']);
                     $func_pis = strip_tags($_POST['func_pis']);
                     $func_data_nascimento = strip_tags($_POST['func_data_nascimento']);
-                    $func_fk_user_pk_id = $user_logged->user_pk_id;
+                    $func_fk_id = $user_logged->id;
                     $func_status = true;
 
                     $funcionario = new ModelFuncionario();
@@ -379,22 +379,22 @@ class ControllerFuncionario {
                     $funcionario->func_rg = $func_rg;
                     $funcionario->func_pis = $func_pis;
                     $funcionario->func_data_nascimento = $func_data_nascimento;
-                    $funcionario->func_fk_user_pk_id = $func_fk_user_pk_id;
+                    $funcionario->func_fk_id = $func_fk_id;
                     $funcionario->func_status = $func_status;
 
                     //Funcionário Usuário
-                    $user_pk_id = null;
-                    if (isset($_POST['user_pk_id'])) {
-                        $user_pk_id = strip_tags($_POST['user_pk_id']);
+                    $id = null;
+                    if (isset($_POST['id'])) {
+                        $id = strip_tags($_POST['id']);
                     } else {
-                        $user_pk_id = $user_logged->user_pk_id;
+                        $id = $user_logged->id;
                     }
 
                     $controllerFunconarioUser = new ControllerFuncionarioUser();
                     $objetoFuncionarioUser = $controllerFunconarioUser->searchByFkFucionario($func_pk_id);
                     $funcionarioUser = new ModelFuncionarioUser();
                     $funcionarioUser->fuus_pk_id = $objetoFuncionarioUser->fuus_pk_id;
-                    $funcionarioUser->fuus_fk_user_pk_id = $user_pk_id;
+                    $funcionarioUser->fuus_fk_id = $id;
                     $funcionarioUser->fuus_fk_funcionario_pk_id = $func_pk_id;
 
                     //Tratando exceção do contato

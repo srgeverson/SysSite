@@ -15,27 +15,27 @@
                 <h4 class="card-header text-primary">Perfil do Usuário</h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <input class="form-control" name="user_pk_id" type="hidden" value="<?php echo $user->user_pk_id; ?>">
+                        <input class="form-control" name="id" type="hidden" value="<?php echo $user->id; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Nome:</label><br>
-                        <input class="form-control" name="user_name" type="text" placeholder="Digite seu nome..." value="<?php echo $user->user_name; ?>" required>
+                        <input class="form-control" name="nome" type="text" placeholder="Digite seu nome..." value="<?php echo $user->nome; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Email de Acesso:</label><br>
-                        <input class="form-control" name="user_login" type="email" placeholder="Digite seu email..." value="<?php echo $user->user_login; ?>" disabled>
+                        <input class="form-control" name="login" type="email" placeholder="Digite seu email..." value="<?php echo $user->login; ?>" disabled>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Senha:</label><br>
-                        <input class="form-control" id="senha" name="user_password" placeholder="Digite sua senha..." type="password" required>
+                        <input class="form-control" id="senha" name="senha" placeholder="Digite sua senha..." type="password" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Confirmar Senha:</label><br>
-                        <input class="form-control" id="confirma_senha" name="user_password" placeholder="Confirm sua senha..." type="password" required>
+                        <input class="form-control" id="confirma_senha" name="senha" placeholder="Confirm sua senha..." type="password" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Foto Perfil:</label><br>
-                        <input accept="image/*" class="form-control-file" name="user_image" placeholder="Imagem do perfil..." type="file">
+                        <input accept="image/*" class="form-control-file" name="imagem" placeholder="Imagem do perfil..." type="file">
                     </div>
                 </div>
                 <div class="card-footer">

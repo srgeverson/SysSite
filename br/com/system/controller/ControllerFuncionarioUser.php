@@ -191,11 +191,11 @@ class ControllerFuncionarioUser {
         }
     }
 
-    public function searchByFkUser($user_pk_id = 0) {
+    public function searchByFkUser($id = 0) {
         if (HelperController::authotity()) {
             $funcionarioUser = null;
             try {
-                $funcionarioUser = $this->daoFuncionarioUser->selectObjectByFkUser($user_pk_id);
+                $funcionarioUser = $this->daoFuncionarioUser->selectObjectByFkUser($id);
                 if (!isset($funcionarioUser)) {
                     $this->info = 'warning=funcionario_not_exists';
                 }

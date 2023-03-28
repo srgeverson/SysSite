@@ -10,7 +10,7 @@
     <hr>
     <p>
         <?php
-        echo 'Olá <b>' . $user->user_name .
+        echo 'Olá <b>' . $user->nome .
         '</b> em breve você receberá um email com sua senha provisória, recomendamos que no seu primeiro acesso troque sua senha.';
         ?>
     </p>

@@ -16,11 +16,11 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary" for="username">Usuário:</label><br>
-                        <input class="form-control" id="username" name="user_login" type="email" placeholder="Digite seu email..." required>
+                        <input class="form-control" id="username" name="login" type="email" placeholder="Digite seu email..." required>
                     </div>
                     <div class="form-group">
                         <label for="password" class="text-primary">Senha:</label><br>
-                        <input class="form-control" id="password" name="user_password" placeholder="Digite sua senha..." type="password" required>
+                        <input class="form-control" id="password" name="senha" placeholder="Digite sua senha..." type="password" required>
                     </div>
                 </div>
                 <div class="card-footer">

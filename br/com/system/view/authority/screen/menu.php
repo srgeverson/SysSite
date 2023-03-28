@@ -24,7 +24,7 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
                     echo '<img class="img-profile rounded-circle" style="width: 30px; height: 30px" src="' . server_url('br/com/system/uploads/user/not_found.png') . '">';
             } else if($each_menu->nome == 'Contra-cheque' /*&& $each_menu->id == 5*/){
                 $controllerFuncionarioUser = new ControllerFuncionarioUser();
-                $funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->user_pk_id);
+                $funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->id);
                 if (isset($funcionario)) {
                     $controllerFolhaPagamento = new ControllerFolhaPagamento();
                     $listaFolhaPagamento = $controllerFolhaPagamento->listEnabledsByFuncionario(isset($funcionario->func_pk_id) ? $funcionario->func_pk_id : 0);
@@ -43,7 +43,8 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
             echo '  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">';
 
             foreach ($each_menu->itens as $each_item) {
-                $url = str_replace('usuario_logado_user_pk_id', $user_logged->user_pk_id, $each_item->url);
+                $url =  null;
+                $url = str_replace('usuario_logado_id', $user_logged->id, $each_item->url);
                 if($each_menu->nome == 'Contra-cheque'/*$each_menu->id == 5 && $each_item->id == 16*/){
                     echo $each_item->id;
                     if (count($listaFolhaPagamento) > 0) {

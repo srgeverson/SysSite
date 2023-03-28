@@ -28,9 +28,9 @@ class DAOPage extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO page ";
-        $this->query .= "(page_name, page_description, page_icon, page_label, page_status, page_fk_user_pk_id) ";
+        $this->query .= "(page_name, page_description, page_icon, page_label, page_status, page_fk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:page_name, :page_description, :page_icon, :page_label, :page_status, :page_fk_user_pk_id);";
+        $this->query .= "(:page_name, :page_description, :page_icon, :page_label, :page_status, :page_fk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -42,7 +42,7 @@ class DAOPage extends GenericDAO {
         $this->statement->bindParam(':page_icon', $page->page_icon, PDO::PARAM_STR);
         $this->statement->bindParam(':page_label', $page->page_label, PDO::PARAM_STR);
         $this->statement->bindParam(':page_status', $page->page_status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':page_fk_user_pk_id', $page->page_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':page_fk_id', $page->page_fk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
@@ -62,9 +62,9 @@ class DAOPage extends GenericDAO {
 
     public function selectObjectsByContainsObject(ModelPage $page = null) {
         $this->query = "SELECT ";
-        $this->query .= "p.*, u.user_pk_id, u.user_name ";
+        $this->query .= "p.*, u.id, u.nome ";
         $this->query .= "FROM page AS p ";
-        $this->query .= "INNER JOIN user AS u ON (p.page_fk_user_pk_id = u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (p.page_fk_id = u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "p.page_name LIKE '%$page->page_name%' AND ";
         $this->query .= "p.page_description LIKE '%$page->page_description%';";
@@ -127,7 +127,7 @@ class DAOPage extends GenericDAO {
         $this->query .= "page_description=:page_description, ";
         $this->query .= "page_icon=:page_icon, ";
         $this->query .= "page_label=:page_label, ";
-        $this->query .= "page_fk_user_pk_id=:page_fk_user_pk_id ";
+        $this->query .= "page_fk_id=:page_fk_id ";
         $this->query .= " WHERE page_pk_id=:page_pk_id;";
         try {
             $conexao = $this->getInstance();
@@ -139,7 +139,7 @@ class DAOPage extends GenericDAO {
         $this->statement->bindParam(':page_description', $page->page_description, PDO::PARAM_STR);
         $this->statement->bindParam(':page_icon', $page->page_icon, PDO::PARAM_STR);
         $this->statement->bindParam(':page_label', $page->page_label, PDO::PARAM_STR);
-        $this->statement->bindParam(':page_fk_user_pk_id', $page->page_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':page_fk_id', $page->page_fk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':page_pk_id', $page->page_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;

@@ -28,9 +28,9 @@ class DAOEndereco extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO endereco ";
-        $this->query .= "(ende_logradouro, ende_numero, ende_bairro, ende_cep, ende_cidade, ende_status, ende_fk_estado_pk_id, ende_fk_user_pk_id) ";
+        $this->query .= "(ende_logradouro, ende_numero, ende_bairro, ende_cep, ende_cidade, ende_status, ende_fk_estado_pk_id, ende_fk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:ende_logradouro, :ende_numero, :ende_bairro, :ende_cep, :ende_cidade, :ende_status, :ende_fk_estado_pk_id, :ende_fk_user_pk_id);";
+        $this->query .= "(:ende_logradouro, :ende_numero, :ende_bairro, :ende_cep, :ende_cidade, :ende_status, :ende_fk_estado_pk_id, :ende_fk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -43,7 +43,7 @@ class DAOEndereco extends GenericDAO {
         $this->statement->bindParam(':ende_cep', $endereco->ende_cep, PDO::PARAM_STR);
         $this->statement->bindParam(':ende_cidade', $endereco->ende_cidade, PDO::PARAM_STR);
         $this->statement->bindParam(':ende_fk_estado_pk_id', $endereco->ende_fk_estado_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':ende_fk_user_pk_id', $endereco->ende_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':ende_fk_id', $endereco->ende_fk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':ende_status', $endereco->ende_status, PDO::PARAM_BOOL);
         $this->statement->execute();
         return true;
@@ -54,9 +54,9 @@ class DAOEndereco extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO endereco ";
-        $this->query .= "(ende_logradouro, ende_numero, ende_bairro, ende_cep, ende_cidade, ende_status, ende_fk_estado_pk_id, ende_fk_user_pk_id) ";
+        $this->query .= "(ende_logradouro, ende_numero, ende_bairro, ende_cep, ende_cidade, ende_status, ende_fk_estado_pk_id, ende_fk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:ende_logradouro, :ende_numero, :ende_bairro, :ende_cep, :ende_cidade, :ende_status, :ende_fk_estado_pk_id, :ende_fk_user_pk_id);";
+        $this->query .= "(:ende_logradouro, :ende_numero, :ende_bairro, :ende_cep, :ende_cidade, :ende_status, :ende_fk_estado_pk_id, :ende_fk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -69,7 +69,7 @@ class DAOEndereco extends GenericDAO {
         $this->statement->bindParam(':ende_cep', $endereco->ende_cep, PDO::PARAM_STR);
         $this->statement->bindParam(':ende_cidade', $endereco->ende_cidade, PDO::PARAM_STR);
         $this->statement->bindParam(':ende_fk_estado_pk_id', $endereco->ende_fk_estado_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':ende_fk_user_pk_id', $endereco->ende_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':ende_fk_id', $endereco->ende_fk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':ende_status', $endereco->ende_status, PDO::PARAM_BOOL);
         $this->statement->execute();
         return $conexao->lastInsertId();
@@ -77,10 +77,10 @@ class DAOEndereco extends GenericDAO {
 
     public function selectObjectById($ende_pk_id = 0) {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.user_pk_id, u.user_name ";
+        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.id, u.nome ";
         $this->query .= "FROM endereco AS e ";
         $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.esta_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (e.ende_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (e.ende_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "ende_pk_id=:ende_pk_id LIMIT 1;";
         try {
@@ -96,10 +96,10 @@ class DAOEndereco extends GenericDAO {
 
     public function selectObjectsByContainsObject(ModelEndereco $endereco = null) {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.user_pk_id, u.user_name ";
+        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.id, u.nome ";
         $this->query .= "FROM endereco AS e ";
         $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.esta_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (e.ende_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (e.ende_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "e.ende_logradouro LIKE '%$endereco->ende_logradouro%' AND ";
         $this->query .= "e.ende_cidade LIKE '%$endereco->ende_cidade%';";
@@ -115,10 +115,10 @@ class DAOEndereco extends GenericDAO {
 
     public function selectObjectsEnabled() {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.user_pk_id, u.user_name ";
+        $this->query .= "e.*, es.esta_pk_id, es.esta_nome, es.esta_sigla, u.id, u.nome ";
         $this->query .= "FROM endereco AS e ";
         $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.esta_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (e.ende_fk_user_pk_id=u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (e.ende_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "p.ende_status = 1;";
         try {
@@ -142,7 +142,7 @@ class DAOEndereco extends GenericDAO {
         $this->query .= "ende_cep=:ende_cep, ";
         $this->query .= "ende_cidade=:ende_cidade, ";
         $this->query .= "ende_fk_estado_pk_id=:ende_fk_estado_pk_id, ";
-        $this->query .= "ende_fk_user_pk_id=:ende_fk_user_pk_id ";
+        $this->query .= "ende_fk_id=:ende_fk_id ";
         $this->query .= " WHERE ende_pk_id=:ende_pk_id;";
         try {
             $conexao = $this->getInstance();
@@ -156,7 +156,7 @@ class DAOEndereco extends GenericDAO {
         $this->statement->bindParam(':ende_cep', $endereco->ende_cep, PDO::PARAM_STR);
         $this->statement->bindParam(':ende_cidade', $endereco->ende_cidade, PDO::PARAM_STR);
         $this->statement->bindParam(':ende_fk_estado_pk_id', $endereco->ende_fk_estado_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':ende_fk_user_pk_id', $endereco->ende_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':ende_fk_id', $endereco->ende_fk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':ende_pk_id', $endereco->ende_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;

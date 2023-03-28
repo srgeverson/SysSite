@@ -28,9 +28,9 @@ class DAOContent extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO content ";
-        $this->query .= "(conte_component, conte_title, conte_subtitle, conte_text, conte_image, conte_link, conte_fk_user_pk_id, conte_fk_page_pk_id) ";
+        $this->query .= "(conte_component, conte_title, conte_subtitle, conte_text, conte_image, conte_link, conte_fk_id, conte_fk_page_pk_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:conte_component, :conte_title, :conte_subtitle, :conte_text, :conte_image, :conte_link, :conte_fk_user_pk_id, :conte_fk_page_pk_id);";
+        $this->query .= "(:conte_component, :conte_title, :conte_subtitle, :conte_text, :conte_image, :conte_link, :conte_fk_id, :conte_fk_page_pk_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -43,7 +43,7 @@ class DAOContent extends GenericDAO {
         $this->statement->bindParam(':conte_text', $content->conte_text, PDO::PARAM_STR);
         $this->statement->bindParam(':conte_image', $content->conte_image, PDO::PARAM_STR);
         $this->statement->bindParam(':conte_link', $content->conte_link, PDO::PARAM_STR);
-        $this->statement->bindParam(':conte_fk_user_pk_id', $content->conte_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':conte_fk_id', $content->conte_fk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':conte_fk_page_pk_id', $content->conte_fk_page_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
@@ -51,10 +51,10 @@ class DAOContent extends GenericDAO {
 
     public function selectObjectById($conte_pk_id = 0) {
         $this->query = "SELECT ";
-        $this->query .= "c.*, p.page_pk_id, p.page_name, u.user_pk_id, u.user_pk_id ";
+        $this->query .= "c.*, p.page_pk_id, p.page_name, u.id, u.id ";
         $this->query .= "FROM content AS c ";
         $this->query .= "INNER JOIN page AS p ON (c.conte_fk_page_pk_id = p.page_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_user_pk_id = u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_id = u.id) ";
         $this->query .= "WHERE conte_pk_id=:conte_pk_id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
@@ -69,10 +69,10 @@ class DAOContent extends GenericDAO {
 
     public function selectObjectsByContainsObject(ModelContent $content = null) {
         $this->query = "SELECT ";
-        $this->query .= "c.*, p.page_pk_id, p.page_name, u.user_pk_id, u.user_name ";
+        $this->query .= "c.*, p.page_pk_id, p.page_name, u.id, u.nome ";
         $this->query .= "FROM content AS c ";
         $this->query .= "INNER JOIN page AS p ON (c.conte_fk_page_pk_id = p.page_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_user_pk_id = u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_id = u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "c.conte_component LIKE '%$content->conte_component%' AND ";
         $this->query .= "p.page_name LIKE '%$content->page_name%';";
@@ -91,7 +91,7 @@ class DAOContent extends GenericDAO {
         $this->query .= "c.* ";
         $this->query .= "FROM content AS c ";
         $this->query .= "INNER JOIN page AS p ON (c.conte_fk_page_pk_id = p.page_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_user_pk_id = u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_id = u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "c.conte_status = 1 AND ";
         $this->query .= "c.conte_fk_page_pk_id = :conte_fk_page_pk_id AND ";
@@ -110,10 +110,10 @@ class DAOContent extends GenericDAO {
 
     public function selectContentByContainsObject(ModelContent $content = null) {
         $this->query = "SELECT ";
-        $this->query .= "c.*, p.page_pk_id, p.page_name, u.user_pk_id, u.user_name ";
+        $this->query .= "c.*, p.page_pk_id, p.page_name, u.id, u.nome ";
         $this->query .= "FROM content AS c ";
         $this->query .= "INNER JOIN page AS p ON (c.conte_fk_page_pk_id = p.page_pk_id) ";
-        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_user_pk_id = u.user_pk_id) ";
+        $this->query .= "INNER JOIN user AS u ON (c.conte_fk_id = u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "c.conte_fk_page_pk_id = :conte_fk_page_pk_id;";
         try {
@@ -178,7 +178,7 @@ class DAOContent extends GenericDAO {
         $this->query .= "conte_text=:conte_text, ";
         $this->query .= "conte_image=:conte_image, ";
         $this->query .= "conte_link=:conte_link, ";
-        $this->query .= "conte_fk_user_pk_id=:conte_fk_user_pk_id, ";
+        $this->query .= "conte_fk_id=:conte_fk_id, ";
         $this->query .= "conte_fk_page_pk_id=:conte_fk_page_pk_id ";
         $this->query .= " WHERE conte_pk_id=:conte_pk_id;";
         try {
@@ -193,7 +193,7 @@ class DAOContent extends GenericDAO {
         $this->statement->bindParam(':conte_text', $content->conte_text, PDO::PARAM_STR);
         $this->statement->bindParam(':conte_image', $content->conte_image, PDO::PARAM_STR);
         $this->statement->bindParam(':conte_link', $content->conte_link, PDO::PARAM_STR);
-        $this->statement->bindParam(':conte_fk_user_pk_id', $content->conte_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':conte_fk_id', $content->conte_fk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':conte_fk_page_pk_id', $content->conte_fk_page_pk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':conte_pk_id', $content->conte_pk_id, PDO::PARAM_INT);
         $this->statement->execute();

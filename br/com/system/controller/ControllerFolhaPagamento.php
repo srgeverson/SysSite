@@ -272,7 +272,7 @@ class ControllerFolhaPagamento {
                                     $folhaPagamento->fopa_nome_arquivo = $novo_nome;
                                     $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
                                     $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
-                                    $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutenticado->user_pk_id;
+                                    $folhaPagamento->fopa_fk_id = $this->usuarioAutenticado->id;
                                     $folhaPagamento->fopa_status = $fopa_status;
                                     try {
                                         $this->daoFolhaPagamento->save($folhaPagamento);
@@ -324,7 +324,7 @@ class ControllerFolhaPagamento {
                                         $folhaPagamento->fopa_nome_arquivo = $novo_nome;
                                         $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
                                         $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
-                                        $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutenticado->user_pk_id;
+                                        $folhaPagamento->fopa_fk_id = $this->usuarioAutenticado->id;
                                         $folhaPagamento->fopa_status = $fopa_status;
                                         try {
                                             $this->daoFolhaPagamento->save($folhaPagamento);
@@ -424,7 +424,7 @@ class ControllerFolhaPagamento {
                 $folhaPagamento->fopa_nome_arquivo = $novo_nome;
                 $folhaPagamento->fopa_caminho_arquivo = 'br/com/system/uploads/folha_pagamento/' . $novo_nome;
                 $folhaPagamento->fopa_fk_funcionario_pk_id = $fopa_fk_funcionario_pk_id;
-                $folhaPagamento->fopa_fk_user_pk_id = $this->usuarioAutenticado->user_pk_id;
+                $folhaPagamento->fopa_fk_id = $this->usuarioAutenticado->id;
 
                 try {
                     $this->daoFolhaPagamento->update($folhaPagamento);

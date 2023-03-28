@@ -174,14 +174,14 @@ class ControllerMenu {
             $menu_label = strip_tags($_POST['menu_label']);
             $menu_status = false;
             global $user_logged;
-            $menu_fk_user_pk_id = $user_logged->user_pk_id;
+            $menu_fk_id = $user_logged->id;
             $menu = new ModelMenu();
             $menu->menu_name = $menu_name;
             $menu->menu_description = $menu_description;
             $menu->menu_icon = $menu_icon;
             $menu->menu_label = $menu_label;
             $menu->menu_status = $menu_status;
-            $menu->menu_fk_user_pk_id = $menu_fk_user_pk_id;
+            $menu->menu_fk_id = $menu_fk_id;
 
             try {
                 if (!isset($this->daoMenu->selectObjectByObject($menu)->menu_name)) {
@@ -209,7 +209,7 @@ class ControllerMenu {
                 $menu_icon = strip_tags($_POST['menu_icon']);
                 $menu_label = strip_tags($_POST['menu_label']);
                 global $user_logged;
-                $menu_fk_user_pk_id = $user_logged->user_pk_id;
+                $menu_fk_id = $user_logged->id;
 
                 $menu = new ModelMenu();
                 $menu->menu_pk_id = $menu_pk_id;
@@ -217,7 +217,7 @@ class ControllerMenu {
                 $menu->menu_description = $menu_description;
                 $menu->menu_icon = $menu_icon;
                 $menu->menu_label = $menu_label;
-                $menu->menu_fk_user_pk_id = $menu_fk_user_pk_id;
+                $menu->menu_fk_id = $menu_fk_id;
 
                 try {
                     $this->daoMenu->update($menu);

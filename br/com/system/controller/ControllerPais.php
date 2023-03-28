@@ -139,13 +139,13 @@ class ControllerPais {
             $pais_sigla = strip_tags($_POST['pais_sigla']);
             $pais_status = true;
             global $user_logged;
-            $pais_fk_user_pk_id = $user_logged->user_pk_id;
+            $pais_fk_id = $user_logged->id;
 
             $pais = new ModelPais();
             $pais->pais_nome = $pais_nome;
             $pais->pais_sigla = $pais_sigla;
             $pais->pais_status = $pais_status;
-            $pais->pais_fk_user_pk_id = $pais_fk_user_pk_id;
+            $pais->pais_fk_id = $pais_fk_id;
             try {
                 $daoPais = new DAOPais();
                 $daoPais->save($pais);
@@ -167,13 +167,13 @@ class ControllerPais {
                 $pais_nome = strip_tags($_POST['pais_nome']);
                 $pais_sigla = strip_tags($_POST['pais_sigla']);
                 global $user_logged;
-                $pais_fk_user_pk_id = $user_logged->user_pk_id;
+                $pais_fk_id = $user_logged->id;
 
                 $pais = new ModelPais();
                 $pais->pais_pk_id = $pais_pk_id;
                 $pais->pais_nome = $pais_nome;
                 $pais->pais_sigla = $pais_sigla;
-                $pais->pais_fk_user_pk_id = $pais_fk_user_pk_id;
+                $pais->pais_fk_id = $pais_fk_id;
 
                 try {
                     $this->daoPais->update($pais);

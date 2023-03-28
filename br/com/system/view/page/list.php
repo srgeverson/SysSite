@@ -70,7 +70,7 @@
                     echo '<td>', $each_page->page_pk_id, '</td>';
                     echo '<td>', $each_page->page_name, '</td>';
                     echo '<td>', $each_page->page_description, '</td>';
-                    echo '<td>', $each_page->user_name, '</td>';
+                    echo '<td>', $each_page->nome, '</td>';
                     echo '<td>';
                     if ($each_page->page_status == true) {
                         echo '<a title="Desenable dados!" href="', server_url('?page=ControllerPage&option=disable&page_pk_id=' . $each_page->page_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';

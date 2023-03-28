@@ -160,13 +160,13 @@ class ControllerParameter {
             $para_description = strip_tags($_POST['para_description']);
             $para_status = false;
             global $user_logged;
-            $para_fk_user_pk_id = $user_logged->user_pk_id;
+            $para_fk_id = $user_logged->id;
             $parameter = new ModelParameter();
             $parameter->para_key = $para_key;
             $parameter->para_status = $para_status;
             $parameter->para_value = $para_value;
             $parameter->para_description = $para_description;
-            $parameter->para_fk_user_pk_id = $para_fk_user_pk_id;
+            $parameter->para_fk_id = $para_fk_id;
 
             try {
                 if (!isset($this->daoParameter->selectObjectByObject($parameter)->para_key)) {
