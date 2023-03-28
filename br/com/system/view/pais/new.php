@@ -16,11 +16,11 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary">Nome:</label><br>
-                        <input class="form-control" name="pais_nome" type="text" placeholder="Digite uma descrição..." required>
+                        <input class="form-control" name="nome" type="text" placeholder="Digite uma descrição..." required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Tela:</label><br>
-                        <input class="form-control" name="pais_sigla" type="text" placeholder="Digite um nome para a tela..."  required>
+                        <label class="text-primary">Sigla:</label><br>
+                        <input class="form-control" name="sigla" type="text" placeholder="Digite um nome para a tela..."  required>
                     </div>
                 </div>
                 <div class="card-footer">

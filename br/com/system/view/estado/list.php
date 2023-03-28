@@ -32,11 +32,11 @@
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">País</span>
-                        <select class="form-control form-control-lg" name="pais_nome">
+                        <select class="form-control form-control-lg" name="nome">
                             <option>Todas</option>
                             <?php
                             foreach ($paises as $each_pais) {
-                                echo '<option value="', $each_pais->pais_nome, '">', $each_pais->pais_nome, '</option>';
+                                echo '<option value="', $each_pais->nome, '">', $each_pais->nome, '</option>';
                             }
                             ?>
                         </select>
@@ -77,7 +77,7 @@
                     echo '<td>', $each_estado->esta_pk_id, '</td>';
                     echo '<td>', $each_estado->esta_nome, '</td>';
                     echo '<td>', $each_estado->esta_sigla, '</td>';
-                    echo '<td>', $each_estado->pais_nome, '</td>';
+                    echo '<td>', $each_estado->nome, '</td>';
                     echo '<td>';
                     if ($each_estado->esta_status == true) {
                         echo '<a title="Desabilitar dados!" href="', server_url('?page=ControllerEstado&option=disable&esta_pk_id=' . $each_estado->esta_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';

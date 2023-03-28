@@ -14,8 +14,8 @@
             <hr>
             <div class="form-group row">
                 <div class="col-sm-2 mb-3 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerPais&option=novo'); ?>" class="btn btn-primary btn-icon-split btn-lg">
+                    <div class="input-group">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerPais&option=novo'); ?>" class="btn btn-primary btn-icon-split btn">
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>
@@ -24,14 +24,21 @@
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
+                    <div class="input-group">
                         <span class="input-group-text">Nome</span>
-                        <input class="form-control" type="text" name="pais_nome">
+                        <input class="form-control" type="text" name="nome" value="<?php echo $pais->nome; ?>">
                     </div>
                 </div>
+                <div class="col-sm-4 mb-4 mb-sm-0">
+                    <div>
+                    <?php echo isset($pais->todos) ? 'checked' : ''; ?>
+                        <input type="checkbox" name="todos" <?php echo $pais->todos ? 'checked' : ''; ?>>
+                        <span>Todos</span>
+                    </div> 
+                </div>
                 <div class="col-sm-2 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <button class="btn btn-success btn-icon-split btn-lg">
+                    <div class="input-group">
+                        <button class="btn btn-success btn-icon-split btn">
                             <span class="icon text-white-50">
                                 <i class="fas fa-search"></i>
                             </span>
@@ -61,23 +68,23 @@
                 echo '<tbody>';
                 foreach ($paises as $each_pais) {
                     echo '<tr>';
-                    echo '<td>', $each_pais->pais_pk_id, '</td>';
-                    echo '<td>', $each_pais->pais_nome, '</td>';
-                    echo '<td>', $each_pais->pais_sigla, '</td>';
+                    echo '<td>', $each_pais->id, '</td>';
                     echo '<td>', $each_pais->nome, '</td>';
+                    echo '<td>', $each_pais->sigla, '</td>';
+                    echo '<td>', $each_pais->usuario_nome, '</td>';
                     echo '<td>';
-                    if ($each_pais->pais_status == true) {
-                        echo '<a title="Desenable dados!" href="', server_url('?page=ControllerPais&option=disable&pais_pk_id=' . $each_pais->pais_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                    if ($each_pais->status == true) {
+                        echo '<a title="Desenable dados!" href="', server_url('?page=ControllerPais&option=disable&id=' . $each_pais->id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
                     } else {
-                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerPais&option=edit&pais_pk_id=' . $each_pais->pais_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerPais&option=edit&id=' . $each_pais->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                         echo '<i class="fas fa-edit"></i>';
                         echo '</a>';
-                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerPais&option=enable&pais_pk_id=' . $each_pais->pais_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerPais&option=enable&id=' . $each_pais->id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
-                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerPais&option=delete&pais_pk_id=' . $each_pais->pais_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerPais&option=delete&id=' . $each_pais->id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                         echo '<i class="fas fa-trash"></i>';
                         echo '</a>';
                     }

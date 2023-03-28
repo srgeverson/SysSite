@@ -15,15 +15,15 @@
                 <h4 class="card-header text-primary">Alterar País</h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <input class="form-control" name="pais_pk_id" type="hidden" value="<?php echo $pais->pais_pk_id; ?>">
+                        <input class="form-control" name="id" type="hidden" value="<?php echo $pais->id; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Descrição:</label><br>
-                        <input class="form-control" name="pais_nome" type="text" placeholder="Digite o nome..." value="<?php echo $pais->pais_nome; ?>" required>
+                        <input class="form-control" name="nome" type="text" placeholder="Digite o nome..." value="<?php echo $pais->nome; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Tela:</label><br>
-                        <input class="form-control" name="pais_sigla" type="text" placeholder="Digite uma sigla..." value="<?php echo $pais->pais_sigla; ?>" required>
+                        <input class="form-control" name="sigla" type="text" placeholder="Digite uma sigla..." value="<?php echo $pais->sigla; ?>" required>
                     </div>
                 </div>
                 <div class="card-footer">

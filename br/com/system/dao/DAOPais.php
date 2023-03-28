@@ -10,12 +10,12 @@ include_once server_path('br/com/system/dao/GenericDAO.php');
 
 class DAOPais extends GenericDAO {
 
-    public function delete($pais_pk_id = 0) {
+    public function delete($id = 0) {
         try {
-            $this->query = "DELETE FROM pais WHERE pais_pk_id=:pais_pk_id;";
+            $this->query = "DELETE FROM paises WHERE id=:id;";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
-            $this->statement->bindParam(":pais_pk_id", $pais_pk_id, PDO::PARAM_INT);
+            $this->statement->bindParam(":id", $id, PDO::PARAM_INT);
             $this->statement->execute();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
@@ -27,44 +27,44 @@ class DAOPais extends GenericDAO {
         if (!is_object($pais)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "INSERT INTO pais ";
-        $this->query .= "(pais_nome, pais_status, pais_sigla, pais_fk_id) ";
+        $this->query = "INSERT INTO paises ";
+        $this->query .= "(nome, status, sigla, usuario_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:pais_nome, :pais_status, :pais_sigla, :pais_fk_id);";
+        $this->query .= "(:nome, :status, :sigla, :usuario_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':pais_nome', $pais->pais_nome, PDO::PARAM_STR);
-        $this->statement->bindParam(':pais_status', $pais->pais_status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':pais_sigla', $pais->pais_sigla, PDO::PARAM_STR);
-        $this->statement->bindParam(':pais_fk_id', $pais->pais_fk_id, PDO::PARAM_STR);
+        $this->statement->bindParam(':nome', $pais->nome, PDO::PARAM_STR);
+        $this->statement->bindParam(':status', $pais->status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':sigla', $pais->sigla, PDO::PARAM_STR);
+        $this->statement->bindParam(':usuario_id', $pais->usuario_id, PDO::PARAM_STR);
         $this->statement->execute();
         return true;
     }
 
-    public function selectObjectById($pais_pk_id = 0) {
-        $this->query = "SELECT * FROM pais WHERE pais_pk_id=:pais_pk_id LIMIT 1;";
+    public function selectObjectById($id = 0) {
+        $this->query = "SELECT * FROM paises WHERE id=:id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":pais_pk_id", $pais_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(":id", $id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
     public function selectObjectsByContainsObject(ModelPais $pais = null) {
         $this->query = "SELECT ";
-        $this->query .= "p.*, u.id, u.nome ";
-        $this->query .= "FROM pais AS p ";
-        $this->query .= "INNER JOIN user AS u ON (p.pais_fk_id=u.id) ";
+        $this->query .= "p.*, u.id AS usuario_id, u.nome AS usuario_nome ";
+        $this->query .= "FROM paises AS p ";
+        $this->query .= "INNER JOIN usuarios AS u ON (p.usuario_id=u.id) ";
         $this->query .= "WHERE ";
-        $this->query .= "p.pais_nome LIKE '%$pais->pais_nome%';";
+        $this->query .= "p.nome LIKE '%$pais->nome%';";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -76,7 +76,7 @@ class DAOPais extends GenericDAO {
     }
 
     public function selectObjectsEnabled() {
-        $this->query = "SELECT p.* FROM pais AS p WHERE p.pais_status = 1;";
+        $this->query = "SELECT p.* FROM paises AS p WHERE p.status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -91,21 +91,21 @@ class DAOPais extends GenericDAO {
         if (!is_object($pais)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE pais SET ";
-        $this->query .= "pais_nome=:pais_nome, ";
-        $this->query .= "pais_sigla=:pais_sigla, ";
-        $this->query .= "pais_fk_id=:pais_fk_id ";
-        $this->query .= " WHERE pais_pk_id=:pais_pk_id;";
+        $this->query = "UPDATE paises SET ";
+        $this->query .= "nome=:nome, ";
+        $this->query .= "sigla=:sigla, ";
+        $this->query .= "usuario_id=:usuario_id ";
+        $this->query .= " WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':pais_nome', $pais->pais_nome, PDO::PARAM_STR);
-        $this->statement->bindParam(':pais_sigla', $pais->pais_sigla, PDO::PARAM_STR);
-        $this->statement->bindParam(':pais_fk_id', $pais->pais_fk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':pais_pk_id', $pais->pais_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':nome', $pais->nome, PDO::PARAM_STR);
+        $this->statement->bindParam(':sigla', $pais->sigla, PDO::PARAM_STR);
+        $this->statement->bindParam(':usuario_id', $pais->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':id', $pais->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
@@ -114,17 +114,17 @@ class DAOPais extends GenericDAO {
         if (!is_object($pais)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE pais SET ";
-        $this->query .= "pais_status=:pais_status ";
-        $this->query .= "WHERE pais_pk_id=:pais_pk_id;";
+        $this->query = "UPDATE paises SET ";
+        $this->query .= "status=:status ";
+        $this->query .= "WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':pais_status', $pais->pais_status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':pais_pk_id', $pais->pais_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':status', $pais->status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':id', $pais->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }

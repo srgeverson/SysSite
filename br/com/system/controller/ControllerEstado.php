@@ -116,13 +116,13 @@ class ControllerEstado {
 
     public function listar() {
         if (HelperController::authotity()) {
-            if (isset($_POST['esta_nome']) && isset($_POST['pais_nome'])) {
+            if (isset($_POST['esta_nome']) && isset($_POST['nome'])) {
                 $estado = new ModelEstado();
                 $estado->esta_nome = strip_tags($_POST['esta_nome']);
-                if (strip_tags($_POST['pais_nome']) !== 'Todas') {
-                    $estado->pais_nome = strip_tags($_POST['pais_nome']);
+                if (strip_tags($_POST['nome']) !== 'Todas') {
+                    $estado->nome = strip_tags($_POST['nome']);
                 } else {
-                    $estado->pais_nome = '';
+                    $estado->nome = '';
                 }
                 try {
                     $estados = $this->daoEstado->selectObjectsByContainsObject($estado);
@@ -152,7 +152,7 @@ class ControllerEstado {
             $esta_nome = strip_tags($_POST['esta_nome']);
             $esta_sigla = strip_tags($_POST['esta_sigla']);
             $esta_status = true;
-            $esta_fk_pais_pk_id = strip_tags($_POST['esta_fk_pais_pk_id']);
+            $esta_fk_id = strip_tags($_POST['esta_fk_id']);
             global $user_logged;
             $esta_fk_id = $user_logged->id;
 
@@ -160,7 +160,7 @@ class ControllerEstado {
             $estado->esta_nome = $esta_nome;
             $estado->esta_sigla = $esta_sigla;
             $estado->esta_status = $esta_status;
-            $estado->esta_fk_pais_pk_id = $esta_fk_pais_pk_id;
+            $estado->esta_fk_id = $esta_fk_id;
             $estado->esta_fk_id = $esta_fk_id;
             try {
                 $this->daoEstado->save($estado);
@@ -181,7 +181,7 @@ class ControllerEstado {
                 }
                 $esta_nome = strip_tags($_POST['esta_nome']);
                 $esta_sigla = strip_tags($_POST['esta_sigla']);
-                $esta_fk_pais_pk_id = strip_tags($_POST['esta_fk_pais_pk_id']);
+                $esta_fk_id = strip_tags($_POST['esta_fk_id']);
                 global $user_logged;
                 $esta_fk_id = $user_logged->id;
 
@@ -189,7 +189,7 @@ class ControllerEstado {
                 $estado->esta_pk_id = $esta_pk_id;
                 $estado->esta_nome = $esta_nome;
                 $estado->esta_sigla = $esta_sigla;
-                $estado->esta_fk_pais_pk_id = $esta_fk_pais_pk_id;
+                $estado->esta_fk_id = $esta_fk_id;
                 $estado->esta_fk_id = $esta_fk_id;
 
                 try {

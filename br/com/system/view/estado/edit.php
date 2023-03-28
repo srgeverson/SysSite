@@ -27,11 +27,11 @@
                     </div>
                     <div class="form-group">
                         <label class="text-primary">País:</label><br>
-                        <select name="esta_fk_pais_pk_id" class="form-control" required>
-                            <option value="<?php echo $estado->pais_pk_id; ?>"><?php echo $estado->pais_nome; ?></option>
+                        <select name="esta_fk_id" class="form-control" required>
+                            <option value="<?php echo $estado->id; ?>"><?php echo $estado->nome; ?></option>
                             <?php
                             foreach ($paises as $each_pais) {
-                                echo '<option value="', $each_pais->pais_pk_id, '">', $each_pais->pais_nome, '</option>';
+                                echo '<option value="', $each_pais->id, '">', $each_pais->nome, '</option>';
                             }
                             ?>
                         </select>

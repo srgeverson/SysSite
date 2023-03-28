@@ -20,12 +20,12 @@ class ControllerPais {
 
     public function delete() {
         if (HelperController::authotity()) {
-            $pais_pk_id = strip_tags($_GET['pais_pk_id']);
-            if (!isset($pais_pk_id)) {
+            $id = strip_tags($_GET['id']);
+            if (!isset($id)) {
                 $this->info = 'warning=pais_uninformed';
             }
             try {
-                $this->daoPais->delete($pais_pk_id);
+                $this->daoPais->delete($id);
                 $this->info = "success=pais_deleted";
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -36,16 +36,16 @@ class ControllerPais {
 
     public function disable() {
         if (HelperController::authotity()) {
-            $pais_pk_id = strip_tags($_GET['pais_pk_id']);
-            if (isset($pais_pk_id)) {
-                $pais_status = false;
+            $id = strip_tags($_GET['id']);
+            if (isset($id)) {
+                $status = false;
                 try {
-                    if (($this->daoPais->selectObjectById($pais_pk_id)) === null) {
+                    if (($this->daoPais->selectObjectById($id)) === null) {
                         $this->info = 'warning=pais_not_exists';
                     } else {
                         $pais = new ModelPais();
-                        $pais->pais_pk_id = $pais_pk_id;
-                        $pais->pais_status = $pais_status;
+                        $pais->id = $id;
+                        $pais->status = $status;
 
                         $this->daoPais->updateStatus($pais);
                         $this->info = 'success=pais_disabled';
@@ -62,13 +62,13 @@ class ControllerPais {
 
     public function edit() {
         if (HelperController::authotity()) {
-            $pais_pk_id = $_GET['pais_pk_id'];
-            if (!isset($pais_pk_id)) {
+            $id = $_GET['id'];
+            if (!isset($id)) {
                 $this->info = 'warning=pais_uninformed';
                 $this->listar();
             }
             try {
-                $pais = $this->daoPais->selectObjectById($pais_pk_id);
+                $pais = $this->daoPais->selectObjectById($id);
                 if (!isset($pais)) {
                     $this->info = 'warning=pais_not_exists';
                     $this->listar();
@@ -85,16 +85,16 @@ class ControllerPais {
 
     public function enable() {
         if (HelperController::authotity()) {
-            $pais_pk_id = strip_tags($_GET['pais_pk_id']);
-            if (isset($pais_pk_id)) {
-                $pais_status = true;
+            $id = strip_tags($_GET['id']);
+            if (isset($id)) {
+                $status = true;
                 try {
-                    if (($this->daoPais->selectObjectById($pais_pk_id)) === null) {
+                    if (($this->daoPais->selectObjectById($id)) === null) {
                         $this->info = 'warning=pais_not_exists';
                     } else {
                         $pais = new ModelPais();
-                        $pais->pais_pk_id = $pais_pk_id;
-                        $pais->pais_status = $pais_status;
+                        $pais->id = $id;
+                        $pais->status = $status;
 
                         $this->daoPais->updateStatus($pais);
                         $this->info = 'success=pais_enabled';
@@ -111,9 +111,10 @@ class ControllerPais {
 
     public function listar() {
         if (HelperController::authotity()) {
-            if (isset($_POST['pais_nome'])) {
-                $pais = new ModelPais();
-                $pais->pais_nome = strip_tags($_POST['pais_nome']);
+            $pais = new ModelPais();
+            $pais->nome = strip_tags($_POST['nome']);
+            $pais->todos = strip_tags($_POST['todos']);
+            if ($pais->nome != null || $pais->todos) {
                 try {
                     $paises = $this->daoPais->selectObjectsByContainsObject($pais);
                 } catch (Exception $erro) {
@@ -135,17 +136,17 @@ class ControllerPais {
 
     public function save() {
         if (HelperController::authotity()) {
-            $pais_nome = strip_tags($_POST['pais_nome']);
-            $pais_sigla = strip_tags($_POST['pais_sigla']);
-            $pais_status = true;
+            $nome = strip_tags($_POST['nome']);
+            $sigla = strip_tags($_POST['sigla']);
+            $status = true;
             global $user_logged;
-            $pais_fk_id = $user_logged->id;
+            $usuario_id = $user_logged->id;
 
             $pais = new ModelPais();
-            $pais->pais_nome = $pais_nome;
-            $pais->pais_sigla = $pais_sigla;
-            $pais->pais_status = $pais_status;
-            $pais->pais_fk_id = $pais_fk_id;
+            $pais->nome = $nome;
+            $pais->sigla = $sigla;
+            $pais->status = $status;
+            $pais->usuario_id = $usuario_id;
             try {
                 $daoPais = new DAOPais();
                 $daoPais->save($pais);
@@ -160,20 +161,20 @@ class ControllerPais {
     public function update() {
         if (HelperController::authotity()) {
             if (HelperController::authotity()) {
-                $pais_pk_id = strip_tags($_POST['pais_pk_id']);
-                if (!isset($pais_pk_id)) {
+                $id = strip_tags($_POST['id']);
+                if (!isset($id)) {
                     $this->info = 'warning=pais_uninformed';
                 }
-                $pais_nome = strip_tags($_POST['pais_nome']);
-                $pais_sigla = strip_tags($_POST['pais_sigla']);
+                $nome = strip_tags($_POST['nome']);
+                $sigla = strip_tags($_POST['sigla']);
                 global $user_logged;
-                $pais_fk_id = $user_logged->id;
+                $usuario_id = $user_logged->id;
 
                 $pais = new ModelPais();
-                $pais->pais_pk_id = $pais_pk_id;
-                $pais->pais_nome = $pais_nome;
-                $pais->pais_sigla = $pais_sigla;
-                $pais->pais_fk_id = $pais_fk_id;
+                $pais->id = $id;
+                $pais->nome = $nome;
+                $pais->sigla = $sigla;
+                $pais->usuario_id = $usuario_id;
 
                 try {
                     $this->daoPais->update($pais);
