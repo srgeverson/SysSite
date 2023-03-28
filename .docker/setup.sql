@@ -3,6 +3,8 @@
 -- Host: localhost    Database: system
 -- ------------------------------------------------------
 -- Server version	8.0.32
+CREATE DATABASE IF NOT EXISTS `system`;
+USE `system`; 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -204,6 +206,106 @@ LOCK TABLES `estados` WRITE;
 INSERT INTO `estados` VALUES (1,'Acre','AC',1,1,1),(2,'Alagoas','AL',1,1,1),(3,'Amapá','AP',1,1,1),(4,'Amazonas','AM',1,1,1),(5,'Bahia','BA',1,1,1),(6,'Ceará','CE',1,1,1),(7,'Distrito Federal','DF',1,1,1),(8,'Espírito Santo','ES',1,1,1),(9,'Goiás','GO',1,1,1),(10,'Maranhão','MA',1,1,1),(11,'Mato Grosso','MT',1,1,1),(12,'Mato Grosso do Sul','MS',1,1,1),(13,'Minas Gerais','MG',1,1,1),(14,'Pará','PA',1,1,1),(15,'Paraíba','PB',1,1,1),(16,'Paraná','PR',1,1,1),(17,'Pernambuco','PE',1,1,1),(18,'Piauí','PI',1,1,1),(19,'Rio de Janeiro','RJ',1,1,1),(20,'Rio Grande do Norte','RN',1,1,1),(21,'Rio Grande do Sul','RS',1,1,1),(22,'Rondônia','RO',1,1,1),(23,'Roraima','RR',1,1,1),(24,'Santa Catarina','SC',1,1,1),(25,'São Paulo','SP',1,1,1),(26,'Sergipe','SE',1,1,1),(27,'Tocantins','TO',1,1,1);
 /*!40000 ALTER TABLE `estados` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `estados_BEFORE_INSERT` BEFORE INSERT ON `estados` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('paises', NEW.id, 'INSERT', 'id', NEW.id, now()),
+        ('paises', NEW.id, 'INSERT','nome', NEW.nome, now()),
+        ('paises', NEW.id, 'INSERT','sigla', NEW.sigla, now()),
+        ('paises', NEW.id, 'INSERT','status', NEW.status, now()),
+        ('paises', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now()),
+        ('paises', NEW.id, 'INSERT','pais_id', NEW.pais_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `estados_BEFORE_UPDATE` BEFORE UPDATE ON `estados` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+		INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+			('estados', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+	 END IF;
+    
+	IF (OLD.sigla <> NEW.sigla or (OLD.sigla IS NULL and NEW.sigla IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('estados', 'sigla', OLD.sigla, NEW.sigla, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES
+            ('estados', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+	IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('estados', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id);
+	END IF;
+
+	IF (OLD.pais_id <> NEW.pais_id or (OLD.pais_id IS NULL and NEW.pais_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('estados', 'pais_id', OLD.pais_id, NEW.pais_id, now(), 'UPDATE', OLD.id);
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `estados_BEFORE_DELETE` BEFORE DELETE ON `estados` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('estados', OLD.id, 'DELETE', 'id', OLD.id, now()),
+        ('estados', OLD.id, 'DELETE','nome', OLD.nome, now()),
+        ('estados', OLD.id, 'DELETE','sigla', OLD.sigla, now()),
+        ('estados', OLD.id, 'DELETE','status', OLD.status, now()),
+        ('estados', OLD.id, 'DELETE','pais_id', OLD.pais_id, now()),
+        ('estados', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `folha_pagamento`
@@ -464,6 +566,97 @@ LOCK TABLES `paises` WRITE;
 INSERT INTO `paises` VALUES (1,'Brasil','BRA',1,2);
 /*!40000 ALTER TABLE `paises` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `paises_BEFORE_INSERT` BEFORE INSERT ON `paises` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('paises', NEW.id, 'INSERT', 'id', NEW.id, now()),
+        ('paises', NEW.id, 'INSERT','nome', NEW.nome, now()),
+        ('paises', NEW.id, 'INSERT','sigla', NEW.sigla, now()),
+        ('paises', NEW.id, 'INSERT','status', NEW.status, now()),
+        ('paises', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `paises_BEFORE_UPDATE` BEFORE UPDATE ON `paises` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+		INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+			('paises', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+	 END IF;
+    
+	IF (OLD.sigla <> NEW.sigla or (OLD.sigla IS NULL and NEW.sigla IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('paises', 'sigla', OLD.sigla, NEW.sigla, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES
+            ('paises', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+	IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('paises', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id);
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `paises_BEFORE_DELETE` BEFORE DELETE ON `paises` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('paises', OLD.id, 'DELETE', 'id', OLD.id, now()),
+        ('paises', OLD.id, 'DELETE','nome', OLD.nome, now()),
+        ('paises', OLD.id, 'DELETE','sigla', OLD.sigla, now()),
+        ('paises', OLD.id, 'DELETE','status', OLD.status, now()),
+        ('paises', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `parameter`
@@ -698,4 +891,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-28  9:15:21
+-- Dump completed on 2023-03-28  9:28:52
