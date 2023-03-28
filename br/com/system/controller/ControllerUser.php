@@ -156,7 +156,7 @@ class ControllerUser {
                 if ($imagem !== "") {
                     if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
                         if (move_uploaded_file($_FILES['imagem']['tmp_name'], $uploadfile)) {
-                            if ($userUpdated->imagem !== "" || $userUpdated->imagem !== null) {
+                            if ($userUpdated->imagem !== "" || $userUpdated->imagem !== null &&  $userUpdated->imagem !== "not_found.png") {
                                 unlink(server_path('br/com/system/uploads/user/' . $userUpdated->imagem));
                             }
                         }
@@ -174,6 +174,8 @@ class ControllerUser {
                     $user->senha = $senha;
                     $user->imagem = $novo_nome;
                     $this->daoUser->update_user($user);
+                    //$user_logged = $user;
+                    //$_SESSION['usuario'] = $user_logged;
                     $this->controllerSystem->welcome('success=user_profile_edit');
                 } catch (Exception $erro) {
                     $this->controllerSystem->welcome('error=' . $erro->getMessage());

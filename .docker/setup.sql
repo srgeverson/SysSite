@@ -4,6 +4,9 @@
 -- ------------------------------------------------------
 -- Server version	8.0.32
 
+CREATE DATABASE IF NOT EXISTS `system`;
+USE `system`; 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -46,6 +49,104 @@ LOCK TABLES `cidades` WRITE;
 INSERT INTO `cidades` VALUES (935,2303709,'Caucaia',6,1,1),(947,2304285,'Eusébio',6,1,1),(950,2304400,'Fortaleza',6,1,1);
 /*!40000 ALTER TABLE `cidades` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `cidades_BEFORE_INSERT` BEFORE INSERT ON `cidades` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('cidades', NEW.id, 'INSERT', 'id', NEW.id, now()),
+        ('cidades', NEW.id, 'INSERT','codigo', NEW.codigo, now()),
+        ('cidades', NEW.id, 'INSERT','nome', NEW.nome, now()),
+        ('cidades', NEW.id, 'INSERT','estado_id', NEW.estado_id, now()),
+        ('cidades', NEW.id, 'INSERT','status', NEW.status, now()),
+        ('cidades', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `cidades_BEFORE_UPDATE` BEFORE UPDATE ON `cidades` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+    VALUES 
+  ('cidades', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+END IF;
+
+IF (OLD.codigo <> NEW.codigo or (OLD.codigo IS NULL and NEW.codigo IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('cidades', 'codigo', OLD.codigo, NEW.codigo, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('cidades', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.estado_id <> NEW.estado_id or (OLD.estado_id IS NULL and NEW.estado_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('cidades', 'estado_id', OLD.estado_id, NEW.estado_id, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('cidades', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id);
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `cidades_BEFORE_DELETE` BEFORE DELETE ON `cidades` FOR EACH ROW BEGIN
+
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('cidades', OLD.id, 'DELETE', 'id', OLD.id, now()),
+        ('cidades', OLD.id, 'DELETE','nome', OLD.nome, now()),
+        ('cidades', OLD.id, 'DELETE','codigo', OLD.codigo, now()),
+        ('cidades', OLD.id, 'DELETE','status', OLD.status, now()),
+        ('cidades', OLD.id, 'DELETE','estado_id', OLD.estado_id, now()),
+        ('cidades', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `contact`
@@ -405,6 +506,86 @@ LOCK TABLES `grupos` WRITE;
 /*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
 /*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_BEFORE_INSERT` BEFORE INSERT ON `grupos` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('grupos', NEW.id, 'INSERT', 'id', NEW.id, now()),
+        ('grupos', NEW.id, 'INSERT','nome', NEW.nome, now()),
+        ('grupos', NEW.id, 'INSERT','status', NEW.status, now()),
+        ('grupos', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_BEFORE_UPDATE` BEFORE UPDATE ON `grupos` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+    VALUES 
+  ('grupos', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('grupos', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('grupos', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id);
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_BEFORE_DELETE` BEFORE DELETE ON `grupos` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('grupos', OLD.id, 'DELETE', 'id', OLD.id, now()),
+        ('grupos', OLD.id, 'DELETE','nome', OLD.nome, now()),
+        ('grupos', OLD.id, 'DELETE','status', OLD.status, now()),
+        ('grupos', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `grupos_permissoes`
@@ -415,14 +596,14 @@ DROP TABLE IF EXISTS `grupos_permissoes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `grupos_permissoes` (
   `grupo_id` int NOT NULL,
-  `permisao_id` int NOT NULL,
+  `permissao_id` int NOT NULL,
   `usuario_id` int DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`grupo_id`,`permisao_id`),
+  PRIMARY KEY (`grupo_id`,`permissao_id`),
   KEY `fk_grupos_permissoes_usuario_idx` (`usuario_id`),
-  KEY `fk_grupos_permissoes_permissao_idx` (`permisao_id`),
+  KEY `fk_grupos_permissoes_permissao_idx` (`permissao_id`),
   CONSTRAINT `fk_grupos_permissoes_grupo` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`),
-  CONSTRAINT `fk_grupos_permissoes_permissao` FOREIGN KEY (`permisao_id`) REFERENCES `permissoes` (`id`),
+  CONSTRAINT `fk_grupos_permissoes_permissao` FOREIGN KEY (`permissao_id`) REFERENCES `permissoes` (`id`),
   CONSTRAINT `fk_grupos_permissoes_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -435,6 +616,95 @@ LOCK TABLES `grupos_permissoes` WRITE;
 /*!40000 ALTER TABLE `grupos_permissoes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `grupos_permissoes` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_permissoes_BEFORE_INSERT` BEFORE INSERT ON `grupos_permissoes` FOR EACH ROW BEGIN
+  INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+  VALUES
+      ('usuarios_permissoes', NULL, 'INSERT','status', NEW.status, now()),
+      ('usuarios_permissoes', NULL, 'INSERT','usuario_id', NEW.usuario_id, now()),
+      ('usuarios_permissoes', NULL, 'INSERT','grupo_id', NEW.grupo_id, now()),
+      ('usuarios_permissoes', NULL, 'INSERT','permissao_id', NEW.permissao_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_permissoes_BEFORE_UPDATE` BEFORE UPDATE ON `grupos_permissoes` FOR EACH ROW BEGIN
+IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES
+            ('usuarios_grupos', 'status', OLD.status, NEW.status, now(), 'UPDATE', NULL);
+	END IF;
+
+  IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+    INSERT INTO logs 
+          (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+          VALUES 
+          ('usuarios_grupos', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.usuario_id);
+  END IF;
+
+	IF (OLD.grupo_id <> NEW.grupo_id or (OLD.grupo_id IS NULL and NEW.grupo_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('usuarios_grupos', 'grupo_id', OLD.grupo_id, NEW.grupo_id, now(), 'UPDATE', OLD.grupo_id);
+	END IF;
+
+  	IF (OLD.permissao_id <> NEW.permissao_id or (OLD.permissao_id IS NULL and NEW.permissao_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('usuarios_grupos', 'permissao_id', OLD.permissao_id, NEW.permissao_id, now(), 'UPDATE', OLD.permissao_id);
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_permissoes_BEFORE_DELETE` BEFORE DELETE ON `grupos_permissoes` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+        ('grupos_permissoes', OLD.usuario_id, 'DELETE','usuario_id', OLD.usuario_id, now()),
+        ('grupos_permissoes', OLD.grupo_id, 'DELETE','grupo_id', OLD.grupo_id, now()),
+        ('grupos_permissoes', OLD.grupo_id, 'DELETE','permissao_id', OLD.permissao_id, now()),
+        ('grupos_permissoes', OLD.status, 'DELETE','status', OLD.status, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `logs`
@@ -461,7 +731,7 @@ CREATE TABLE `logs` (
 
 LOCK TABLES `logs` WRITE;
 /*!40000 ALTER TABLE `logs` DISABLE KEYS */;
-INSERT INTO `logs` VALUES ('usuarios',2,NULL,'UPDATE','ultimo_acesso',NULL,'2023-03-28 03:53:05','2023-03-28 03:53:05'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:53:05','2023-03-28 03:53:46','2023-03-28 03:53:46'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:53:46','2023-03-28 03:54:39','2023-03-28 03:54:39'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:54:39','2023-03-28 03:58:49','2023-03-28 03:58:49'),('estados',1,NULL,'UPDATE','status','1','0','2023-03-28 12:58:41'),('estados',1,NULL,'UPDATE','status','0','1','2023-03-28 12:58:53'),('paises',1,NULL,'UPDATE','status','1','0','2023-03-28 13:00:14'),('paises',1,NULL,'UPDATE','status','0','1','2023-03-28 13:00:24'),('paises',0,NULL,'INSERT','id','0',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','nome','a',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','sigla','s',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','status','1',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','usuario_id','2',NULL,'2023-03-28 13:00:34');
+INSERT INTO `logs` VALUES ('usuarios',2,NULL,'UPDATE','ultimo_acesso',NULL,'2023-03-28 03:53:05','2023-03-28 03:53:05'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:53:05','2023-03-28 03:53:46','2023-03-28 03:53:46'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:53:46','2023-03-28 03:54:39','2023-03-28 03:54:39'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:54:39','2023-03-28 03:58:49','2023-03-28 03:58:49'),('estados',1,NULL,'UPDATE','status','1','0','2023-03-28 12:58:41'),('estados',1,NULL,'UPDATE','status','0','1','2023-03-28 12:58:53'),('paises',1,NULL,'UPDATE','status','1','0','2023-03-28 13:00:14'),('paises',1,NULL,'UPDATE','status','0','1','2023-03-28 13:00:24'),('paises',0,NULL,'INSERT','id','0',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','nome','a',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','sigla','s',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','status','1',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','usuario_id','2',NULL,'2023-03-28 13:00:34'),('paises',0,NULL,'INSERT','id','0',NULL,'2023-03-28 14:01:30'),('paises',0,NULL,'INSERT','nome','',NULL,'2023-03-28 14:01:30'),('paises',0,NULL,'INSERT','sigla','',NULL,'2023-03-28 14:01:30'),('paises',0,NULL,'INSERT','status','1',NULL,'2023-03-28 14:01:30'),('paises',0,NULL,'INSERT','usuario_id','2',NULL,'2023-03-28 14:01:30'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 03:58:49','2023-03-28 21:30:49','2023-03-28 21:30:49'),('usuarios',2,NULL,'UPDATE','senha','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','$2y$10$fcJUAAPCujJXGv0vwRL2vueRVFCpnEb9i.x/tvhtQvNQtgaLGNvcS','2023-03-28 21:31:47'),('usuarios',2,NULL,'UPDATE','imagem',NULL,'168003910764235cc36c101.png','2023-03-28 21:31:47'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 21:30:49','2023-03-28 21:32:20','2023-03-28 21:32:20'),('usuarios',2,NULL,'UPDATE','senha','$2y$10$fcJUAAPCujJXGv0vwRL2vueRVFCpnEb9i.x/tvhtQvNQtgaLGNvcS','$2y$10$.iwvloQ.b79EwFsu8s6qeuV1LgMHGidJoV.BFywKEHavV.t2WU8Mi','2023-03-28 21:33:33'),('usuarios',2,NULL,'UPDATE','senha','$2y$10$.iwvloQ.b79EwFsu8s6qeuV1LgMHGidJoV.BFywKEHavV.t2WU8Mi','$2y$10$s1P/9MNsjmXqGIRZb3Lnhu4vxeaZawcef0uqX.ko1Wc8CP/ywrGFS','2023-03-28 21:33:50'),('usuarios',2,NULL,'UPDATE','imagem','168003910764235cc36c101.png','168003923064235d3eabfa9.png','2023-03-28 21:33:50'),('usuarios',2,NULL,'UPDATE','senha','$2y$10$s1P/9MNsjmXqGIRZb3Lnhu4vxeaZawcef0uqX.ko1Wc8CP/ywrGFS','$2y$10$lM9UbjvhCOQ82gxNnrP7RuyLgRwuHxibpvgsp/7iC0TBHEjtF5/j2','2023-03-28 21:34:05'),('usuarios',2,NULL,'UPDATE','imagem','168003923064235d3eabfa9.png','168003924564235d4dc22d9.png','2023-03-28 21:34:05'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 21:32:20','2023-03-28 21:34:17','2023-03-28 21:34:17'),('usuarios',2,NULL,'UPDATE','senha','$2y$10$lM9UbjvhCOQ82gxNnrP7RuyLgRwuHxibpvgsp/7iC0TBHEjtF5/j2','$2y$10$KPWP5jkJX7Fu9uDuJQDLyeBT01Sdn/GWgfvoVGX54s83d9BbQychS','2023-03-28 21:36:57'),('usuarios',2,NULL,'UPDATE','imagem','168003924564235d4dc22d9.png','168003941764235df91e645.png','2023-03-28 21:36:57'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 21:34:17','2023-03-28 21:37:13','2023-03-28 21:37:13'),('usuarios',2,NULL,'UPDATE','senha','$2y$10$KPWP5jkJX7Fu9uDuJQDLyeBT01Sdn/GWgfvoVGX54s83d9BbQychS','$2y$10$2fvhmzvjhMgTfmfi4donFOvX45Q61t6FUeisNFmmj0P15m4klOm8q','2023-03-28 21:42:54'),('usuarios',2,NULL,'UPDATE','imagem','168003941764235df91e645.png','168003977464235f5e6577e.png','2023-03-28 21:42:54'),('usuarios',2,NULL,'UPDATE','senha','$2y$10$2fvhmzvjhMgTfmfi4donFOvX45Q61t6FUeisNFmmj0P15m4klOm8q','$2y$10$J7yLKZSlWn7O4MfvkwNdRedA0nkCyDxjS2MkogKCm96.5fxMozDhS','2023-03-28 21:43:25'),('usuarios',2,NULL,'UPDATE','imagem','168003977464235f5e6577e.png','168003980564235f7de929a.png','2023-03-28 21:43:25'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 21:37:13','2023-03-28 21:44:35','2023-03-28 21:44:35'),('usuarios',2,NULL,'UPDATE','senha','$2y$10$J7yLKZSlWn7O4MfvkwNdRedA0nkCyDxjS2MkogKCm96.5fxMozDhS','$2y$10$EAW9YOmIdECWXAhAMUyP9uTitfcl0QRty2AlxeXcg0k2Vn1.plvUO','2023-03-28 21:44:52'),('usuarios',2,NULL,'UPDATE','imagem','168003980564235f7de929a.png','168003989264235fd465d27.png','2023-03-28 21:44:52'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-03-28 21:44:35','2023-03-28 21:45:09','2023-03-28 21:45:09');
 /*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -500,9 +770,156 @@ CREATE TABLE `menu_itens` (
 
 LOCK TABLES `menu_itens` WRITE;
 /*!40000 ALTER TABLE `menu_itens` DISABLE KEYS */;
-INSERT INTO `menu_itens` VALUES (1,'Perfil','Perfil do Usuário',1,NULL,NULL,'?page=ControllerUser&option=editProfile&user_pk_id=usuario_logado_user_pk_id',NULL,'fas fa-user fa-sm fa-fw mr-2 text-gray-400',1,1,1),(2,'Boas vindas','Boas vindas',1,NULL,NULL,'?page=ControllerSystem&option=welcome',NULL,'fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400',1,1,1),(3,'Sair','Sair',1,NULL,NULL,'?page=ControllerUser&option=logout',NULL,'fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400',1,1,1),(4,'Usuários','Usuários',1,NULL,NULL,'?page=ControllerUser&option=listar',NULL,'fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400',1,2,1),(5,'Permissões','Permissões',1,NULL,NULL,'?page=ControllerAuthority&option=listar',NULL,'fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400',1,2,1),(6,'Parâmetros','Parâmetros',1,NULL,NULL,'?page=ControllerParameter&option=listar',NULL,'fas fa-tasks fa-sm fa-fw mr-2 text-gray-400',1,2,1),(7,'Páginas do Site','Páginas do Site',1,NULL,NULL,'?page=ControllerPage&option=listar',NULL,'fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400',1,2,1),(8,'Conteúdo das Páginas','Conteúdo das Páginas',1,NULL,NULL,'?page=ControllerContent&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2,1),(9,'Teste de Desenvolvimento','Teste de Desenvolvimento',1,NULL,NULL,'?page=ControllerTest&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2,1),(10,'Endereços','Endereços',1,NULL,NULL,'?page=ControllerEndereco&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,3,1),(11,'Estados','Estados',1,NULL,NULL,'?page=ControllerEstado&option=listar',NULL,'fas fa-city fa-sm fa-fw mr-2 text-gray-400',1,3,1),(12,'Países','Países',1,NULL,NULL,'?page=ControllerPais&option=listar',NULL,'fas fa-university fa-sm fa-fw mr-2 text-gray-400',1,3,1),(13,'Funcionários','Funcionários',1,NULL,NULL,'?page=ControllerFuncionario&option=listar',NULL,'fas fa-users fa-sm fa-fw mr-2 text-gray-400',1,4,1),(14,'Contatos','Contatos',1,NULL,NULL,'?page=ControllerContact&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,4,1),(15,'Folha de Pagamento','Folha de Pagamento',1,NULL,NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400',1,4,1),(16,'Todas folhas de pagamento','Lista de contracheques disponíveis',1,'Não existe folha de pagamento lançado',NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'dropdown-item text-center small text-gray-500',1,5,1);
+INSERT INTO `menu_itens` VALUES (1,'Perfil','Perfil do Usuário',1,NULL,NULL,'?page=ControllerUser&option=editProfile&id=usuario_logado_id',NULL,'fas fa-user fa-sm fa-fw mr-2 text-gray-400',1,1,1),(2,'Boas vindas','Boas vindas',1,NULL,NULL,'?page=ControllerSystem&option=welcome',NULL,'fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400',1,1,1),(3,'Sair','Sair',1,NULL,NULL,'?page=ControllerUser&option=logout',NULL,'fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400',1,1,1),(4,'Usuários','Usuários',1,NULL,NULL,'?page=ControllerUser&option=listar',NULL,'fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400',1,2,1),(5,'Permissões','Permissões',1,NULL,NULL,'?page=ControllerAuthority&option=listar',NULL,'fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400',1,2,1),(6,'Parâmetros','Parâmetros',1,NULL,NULL,'?page=ControllerParameter&option=listar',NULL,'fas fa-tasks fa-sm fa-fw mr-2 text-gray-400',1,2,1),(7,'Páginas do Site','Páginas do Site',1,NULL,NULL,'?page=ControllerPage&option=listar',NULL,'fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400',1,2,1),(8,'Conteúdo das Páginas','Conteúdo das Páginas',1,NULL,NULL,'?page=ControllerContent&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2,1),(9,'Teste de Desenvolvimento','Teste de Desenvolvimento',1,NULL,NULL,'?page=ControllerTest&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',1,2,1),(10,'Endereços','Endereços',1,NULL,NULL,'?page=ControllerEndereco&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,3,1),(11,'Estados','Estados',1,NULL,NULL,'?page=ControllerEstado&option=listar',NULL,'fas fa-city fa-sm fa-fw mr-2 text-gray-400',1,3,1),(12,'Países','Países',1,NULL,NULL,'?page=ControllerPais&option=listar',NULL,'fas fa-university fa-sm fa-fw mr-2 text-gray-400',1,3,1),(13,'Funcionários','Funcionários',1,NULL,NULL,'?page=ControllerFuncionario&option=listar',NULL,'fas fa-users fa-sm fa-fw mr-2 text-gray-400',1,4,1),(14,'Contatos','Contatos',1,NULL,NULL,'?page=ControllerContact&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',1,4,1),(15,'Folha de Pagamento','Folha de Pagamento',1,NULL,NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400',1,4,1),(16,'Todas folhas de pagamento','Lista de contracheques disponíveis',1,'Não existe folha de pagamento lançado',NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'dropdown-item text-center small text-gray-500',1,5,1);
 /*!40000 ALTER TABLE `menu_itens` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menu_itens_BEFORE_INSERT` BEFORE INSERT ON `menu_itens` FOR EACH ROW BEGIN
+		INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('menu_itens', NEW.id, 'INSERT', 'id', NEW.id, now()),
+        ('menu_itens', NEW.id, 'INSERT','nome', NEW.nome, now()),
+        ('menu_itens', NEW.id, 'INSERT','descricao', NEW.descricao, now()),
+        ('menu_itens', NEW.id, 'INSERT','status', NEW.status, now()),
+        ('menu_itens', NEW.id, 'INSERT','class', NEW.class, now()),
+        ('menu_itens', NEW.id, 'INSERT','titulo', NEW.titulo, now()),
+        ('menu_itens', NEW.id, 'INSERT','url', NEW.url, now()),
+        ('menu_itens', NEW.id, 'INSERT','image', NEW.image, now()),
+        ('menu_itens', NEW.id, 'INSERT','icone', NEW.icone, now()),
+        ('menu_itens', NEW.id, 'INSERT','menu_item_id', NEW.menu_item_id, now()),
+        ('menu_itens', NEW.id, 'INSERT','menu_id', NEW.menu_id, now()),
+        ('menu_itens', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menu_itens_BEFORE_UPDATE` BEFORE UPDATE ON `menu_itens` FOR EACH ROW BEGIN
+
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+    VALUES 
+  ('menu_itens', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+END IF;
+
+IF (OLD.descricao <> NEW.descricao or (OLD.descricao IS NULL and NEW.descricao IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('menu_itens', 'descricao', OLD.descricao, NEW.descricao, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menu_itens', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.titulo <> NEW.titulo or (OLD.titulo IS NULL and NEW.titulo IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menu_itens', 'titulo', OLD.titulo, NEW.titulo, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.class <> NEW.class or (OLD.class IS NULL and NEW.class IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menu_itens', 'class', OLD.class, NEW.class, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.url <> NEW.url or (OLD.url IS NULL and NEW.url IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menu_itens', 'url', OLD.url, NEW.url, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.image <> NEW.image or (OLD.image IS NULL and NEW.image IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menu_itens', 'image', OLD.image, NEW.image, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.icone <> NEW.icone or (OLD.icone IS NULL and NEW.icone IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menu_itens', 'icone', OLD.icone, NEW.icone, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.menu_item_id <> NEW.menu_item_id or (OLD.menu_item_id IS NULL and NEW.menu_item_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('menu_itens', 'menu_item_id', OLD.menu_item_id, NEW.menu_item_id, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.menu_id <> NEW.menu_id or (OLD.menu_id IS NULL and NEW.menu_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('menu_itens', 'menu_id', OLD.menu_id, NEW.menu_id, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('menu_itens', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id);
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menu_itens_BEFORE_DELETE` BEFORE DELETE ON `menu_itens` FOR EACH ROW BEGIN
+
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('menu_itens', OLD.id, 'DELETE', 'id', OLD.id, now()),
+        ('menu_itens', OLD.id, 'DELETE','nome', OLD.nome, now()),
+        ('menu_itens', OLD.id, 'DELETE','descricao', OLD.descricao, now()),
+        ('menu_itens', OLD.id, 'DELETE','status', OLD.status, now()),
+        ('menu_itens', OLD.id, 'DELETE','titulo', OLD.titulo, now()),
+        ('menu_itens', OLD.id, 'DELETE','class', OLD.class, now()),
+        ('menu_itens', OLD.id, 'DELETE','url', OLD.url, now()),
+        ('menu_itens', OLD.id, 'DELETE','image', OLD.image, now()),
+        ('menu_itens', OLD.id, 'DELETE','icone', OLD.icone, now()),
+        ('menu_itens', OLD.id, 'DELETE','menu_item_id', OLD.menu_item_id, now()),
+        ('menu_itens', OLD.id, 'DELETE','menu_id', OLD.menu_id, now()),
+        ('menu_itens', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `menus`
@@ -539,6 +956,135 @@ LOCK TABLES `menus` WRITE;
 INSERT INTO `menus` VALUES (1,'Perfil','Perfil do usuário',1,NULL,NULL,NULL,'1',1,1),(2,'Sistema','Configurações do Sistema',1,NULL,NULL,NULL,'fas fa-cogs fa-fw',1,1),(3,'Outros','Outras operações',1,NULL,NULL,NULL,'fas fa-arrows-alt fa-fw',1,1),(4,'Recursos Humanos','Operações de RH',1,NULL,NULL,NULL,'fas fa-chalkboard-teacher fa-fw',1,1),(5,'Contra-cheque','Caixa de Menssagens',1,NULL,NULL,NULL,'fas fa-envelope fa-fw',1,1);
 /*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menus_BEFORE_INSERT` BEFORE INSERT ON `menus` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('menus', NEW.id, 'INSERT', 'id', NEW.id, now()),
+        ('menus', NEW.id, 'INSERT','nome', NEW.nome, now()),
+        ('menus', NEW.id, 'INSERT','descricao', NEW.descricao, now()),
+        ('menus', NEW.id, 'INSERT','status', NEW.status, now()),
+        ('menus', NEW.id, 'INSERT','class', NEW.class, now()),
+        ('menus', NEW.id, 'INSERT','url', NEW.url, now()),
+        ('menus', NEW.id, 'INSERT','image', NEW.image, now()),
+        ('menus', NEW.id, 'INSERT','icone', NEW.icone, now()),
+        ('menus', NEW.id, 'INSERT','sistema_id', NEW.sistema_id, now()),
+        ('menus', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menus_BEFORE_UPDATE` BEFORE UPDATE ON `menus` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+    VALUES 
+  ('menus', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+END IF;
+
+IF (OLD.descricao <> NEW.descricao or (OLD.descricao IS NULL and NEW.descricao IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('menus', 'descricao', OLD.descricao, NEW.descricao, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menus', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.class <> NEW.class or (OLD.class IS NULL and NEW.class IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menus', 'class', OLD.class, NEW.class, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.url <> NEW.url or (OLD.url IS NULL and NEW.url IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menus', 'url', OLD.url, NEW.url, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.image <> NEW.image or (OLD.image IS NULL and NEW.image IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menus', 'image', OLD.image, NEW.image, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.icone <> NEW.icone or (OLD.icone IS NULL and NEW.icone IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('menus', 'icone', OLD.icone, NEW.icone, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.sistema_id <> NEW.sistema_id or (OLD.sistema_id IS NULL and NEW.sistema_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('menus', 'sistema_id', OLD.sistema_id, NEW.sistema_id, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('menus', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id);
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menus_BEFORE_DELETE` BEFORE DELETE ON `menus` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('menus', OLD.id, 'DELETE', 'id', OLD.id, now()),
+        ('menus', OLD.id, 'DELETE','nome', OLD.nome, now()),
+        ('menus', OLD.id, 'DELETE','descricao', OLD.descricao, now()),
+        ('menus', OLD.id, 'DELETE','status', OLD.status, now()),
+        ('menus', OLD.id, 'DELETE','class', OLD.class, now()),
+        ('menus', OLD.id, 'DELETE','url', OLD.url, now()),
+        ('menus', OLD.id, 'DELETE','image', OLD.image, now()),
+        ('menus', OLD.id, 'DELETE','icone', OLD.icone, now()),
+        ('menus', OLD.id, 'DELETE','sistema_id', OLD.sistema_id, now()),
+        ('menus', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `page`
@@ -585,7 +1131,7 @@ CREATE TABLE `paises` (
   PRIMARY KEY (`id`),
   KEY `fk_paises_usuario_idx` (`usuario_id`),
   CONSTRAINT `fk_paises_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -594,7 +1140,7 @@ CREATE TABLE `paises` (
 
 LOCK TABLES `paises` WRITE;
 /*!40000 ALTER TABLE `paises` DISABLE KEYS */;
-INSERT INTO `paises` VALUES (1,'Brasil','BRA',1,2),(3,'a','s',1,2);
+INSERT INTO `paises` VALUES (1,'Brasil','BRA',1,2),(3,'a','s',1,2),(4,'','',1,2);
 /*!40000 ALTER TABLE `paises` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -806,7 +1352,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy',NULL,NULL,1),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2023-03-28 03:58:49',NULL,1),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma',NULL,NULL,1);
+INSERT INTO `usuarios` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy',NULL,NULL,1),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$EAW9YOmIdECWXAhAMUyP9uTitfcl0QRty2AlxeXcg0k2Vn1.plvUO','2023-03-28 21:45:09','168003989264235fd465d27.png',1),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma',NULL,NULL,1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -978,8 +1524,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_grupos_BEFORE_UPDATE` BEFORE UPDATE ON `usuarios_grupos` FOR EACH ROW BEGIN
-    
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_grupos_AFTER_UPDATE` AFTER UPDATE ON `usuarios_grupos` FOR EACH ROW BEGIN
 	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
 			INSERT INTO logs
             (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
@@ -1038,4 +1583,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-28 10:58:29
+-- Dump completed on 2023-03-28 19:33:12

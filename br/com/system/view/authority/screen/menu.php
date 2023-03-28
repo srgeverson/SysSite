@@ -18,8 +18,8 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
             echo '<li class="nav-item dropdown no-arrow">';
             echo '  <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
             if ($each_menu->nome == 'Perfil' && $each_menu->id == 1){
-                if (isset($each_menu->imagem))
-                    echo '<img class="img-profile rounded-circle" style="width: 30px; height: 30px" src="' . server_url('br/com/system/uploads/user/') . $each_menu->imagem . '">';
+                if (isset($user_logged->imagem))
+                    echo '<img class="img-profile rounded-circle" style="width: 30px; height: 30px" src="' . server_url('br/com/system/uploads/user/') . $user_logged->imagem . '">';
                 else
                     echo '<img class="img-profile rounded-circle" style="width: 30px; height: 30px" src="' . server_url('br/com/system/uploads/user/not_found.png') . '">';
             } else if($each_menu->nome == 'Contra-cheque' /*&& $each_menu->id == 5*/){
