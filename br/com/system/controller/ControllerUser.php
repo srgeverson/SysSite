@@ -214,7 +214,6 @@ class ControllerUser {
             $filterUser->nome = strip_tags($_POST['nome_usuario']);
             $filterUser->login = strip_tags($_POST['login_usuario']);
             if ($filterUser->nome != null || $filterUser->login != null) {
-                echo $filterUser->nome;
                 // if (strip_tags($_POST['user_fk_authority_pk_id']) !== 'Todas') {
                 //     $user->user_fk_authority_pk_id = strip_tags($_POST['user_fk_authority_pk_id']);
                 // } else {
