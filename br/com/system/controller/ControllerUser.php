@@ -73,6 +73,8 @@ class ControllerUser {
                         $user = new ModelUser();
                         $user->id = $id;
                         $user->status = $status;
+                        global $user_logged;
+                        $user->usuario_id = $user_logged->id;
 
                         $this->daoUser->updateStatus($user);
                         $this->info = "success=user_disabled";
@@ -96,11 +98,17 @@ class ControllerUser {
             }
             try {
                 $user = $this->daoUser->selectObjectById($id);
-                $daoAuthority = new DAOAuthority();
-                $authorities = $daoAuthority->selectObjectsEnabled();
+                //$daoAuthority = new DAOAuthority();
+                //$authorities = $daoAuthority->selectObjectsEnabled();
                 if (!isset($user)) {
                     $this->info = 'warning=user_not_exists';
                     $this->listar();
+                    if($this->daoParameter->verificaConfiguracaoDeEmail())
+                        $user->enviar_senha_por_email = true;
+                    else{
+                        HelperController::valid_messages("warning=server_email_undefined");
+                        $user->enviar_senha_por_email = false;
+                    }
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -173,6 +181,8 @@ class ControllerUser {
                     $user->nome = $nome;
                     $user->senha = $senha;
                     $user->imagem = $novo_nome;
+                    global $user_logged;
+                    $user->usuario_id = $user_logged->id;
                     $this->daoUser->update_user($user);
                     //$user_logged = $user;
                     //$_SESSION['usuario'] = $user_logged;
@@ -196,6 +206,8 @@ class ControllerUser {
                         $user = new ModelUser();
                         $user->id = $id;
                         $user->status = $status;
+                        global $user_logged;
+                        $user->usuario_id = $user_logged->id;
 
                         $this->daoUser->updateStatus($user);
                         $this->info = 'success=user_enabled';
@@ -215,17 +227,11 @@ class ControllerUser {
             $filterUser = new ModelUser();
             $filterUser->nome = strip_tags($_POST['nome_usuario']);
             $filterUser->login = strip_tags($_POST['login_usuario']);
-            if ($filterUser->nome != null || $filterUser->login != null) {
-                // if (strip_tags($_POST['user_fk_authority_pk_id']) !== 'Todas') {
-                //     $user->user_fk_authority_pk_id = strip_tags($_POST['user_fk_authority_pk_id']);
-                // } else {
-                //     $user->user_fk_authority_pk_id = '';
-                // }
+            $filterUser->todos = strip_tags($_POST['todos']);
+            if ($filterUser->nome != null || $filterUser->login != null || $filterUser->todos) {
                 try {
                     $users = $this->daoUser->selectObjectsByContainsObjetc($filterUser);
-                    // $daoAuthority = new DAOAuthority();
-                    // $authorities = $daoAuthority->selectObjectsEnabled();
-                    // $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
+                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -282,54 +288,23 @@ class ControllerUser {
 
     public function novo() {
         if (HelperController::authotity()) {
-            $daoAuthority = new DAOAuthority();
-            $authorities = $daoAuthority->selectObjectsEnabled();
-            include_once server_path('br/com/system/view/user/new.php');
-        }
-    }
-
-    public function save() {
-        if (HelperController::authotity()) {
-            $nome = strip_tags($_POST['nome']); //nome do usuário
-            $login = strip_tags($_POST['login']); //email para acesso
-            $password = random_int(100000, 99999999); //senha aleatoria
-            $senha = password_hash($password, PASSWORD_BCRYPT);
-            $status = true; // usuário ativo
-            $user_fk_authority_pk_id = strip_tags($_POST['user_fk_authority_pk_id']);
-            //Enviando email para acesso ao sistema
-            $contact = new ModelContact();
-            $contact->cont_descricao = $nome;
-            $contact->cont_email = $login;
-            $contact->cont_texto = 'Senha Provisória: ' . $password;
-
-
             $user = new ModelUser();
-            $user->nome = $nome;
-            $user->login = $login;
-            $user->senha = $senha;
-            $user->status = $status;
-            $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
-            try {
-                $controllerContact = new ControllerContact();
-                if (!isset($this->daoUser->selectObjectByName($login)->login)) {
-                    if ($controllerContact->send_email($contact)) {
-                        $this->daoUser->createOtherUser($user);
-                        $this->info = "success=user_created";
-                    } else {
-                        $this->info = "error=contact_not_send_email";
-                    }
-                } else {
-                    $this->info = "warning=user_already_registered";
-                }
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
-            }
-            $this->listar();
+            if($this->daoParameter->verificaConfiguracaoDeEmail())
+                $user->enviar_senha_por_email = true;
+            else
+                $user->enviar_senha_por_email = false;
+            include_once server_path('br/com/system/view/user/new.php');
         }
     }
 
     public function reset() {
         $id = strip_tags($_GET['id']); //Códifo do usuário
+        if($this->daoParameter->verificaConfiguracaoDeEmail())
+            $user->enviar_senha_por_email = true;
+        else{
+            HelperController::valid_messages("warning=server_email_undefined");
+            redirect(server_url('?page=ControllerUser&option=edit&id='. $id));
+        }
         $password = random_int(100000, 99999999); //senha aleatoria
         $senha = password_hash($password, PASSWORD_BCRYPT);
 
@@ -337,6 +312,8 @@ class ControllerUser {
             $user = new ModelUser();
             $user->id = $id;
             $user->senha = $senha;
+            global $user_logged;
+            $user->usuario_id = $user_logged->id;
 
             $user_updated = $this->daoUser->selectObjectById($id);
             //Enviando email para acesso ao sistema
@@ -357,6 +334,47 @@ class ControllerUser {
             $this->info = "error=" . $erro->getMessage();
         }
         $this->listar();
+    }
+
+    public function save() {
+        if (HelperController::authotity()) {
+            $user = new ModelUser();
+            $user->nome = strip_tags($_POST['nome']);
+            $user->login = strip_tags($_POST['login']);
+            $user->senha = strip_tags($_POST['senha']);
+            $user->status = true;
+
+            try {
+                $user_atual = $this->daoUser->selectObjectByName($user->login);
+                if (!$user_atual) {
+                    $user->senha = password_hash($user->senha, PASSWORD_BCRYPT);
+                    if($user->senha){
+                        $this->daoUser->createOtherUser($user);
+                        $this->info = "success=user_created";
+                    }else{
+                        $password = random_int(100000, 99999999); //senha aleatoria
+                        $user->senha = password_hash($password, PASSWORD_BCRYPT);
+                        //Enviando email para acesso ao sistema
+                        $contact = new ModelContact();
+                        $contact->cont_descricao = $nome;
+                        $contact->cont_email = $login;
+                        $contact->cont_texto = 'Senha Provisória: ' . $password;
+                        $controllerContact = new ControllerContact();
+                        if ($controllerContact->send_email($contact)) {
+                            $this->daoUser->createOtherUser($user);
+                            $this->info = "success=user_created";
+                        } else {
+                            $this->info = "error=contact_not_send_email";
+                        }
+                    }
+                } else {
+                    $this->info = "warning=user_already_registered";
+                }
+            } catch (Exception $erro) {
+                $this->info = "error=" . $erro->getMessage();
+            }
+            $this->listar();
+        }
     }
 
     public function submit() {
@@ -384,7 +402,8 @@ class ControllerUser {
         $user->login = $login;
         $user->senha = $senha;
         $user->status = $status;
-        $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
+        global $user_logged;
+        $user->usuario_id = $user_logged->id;
         try {
             if (!isset($this->daoUser->selectObjectByName($login)->login)) {
                 $controllerContact = new ControllerContact();
@@ -404,33 +423,32 @@ class ControllerUser {
 
     public function update() {
         if (HelperController::authotity()) {
-            if (HelperController::authotity()) {
-                $id = strip_tags($_POST['id']);
-                if (!isset($id)) {
-                    $this->info = 'warning=user_uninformed';
-                }
-                $nome = strip_tags($_POST['nome']);
-                $login = strip_tags($_POST['login']);
-                $user_fk_authority_pk_id = strip_tags($_POST['user_fk_authority_pk_id']);
-
-                $user = new ModelUser();
-                $user->id = $id;
-                $user->nome = $nome;
-                $user->login = $login;
-                $user->user_fk_authority_pk_id = $user_fk_authority_pk_id;
-
-                try {
-                    $this->daoUser->update($user);
-                    if ($user == null) {
-                        $this->info = 'warning=user_not_exists';
-                        $this->listar();
-                    }
-                    $this->info = 'success=user_updated';
-                } catch (Exception $erro) {
-                    $this->info = "error=" . $erro->getMessage();
-                }
-                $this->listar();
+            
+            $user = new ModelUser();
+            $user->id = strip_tags($_POST['id']);
+            $user->nome = strip_tags($_POST['nome']);
+            $user->login = strip_tags($_POST['login']);
+            $user->senha = strip_tags($_POST['senha']);
+            $status = true;
+            global $user_logged;
+            $user->usuario_id = $user_logged->id;
+            if (!isset($user->id)) {
+                $this->info = 'warning=user_uninformed';
             }
+            if($user->senha){
+                $user->senha = password_hash($user->senha, PASSWORD_BCRYPT);
+            }
+            try {
+                $this->daoUser->update($user);
+                if ($user == null) {
+                    $this->info = 'warning=user_not_exists';
+                    $this->listar();
+                }
+                $this->info = 'success=user_updated';
+            } catch (Exception $erro) {
+                $this->info = "error=" . $erro->getMessage();
+            }
+           $this->listar();
         }
     }
 

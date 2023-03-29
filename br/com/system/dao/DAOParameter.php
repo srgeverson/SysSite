@@ -154,4 +154,15 @@ class DAOParameter extends GenericDAO {
         return true;
     }
 
+    public function verificaConfiguracaoDeEmail(){
+        $this->query = "SELECT * FROM parameter AS p where p.para_key in ('email','senha') and p.para_status = 1;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
 }

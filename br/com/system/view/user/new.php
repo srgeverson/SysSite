@@ -20,12 +20,12 @@
                     </div>
                     <div class="form-group">
                         <label class="text-primary">E-mail:</label><br>
-                        <input class="form-control" name="login" type="email" placeholder="Digite um email..."  required>
+                        <input class="form-control" name="login" type="email" placeholder="Digite um email..." value=""  required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Perfil:</label><br>
+                        <label class="text-primary">Grupo/Perfil:</label><br>
                         <select name="user_fk_authority_pk_id" class="form-control" required>
-                            <option></option>
+                            <option value="<?php echo $user->auth_pk_id; ?>"><?php echo $user->auth_description; ?></option>
                             <?php
                             foreach ($authorities as $each_authority) {
                                 echo '<option value="', $each_authority->auth_pk_id, '">', $each_authority->auth_description, '</option>';
@@ -33,11 +33,23 @@
                             ?>
                         </select>
                     </div>
+                    <?php
+                    if($user->enviar_senha_por_email !== true){
+                        echo '<div class="form-group">';
+                        echo '<label class="text-primary">Senha:</label><br>';
+                        echo '<input class="form-control" id="senha_sem_email" name="senha" placeholder="Digite sua senha..." type="password" required>';
+                        echo '</div>';
+                        echo '<div class="form-group">';
+                        echo '<label class="text-primary">Confirmar Senha:</label><br>';
+                        echo '<input class="form-control" id="confirma_senha_sem_email" name="senha" placeholder="Confirm sua senha..." type="password" required>';
+                        echo '</div>';
+                    }
+                ?>
                 </div>
                 <div class="card-footer">
                     <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar com grupos de botões">
                         <div class="input-group">
-                            <button class="btn btn-primary btn-icon-split">
+                            <button class="btn btn-primary btn-icon-split" id="salvar_novo_usuario_com_senha" disabled>
                                 <span class="icon text-white-50">
                                     <i class="fas fa-save"></i>
                                 </span>

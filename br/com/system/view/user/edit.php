@@ -26,7 +26,7 @@
                         <input class="form-control" name="login" type="text" placeholder="Digite um email..."  value="<?php echo $user->login; ?>" required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Permissão:</label><br>
+                        <label class="text-primary">Grupo/Perfil:</label><br>
                         <select name="user_fk_authority_pk_id" class="form-control" required>
                             <option value="<?php echo $user->auth_pk_id; ?>"><?php echo $user->auth_description; ?></option>
                             <?php
@@ -36,6 +36,18 @@
                             ?>
                         </select>
                     </div>
+                    <?php 
+                    if($user->enviar_senha_por_email !== true){
+                        echo '<div class="form-group">';
+                        echo '<label class="text-primary">Senha:</label><br>';
+                        echo '<input class="form-control" id="senha_sem_email" name="senha" placeholder="Digite sua senha..." type="password" required>';
+                        echo '</div>';
+                        echo '<div class="form-group">';
+                        echo '<label class="text-primary">Confirmar Senha:</label><br>';
+                        echo '<input class="form-control" id="confirma_senha_sem_email" name="senha" placeholder="Confirm sua senha..." type="password" required>';
+                        echo '</div>';
+                    }
+                    ?>
                 </div>
                 <div class="card-footer">
                     <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar com grupos de botões">
