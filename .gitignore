@@ -118,6 +118,11 @@ $RECYCLE.BIN/
 !700x400.png
 !500x300.png
 !favicon.png
+#Vídeos
+*.mp4
+!bg.mp4
+#Músicas
+*.mp3
 #Documentos
 *.pdf
 *.txt
