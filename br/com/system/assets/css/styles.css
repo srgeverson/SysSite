@@ -10857,6 +10857,18 @@ video.bg-video {
   z-index: 0;
 }
 
+img.bg-img {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 0;
+}
+
 @media (pointer: coarse) and (hover: none) {
   body {
     background: url("../assets/img/bg-mobile-fallback.jpg") #2a5555 no-repeat center center scroll;
@@ -10952,8 +10964,8 @@ video.bg-video {
   align-items: center;
   justify-content: center;
   padding: 0;
-  height: 4rem;
-  width: 4rem;
+  /* height: 4rem;*/
+  width: 10rem; 
   border-radius: 100rem;
 }
 
@@ -10965,4 +10977,8 @@ video.bg-video {
     right: 2.5rem;
     width: auto;
   }
+}
+
+.social-icons .fab {
+  padding: 0.5rem;
 }
