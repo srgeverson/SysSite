@@ -29,7 +29,7 @@
 
         <link href=" <?php echo server_url('br/com/system/assets/css/') . 'styles.css'; ?>" rel="stylesheet" />
         <!-- Custom fonts for this template-->
-        <link href="<?php echo server_url('br/com/system/assets/vendor/fontawesome-free/css/') . 'all.min.css'; ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo server_url('br/com/system/assets/vendor/fontawesome-free-6.4.0/css/') . 'all.min.css'; ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo server_url('br/com/system/assets/css/') . 'fonts.css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i'; ?>" rel="stylesheet">
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $parameter->getProperty('google_analytics'); ?>"></script>
@@ -45,13 +45,16 @@
     </head>
     <body>
         <!-- Background Video-->
-        <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="<?php echo server_url('br/com/system/assets/video/') . 'bg.mp4'; ?>" type="video/mp4" /></video>
+        <!-- <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"> -->
+            <!-- <source src="<?php //echo server_url('br/com/system/assets/video/') . 'bg.mp4'; ?>" type="video/mp4" /> -->
+            <img class="bg-img" src="<?php echo server_url('br/com/system/assets/img/') . 'bg-mobile-fallback.jpg'; ?>" alt="imgage" />
+        <!-- </video> -->
         <!-- Masthead-->
         <div class="masthead">
             <div class="masthead-content text-white">
                 <div class="container-fluid px-5 px-lg-0">
                     <h1 class="fst-italic lh-1 mb-4">Aguiar Silva Advogados</h1>
-                    <p class="mb-5">Oferecemos serviços em diversas áreas do Direito, incluindo imobiliaria, previdenciário, cível e trabalhista. Com um compromisso forte com a ética, transparência e excelência em nosso trabalho, estamos prontos para oferecer soluções jurídicas sob medida para nossos clientes.</p>
+                    <p class="mb-5">Com um compromisso forte com a ética, transparência e excelência em nosso trabalho, oferecemos serviços em diversas áreas do Direito, incluindo imobiliaria, previdenciário, cível e trabalhista. </p>
                     <div class="row input-group-newsletter">
                         <div class="col-auto"><a class="btn btn-primary" href="<?php echo server_url('/');?>" target="_blank">Ir para nosso site</a></div>
                     </div>
@@ -61,9 +64,9 @@
         <!-- Social Icons-->
         <div class="social-icons">
             <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
-                <a class="btn btn-dark m-3 btn-lg" href="#!"><i class="fab fa-twitter"></i>twitter</a>
-                <a class="btn btn-dark m-3" href="#!"><i class="fab fa-facebook-f"></i>facebook</a>
-                <a class="btn btn-dark m-3" href="#!"><i class="fab fa-instagram"></i>instagram</a>
+                <a class="btn btn-dark btn-lg m-3" href="#!"><i class="fab fa-twitter"></i>twitter</a>
+                <a class="btn btn-dark btn-lg m-3" href="#!"><i class="fab fa-facebook-f"></i>facebook</a>
+                <a class="btn btn-dark btn-lg m-3" href="#!"><i class="fab fa-instagram"></i>instagram</a>
             </div>
         </div>
         <!-- Bootstrap core JavaScript-->
