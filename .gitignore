@@ -110,6 +110,7 @@ $RECYCLE.BIN/
 *.jpg
 *.jpeg
 *.png
+*.gif
 !admin.jpg
 !not_found.png
 !1900x1080.png
