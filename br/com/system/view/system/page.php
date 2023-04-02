@@ -74,6 +74,8 @@
                 <?php navbar(); ?>
             </div>
         </nav>
+        
+       
         <!-- Centro da página -->
         <?php main(); ?>
         <!-- Rodapé -->
@@ -147,8 +149,7 @@
             $('#cont_phone').on('click', function (e) {
                 e.preventDefault();
                 navigator.clipboard.writeText($('#chave_pix').val());
-                //$('.alert').alert()
-                //alert('Texto copiado para área de transferência! Ctrl+V em algum local para colar');
+                $('#liveToast').toast('show');
             });
         </script>
     </body>
