@@ -1,5 +1,5 @@
-# system - Sistema de Disponibilização de Folha de Pagamento
-Este sistema servirá para disponibilizar folha de pagamento dos funcionários, onde o usuário ira realizar o updload dos contra-cheques em pdf e o sistema ler os arquivos e vincula aos respectivos funcionários.
+# SysSite - Site com sistema integrado para gerenciamento de seu próprio conteúdo.
+Este sistema possui um site onde o mesmo é genrenciado pelo mesmo.
 
 ### Pré-requisitos
 
