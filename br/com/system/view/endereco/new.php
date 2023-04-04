@@ -16,31 +16,27 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label class="text-primary">Logradouro:</label><br>
-                        <input class="form-control" name="ende_logradouro" type="text" placeholder="Digite o logradouro..." required>
+                        <input class="form-control" name="logradouro" type="text" placeholder="Digite o logradouro..." required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Número:</label><br>
-                        <input class="form-control" name="ende_numero" type="text" placeholder="Digite o número/bloco/casa/apt...">
+                        <input class="form-control" name="numero" type="text" placeholder="Digite o número/bloco/casa/apt...">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Bairro:</label><br>
-                        <input class="form-control" name="ende_bairro" type="text" placeholder="Digite o celular...">
+                        <input class="form-control" name="bairro" type="text" placeholder="Digite o celular...">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">CEP:</label><br>
-                        <input class="form-control" name="ende_cep" id="cep" type="text" placeholder="Digite o CEP...">
+                        <input class="form-control" name="cep" id="cep" type="text" placeholder="Digite o CEP...">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Cidade:</label><br>
-                        <input class="form-control" name="ende_cidade" type="text" placeholder="Digite a cidade...">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary">Estado:</label><br>
-                        <select name="ende_fk_estado_pk_id" class="form-control" required>
+                        <select name="cidade_id" class="form-control" required>
                             <option></option>
                             <?php
-                            foreach ($estados as $each_estado) {
-                                echo '<option value="', $each_estado->id, '">', $each_estado->nome, '</option>';
+                            foreach ($cidades as $each_cidade) {
+                                echo '<option value="', $each_cidade->id, '">', $each_cidade->nome, '</option>';
                             }
                             ?>
                         </select>

@@ -213,13 +213,17 @@ class ControllerPage {
         if (!isset($msg)) {
             $msg = $this->info;
         }
-
-        $parameter = new ControllerParameter();
-        $daoEndereco = new DAOEndereco();
-        $endereco = $daoEndereco->selectObjectById($parameter->getProperty('endereco'));
-
-        $daoContact = new DAOContact();
-        $contact = $daoContact->selectObjectById($parameter->getProperty('contato'));
+        try {
+            $parameter = new ControllerParameter();
+            $daoEndereco = new DAOEndereco();
+            $endereco = $daoEndereco->selectObjectById($parameter->getProperty('endereco'));
+            
+            $daoContact = new DAOContact();
+            $contact = $daoContact->selectObjectById($parameter->getProperty('contato'));
+            //code...
+        } catch (Exception $ex) {
+           throw $ex;
+        }
         include_once server_path('br/com/system/view/page/pages/landing_page.php');
     }
 

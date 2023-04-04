@@ -15,35 +15,31 @@
                 <h4 class="card-header text-primary">Alterar Endereço</h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <input class="form-control" name="ende_pk_id" type="hidden" value="<?php echo $endereco->ende_pk_id; ?>">
+                        <input class="form-control" name="id" type="hidden" value="<?php echo $endereco->id; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Logradouro:</label><br>
-                        <input class="form-control" name="ende_logradouro" type="text" placeholder="Digite uma descrição..." value="<?php echo $endereco->ende_logradouro; ?>">
+                        <input class="form-control" name="logradouro" type="text" placeholder="Digite uma descrição..." value="<?php echo $endereco->logradouro; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Número:</label><br>
-                        <input class="form-control" name="ende_numero" id="phone" type="text" placeholder="Digite o número/casa/apt/bloco..." value="<?php echo $endereco->ende_numero; ?>">
+                        <input class="form-control" name="numero" id="text" type="text" placeholder="Digite o número/casa/apt/bloco..." value="<?php echo $endereco->numero; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Bairro:</label><br>
-                        <input class="form-control" name="ende_bairro" id="cell" type="text" placeholder="Digite o barirro..." value="<?php echo $endereco->ende_bairro; ?>">
+                        <input class="form-control" name="bairro" type="text" placeholder="Digite o barirro..." value="<?php echo $endereco->bairro; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">CEP:</label><br>
-                        <input class="form-control" name="ende_cep" id="cell" type="text" placeholder="Digite o CEP..." value="<?php echo $endereco->ende_cep; ?>">
+                        <input class="form-control" name="cep" id="cep" type="text" placeholder="Digite o CEP..." value="<?php echo $endereco->cep; ?>">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Cidade:</label><br>
-                        <input class="form-control" name="ende_cidade" id="whatsapp" type="text" placeholder="Digite o cidade..."value="<?php echo $endereco->ende_cidade; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary">Estado:</label><br>
-                        <select name="ende_fk_estado_pk_id" class="form-control" required>
-                            <option value="<?php echo $endereco->ende_fk_estado_pk_id; ?>"><?php echo $endereco->nome; ?></option>
+                        <select name="cidade_id" class="form-control" required>
+                            <option></option>
                             <?php
-                            foreach ($estados as $each_estado) {
-                                echo '<option value="', $each_estado->id, '">', $each_estado->nome, '</option>';
+                            foreach ($cidades as $each_cidade) {
+                                echo '<option value="', $each_cidade->id, '"', $each_cidade->id === $endereco->cidade_id ? 'selected' : '', '>', $each_cidade->nome, '</option>';
                             }
                             ?>
                         </select>

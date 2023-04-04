@@ -100,7 +100,7 @@ $ http://localhost
 
 ```bash
 # Em ambientes windows execute o seguinte comando
-$ cd C:\Program Files\MySQL\MySQL Server 8.0\bin\
+$ cd C:\Program Files\MySQL\MySQL Server 8.0\
 
 # Autenticando no banco de dados em seguida será solicitado a senha
 $ mysql -u root -p

@@ -5,28 +5,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+include_once server_path("br/com/system/dao/DAOCidade.php");
 include_once server_path("br/com/system/dao/DAOEndereco.php");
 include_once server_path("br/com/system/dao/DAOEstado.php");
+include_once server_path("br/com/system/model/ModelCidade.php");
 include_once server_path("br/com/system/model/ModelEndereco.php");
 
 class ControllerEndereco {
 
     private $info;
     private $daoEndereco;
+    private $daoCidade;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoEndereco = new DAOEndereco();
+        $this->daoCidade = new DAOCidade();
     }
 
     public function delete() {
         if (HelperController::authotity()) {
-            $ende_pk_id = strip_tags($_GET['ende_pk_id']);
-            if (!isset($ende_pk_id)) {
+            $id = strip_tags($_GET['id']);
+            if (!isset($id)) {
                 $this->info = 'warning=endereco_uninformed';
             }
             try {
-                $this->daoEndereco->delete($ende_pk_id);
+                $this->daoEndereco->delete($id);
                 $this->info = "success=endereco_deleted";
                 $this->listar();
             } catch (Exception $erro) {
@@ -37,16 +41,16 @@ class ControllerEndereco {
 
     public function disable() {
         if (HelperController::authotity()) {
-            $ende_pk_id = strip_tags($_GET['ende_pk_id']);
-            if (isset($ende_pk_id)) {
-                $ende_status = false;
+            $id = strip_tags($_GET['id']);
+            if (isset($id)) {
+                $status = false;
                 try {
-                    if (($this->daoEndereco->selectObjectById($ende_pk_id)) === null) {
+                    if (($this->daoEndereco->selectObjectById($id)) === null) {
                         $this->info = 'warning=endereco_not_exists';
                     } else {
                         $endereco = new ModelEndereco();
-                        $endereco->ende_pk_id = $ende_pk_id;
-                        $endereco->ende_status = $ende_status;
+                        $endereco->id = $id;
+                        $endereco->status = $status;
 
                         $this->daoEndereco->updateStatus($endereco);
                         $this->info = 'success=endereco_disabled';
@@ -63,15 +67,14 @@ class ControllerEndereco {
 
     public function edit() {
         if (HelperController::authotity()) {
-            $ende_pk_id = $_GET['ende_pk_id'];
-            if (!isset($ende_pk_id)) {
+            $id = $_GET['id'];
+            if (!isset($id)) {
                 $this->info = 'warning=endereco_uninformed';
                 $this->listar();
             }
             try {
-                $daoEstado = new DAOEstado();
-                $estados = $daoEstado->selectObjectsEnabled();
-                $endereco = $this->daoEndereco->selectObjectById($ende_pk_id);
+                $cidades = $this->daoCidade->selectObjectsEnabledWithEstados();
+                $endereco = $this->daoEndereco->selectObjectById($id);
                 if (!isset($endereco)) {
                     $this->info = 'warning=endereco_not_exists';
                     $this->listar();
@@ -88,16 +91,16 @@ class ControllerEndereco {
 
     public function enable() {
         if (HelperController::authotity()) {
-            $ende_pk_id = strip_tags($_GET['ende_pk_id']);
-            if (isset($ende_pk_id)) {
-                $ende_status = true;
+            $id = strip_tags($_GET['id']);
+            if (isset($id)) {
+                $status = true;
                 try {
-                    if (($this->daoEndereco->selectObjectById($ende_pk_id)) === null) {
+                    if (($this->daoEndereco->selectObjectById($id)) === null) {
                         $this->info = 'warning=endereco_not_exists';
                     } else {
                         $endereco = new ModelEndereco();
-                        $endereco->ende_pk_id = $ende_pk_id;
-                        $endereco->ende_status = $ende_status;
+                        $endereco->id = $id;
+                        $endereco->status = $status;
 
                         $this->daoEndereco->updateStatus($endereco);
                         $this->info = 'success=endereco_enabled';
@@ -114,13 +117,16 @@ class ControllerEndereco {
 
     public function listar() {
         if (HelperController::authotity()) {
-            if (isset($_POST['ende_logradouro']) && isset($_POST['ende_cidade'])) {
-                $endereco = new ModelEndereco();
-                $endereco->ende_logradouro = strip_tags($_POST['ende_logradouro']);
-                $endereco->ende_cidade = strip_tags($_POST['ende_cidade']);
+            $endereco = new ModelEndereco();
+            $endereco->logradouro = strip_tags($_POST['logradouro']);
+            $endereco->cidade_id =strip_tags($_POST['cidade_id']);
+            $endereco->todos =strip_tags($_POST['todos']);
+            $cidades = $this->daoCidade->selectObjectsEnabledWithEstados();
+            if ($endereco->logradouro != null && $endereco->cidade_id != null || $endereco->todos) {
                 try {
                     $enderecos = $this->daoEndereco->selectObjectsByContainsObject($endereco);
                 } catch (Exception $erro) {
+                    print_r($erro);
                     $this->info = "error=" . $erro->getMessage();
                 }
             }
@@ -133,38 +139,32 @@ class ControllerEndereco {
 
     public function novo() {
         if (HelperController::authotity()) {
-            $daoEstado = new DAOEstado();
-            $estados = $daoEstado->selectObjectsEnabled();
-            include_once server_path('br/com/system/view/endereco/new.php');
+            try {
+                $cidades = $this->daoCidade->selectObjectsEnabledWithEstados();
+                include_once server_path('br/com/system/view/endereco/new.php');
+            } catch (Exception $erro) {
+                $this->info = "error=" . $erro->getMessage();
+            }
         }
     }
 
     public function save() {
         if (HelperController::authotity()) {
-            $ende_logradouro = strip_tags($_POST['ende_logradouro']);
-            $ende_numero = strip_tags($_POST['ende_numero']);
-            $ende_bairro = strip_tags($_POST['ende_bairro']);
-            $ende_cep = strip_tags($_POST['ende_cep']);
-            $ende_cidade = strip_tags($_POST['ende_cidade']);
-            $ende_fk_estado_pk_id = strip_tags($_POST['ende_fk_estado_pk_id']);
-            global $user_logged;
-            $ende_fk_id = $user_logged->id;
-            $ende_status = true;
-
-            $endereco = new ModelEndereco();
-            $endereco->ende_logradouro = $ende_logradouro;
-            $endereco->ende_numero = $ende_numero;
-            $endereco->ende_bairro = $ende_bairro;
-            $endereco->ende_cep = $ende_cep;
-            $endereco->ende_cidade = $ende_cidade;
-            $endereco->ende_fk_estado_pk_id = $ende_fk_estado_pk_id;
-            $endereco->ende_fk_id = $ende_fk_id;
-            $endereco->ende_status = $ende_status;
             try {
+                $endereco = new ModelEndereco();
+                $endereco->logradouro = strip_tags($_POST['logradouro']);
+                $endereco->numero = strip_tags($_POST['numero']);
+                $endereco->bairro = strip_tags($_POST['bairro']);
+                $endereco->cep = strip_tags($_POST['cep']);
+                $endereco->cidade_id =strip_tags($_POST['cidade_id']);
+                global $user_logged;
+                $endereco->usuario_id = $user_logged->id;
+                $endereco->status = true;
                 $daoEndereco = new DAOEndereco();
                 $daoEndereco->save($endereco);
                 $this->info = "success=endereco_created";
             } catch (Exception $erro) {
+                // print_r($erro);
                 $this->info = "error=" . $erro->getMessage();
             }
             $this->listar();
@@ -174,28 +174,28 @@ class ControllerEndereco {
     public function update() {
         if (HelperController::authotity()) {
             if (HelperController::authotity()) {
-                $ende_pk_id = strip_tags($_POST['ende_pk_id']);
-                if (!isset($ende_pk_id)) {
+                $id = strip_tags($_POST['id']);
+                if (!isset($id)) {
                     $this->info = 'warning=endereco_uninformed';
                 }
-                $ende_logradouro = strip_tags($_POST['ende_logradouro']);
-                $ende_numero = strip_tags($_POST['ende_numero']);
-                $ende_bairro = strip_tags($_POST['ende_bairro']);
-                $ende_cep = strip_tags($_POST['ende_cep']);
-                $ende_cidade = strip_tags($_POST['ende_cidade']);
-                $ende_fk_estado_pk_id = strip_tags($_POST['ende_fk_estado_pk_id']);
+                $logradouro = strip_tags($_POST['logradouro']);
+                $numero = strip_tags($_POST['numero']);
+                $bairro = strip_tags($_POST['bairro']);
+                $cep = strip_tags($_POST['cep']);
+                $cidade_id = strip_tags($_POST['cidade_id']);
+                $estado_id = strip_tags($_POST['estado_id']);
                 global $user_logged;
-                $ende_fk_id = $user_logged->id;
+                $usuario_id = $user_logged->id;
 
                 $endereco = new ModelEndereco();
-                $endereco->ende_pk_id = $ende_pk_id;
-                $endereco->ende_logradouro = $ende_logradouro;
-                $endereco->ende_numero = $ende_numero;
-                $endereco->ende_bairro = $ende_bairro;
-                $endereco->ende_cep = $ende_cep;
-                $endereco->ende_cidade = $ende_cidade;
-                $endereco->ende_fk_estado_pk_id = $ende_fk_estado_pk_id;
-                $endereco->ende_fk_id = $ende_fk_id;
+                $endereco->id = $id;
+                $endereco->logradouro = $logradouro;
+                $endereco->numero = $numero;
+                $endereco->bairro = $bairro;
+                $endereco->cep = $cep;
+                $endereco->cidade_id = $cidade_id;
+                $endereco->estado_id = $estado_id;
+                $endereco->usuario_id = $usuario_id;
 
                 try {
                     $this->daoEndereco->update($endereco);

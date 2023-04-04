@@ -1,7 +1,7 @@
 <?php
 
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in Project Propertic.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -10,12 +10,12 @@ include_once server_path('br/com/system/dao/GenericDAO.php');
 
 class DAOEndereco extends GenericDAO {
 
-    public function delete($ende_pk_id = 0) {
+    public function delete($id = 0) {
         try {
-            $this->query = "DELETE FROM endereco WHERE ende_pk_id=:ende_pk_id;";
+            $this->query = "DELETE FROM enderecos WHERE id=:id;";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
-            $this->statement->bindParam(":ende_pk_id", $ende_pk_id, PDO::PARAM_INT);
+            $this->statement->bindParam(":id", $id, PDO::PARAM_INT);
             $this->statement->execute();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
@@ -27,24 +27,23 @@ class DAOEndereco extends GenericDAO {
         if (!is_object($endereco)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "INSERT INTO endereco ";
-        $this->query .= "(ende_logradouro, ende_numero, ende_bairro, ende_cep, ende_cidade, ende_status, ende_fk_estado_pk_id, ende_fk_id) ";
+        $this->query = "INSERT INTO enderecos ";
+        $this->query .= "(logradouro, numero, bairro, cep, cidade_id, status, usuario_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:ende_logradouro, :ende_numero, :ende_bairro, :ende_cep, :ende_cidade, :ende_status, :ende_fk_estado_pk_id, :ende_fk_id);";
+        $this->query .= "(:logradouro, :numero, :bairro, :cep, :cidade_id, :status, :usuario_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':ende_logradouro', $endereco->ende_logradouro, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_numero', $endereco->ende_numero, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_bairro', $endereco->ende_bairro, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_cep', $endereco->ende_cep, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_cidade', $endereco->ende_cidade, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_fk_estado_pk_id', $endereco->ende_fk_estado_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':ende_fk_id', $endereco->ende_fk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':ende_status', $endereco->ende_status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':logradouro', $endereco->logradouro, PDO::PARAM_STR);
+        $this->statement->bindParam(':numero', $endereco->numero, PDO::PARAM_STR);
+        $this->statement->bindParam(':bairro', $endereco->bairro, PDO::PARAM_STR);
+        $this->statement->bindParam(':cep', $endereco->cep, PDO::PARAM_STR);
+        $this->statement->bindParam(':cidade_id', $endereco->cidade_id, PDO::PARAM_STR);
+        $this->statement->bindParam(':usuario_id', $endereco->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':status', $endereco->status, PDO::PARAM_BOOL);
         $this->statement->execute();
         return true;
     }
@@ -53,56 +52,58 @@ class DAOEndereco extends GenericDAO {
         if (!is_object($endereco)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "INSERT INTO endereco ";
-        $this->query .= "(ende_logradouro, ende_numero, ende_bairro, ende_cep, ende_cidade, ende_status, ende_fk_estado_pk_id, ende_fk_id) ";
+        $this->query = "INSERT INTO enderecos ";
+        $this->query .= "(logradouro, numero, bairro, cep, cidade_id, status, estado_id, usuario_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:ende_logradouro, :ende_numero, :ende_bairro, :ende_cep, :ende_cidade, :ende_status, :ende_fk_estado_pk_id, :ende_fk_id);";
+        $this->query .= "(:logradouro, :numero, :bairro, :cep, :cidade_id, :status, :estado_id, :usuario_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':ende_logradouro', $endereco->ende_logradouro, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_numero', $endereco->ende_numero, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_bairro', $endereco->ende_bairro, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_cep', $endereco->ende_cep, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_cidade', $endereco->ende_cidade, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_fk_estado_pk_id', $endereco->ende_fk_estado_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':ende_fk_id', $endereco->ende_fk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':ende_status', $endereco->ende_status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':logradouro', $endereco->logradouro, PDO::PARAM_STR);
+        $this->statement->bindParam(':numero', $endereco->numero, PDO::PARAM_STR);
+        $this->statement->bindParam(':bairro', $endereco->bairro, PDO::PARAM_STR);
+        $this->statement->bindParam(':cep', $endereco->cep, PDO::PARAM_STR);
+        $this->statement->bindParam(':cidade_id', $endereco->cidade_id, PDO::PARAM_STR);
+        $this->statement->bindParam(':estado_id', $endereco->estado_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':usuario_id', $endereco->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':status', $endereco->status, PDO::PARAM_BOOL);
         $this->statement->execute();
         return $conexao->lastInsertId();
     }
 
-    public function selectObjectById($ende_pk_id = 0) {
+    public function selectObjectById($id = 0) {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.id, es.nome, es.sigla, u.id, u.nome ";
-        $this->query .= "FROM endereco AS e ";
-        $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.id) ";
-        $this->query .= "INNER JOIN user AS u ON (e.ende_fk_id=u.id) ";
-        $this->query .= "WHERE ";
-        $this->query .= "ende_pk_id=:ende_pk_id LIMIT 1;";
+        $this->query .= "e.*, c.id AS cidade_id, c.nome AS cidade_nome,es.id as estado_id, es.sigla as estado_sigla, u.id AS usuario_id, u.nome AS usuario_nome ";
+        $this->query .= "FROM enderecos AS e ";
+        $this->query .= "INNER JOIN cidades AS c ON (c.id=e.cidade_id) ";
+        $this->query .= "INNER JOIN estados AS es ON (es.id=c.estado_id) ";
+        $this->query .= "INNER JOIN usuarios AS u ON (u.id=e.usuario_id) ";
+        $this->query .= "WHERE 1 = 1 ";
+        $this->query .= "AND e.id=:id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":ende_pk_id", $ende_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(":id", $id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
     public function selectObjectsByContainsObject(ModelEndereco $endereco = null) {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.id, es.nome, es.sigla, u.id, u.nome ";
-        $this->query .= "FROM endereco AS e ";
-        $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.id) ";
-        $this->query .= "INNER JOIN user AS u ON (e.ende_fk_id=u.id) ";
-        $this->query .= "WHERE ";
-        $this->query .= "e.ende_logradouro LIKE '%$endereco->ende_logradouro%' AND ";
-        $this->query .= "e.ende_cidade LIKE '%$endereco->ende_cidade%';";
+        $this->query .= "e.*, c.id AS cidade_id, c.nome AS cidade_nome,es.id as estado_id, es.sigla as estado_sigla, u.id AS usuario_id, u.nome AS usuario_nome ";
+        $this->query .= "FROM enderecos AS e ";
+        $this->query .= "INNER JOIN cidades AS c ON (c.id=e.cidade_id) ";
+        $this->query .= "INNER JOIN estados AS es ON (es.id=c.estado_id) ";
+        $this->query .= "INNER JOIN usuarios AS u ON (u.id=e.usuario_id) ";
+        $this->query .= "WHERE 1 = 1 ";
+        $this->query .= "AND e.logradouro LIKE '%$endereco->logradouro%' ";
+        //$this->query .= "AND e.cidade_id LIKE '%$endereco->cidade_id%';";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -115,12 +116,12 @@ class DAOEndereco extends GenericDAO {
 
     public function selectObjectsEnabled() {
         $this->query = "SELECT ";
-        $this->query .= "e.*, es.id, es.nome, es.sigla, u.id, u.nome ";
-        $this->query .= "FROM endereco AS e ";
-        $this->query .= "INNER JOIN estado AS es ON (e.ende_fk_estado_pk_id=es.id) ";
-        $this->query .= "INNER JOIN user AS u ON (e.ende_fk_id=u.id) ";
+        $this->query .= "e.*, c.id, c.nome, c.sigla, u.id, u.nome ";
+        $this->query .= "FROM enderecos AS e ";
+        $this->query .= "INNER JOIN estados AS es ON (e.estado_id=c.id) ";
+        $this->query .= "INNER JOIN usuarios AS u ON (e.usuario_id=u.id) ";
         $this->query .= "WHERE ";
-        $this->query .= "p.ende_status = 1;";
+        $this->query .= "p.status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -135,29 +136,27 @@ class DAOEndereco extends GenericDAO {
         if (!is_object($endereco)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE endereco SET ";
-        $this->query .= "ende_logradouro=:ende_logradouro, ";
-        $this->query .= "ende_numero=:ende_numero, ";
-        $this->query .= "ende_bairro=:ende_bairro, ";
-        $this->query .= "ende_cep=:ende_cep, ";
-        $this->query .= "ende_cidade=:ende_cidade, ";
-        $this->query .= "ende_fk_estado_pk_id=:ende_fk_estado_pk_id, ";
-        $this->query .= "ende_fk_id=:ende_fk_id ";
-        $this->query .= " WHERE ende_pk_id=:ende_pk_id;";
+        $this->query = "UPDATE enderecos SET ";
+        $this->query .= "logradouro=:logradouro, ";
+        $this->query .= "numero=:numero, ";
+        $this->query .= "bairro=:bairro, ";
+        $this->query .= "cep=:cep, ";
+        $this->query .= "cidade_id=:cidade_id, ";
+        $this->query .= "usuario_id=:usuario_id ";
+        $this->query .= " WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':ende_logradouro', $endereco->ende_logradouro, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_numero', $endereco->ende_numero, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_bairro', $endereco->ende_bairro, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_cep', $endereco->ende_cep, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_cidade', $endereco->ende_cidade, PDO::PARAM_STR);
-        $this->statement->bindParam(':ende_fk_estado_pk_id', $endereco->ende_fk_estado_pk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':ende_fk_id', $endereco->ende_fk_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':ende_pk_id', $endereco->ende_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':logradouro', $endereco->logradouro, PDO::PARAM_STR);
+        $this->statement->bindParam(':numero', $endereco->numero, PDO::PARAM_STR);
+        $this->statement->bindParam(':bairro', $endereco->bairro, PDO::PARAM_STR);
+        $this->statement->bindParam(':cep', $endereco->cep, PDO::PARAM_STR);
+        $this->statement->bindParam(':cidade_id', $endereco->cidade_id, PDO::PARAM_STR);
+        $this->statement->bindParam(':usuario_id', $endereco->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':id', $endereco->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
@@ -166,17 +165,17 @@ class DAOEndereco extends GenericDAO {
         if (!is_object($endereco)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE endereco SET ";
-        $this->query .= "ende_status=:ende_status ";
-        $this->query .= "WHERE ende_pk_id=:ende_pk_id;";
+        $this->query = "UPDATE enderecos SET ";
+        $this->query .= "status=:status ";
+        $this->query .= "WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':ende_status', $endereco->ende_status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':ende_pk_id', $endereco->ende_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':status', $endereco->status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':id', $endereco->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }

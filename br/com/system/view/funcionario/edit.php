@@ -118,27 +118,27 @@ global $user_logged;
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Logradouro:</label><br>
-                                <input class="form-control" name="ende_logradouro" type="text" placeholder="Digite uma descrição..." value="<?php echo $funcionario->ende_logradouro; ?>">
+                                <input class="form-control" name="logradouro" type="text" placeholder="Digite uma descrição..." value="<?php echo $funcionario->logradouro; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Número:</label><br>
-                                <input class="form-control" name="ende_numero" id="phone" type="text" placeholder="Digite o número/casa/apt/bloco..." value="<?php echo $funcionario->ende_numero; ?>">
+                                <input class="form-control" name="numero" id="phone" type="text" placeholder="Digite o número/casa/apt/bloco..." value="<?php echo $funcionario->numero; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Bairro:</label><br>
-                                <input class="form-control" name="ende_bairro" id="cell" type="text" placeholder="Digite o barirro..." value="<?php echo $funcionario->ende_bairro; ?>">
+                                <input class="form-control" name="bairro" id="cell" type="text" placeholder="Digite o barirro..." value="<?php echo $funcionario->bairro; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">CEP:</label><br>
-                                <input class="form-control" name="ende_cep" id="cep" type="text" placeholder="Digite o CEP..." value="<?php echo $funcionario->ende_cep; ?>">
+                                <input class="form-control" name="cep" id="cep" type="text" placeholder="Digite o CEP..." value="<?php echo $funcionario->cep; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Cidade:</label><br>
-                                <input class="form-control" name="ende_cidade" id="whatsapp" type="text" placeholder="Digite o cidade..."value="<?php echo $funcionario->ende_cidade; ?>">
+                                <input class="form-control" name="cidade_id" id="whatsapp" type="text" placeholder="Digite o cidade..."value="<?php echo $funcionario->cidade_id; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Estado:</label><br>
-                                <select name="ende_fk_estado_pk_id" class="form-control" required>
+                                <select name="estado_id" class="form-control" required>
                                     <option value="<?php echo $estadoUFAtual->id; ?>"><?php echo $estadoUFAtual->nome; ?></option>
                                     <?php
                                     foreach ($estados as $each_estado) {

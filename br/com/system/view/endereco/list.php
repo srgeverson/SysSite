@@ -13,9 +13,37 @@
             </h3>
             <hr>
             <div class="form-group row">
+                <div class="col-sm-4 mb-4 mb-sm-0">
+                    <div class="input-group">
+                        <span class="input-group-text">Logradouro</span>
+                        <input class="form-control" type="text" name="logradouro" value="<?php echo $endereco->logradouro; ?>">
+                    </div>
+                </div>
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <div class="input-group">
+                        <span class="input-group-text">Cidade</span>
+                        <select name="cidade_id" class="form-control">
+                            <option></option>
+                            <?php
+                            foreach ($cidades as $each_cidade) {
+                                echo '<option value="', $each_cidade->id, '"', $each_cidade->id === $endereco->cidade_id ? 'selected' : '', '>', $each_cidade->nome, '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-1 mb-1 mb-sm-0">
+                    <div>
+                    <?php echo isset($filterUser->todos) ? 'checked' : ''; ?>
+                        <input type="checkbox" name="todos" <?php echo $endereco->todos ? 'checked' : ''; ?>>
+                        <span>Todos</span>
+                    </div> 
+                </div>
+            </div>
+            <div class="form-group row">
                 <div class="col-sm-2 mb-3 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerEndereco&option=novo'); ?>" class="btn btn-primary btn-icon-split btn-lg">
+                    <div class="input-group">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerEndereco&option=novo'); ?>" class="btn btn-primary btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>
@@ -23,21 +51,9 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-sm-4 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-text">Logradouro</span>
-                        <input class="form-control" type="text" name="ende_logradouro">
-                    </div>
-                </div>
-                <div class="col-sm-4 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-text">Cidade</span>
-                        <input class="form-control" type="text" name="ende_cidade">
-                    </div>
-                </div>
                 <div class="col-sm-2 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <button class="btn btn-success btn-icon-split btn-lg">
+                    <div class="input-group">
+                        <button class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-search"></i>
                             </span>
@@ -67,23 +83,23 @@
                 echo '<tbody>';
                 foreach ($enderecos as $each_endereco) {
                     echo '<tr>';
-                    echo '<td>', $each_endereco->ende_pk_id, '</td>';
-                    echo '<td>', $each_endereco->ende_logradouro, ' N° ', $each_endereco->ende_numero, ', ', $each_endereco->ende_bairro, ', CEP: ', $each_endereco->ende_cep, '</td>';
-                    echo '<td>', $each_endereco->ende_cidade, '</td>';
-                    echo '<td>', $each_endereco->sigla, '</td>';
+                    echo '<td>', $each_endereco->id, '</td>';
+                    echo '<td>', $each_endereco->logradouro, ' N° ', $each_endereco->numero, ', ', $each_endereco->bairro, ', CEP: ', $each_endereco->cep, '</td>';
+                    echo '<td>', $each_endereco->cidade_nome, '</td>';
+                    echo '<td>', $each_endereco->estado_sigla, '</td>';
                     echo '<td>';
-                    if ($each_endereco->ende_status == true) {
-                        echo '<a title="Desenable dados!" href="', server_url('?page=ControllerEndereco&option=disable&ende_pk_id=' . $each_endereco->ende_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                    if ($each_endereco->status == true) {
+                        echo '<a title="Desenable dados!" href="', server_url('?page=ControllerEndereco&option=disable&id=' . $each_endereco->id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
                     } else {
-                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerEndereco&option=edit&ende_pk_id=' . $each_endereco->ende_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerEndereco&option=edit&id=' . $each_endereco->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                         echo '<i class="fas fa-edit"></i>';
                         echo '</a>';
-                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerEndereco&option=enable&ende_pk_id=' . $each_endereco->ende_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerEndereco&option=enable&id=' . $each_endereco->id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
-                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerEndereco&option=delete&ende_pk_id=' . $each_endereco->ende_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerEndereco&option=delete&id=' . $each_endereco->id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                         echo '<i class="fas fa-trash"></i>';
                         echo '</a>';
                     }

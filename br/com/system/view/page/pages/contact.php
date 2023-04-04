@@ -112,8 +112,8 @@
             echo '<h3>', $each_contact->conte_title, '</h3>';
             echo '<p>', $each_contact->conte_text, '</p>';
             echo '<p>';
-            echo 'Endereço: ', $endereco->ende_logradouro . ' N° ', $endereco->ende_logradouro, ',<br>';
-            echo 'Bairro: ', $endereco->ende_bairro . ', CEP: ', $endereco->ende_cep, '<br>';
+            echo 'Endereço: ', $endereco->logradouro . ' N° ', $endereco->logradouro, ',<br>';
+            echo 'Bairro: ', $endereco->bairro . ', CEP: ', $endereco->cep, '<br>';
             echo 'UF: ', $endereco->sigla, '<br>';
             echo '</p>';
             echo '<p>';

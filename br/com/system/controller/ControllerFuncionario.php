@@ -110,7 +110,7 @@ class ControllerFuncionario {
                 $daoEstado = new DAOEstado();
                 $estados = $daoEstado->selectObjectsEnabled();
                 $funcionario = $this->daoFuncionario->selectObjectById($func_pk_id);
-                $estadoUFAtual = $daoEstado->selectObjectById($funcionario->ende_fk_estado_pk_id);
+                $estadoUFAtual = $daoEstado->selectObjectById($funcionario->estado_id);
                 $controllerUser = new ControllerUser();
                 $users = $controllerUser->selectObjectsNotInFuncionarioUser();
                 if (!isset($funcionario)) {
@@ -222,24 +222,24 @@ class ControllerFuncionario {
 
 
             //Endereço
-            $ende_logradouro = strip_tags($_POST['ende_logradouro']);
-            $ende_numero = strip_tags($_POST['ende_numero']);
-            $ende_bairro = strip_tags($_POST['ende_bairro']);
-            $ende_cep = strip_tags($_POST['ende_cep']);
-            $ende_cidade = strip_tags($_POST['ende_cidade']);
-            $ende_fk_estado_pk_id = strip_tags($_POST['ende_fk_estado_pk_id']);
-            $ende_fk_id = $user_logged->id;
-            $ende_status = true;
+            $logradouro = strip_tags($_POST['logradouro']);
+            $numero = strip_tags($_POST['numero']);
+            $bairro = strip_tags($_POST['bairro']);
+            $cep = strip_tags($_POST['cep']);
+            $cidade_id = strip_tags($_POST['cidade_id']);
+            $estado_id = strip_tags($_POST['estado_id']);
+            $usuario_id = $user_logged->id;
+            $status = true;
 
             $endereco = new ModelEndereco();
-            $endereco->ende_logradouro = $ende_logradouro;
-            $endereco->ende_numero = $ende_numero;
-            $endereco->ende_bairro = $ende_bairro;
-            $endereco->ende_cep = $ende_cep;
-            $endereco->ende_cidade = $ende_cidade;
-            $endereco->ende_fk_estado_pk_id = $ende_fk_estado_pk_id;
-            $endereco->ende_fk_id = $ende_fk_id;
-            $endereco->ende_status = $ende_status;
+            $endereco->logradouro = $logradouro;
+            $endereco->numero = $numero;
+            $endereco->bairro = $bairro;
+            $endereco->cep = $cep;
+            $endereco->cidade_id = $cidade_id;
+            $endereco->estado_id = $estado_id;
+            $endereco->usuario_id = $usuario_id;
+            $endereco->status = $status;
 
             //DAOs
             $daoContact = new DAOContact();
@@ -337,26 +337,26 @@ class ControllerFuncionario {
 
 
                     //Endereço
-                    $ende_pk_id = strip_tags($_POST['func_fk_endereco_pk_id']);
-                    $ende_logradouro = strip_tags($_POST['ende_logradouro']);
-                    $ende_numero = strip_tags($_POST['ende_numero']);
-                    $ende_bairro = strip_tags($_POST['ende_bairro']);
-                    $ende_cep = strip_tags($_POST['ende_cep']);
-                    $ende_cidade = strip_tags($_POST['ende_cidade']);
-                    $ende_fk_estado_pk_id = strip_tags($_POST['ende_fk_estado_pk_id']);
-                    $ende_fk_id = $user_logged->id;
-                    $ende_status = true;
+                    $id = strip_tags($_POST['func_fk_endereco_pk_id']);
+                    $logradouro = strip_tags($_POST['logradouro']);
+                    $numero = strip_tags($_POST['numero']);
+                    $bairro = strip_tags($_POST['bairro']);
+                    $cep = strip_tags($_POST['cep']);
+                    $cidade_id = strip_tags($_POST['cidade_id']);
+                    $estado_id = strip_tags($_POST['estado_id']);
+                    $usuario_id = $user_logged->id;
+                    $status = true;
 
                     $endereco = new ModelEndereco();
-                    $endereco->ende_pk_id = $ende_pk_id;
-                    $endereco->ende_logradouro = $ende_logradouro;
-                    $endereco->ende_numero = $ende_numero;
-                    $endereco->ende_bairro = $ende_bairro;
-                    $endereco->ende_cep = $ende_cep;
-                    $endereco->ende_cidade = $ende_cidade;
-                    $endereco->ende_fk_estado_pk_id = $ende_fk_estado_pk_id;
-                    $endereco->ende_fk_id = $ende_fk_id;
-                    $endereco->ende_status = $ende_status;
+                    $endereco->id = $id;
+                    $endereco->logradouro = $logradouro;
+                    $endereco->numero = $numero;
+                    $endereco->bairro = $bairro;
+                    $endereco->cep = $cep;
+                    $endereco->cidade_id = $cidade_id;
+                    $endereco->estado_id = $estado_id;
+                    $endereco->usuario_id = $usuario_id;
+                    $endereco->status = $status;
 
                     //DAOs
                     $daoContact = new DAOContact();
