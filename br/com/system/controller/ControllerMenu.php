@@ -6,37 +6,36 @@
  * and open the template in the editor.
  */
 
-// include_once server_path("br/com/system/model/ModelContent.php");
 include_once server_path("br/com/system/model/ModelMenu.php");
-// include_once server_path("br/com/system/dao/DAOContact.php");
-// include_once server_path("br/com/system/dao/DAOContent.php");
-// include_once server_path("br/com/system/dao/DAOEndereco.php");
 include_once server_path("br/com/system/dao/DAOMenu.php");
 include_once server_path("br/com/system/dao/DAOMenuItem.php");
+include_once server_path("br/com/system/dao/DAOSistema.php");
 
 class ControllerMenu {
 
     private $info;
     private $daoMenu;
     private $daoMenuItem;
+    private $daoSistema;
     private $usuarioAutencitado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoMenu = new DAOMenu();
         $this->daoMenuItem = new DAOMenuItem();
+        $this->daoSistema = new DAOSistema();
         global $user_logged;
         $this->usuarioAutencitado = $user_logged;
     }
 
     public function delete() {
         if (HelperController::authotity()) {
-            $menu_pk_id = strip_tags($_GET['menu_pk_id']);
-            if (!isset($menu_pk_id)) {
+            $id = strip_tags($_GET['id']);
+            if (!isset($id)) {
                 $this->info = 'warning=menu_uninformed';
             }
             try {
-                $this->daoMenu->delete($menu_pk_id);
+                $this->daoMenu->delete($id);
                 $this->info = "success=menu_deleted";
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -47,17 +46,16 @@ class ControllerMenu {
 
     public function disable() {
         if (HelperController::authotity()) {
-            $menu_pk_id = strip_tags($_GET['menu_pk_id']);
-            if (isset($menu_pk_id)) {
-                $menu_status = false;
+            $menu = new ModelMenu();
+            $menu->id = strip_tags($_GET['id']);
+            $menu->status = false;
+            $menu->usuario_id = $this->usuarioAutencitado->id;
+            if ($menu->id) {
                 try {
-                    if (($this->daoMenu->selectObjectById($menu_pk_id)) === null) {
+                    $existente = $this->daoMenu->selectObjectById($menu->id);
+                    if ($existente === null) {
                         $this->info = 'warning=menu_not_exists';
                     } else {
-                        $menu = new ModelMenu();
-                        $menu->menu_pk_id = $menu_pk_id;
-                        $menu->menu_status = $menu_status;
-
                         $this->daoMenu->updateStatus($menu);
                         $this->info = 'success=menu_disabled';
                     }
@@ -73,13 +71,14 @@ class ControllerMenu {
 
     public function edit() {
         if (HelperController::authotity()) {
-            $menu_pk_id = $_GET['menu_pk_id'];
-            if (!isset($menu_pk_id)) {
+            $id = $_GET['id'];
+            if (!isset($id)) {
                 $this->info = 'warning=menu_uninformed';
                 $this->listar();
             }
             try {
-                $menu = $this->daoMenu->selectObjectById($menu_pk_id);
+                $sistemas = $this->daoSistema->selectObjectsEnabled();
+                $menu = $this->daoMenu->selectObjectById($id);
                 if ($menu == false) {
                     $this->info = "warning=menu_not_found";
                 }
@@ -97,17 +96,17 @@ class ControllerMenu {
 
     public function enable() {
         if (HelperController::authotity()) {
-            $menu_pk_id = strip_tags($_GET['menu_pk_id']);
-            if (isset($menu_pk_id)) {
-                $menu_status = true;
+            $menu = new ModelMenu();
+            $menu->id = strip_tags($_GET['id']);
+            $menu->status = true;
+            $menu->usuario_id = $this->usuarioAutencitado->id;
+            if ($menu->id) {
+                $status = true;
                 try {
-                    if (($this->daoMenu->selectObjectById($menu_pk_id)) === null) {
+                    $existente =$this->daoMenu->selectObjectById($menu->id);
+                    if ($existente === null) {
                         $this->info = 'warning=menu_not_exists';
                     } else {
-                        $menu = new ModelMenu();
-                        $menu->menu_pk_id = $menu_pk_id;
-                        $menu->menu_status = $menu_status;
-
                         $this->daoMenu->updateStatus($menu);
                         $this->info = 'success=menu_enabled';
                     }
@@ -123,11 +122,12 @@ class ControllerMenu {
 
     public function listar() {
         if (HelperController::authotity()) {
-            if (isset($_POST['menu_name']) && isset($_POST['menu_description'])) {
+            $menu = new ModelMenu();
+            $menu->nome = strip_tags($_POST['nome']);
+            $menu->descricao = strip_tags($_POST['descricao']);
+            $menu->todos = strip_tags($_POST['todos']);
+            if ($menu->nome || $menu->descricao || $menu->todos) {
                 try {
-                    $menu = new ModelMenu();
-                    $menu->menu_name = strip_tags($_POST['menu_name']);
-                    $menu->menu_description = strip_tags($_POST['menu_description']);
                     $menus = $this->daoMenu->selectObjectsByContainsObject($menu);
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
@@ -162,29 +162,28 @@ class ControllerMenu {
 
     public function novo() {
         if (HelperController::authotity()) {
+            $sistemas = $this->daoSistema->selectObjectsEnabled();
             include_once server_path('br/com/system/view/menu/new.php');
         }
     }
 
     public function save() {
         if (HelperController::authotity()) {
-            $menu_name = strip_tags($_POST['menu_name']);
-            $menu_description = strip_tags($_POST['menu_description']);
-            $menu_icon = strip_tags($_POST['menu_icon']);
-            $menu_label = strip_tags($_POST['menu_label']);
-            $menu_status = false;
-            global $user_logged;
-            $menu_fk_id = $user_logged->id;
             $menu = new ModelMenu();
-            $menu->menu_name = $menu_name;
-            $menu->menu_description = $menu_description;
-            $menu->menu_icon = $menu_icon;
-            $menu->menu_label = $menu_label;
-            $menu->menu_status = $menu_status;
-            $menu->menu_fk_id = $menu_fk_id;
+            // $menu->id = strip_tags($_POST['id']);
+            $menu->nome = strip_tags($_POST['nome']);
+            $menu->descricao = strip_tags($_POST['descricao']);
+            $menu->class = strip_tags($_POST['class']);
+            $menu->url = strip_tags($_POST['url']);
+            $menu->image = strip_tags($_POST['image']);
+            $menu->icone = strip_tags($_POST['icone']);
+            $menu->sistema_id = strip_tags($_POST['sistema_id']);
+            $menu->status = true;
+            $menu->usuario_id = $this->usuarioAutencitado->id;
 
             try {
-                if (!isset($this->daoMenu->selectObjectByObject($menu)->menu_name)) {
+                $existente = $this->daoMenu->selectObjectByObject($menu);
+                if (!isset($existente->nome)) {
                     $this->daoMenu->save($menu);
                     $this->info = "success=menu_created";
                 } else {
@@ -200,24 +199,19 @@ class ControllerMenu {
     public function update() {
         if (HelperController::authotity()) {
             if (HelperController::authotity()) {
-                $menu_pk_id = strip_tags($_POST['menu_pk_id']);
-                if (!isset($menu_pk_id)) {
+                $menu = new ModelMenu();
+                $menu->id = strip_tags($_POST['id']);
+                $menu->nome = strip_tags($_POST['nome']);
+                $menu->descricao = strip_tags($_POST['descricao']);
+                $menu->class = strip_tags($_POST['class']);
+                $menu->url = strip_tags($_POST['url']);
+                $menu->image = strip_tags($_POST['image']);
+                $menu->icone = strip_tags($_POST['icone']);
+                $menu->sistema_id = strip_tags($_POST['sistema_id']);
+                $menu->usuario_id = $this->usuarioAutencitado->id;
+                if (!$menu->id) {
                     $this->info = 'warning=menu_uninformed';
                 }
-                $menu_name = strip_tags($_POST['menu_name']);
-                $menu_description = strip_tags($_POST['menu_description']);
-                $menu_icon = strip_tags($_POST['menu_icon']);
-                $menu_label = strip_tags($_POST['menu_label']);
-                global $user_logged;
-                $menu_fk_id = $user_logged->id;
-
-                $menu = new ModelMenu();
-                $menu->menu_pk_id = $menu_pk_id;
-                $menu->menu_name = $menu_name;
-                $menu->menu_description = $menu_description;
-                $menu->menu_icon = $menu_icon;
-                $menu->menu_label = $menu_label;
-                $menu->menu_fk_id = $menu_fk_id;
 
                 try {
                     $this->daoMenu->update($menu);
