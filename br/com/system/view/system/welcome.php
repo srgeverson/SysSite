@@ -15,7 +15,7 @@ if (($controllerFuncionarioUser->searchByFkUser($user_logged->id) == false) && (
 <div class="jumbotron">
     <h2>Bem vindo!</h2>
     <hr>
-    <p><?php echo $user_logged->auth_function;?>
+    <p><?php echo $user_logged->usuario_id;?>
     </p>
     <a class="btn btn-primary" href="#">Saiba mais...</a>
 </div>

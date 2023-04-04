@@ -15,19 +15,26 @@
                 <h4 class="card-header text-primary">Alterar Permissão</h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <input class="form-control" name="auth_pk_id" type="hidden" value="<?php echo $authority->auth_pk_id; ?>">
+                        <input class="form-control" name="id" type="hidden" value="<?php echo $authority->id; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="text-primary">Nome:</label><br>
+                        <input class="form-control" name="nome" type="text" placeholder="Digite um nome para a permissão..." value="<?php echo $authority->nome; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Descrição:</label><br>
-                        <input class="form-control" name="auth_description" type="text" placeholder="Digite uma descrição..." value="<?php echo $authority->auth_description; ?>" required>
+                        <input class="form-control" name="descricao" type="text" placeholder="Digite uma descrição..." value="<?php echo $authority->descricao; ?>" required>
                     </div>
                     <div class="form-group">
-                        <label class="text-primary">Tela:</label><br>
-                        <input class="form-control" name="auth_screen" type="text" placeholder="Digite um nome para a tela..." value="<?php echo $authority->auth_screen; ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary">Função:</label><br>
-                        <textarea class="form-control" name="auth_function" placeholder="Uma breve descrição sobre a tela..." required><?php echo $authority->auth_function; ?></textarea>
+                        <label class="text-primary">Item de Menu:</label><br>
+                        <select name="menu_item_id" class="form-control" required>
+                            <option></option>
+                            <?php
+                            foreach ($menuItens as $each_menu_item) {
+                                echo '<option value="', $each_menu_item->id, '"', $each_menu_item->id === $authority->menu_item_id ? 'selected' : '', '>', $each_menu_item->nome, '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
                 </div>
                 <div class="card-footer">

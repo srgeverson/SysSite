@@ -15,6 +15,7 @@ $GLOBALS['dictionary'] = array(
     'authority_enabled' => "Permissão halitada.",
     'authority_in_use' => "Não é possível remover essa permissão, pois a mesma está em uso, recomendamos que desabilite-a.",
     'authority_not_exists' => "Permissão inexistente.",
+    'authority_already_registered' => "Já consta uma permissão cadastrada com o nome informado!",
     'authority_updated' => "Permissão atualizada com sucesso.",
     'authority_uninformed' => "Permissão não informada.",
     'contact_created' => "Contato criado com sucesso.",

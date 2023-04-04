@@ -13,9 +13,23 @@
             </h3>
             <hr>
             <div class="form-group row">
+                <div class="col-sm-4 mb-4 mb-sm-0">
+                    <div class="input-group">
+                        <span class="input-group-text">Descrição</span>
+                        <input class="form-control" type="text" name="descricao" value="<?php echo $authority->descricao ?>">
+                    </div>
+                </div>
+                <div class="col-sm-4 mb-4 mb-sm-0">
+                    <div>
+                        <input type="checkbox" name="todos" <?php echo $authority->todos ? 'checked' : ''; ?>>
+                        <span>Todos</span>
+                    </div> 
+                </div>
+            </div>
+            <div class="form-group row">
                 <div class="col-sm-2 mb-3 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerAuthority&option=novo'); ?>" class="btn btn-primary btn-icon-split btn-lg">
+                    <div class="input-group">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerAuthority&option=novo'); ?>" class="btn btn-primary btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>
@@ -23,15 +37,9 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-sm-4 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-text">Descrição</span>
-                        <input class="form-control" type="text" name="auth_description">
-                    </div>
-                </div>
                 <div class="col-sm-2 mb-4 mb-sm-0">
-                    <div class="input-group input-group-lg">
-                        <button class="btn btn-success btn-icon-split btn-lg">
+                    <div class="input-group">
+                        <button class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-search"></i>
                             </span>
@@ -52,36 +60,36 @@
                 echo '<thead>';
                 echo '<tr>';
                 echo '<th>Código</th>';
+                echo '<th>Nome</th>';
                 echo '<th>Descrição</th>';
-                echo '<th>Tela</th>';
-                echo '<th>Função</th>';
+                echo '<th>Item de Menu</th>';
                 echo '<th>Opções</th>';
                 echo '</tr>';
                 echo '</thead>';
                 echo '<tbody>';
                 foreach ($authorities as $each_authority) {
                     echo '<tr>';
-                    echo '<td>', $each_authority->auth_pk_id, '</td>';
-                    echo '<td>', $each_authority->auth_description, '</td>';
-                    echo '<td>', $each_authority->auth_screen, '</td>';
-                    echo '<td>', $each_authority->auth_function, '</td>';
+                    echo '<td>', $each_authority->id, '</td>';
+                    echo '<td>', $each_authority->nome, '</td>';
+                    echo '<td>', $each_authority->descricao, '</td>';
+                    echo '<td>', $each_authority->menu_item_nome, '</td>';
                     echo '<td>';
-                    if ($each_authority->auth_status == true) {
-                        echo '<a title="Desativar dados!" href="', server_url('?page=ControllerAuthority&option=disable&auth_pk_id=' . $each_authority->auth_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                    if ($each_authority->status == true) {
+                        echo '<a title="Desativar dados!" href="', server_url('?page=ControllerAuthority&option=disable&id=' . $each_authority->id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
                     } else {
-                        if (($each_authority->auth_pk_id != 1)) {
-                            echo '<a title="Editar dados!" href="', server_url('?page=ControllerAuthority&option=edit&auth_pk_id=' . $each_authority->auth_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                        if (($each_authority->id != 1)) {
+                            echo '<a title="Editar dados!" href="', server_url('?page=ControllerAuthority&option=edit&id=' . $each_authority->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                             echo '<i class="fas fa-edit"></i>';
                             echo '</a>';
-                            echo '<a title="Ativar dados!" href="', server_url('?page=ControllerAuthority&option=enable&auth_pk_id=' . $each_authority->auth_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
+                            echo '<a title="Ativar dados!" href="', server_url('?page=ControllerAuthority&option=enable&id=' . $each_authority->id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                             echo '<i class="fas fa-check-circle"></i>';
                             echo '</a>';
                         }
                         //Ocultando o botão de exclusão para todos usuários exceto o do grupo TI
-                        if ($permissao == 1) {
-                            echo '<a title="Excluir dados!" href="', server_url('?page=ControllerAuthority&option=delete&auth_pk_id=' . $each_authority->auth_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                        if ($authority == 1) {
+                            echo '<a title="Excluir dados!" href="', server_url('?page=ControllerAuthority&option=delete&id=' . $each_authority->id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                             echo '<i class="fas fa-trash"></i>';
                             echo '</a>';
                         }

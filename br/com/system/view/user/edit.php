@@ -28,10 +28,10 @@
                     <div class="form-group">
                         <label class="text-primary">Grupo/Perfil:</label><br>
                         <select name="user_fk_authority_pk_id" class="form-control" required>
-                            <option value="<?php echo $user->auth_pk_id; ?>"><?php echo $user->auth_description; ?></option>
+                            <option value="<?php echo $user->id; ?>"><?php echo $user->descricao; ?></option>
                             <?php
                             foreach ($authorities as $each_authority) {
-                                echo '<option value="', $each_authority->auth_pk_id, '">', $each_authority->auth_description, '</option>';
+                                echo '<option value="', $each_authority->id, '">', $each_authority->descricao, '</option>';
                             }
                             ?>
                         </select>

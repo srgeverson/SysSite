@@ -72,9 +72,9 @@ class DAOUser extends GenericDAO {
 
     public function selectObjectById($id = "") {
         $this->query = "SELECT u.* ";
-        //$this->query .= "u.*, a.auth_pk_id, a.auth_description ";
+        //$this->query .= "u.*, a.id, a.descricao ";
         $this->query .= "FROM usuarios AS u ";
-        //$this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.auth_pk_id) ";
+        //$this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.id) ";
         $this->query .= "WHERE u.id = :id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
@@ -91,7 +91,7 @@ class DAOUser extends GenericDAO {
         $this->query = "SELECT ";
         $this->query .= "* ";
         $this->query .= "FROM usuarios AS u ";
-        //$this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.auth_pk_id) ";
+        //$this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.id) ";
         $this->query .= "WHERE 1 = 1 ";
         $this->query .= "AND u.nome LIKE '%$user->nome%' ";
         $this->query .= "AND u.login LIKE '%$user->login%' ";
@@ -126,7 +126,7 @@ class DAOUser extends GenericDAO {
         $this->query = "SELECT u.* ";
         //$this->query .= "u.*, a.* ";
         $this->query .= "FROM usuarios AS u ";
-        //$this->query .= "INNER JOIN authority AS a ON u.user_fk_authority_pk_id = a.auth_pk_id ";
+        //$this->query .= "INNER JOIN authority AS a ON u.user_fk_authority_pk_id = a.id ";
         $this->query .= "WHERE u.login = :login LIMIT 1;";
         try {
             $conexao = $this->getInstance();

@@ -6,6 +6,8 @@
  * and open the template in the editor.
  */
 include_once server_path("br/com/system/dao/DAOAuthority.php");
+include_once server_path("br/com/system/dao/DAOGrupoPermissao.php");
+include_once server_path("br/com/system/dao/DAOMenuItem.php");
 include_once server_path("br/com/system/dao/DAOUser.php");
 include_once server_path("br/com/system/model/ModelAuthority.php");
 
@@ -13,25 +15,28 @@ class ControllerAuthority {
 
     private $info;
     private $daoAuthority;
+    private $daoGrupoPermissao;
+    private $daoMenuItem;
     private $usuarioAutencitado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoAuthority = new DAOAuthority();
+        $this->daoGrupoPermissao = new DAOGrupoPermissao();
+        $this->daoMenuItem = new DAOMenuItem();
         global $user_logged;
         $this->usuarioAutencitado = $user_logged;
     }
 
     public function delete() {
         if (HelperController::authotity()) {
-            $auth_pk_id = strip_tags($_GET['auth_pk_id']);
-            if (!isset($auth_pk_id)) {
+            $id = strip_tags($_GET['id']);
+            if (!isset($id)) {
                 $this->info = 'warning=authority_uninformed';
             }
             try {
-                $daoUser = new DAOUser();
-                if (empty($daoUser->selectCountObjectsByFKAuthority($auth_pk_id))) {
-                    if (!$this->daoAuthority->delete($auth_pk_id)) {
+                if (empty($this->daoGrupoPermissao->selectObjectsByContainsFkPermissao($id))) {
+                    if (!$this->daoAuthority->delete($id)) {
                         $this->info = 'warning=authority_not_exists';
                         $this->listar();
                     }
@@ -48,16 +53,16 @@ class ControllerAuthority {
 
     public function disable() {
         if (HelperController::authotity()) {
-            $auth_pk_id = strip_tags($_GET['auth_pk_id']);
-            if (isset($auth_pk_id)) {
-                $auth_status = false;
+            $id = strip_tags($_GET['id']);
+            if (isset($id)) {
+                $status = false;
                 try {
-                    if (($this->daoAuthority->selectObjectById($auth_pk_id)) === null) {
+                    if (($this->daoAuthority->selectObjectById($id)) === null) {
                         $this->info = 'warning=authority_not_exists';
                     } else {
                         $authority = new ModelAuthority();
-                        $authority->auth_pk_id = $auth_pk_id;
-                        $authority->auth_status = $auth_status;
+                        $authority->id = $id;
+                        $authority->status = $status;
 
                         $this->daoAuthority->updateStatus($authority);
                         $this->info = 'success=authority_disabled';
@@ -74,13 +79,14 @@ class ControllerAuthority {
 
     public function edit() {
         if (HelperController::authotity()) {
-            $auth_pk_id = $_GET['auth_pk_id'];
-            if (!isset($auth_pk_id)) {
+            $id = $_GET['id'];
+            if (!isset($id)) {
                 $this->info = 'warning=authority_uninformed';
                 $this->listar();
             }
             try {
-                $authority = $this->daoAuthority->selectObjectById($auth_pk_id);
+                $menuItens = $this->daoMenuItem->selectObjectsEnabled();
+                $authority = $this->daoAuthority->selectObjectById($id);
                 if (!isset($authority)) {
                     $this->info = 'warning=authority_not_exists';
                     $this->listar();
@@ -97,17 +103,17 @@ class ControllerAuthority {
 
     public function enable() {
         if (HelperController::authotity()) {
-            $auth_pk_id = strip_tags($_GET['auth_pk_id']);
-            if (isset($auth_pk_id)) {
-                $auth_status = true;
+            $id = strip_tags($_GET['id']);
+            if (isset($id)) {
+                $status = true;
                 try {
-                    if (($this->daoAuthority->selectObjectById($auth_pk_id)) === null) {
+                    if (($this->daoAuthority->selectObjectById($id)) === null) {
                         $this->info = 'warning=authority_not_exists';
                     } else {
                         $authority = new ModelAuthority();
-                        $authority->auth_pk_id = $auth_pk_id;
-                        $authority->auth_status = $auth_status;
-
+                        $authority->id = $id;
+                        $authority->status = $status;
+                        $authority->usuario_id = $this->usuarioAutencitado->id;
                         $this->daoAuthority->updateStatus($authority);
                         $this->info = 'success=authority_enabled';
                     }
@@ -123,12 +129,13 @@ class ControllerAuthority {
 
     public function listar() {
         if (HelperController::authotity()) {
-            if (isset($_POST['auth_description'])) {
-                $authority = new ModelAuthority();
-                $authority->auth_description = strip_tags($_POST['auth_description']);
+            $authority = new ModelAuthority();
+            $authority->descricao = strip_tags($_POST['descricao']);
+            $authority->todos = strip_tags($_POST['todos']);
+            if ($authority->descricao != null || $authority->todos) {
                 try {
                     $authorities = $this->daoAuthority->selectObjectsByContainsObject($authority);
-                    $permissao = $this->usuarioAutencitado->user_fk_authority_pk_id;
+                    //$permissao = $this->usuarioAutencitado->user_fk_authority_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -142,48 +149,49 @@ class ControllerAuthority {
 
     public function novo() {
         if (HelperController::authotity()) {
+            $menuItens = $this->daoMenuItem->selectObjectsEnabled();
             include_once server_path('br/com/system/view/authority/new.php');
         }
     }
 
     public function save() {
         if (HelperController::authotity()) {
-            $auth_description = strip_tags($_POST['auth_description']);
-            $auth_screen = strip_tags($_POST['auth_screen']);
-            $auth_function = strip_tags($_POST['auth_function']);
-            $auth_status = false;
             $authority = new ModelAuthority();
-            $authority->auth_description = $auth_description;
-            $authority->auth_status = $auth_status;
-            $authority->auth_screen = $auth_screen;
-            $authority->auth_function = $auth_function;
-            try {
-                $daoAuthority = new DAOAuthority();
-                $daoAuthority->save($authority);
-                $this->info = "success=authority_created";
-            } catch (Exception $erro) {
-                $this->info = "error=" . $erro->getMessage();
+            $authority->descricao = strip_tags($_POST['descricao']);
+            $authority->nome = strip_tags($_POST['nome']);
+            $authority->status = true;
+            $authority->menu_item_id = strip_tags($_POST['menu_item_id']);
+            $authority->usuario_id = $this->usuarioAutencitado->id;
+            $existente = $this->daoAuthority->selectObjectsByNameUnique($authority->nome);
+            if (empty($existente)) {
+                try {
+                    $daoAuthority = new DAOAuthority();
+                    $daoAuthority->save($authority);
+                    $this->info = "success=authority_created";
+                } catch (Exception $erro) {
+                    $this->info = "error=" . $erro->getMessage();
+                }
+                $this->listar();
+            } else {
+                $this->info = "warning=authority_already_registered";
+                HelperController::valid_messages($this->info);
+                $this->novo();
             }
-            $this->listar();
         }
     }
 
     public function update() {
         if (HelperController::authotity()) {
             if (HelperController::authotity()) {
-                $auth_pk_id = strip_tags($_POST['auth_pk_id']);
-                if (!isset($auth_pk_id)) {
+                $authority = new ModelAuthority();
+                $authority->id = strip_tags($_POST['id']);;
+                $authority->nome =strip_tags($_POST['nome']);
+                $authority->descricao =strip_tags($_POST['descricao']);
+                $authority->menu_item_id = strip_tags($_POST['menu_item_id']);
+                $authority->usuario_id = $this->usuarioAutencitado->id;
+                if (!$authority->id) {
                     $this->info = 'warning=authority_uninformed';
                 }
-                $auth_description = strip_tags($_POST['auth_description']);
-                $auth_screen = strip_tags($_POST['auth_screen']);
-                $auth_function = strip_tags($_POST['auth_function']);
-
-                $authority = new ModelAuthority();
-                $authority->auth_pk_id = $auth_pk_id;
-                $authority->auth_description = $auth_description;
-                $authority->auth_screen = $auth_screen;
-                $authority->auth_function = $auth_function;
 
                 try {
                     $this->daoAuthority->update($authority);
