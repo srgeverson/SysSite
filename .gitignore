@@ -110,6 +110,7 @@ $RECYCLE.BIN/
 *.jpg
 *.jpeg
 *.png
+*.gif
 !admin.jpg
 !not_found.png
 !1900x1080.png
@@ -118,6 +119,12 @@ $RECYCLE.BIN/
 !700x400.png
 !500x300.png
 !favicon.png
+!qr_code.png
+#Vídeos
+*.mp4
+!bg.mp4
+#Músicas
+*.mp3
 #Documentos
 *.pdf
 *.txt

@@ -10,6 +10,13 @@ ini_set('display_errors', $parameter->getProperty('mostrar_error'));
 
 session_cache_expire($parameter->getProperty('tempo_sessao_site') != '' ? $parameter->getProperty('mostrar_error') : 60);
 session_start();
+
+$landingpage = $parameter->getProperty('landing_page');
+if($landingpage != 'Vazio/Desabilitado' && !is_dir('./' . $landingpage)){
+    mkdir('./' . $landingpage);
+    copy( './br/com/system/view/page/pages/landingpage.php', './' . $landingpage . '/index.php' ) && unlink( './br/com/system/view/page/pages/landingpage.php' );
+}
+
 if (isset($_SESSION['usuario'])) {
     $user_logged = $_SESSION['usuario'];
 }
@@ -28,6 +35,7 @@ function footer() {
 }
 
 function main() {
+
     global $user_logged;
     if (!HelperController::filter()) {
         if (!isset($user_logged)) {

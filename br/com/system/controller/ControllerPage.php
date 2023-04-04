@@ -209,6 +209,20 @@ class ControllerPage {
         }
     }
 
+    public function landingPage($msg = null) {
+        if (!isset($msg)) {
+            $msg = $this->info;
+        }
+
+        $parameter = new ControllerParameter();
+        $daoEndereco = new DAOEndereco();
+        $endereco = $daoEndereco->selectObjectById($parameter->getProperty('endereco'));
+
+        $daoContact = new DAOContact();
+        $contact = $daoContact->selectObjectById($parameter->getProperty('contato'));
+        include_once server_path('br/com/system/view/page/pages/landing_page.php');
+    }
+
     public function listar() {
         if (HelperController::authotity()) {
             if (isset($_POST['page_name']) && isset($_POST['page_description'])) {

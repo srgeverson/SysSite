@@ -24,7 +24,7 @@
         ?>
 
         <!-- Custom fonts for this template-->
-        <link href="<?php echo server_url('br/com/system/assets/vendor/fontawesome-free/css/') . 'all.min.css'; ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo server_url('br/com/system/assets/vendor/fontawesome-free-6.4.0/css/') . 'all.min.css'; ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo server_url('br/com/system/assets/css/') . 'fonts.css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i'; ?>" rel="stylesheet">
 
         <!-- Custom styles for this template-->
@@ -74,6 +74,8 @@
                 <?php navbar(); ?>
             </div>
         </nav>
+        
+       
         <!-- Centro da página -->
         <?php main(); ?>
         <!-- Rodapé -->
@@ -144,6 +146,11 @@
                     request.send(formdata);
                 });
             }
+            $('#cont_phone').on('click', function (e) {
+                e.preventDefault();
+                navigator.clipboard.writeText($('#chave_pix').val());
+                $('#liveToast').toast('show');
+            });
         </script>
     </body>
 </html>
