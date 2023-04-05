@@ -69,6 +69,15 @@ $GLOBALS['dictionary'] = array(
     'funcionario_updated' => "Funcionário alterado com sucesso.",
     'funcionario_uninformed' => "Funcionário não informado.",
     'funcionario_updated' => "Funcionário atualizado com sucesso.",
+
+    'grupo_created' => "Grupo criado com sucesso.",
+    'grupo_enabled' => "Grupo habilitado com sucesso.",
+    'grupo_deleted' => "Grupo apagado com sucesso.",
+    'grupo_disabled' => "Grupo desabilitado com sucesso.",
+    'grupo_updated' => "Grupo atualizado com sucesso.",
+    'grupo_uninformed' => "Grupo não informado.",
+    'grupo_updated' => "Grupo atualizado com sucesso.",
+
     'menu_created' => "Menu criado com sucesso.",
     'menu_enabled' => "Menu habilitado com sucesso.",
     'menu_deleted' => "Menu apagado com sucesso.",
