@@ -851,7 +851,7 @@ CREATE TABLE `logs` (
 
 LOCK TABLES `logs` WRITE;
 /*!40000 ALTER TABLE `logs` DISABLE KEYS */;
-INSERT INTO `logs` VALUES ('menus',3,NULL,'UPDATE','descricao','Outras operações','1','2023-04-04 22:37:46'),('menus',3,NULL,'UPDATE','descricao','1','Outras operações','2023-04-04 22:38:20'),('menus',3,NULL,'UPDATE','status','0','1','2023-04-04 22:38:57'),('menus',0,2,'INSERT','id','0',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','nome','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','descricao','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','status','1',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','class','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','url','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','image','',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','icone','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','sistema_id','1',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','usuario_id','2',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','id','0',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','nome','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','descricao','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','status','1',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','class','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','url','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','image','',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','icone','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','sistema_id','1',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','usuario_id','2',NULL,'2023-04-04 22:50:07'),('menus',6,2,'UPDATE','status','1','0','2023-04-04 22:54:22'),('menus',6,2,'DELETE','id','6',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','nome','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','descricao','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','status','0',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','class','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','url','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','image','',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','icone','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','sistema_id','1',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','usuario_id','2',NULL,'2023-04-04 22:54:30'),('menus',7,2,'UPDATE','status','1','0','2023-04-04 22:54:53'),('menus',7,2,'DELETE','id','7',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','nome','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','descricao','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','status','0',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','class','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','url','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','image','',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','icone','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','sistema_id','1',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','usuario_id','2',NULL,'2023-04-04 22:55:00');
+INSERT INTO `logs` VALUES ('menus',3,NULL,'UPDATE','descricao','Outras operações','1','2023-04-04 22:37:46'),('menus',3,NULL,'UPDATE','descricao','1','Outras operações','2023-04-04 22:38:20'),('menus',3,NULL,'UPDATE','status','0','1','2023-04-04 22:38:57'),('menus',0,2,'INSERT','id','0',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','nome','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','descricao','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','status','1',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','class','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','url','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','image','',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','icone','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','sistema_id','1',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','usuario_id','2',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','id','0',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','nome','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','descricao','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','status','1',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','class','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','url','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','image','',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','icone','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','sistema_id','1',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','usuario_id','2',NULL,'2023-04-04 22:50:07'),('menus',6,2,'UPDATE','status','1','0','2023-04-04 22:54:22'),('menus',6,2,'DELETE','id','6',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','nome','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','descricao','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','status','0',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','class','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','url','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','image','',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','icone','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','sistema_id','1',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','usuario_id','2',NULL,'2023-04-04 22:54:30'),('menus',7,2,'UPDATE','status','1','0','2023-04-04 22:54:53'),('menus',7,2,'DELETE','id','7',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','nome','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','descricao','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','status','0',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','class','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','url','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','image','',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','icone','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','sistema_id','1',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','usuario_id','2',NULL,'2023-04-04 22:55:00'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-04 20:16:35','2023-04-04 23:01:22','2023-04-04 23:01:22'),('menus',0,2,'INSERT','id','0',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','nome','Itens de Menu',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','descricao','Cadastro de Itens de Menu',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','status','1',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','class','',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','url','',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','image','',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','icone','fas fa-list-dropdown fa-fw',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','sistema_id','1',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','usuario_id','2',NULL,'2023-04-04 23:04:03'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-04 23:01:22','2023-04-04 23:05:59','2023-04-04 23:05:59'),('menu_itens',18,1,'INSERT','id','18',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','nome','Itens de Menu',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','descricao','Cadastro de Itens de Menu do Sistema',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','status','1',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','class',NULL,NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','titulo',NULL,NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','url','?page=ControllerMenuItem&option=listar',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','image',NULL,NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','icone','fas fa-list-dropdown fa-sm fa-fw mr-2 text-gray-400',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','menu_item_id',NULL,NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','menu_id','2',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','usuario_id','1',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'UPDATE','icone','fas fa-list-dropdown fa-sm fa-fw mr-2 text-gray-400','fas fa-dropdown fa-sm fa-fw mr-2 text-gray-400','2023-04-05 00:00:54'),('menu_itens',18,1,'UPDATE','icone','fas fa-dropdown fa-sm fa-fw mr-2 text-gray-400','fas fa-list-dropdown fa-sm fa-fw mr-2 text-gray-400','2023-04-05 00:02:48'),('menu_itens',18,1,'UPDATE','icone','fas fa-list-dropdown fa-sm fa-fw mr-2 text-gray-400','fas fa-elementor fa-sm fa-fw mr-2 text-gray-400','2023-04-05 00:09:28'),('menu_itens',18,1,'UPDATE','icone','fas fa-elementor fa-sm fa-fw mr-2 text-gray-400','fas fa-list fa-sm fa-fw mr-2 text-gray-400','2023-04-05 00:12:19'),('menu_itens',12,2,'UPDATE','status','1','0','2023-04-05 01:27:54'),('menu_itens',12,2,'UPDATE','usuario_id','1','2','2023-04-05 01:27:54'),('menu_itens',12,2,'UPDATE','status','0','1','2023-04-05 01:31:00'),('menu_itens',2,2,'UPDATE','status','1','0','2023-04-05 01:31:48'),('menu_itens',2,2,'UPDATE','usuario_id','1','2','2023-04-05 01:31:48'),('menu_itens',0,2,'INSERT','id','0',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','nome','a',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','descricao','a',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','status','0',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','class','a',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','titulo','s',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','url','a',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','image','',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','icone','a',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','menu_item_id','1',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','menu_id','8',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','usuario_id','2',NULL,'2023-04-05 02:04:06'),('menu_itens',20,2,'UPDATE','menu_item_id','1','0','2023-04-05 02:14:34'),('menu_itens',20,2,'UPDATE','nome','a','ab','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','descricao','a','ab','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','titulo','s','sb','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','class','a','ab','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','url','a','ab','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','icone','a','ab','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','menu_id','8','1','2023-04-05 02:14:54'),('menu_itens',20,2,'UPDATE','menu_id','1','3','2023-04-05 02:15:02'),('menu_itens',20,2,'UPDATE','menu_item_id','0','18','2023-04-05 02:16:26'),('menu_itens',20,2,'UPDATE','menu_item_id','18','0','2023-04-05 02:16:37'),('menu_itens',2,2,'UPDATE','status','0','1','2023-04-05 02:16:58'),('menu_itens',20,2,'DELETE','id','20',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','nome','ab',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','descricao','ab',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','status','0',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','titulo','sb',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','class','ab',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','url','ab',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','image','',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','icone','ab',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','menu_item_id','0',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','menu_id','3',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','usuario_id','2',NULL,'2023-04-05 02:17:07');
 /*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -881,7 +881,7 @@ CREATE TABLE `menu_itens` (
   KEY `fk_menu_itens_usuario_idx` (`usuario_id`),
   CONSTRAINT `fk_menu_item_menu` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`),
   CONSTRAINT `fk_menu_itens_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -890,7 +890,7 @@ CREATE TABLE `menu_itens` (
 
 LOCK TABLES `menu_itens` WRITE;
 /*!40000 ALTER TABLE `menu_itens` DISABLE KEYS */;
-INSERT INTO `menu_itens` VALUES (1,'Perfil','Perfil do Usuário',1,NULL,NULL,'?page=ControllerUser&option=editProfile&id=usuario_logado_id',NULL,'fas fa-user fa-sm fa-fw mr-2 text-gray-400',NULL,1,1),(2,'Boas vindas','Boas vindas',1,NULL,NULL,'?page=ControllerSystem&option=welcome',NULL,'fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400',NULL,1,1),(3,'Sair','Sair',1,NULL,NULL,'?page=ControllerUser&option=logout',NULL,'fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400',NULL,1,1),(4,'Usuários','Usuários',1,NULL,NULL,'?page=ControllerUser&option=listar',NULL,'fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(5,'Permissões','Permissões',1,NULL,NULL,'?page=ControllerAuthority&option=listar',NULL,'fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(6,'Parâmetros','Parâmetros',1,NULL,NULL,'?page=ControllerParameter&option=listar',NULL,'fas fa-tasks fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(7,'Páginas do Site','Páginas do Site',1,NULL,NULL,'?page=ControllerPage&option=listar',NULL,'fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(8,'Conteúdo das Páginas','Conteúdo das Páginas',1,NULL,NULL,'?page=ControllerContent&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(9,'Teste de Desenvolvimento','Teste de Desenvolvimento',1,NULL,NULL,'?page=ControllerTest&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(10,'Endereços','Endereços',1,NULL,NULL,'?page=ControllerEndereco&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',NULL,3,1),(11,'Estados','Estados',1,NULL,NULL,'?page=ControllerEstado&option=listar',NULL,'fas fa-city fa-sm fa-fw mr-2 text-gray-400',NULL,3,1),(12,'Países','Países',1,NULL,NULL,'?page=ControllerPais&option=listar',NULL,'fas fa-university fa-sm fa-fw mr-2 text-gray-400',NULL,3,1),(13,'Funcionários','Funcionários',1,NULL,NULL,'?page=ControllerFuncionario&option=listar',NULL,'fas fa-users fa-sm fa-fw mr-2 text-gray-400',NULL,4,1),(14,'Contatos','Contatos',1,NULL,NULL,'?page=ControllerContact&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',NULL,4,1),(15,'Folha de Pagamento','Folha de Pagamento',1,NULL,NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400',NULL,4,1),(16,'Todas folhas de pagamento','Lista de contracheques disponíveis',1,'Não existe folha de pagamento lançado',NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'dropdown-item text-center small text-gray-500',NULL,5,1),(17,'Menus','Cadastro de Menus do Sistema',1,NULL,NULL,'?page=ControllerMenu&option=listar',NULL,'fas fa-bars fa-sm fa-fw mr-2 text-gray-400',NULL,2,1);
+INSERT INTO `menu_itens` VALUES (1,'Perfil','Perfil do Usuário',1,NULL,NULL,'?page=ControllerUser&option=editProfile&id=usuario_logado_id',NULL,'fas fa-user fa-sm fa-fw mr-2 text-gray-400',NULL,1,1),(2,'Boas vindas','Boas vindas',1,NULL,NULL,'?page=ControllerSystem&option=welcome',NULL,'fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400',NULL,1,2),(3,'Sair','Sair',1,NULL,NULL,'?page=ControllerUser&option=logout',NULL,'fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400',NULL,1,1),(4,'Usuários','Usuários',1,NULL,NULL,'?page=ControllerUser&option=listar',NULL,'fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(5,'Permissões','Permissões',1,NULL,NULL,'?page=ControllerAuthority&option=listar',NULL,'fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(6,'Parâmetros','Parâmetros',1,NULL,NULL,'?page=ControllerParameter&option=listar',NULL,'fas fa-tasks fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(7,'Páginas do Site','Páginas do Site',1,NULL,NULL,'?page=ControllerPage&option=listar',NULL,'fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(8,'Conteúdo das Páginas','Conteúdo das Páginas',1,NULL,NULL,'?page=ControllerContent&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(9,'Teste de Desenvolvimento','Teste de Desenvolvimento',1,NULL,NULL,'?page=ControllerTest&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(10,'Endereços','Endereços',1,NULL,NULL,'?page=ControllerEndereco&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',NULL,3,1),(11,'Estados','Estados',1,NULL,NULL,'?page=ControllerEstado&option=listar',NULL,'fas fa-city fa-sm fa-fw mr-2 text-gray-400',NULL,3,1),(12,'Países','Países',1,NULL,NULL,'?page=ControllerPais&option=listar',NULL,'fas fa-university fa-sm fa-fw mr-2 text-gray-400',NULL,3,2),(13,'Funcionários','Funcionários',1,NULL,NULL,'?page=ControllerFuncionario&option=listar',NULL,'fas fa-users fa-sm fa-fw mr-2 text-gray-400',NULL,4,1),(14,'Contatos','Contatos',1,NULL,NULL,'?page=ControllerContact&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',NULL,4,1),(15,'Folha de Pagamento','Folha de Pagamento',1,NULL,NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400',NULL,4,1),(16,'Todas folhas de pagamento','Lista de contracheques disponíveis',1,'Não existe folha de pagamento lançado',NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'dropdown-item text-center small text-gray-500',NULL,5,1),(17,'Menus','Cadastro de Menus do Sistema',1,NULL,NULL,'?page=ControllerMenu&option=listar',NULL,'fas fa-bars fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(18,'Itens de Menu','Cadastro de Itens de Menu do Sistema',1,NULL,NULL,'?page=ControllerMenuItem&option=listar',NULL,'fas fa-list fa-sm fa-fw mr-2 text-gray-400',NULL,2,1);
 /*!40000 ALTER TABLE `menu_itens` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -904,20 +904,20 @@ UNLOCK TABLES;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menu_itens_BEFORE_INSERT` BEFORE INSERT ON `menu_itens` FOR EACH ROW BEGIN
 		INSERT INTO logs 
-		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
     VALUES
-		('menu_itens', NEW.id, 'INSERT', 'id', NEW.id, now()),
-        ('menu_itens', NEW.id, 'INSERT','nome', NEW.nome, now()),
-        ('menu_itens', NEW.id, 'INSERT','descricao', NEW.descricao, now()),
-        ('menu_itens', NEW.id, 'INSERT','status', NEW.status, now()),
-        ('menu_itens', NEW.id, 'INSERT','class', NEW.class, now()),
-        ('menu_itens', NEW.id, 'INSERT','titulo', NEW.titulo, now()),
-        ('menu_itens', NEW.id, 'INSERT','url', NEW.url, now()),
-        ('menu_itens', NEW.id, 'INSERT','image', NEW.image, now()),
-        ('menu_itens', NEW.id, 'INSERT','icone', NEW.icone, now()),
-        ('menu_itens', NEW.id, 'INSERT','menu_item_id', NEW.menu_item_id, now()),
-        ('menu_itens', NEW.id, 'INSERT','menu_id', NEW.menu_id, now()),
-        ('menu_itens', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now());
+		('menu_itens', NEW.id, 'INSERT', 'id', NEW.id, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','nome', NEW.nome, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','descricao', NEW.descricao, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','status', NEW.status, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','class', NEW.class, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','titulo', NEW.titulo, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','url', NEW.url, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','image', NEW.image, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','icone', NEW.icone, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','menu_item_id', NEW.menu_item_id, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','menu_id', NEW.menu_id, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now(), NEW.usuario_id);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -937,70 +937,70 @@ DELIMITER ;;
 
 IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
 INSERT INTO logs
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
     VALUES 
-  ('menu_itens', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+  ('menu_itens', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 
 IF (OLD.descricao <> NEW.descricao or (OLD.descricao IS NULL and NEW.descricao IS NOT NULL)) THEN
   INSERT INTO logs
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES 
-        ('menu_itens', 'descricao', OLD.descricao, NEW.descricao, now(), 'UPDATE', OLD.id);
+        ('menu_itens', 'descricao', OLD.descricao, NEW.descricao, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
   INSERT INTO logs
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES
-        ('menu_itens', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+        ('menu_itens', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 IF (OLD.titulo <> NEW.titulo or (OLD.titulo IS NULL and NEW.titulo IS NOT NULL)) THEN
   INSERT INTO logs
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES
-        ('menu_itens', 'titulo', OLD.titulo, NEW.titulo, now(), 'UPDATE', OLD.id);
+        ('menu_itens', 'titulo', OLD.titulo, NEW.titulo, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 IF (OLD.class <> NEW.class or (OLD.class IS NULL and NEW.class IS NOT NULL)) THEN
   INSERT INTO logs
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES
-        ('menu_itens', 'class', OLD.class, NEW.class, now(), 'UPDATE', OLD.id);
+        ('menu_itens', 'class', OLD.class, NEW.class, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 IF (OLD.url <> NEW.url or (OLD.url IS NULL and NEW.url IS NOT NULL)) THEN
   INSERT INTO logs
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES
-        ('menu_itens', 'url', OLD.url, NEW.url, now(), 'UPDATE', OLD.id);
+        ('menu_itens', 'url', OLD.url, NEW.url, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 IF (OLD.image <> NEW.image or (OLD.image IS NULL and NEW.image IS NOT NULL)) THEN
   INSERT INTO logs
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES
-        ('menu_itens', 'image', OLD.image, NEW.image, now(), 'UPDATE', OLD.id);
+        ('menu_itens', 'image', OLD.image, NEW.image, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 IF (OLD.icone <> NEW.icone or (OLD.icone IS NULL and NEW.icone IS NOT NULL)) THEN
   INSERT INTO logs
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES
-        ('menu_itens', 'icone', OLD.icone, NEW.icone, now(), 'UPDATE', OLD.id);
+        ('menu_itens', 'icone', OLD.icone, NEW.icone, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 IF (OLD.menu_item_id <> NEW.menu_item_id or (OLD.menu_item_id IS NULL and NEW.menu_item_id IS NOT NULL)) THEN
   INSERT INTO logs 
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES 
-        ('menu_itens', 'menu_item_id', OLD.menu_item_id, NEW.menu_item_id, now(), 'UPDATE', OLD.id);
+        ('menu_itens', 'menu_item_id', OLD.menu_item_id, NEW.menu_item_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 IF (OLD.menu_id <> NEW.menu_id or (OLD.menu_id IS NULL and NEW.menu_id IS NOT NULL)) THEN
   INSERT INTO logs 
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES 
-        ('menu_itens', 'menu_id', OLD.menu_id, NEW.menu_id, now(), 'UPDATE', OLD.id);
+        ('menu_itens', 'menu_id', OLD.menu_id, NEW.menu_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
   INSERT INTO logs 
-        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES 
-        ('menu_itens', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id);
+        ('menu_itens', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 END IF;
 END */;;
 DELIMITER ;
@@ -1020,20 +1020,20 @@ DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menu_itens_BEFORE_DELETE` BEFORE DELETE ON `menu_itens` FOR EACH ROW BEGIN
 
 	INSERT INTO logs 
-		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
     VALUES
-		('menu_itens', OLD.id, 'DELETE', 'id', OLD.id, now()),
-        ('menu_itens', OLD.id, 'DELETE','nome', OLD.nome, now()),
-        ('menu_itens', OLD.id, 'DELETE','descricao', OLD.descricao, now()),
-        ('menu_itens', OLD.id, 'DELETE','status', OLD.status, now()),
-        ('menu_itens', OLD.id, 'DELETE','titulo', OLD.titulo, now()),
-        ('menu_itens', OLD.id, 'DELETE','class', OLD.class, now()),
-        ('menu_itens', OLD.id, 'DELETE','url', OLD.url, now()),
-        ('menu_itens', OLD.id, 'DELETE','image', OLD.image, now()),
-        ('menu_itens', OLD.id, 'DELETE','icone', OLD.icone, now()),
-        ('menu_itens', OLD.id, 'DELETE','menu_item_id', OLD.menu_item_id, now()),
-        ('menu_itens', OLD.id, 'DELETE','menu_id', OLD.menu_id, now()),
-        ('menu_itens', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now());
+		('menu_itens', OLD.id, 'DELETE', 'id', OLD.id, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','nome', OLD.nome, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','descricao', OLD.descricao, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','status', OLD.status, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','titulo', OLD.titulo, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','class', OLD.class, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','url', OLD.url, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','image', OLD.image, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','icone', OLD.icone, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','menu_item_id', OLD.menu_item_id, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','menu_id', OLD.menu_id, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now(), OLD.usuario_id);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1064,7 +1064,7 @@ CREATE TABLE `menus` (
   KEY `menu_fk_sistema_idx` (`sistema_id`,`usuario_id`),
   CONSTRAINT `menu_fk_sistema` FOREIGN KEY (`sistema_id`) REFERENCES `sistemas` (`id`),
   CONSTRAINT `menu_fk_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1073,7 +1073,7 @@ CREATE TABLE `menus` (
 
 LOCK TABLES `menus` WRITE;
 /*!40000 ALTER TABLE `menus` DISABLE KEYS */;
-INSERT INTO `menus` VALUES (1,'Perfil','Perfil do usuário',1,NULL,NULL,NULL,'1',1,1),(2,'Sistema','Configurações do Sistema',1,NULL,NULL,NULL,'fas fa-cogs fa-fw',1,2),(3,'Outros','Outras operações',1,'','','','fas fa-arrows-alt fa-fw',1,2),(4,'Recursos Humanos','Operações de RH',1,NULL,NULL,NULL,'fas fa-chalkboard-teacher fa-fw',1,2),(5,'Contra-cheque','Caixa de Menssagens',1,NULL,NULL,NULL,'fas fa-envelope fa-fw',1,1);
+INSERT INTO `menus` VALUES (1,'Perfil','Perfil do usuário',1,NULL,NULL,NULL,'1',1,1),(2,'Sistema','Configurações do Sistema',1,NULL,NULL,NULL,'fas fa-cogs fa-fw',1,2),(3,'Outros','Outras operações',1,'','','','fas fa-arrows-alt fa-fw',1,2),(4,'Recursos Humanos','Operações de RH',1,NULL,NULL,NULL,'fas fa-chalkboard-teacher fa-fw',1,2),(5,'Contra-cheque','Caixa de Menssagens',1,NULL,NULL,NULL,'fas fa-envelope fa-fw',1,1),(8,'Itens de Menu','Cadastro de Itens de Menu',1,'','','','fas fa-list-dropdown fa-fw',1,2);
 /*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1576,7 +1576,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-04-04 20:16:01',NULL,1,NULL),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$EAW9YOmIdECWXAhAMUyP9uTitfcl0QRty2AlxeXcg0k2Vn1.plvUO','2023-04-04 20:16:35',NULL,1,NULL),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$SWj6kd3RCpNAn2Alne32Ge0nSU37.GAtkL7SwlwlPAbWsBHIZL9jm',NULL,NULL,1,2),(14,'a','a@gmail.com','$2y$10$RO7D4b41JM1uiZxmZcppbe/.gru0TuWxucIt6zZG6bMs31Azpq0pm','2023-03-29 01:10:54',NULL,0,2);
+INSERT INTO `usuarios` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-04-04 20:16:01',NULL,1,NULL),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$EAW9YOmIdECWXAhAMUyP9uTitfcl0QRty2AlxeXcg0k2Vn1.plvUO','2023-04-04 23:05:59',NULL,1,NULL),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$SWj6kd3RCpNAn2Alne32Ge0nSU37.GAtkL7SwlwlPAbWsBHIZL9jm',NULL,NULL,1,2),(14,'a','a@gmail.com','$2y$10$RO7D4b41JM1uiZxmZcppbe/.gru0TuWxucIt6zZG6bMs31Azpq0pm','2023-03-29 01:10:54',NULL,0,2);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1807,4 +1807,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-04 19:55:47
+-- Dump completed on 2023-04-04 23:18:43

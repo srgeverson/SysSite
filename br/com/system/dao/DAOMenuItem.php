@@ -27,10 +27,10 @@ class DAOMenuItem extends GenericDAO {
         if (!is_object($menuItem)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "INSERT INTO menuItem ";
-        $this->query .= "(nome, descricao, icone, imagem, status, sistema_id) ";
+        $this->query = "INSERT INTO menu_itens ";
+        $this->query .= "(nome,     descricao,  titulo, icone,  class,  url,    image,  status,     menu_id,    usuario_id,     menu_item_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:nome, :descricao, :icone, :imagem, :status, :sistema_id);";
+        $this->query .= "(:nome,    :descricao, :titulo, :icone, :class, :url,   :image, :status,    :menu_id,   :usuario_id,    :menu_item_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -39,10 +39,15 @@ class DAOMenuItem extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':nome', $menuItem->nome, PDO::PARAM_STR);
         $this->statement->bindParam(':descricao', $menuItem->descricao, PDO::PARAM_STR);
+        $this->statement->bindParam(':titulo', $menuItem->titulo, PDO::PARAM_STR);
         $this->statement->bindParam(':icone', $menuItem->icone, PDO::PARAM_STR);
-        $this->statement->bindParam(':imagem', $menuItem->imagem, PDO::PARAM_STR);
+        $this->statement->bindParam(':class', $menuItem->class, PDO::PARAM_STR);
+        $this->statement->bindParam(':url', $menuItem->url, PDO::PARAM_STR);
+        $this->statement->bindParam(':image', $menuItem->image, PDO::PARAM_STR);
         $this->statement->bindParam(':status', $menuItem->status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':sistema_id', $menuItem->sistema_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':menu_id', $menuItem->menu_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':usuario_id', $menuItem->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':menu_item_id', $menuItem->menu_item_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
@@ -62,12 +67,14 @@ class DAOMenuItem extends GenericDAO {
 
     public function selectObjectsByContainsObject(ModelMenuItem $menuItem = null) {
         $this->query = "SELECT ";
-        $this->query .= "mi.*, u.id, u.nome ";
+        $this->query .= "mi.*, u.id AS usuario_id, u.nome AS usuario_nome ";
         $this->query .= "FROM menu_itens AS mi  ";
-        $this->query .= "INNER JOIN user AS u ON (mi.sistema_id = u.id) ";
-        $this->query .= "WHERE ";
-        $this->query .= "mi.nome LIKE '%$menuItem->nome%' AND ";
-        $this->query .= "mi.descricao LIKE '%$menuItem->descricao%';";
+        $this->query .= "INNER JOIN usuarios AS u ON (u.id = mi.usuario_id) ";
+        $this->query .= "WHERE 1 = 1 ";
+        $this->query .= "AND mi.nome LIKE '%$menuItem->nome%' ";
+        if($menuItem->menu_id)
+            $this->query .= "AND mi.menu_id = '$menuItem->menu_id' ";
+        $this->query .= "AND mi.descricao LIKE '%$menuItem->descricao%'; ";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -79,7 +86,7 @@ class DAOMenuItem extends GenericDAO {
     }
 
     public function selectObjectByKey($nome = null) {
-        $this->query = "SELECT * FROM menuItem WHERE nome = :nome AND status = :status LIMIT 1;";
+        $this->query = "SELECT * FROM menu_itens WHERE nome = :nome AND status = :status LIMIT 1;";
         $status = true;
         try {
             $conexao = $this->getInstance();
@@ -94,7 +101,7 @@ class DAOMenuItem extends GenericDAO {
     }
 
     public function selectObjectByObject(ModelMenuItem $menuItem = null) {
-        $this->query = "SELECT * FROM menuItem WHERE nome=:nome LIMIT 1;";
+        $this->query = "SELECT * FROM menu_itens WHERE nome=:nome LIMIT 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -135,12 +142,17 @@ class DAOMenuItem extends GenericDAO {
         if (!is_object($menuItem)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE menuItem SET ";
+        $this->query = "UPDATE menu_itens SET ";
         $this->query .= "nome=:nome, ";
         $this->query .= "descricao=:descricao, ";
+        $this->query .= "titulo=:titulo, ";
         $this->query .= "icone=:icone, ";
-        $this->query .= "imagem=:imagem, ";
-        $this->query .= "sistema_id=:sistema_id ";
+        $this->query .= "class=:class, ";
+        $this->query .= "url=:url, ";
+        $this->query .= "image=:image, ";
+        $this->query .= "menu_item_id=:menu_item_id, ";
+        $this->query .= "menu_id=:menu_id, ";
+        $this->query .= "usuario_id=:usuario_id ";
         $this->query .= " WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
@@ -150,9 +162,14 @@ class DAOMenuItem extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':nome', $menuItem->nome, PDO::PARAM_STR);
         $this->statement->bindParam(':descricao', $menuItem->descricao, PDO::PARAM_STR);
+        $this->statement->bindParam(':titulo', $menuItem->titulo, PDO::PARAM_STR);
         $this->statement->bindParam(':icone', $menuItem->icone, PDO::PARAM_STR);
-        $this->statement->bindParam(':imagem', $menuItem->imagem, PDO::PARAM_STR);
-        $this->statement->bindParam(':sistema_id', $menuItem->sistema_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':class', $menuItem->class, PDO::PARAM_STR);
+        $this->statement->bindParam(':url', $menuItem->url, PDO::PARAM_STR);
+        $this->statement->bindParam(':image', $menuItem->image, PDO::PARAM_STR);
+        $this->statement->bindParam(':menu_id', $menuItem->menu_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':usuario_id', $menuItem->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':menu_item_id', $menuItem->menu_item_id, PDO::PARAM_INT);
         $this->statement->bindParam(':id', $menuItem->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
@@ -162,8 +179,9 @@ class DAOMenuItem extends GenericDAO {
         if (!is_object($menuItem)) {
             throw new Exception("Dados incompletos");
         }
-        $this->query = "UPDATE menuItem SET ";
-        $this->query .= "status=:status ";
+        $this->query = "UPDATE menu_itens SET ";
+        $this->query .= "status=:status, ";
+        $this->query .= "usuario_id=:usuario_id ";
         $this->query .= "WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
@@ -172,6 +190,7 @@ class DAOMenuItem extends GenericDAO {
         }
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':status', $menuItem->status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':usuario_id', $menuItem->usuario_id, PDO::PARAM_INT);
         $this->statement->bindParam(':id', $menuItem->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
