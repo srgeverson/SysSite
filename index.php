@@ -1,9 +1,9 @@
 <?php
 ob_start();
-include_once './br/com/system/assets/php/conf.php';
-include_once './br/com/system/controller/HelperController.php';
-include_once './br/com/system/controller/ControllerParameter.php';
-include_once './br/com/system/controller/ControllerPage.php';
+include_once './assets/php/conf.php';
+include_once './controller/HelperController.php';
+include_once './controller/ControllerParameter.php';
+include_once './controller/ControllerPage.php';
 
 $parameter = new ControllerParameter();
 ini_set('display_errors', $parameter->getProperty('mostrar_error'));
@@ -14,7 +14,7 @@ session_start();
 $landingpage = $parameter->getProperty('landing_page');
 if($landingpage != 'Vazio/Desabilitado' && !is_dir('./' . $landingpage)){
     mkdir('./' . $landingpage);
-    copy( './br/com/system/view/page/pages/landingpage.php', './' . $landingpage . '/index.php' ) && unlink( './br/com/system/view/page/pages/landingpage.php' );
+    copy( './view/page/pages/landingpage.php', './' . $landingpage . '/index.php' ) && unlink( './view/page/pages/landingpage.php' );
 }
 
 if (isset($_SESSION['usuario'])) {
@@ -24,14 +24,14 @@ if (isset($_SESSION['usuario'])) {
 function access() {
     global $user_logged;
     if (!isset($user_logged)) {
-        include_once server_path("br/com/system/view/system/access.php");
+        include_once server_path("view/system/access.php");
     } else {
-        include_once server_path("br/com/system/view/usuario/logon.php");
+        include_once server_path("view/usuario/logon.php");
     }
 }
 
 function footer() {
-    include_once server_path("br/com/system/view/system/footer.php");
+    include_once server_path("view/system/footer.php");
 }
 
 function main() {
@@ -48,7 +48,7 @@ function main() {
             }
             redirect(server_url('?page=ControllerUser&option=authenticate'));
         } else {
-            include_once server_path("br/com/system/view/system/welcome.php");
+            include_once server_path("view/system/welcome.php");
         }
     }
 }
@@ -56,13 +56,13 @@ function main() {
 function navbar() {
     global $user_logged;
     if (!isset($user_logged)) {
-        include_once server_path("br/com/system/view/system/nav_offline.php");
+        include_once server_path("view/system/nav_offline.php");
     } else {
-        include_once server_path("br/com/system/view/authority/screen/menu.php");
-        // include_once server_path("br/com/system/view/authority/screen/" . $user_logged->auth_screen);
+        include_once server_path("view/authority/screen/menu.php");
+        // include_once server_path("view/authority/screen/" . $user_logged->auth_screen);
     }
 }
 
-include_once 'br/com/system/view/system/page.php';
+include_once 'view/system/page.php';
 
 ob_end_flush();

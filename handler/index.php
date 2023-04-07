@@ -1,8 +1,8 @@
 <?php
 
-	include_once '../br/com/system/assets/php/conf.php';
-	include_once '../br/com/system/controller/HelperController.php';
-	include_once '../br/com/system/controller/ControllerGrupo.php';
+	include_once '../assets/php/conf.php';
+	include_once '../controller/HelperController.php';
+	include_once '../controller/ControllerGrupo.php';
 	include_once '../DTO/ResponseDTO.php';
 
 	$endpoint = strip_tags($_GET['endpoint']);

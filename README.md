@@ -34,15 +34,15 @@ $ git clone https://srgeverson@github.com/system.git
 # Acessando a pasta clonada
 $ cd system/
 
-# No arquivo /br/com/system/assets/php/conf.php conferir/alterar as seguintes variáveis globais para a seguinte maneira
+# No arquivo /assets/php/conf.php conferir/alterar as seguintes variáveis globais para a seguinte maneira
 $ $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/system/";
 $ $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/system/";
 
-# No arquivo /br/com/system/dao/GenericDAO.php especificar no atributo $host o IP ou nome do domínio
+# No arquivo /dao/GenericDAO.php especificar no atributo $host o IP ou nome do domínio
 $ $this->host='localhost' 
 
 # Execute o script de banco de dados.
-$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < /system/br/com/system/sql/system.sql
+$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < /system/sql/system.sql
 
 # Abra no navegador
 $ http://localhost/system
@@ -59,7 +59,7 @@ $ git clone https://srgeverson@github.com/system.git
 # Acessando a pasta clonada
 $ cd system/
 
-# No arquivo /br/com/system/assets/php/conf.php conferir/alterar as seguintes variáveis globais para a seguinte maneira
+# No arquivo /assets/php/conf.php conferir/alterar as seguintes variáveis globais para a seguinte maneira
 $ $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/";
 $ $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/";
 
@@ -112,7 +112,7 @@ $ exit;
 $ mysqldump -u root -p system > {PASTA_DE_DESTINO_DO_BACACKUP}/backup_db_system.sql
 
 # Resraurando
-$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < {PASTA_ONDE_O_PROJETO_FOI_CLONADO}/system/br/com/system/sql/system.sql
+$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < {PASTA_ONDE_O_PROJETO_FOI_CLONADO}/system/sql/system.sql
 
 ```
 
