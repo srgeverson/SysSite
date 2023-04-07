@@ -115,6 +115,30 @@ class ControllerGrupo {
         }
     }
 
+    public function desvincular() {
+        if (HelperController::authotity()) {
+            $id = $_GET['id'];
+            if (!isset($id)) {
+                $this->info = 'warning=grupo_uninformed';
+                $this->listar();
+            }
+            try {
+                $grupo = $this->daoGrupo->selectObjectById($id);
+                if (!isset($grupo)) {
+                    $this->info = 'warning=grupo_not_exists';
+                    $this->listar();
+                }
+                $permissoesDoGrupo = $this->daoAuthority->selectObjectsPermissoesByFKGrupo($grupo->id);
+            } catch (Exception $erro) {
+                $this->info = "error=" . $erro->getMessage();
+            }
+            if ($grupo == false) {
+                $this->info = "warning=grupo_not_found";
+            }
+            include_once server_path('br/com/system/view/grupo/remove_permissao.php');
+        }
+    }
+
     public function edit() {
         if (HelperController::authotity()) {
             $id = $_GET['id'];
@@ -188,7 +212,7 @@ class ControllerGrupo {
             //if ($this->usuarioAutenticado === null)
             //return $this->usuarioAutenticado;
             // return $id;
-            return $this->daoAuthority->selectObjectsPermissoesByFKGrupo($id);
+            return $this->daoAuthority->selectObjectsPermissoesByNotFKGrupo($id);
             // return $this->daoGrupo->selectObjectsEnabled();
             //else
             //    http_response_code(401);
@@ -202,6 +226,33 @@ class ControllerGrupo {
     public function novo() {
         if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/grupo/new.php');
+        }
+    }
+
+    public function removerPermissoes(){
+        if (HelperController::authotity()) {
+
+            $grupo = new ModelGrupo();
+            $grupo->id = strip_tags($_POST['id']);
+            $grupo->status = true;
+            $grupo->usuario_id = $this->usuarioAutenticado->id;
+
+            $ids_permissoes = $_POST['permissao_id'];
+
+            $permissaoGrupo = new ModelGrupoPermissao();
+            $permissaoGrupo->grupo_id = $grupo->id;
+            $permissaoGrupo->usuario_id = $this->usuarioAutenticado->id;
+            $permissaoGrupo->status = $autority->status;
+            $permissaoGrupo->ids_permissoes = join(",", $ids_permissoes);
+
+            try {
+               $this->daoGrupoPermissao->deleteBatchByNotExistsArray($permissaoGrupo);
+                $this->info = "success=grupo_granted_updated";
+            } catch (Exception $erro) {
+                //print_r($erro);
+                $this->info = "error=" . $erro->getMessage();
+            }
+            $this->listar();
         }
     }
 

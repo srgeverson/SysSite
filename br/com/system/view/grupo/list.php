@@ -84,6 +84,9 @@
                         echo '<a title="Desativar dados!" href="', server_url('?page=ControllerGrupo&option=disable&id=' . $each_grupo->id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
+                        echo '<a title="Desvincular Permissão!" href="', server_url('?page=ControllerGrupo&option=desvincular&id=' . $each_grupo->id), '" class="btn btn-warning btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<i class="fas fa-arrow-down-up-lock"></i>';
+                        echo '</a>';
                     } else {
                             echo '<a title="Editar dados!" href="', server_url('?page=ControllerGrupo&option=edit&id=' . $each_grupo->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                             echo '<i class="fas fa-edit"></i>';

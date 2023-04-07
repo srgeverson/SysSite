@@ -23,6 +23,27 @@ class DAOGrupoPermissao extends GenericDAO {
         return true;
     }
 
+    public function deleteBatchByNotExistsArray(ModelGrupoPermissao $authority = null) {
+        if (!is_object($authority)) {
+            throw new Exception("Dados incompletos");
+        }
+        try {
+            $this->query = "DELETE gp.* FROM grupos_permissoes AS gp ";
+            $this->query .= "INNER JOIN grupos_permissoes AS gp2 ON gp2.permissao_id = gp.permissao_id AND gp2.grupo_id=gp.grupo_id ";
+            $this->query .= "WHERE gp.status = 1 ";
+            $this->query .= "AND gp.grupo_id = :grupo_id "; 
+            if(!empty($authority->ids_permissoes))
+                $this->query .= "AND gp.permissao_id NOT IN ($authority->ids_permissoes) ";
+            $this->query .= "AND gp2.status = 1 ";
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(":grupo_id", $authority->grupo_id, PDO::PARAM_INT);
+            $this->statement->execute();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        return true;
+    }
     public function save(ModelGrupoPermissao $authority = null) {
         if (!is_object($authority)) {
             throw new Exception("Dados incompletos");

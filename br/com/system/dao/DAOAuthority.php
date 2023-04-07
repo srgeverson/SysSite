@@ -102,10 +102,25 @@ class DAOAuthority extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectsPermissoesByFKGrupo($grupo_id = null) {
+    public function selectObjectsPermissoesByNotFKGrupo($grupo_id = null) {
         $this->query = "SELECT p.* FROM permissoes AS p ";
         $this->query .= "WHERE p.status = 1 ";
         $this->query .= "AND NOT EXISTS(SELECT 1 FROM grupos_permissoes AS gp WHERE gp.status =  1 AND gp.permissao_id = p.id AND gp.grupo_id = :grupo_id) ";
+        try {
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(":grupo_id", $grupo_id, PDO::PARAM_INT);
+            $this->statement->execute();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function selectObjectsPermissoesByFKGrupo($grupo_id = null) {
+        $this->query = "SELECT p.* FROM permissoes AS p ";
+        $this->query .= "WHERE p.status = 1 ";
+        $this->query .= "AND EXISTS(SELECT 1 FROM grupos_permissoes AS gp WHERE gp.status =  1 AND gp.permissao_id = p.id AND gp.grupo_id = :grupo_id) ";
         try {
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
