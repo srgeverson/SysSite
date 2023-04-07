@@ -47,6 +47,28 @@ class DAOGrupoPermissao extends GenericDAO {
         return true;
     }
 
+    public function saveBatch(array $modelPermissoesGrupo){
+        if (!is_array($modelPermissoesGrupo)) {
+            throw new Exception("Lista de permissões não é válida");
+        }
+       
+        try {
+            $this->query = "INSERT INTO grupos_permissoes ";
+            $this->query .= "(grupo_id, permissao_id, status, usuario_id) ";
+            $this->query .= "VALUES ";
+            $this->query .= "(:grupo_id, :permissao_id, :status, :usuario_id);";
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            foreach ($modelPermissoesGrupo as $cada_permissao) {
+                $this->statement->execute(array(':grupo_id'=>$cada_permissao->grupo_id, ':permissao_id'=>$cada_permissao->permissao_id, ':status'=>$cada_permissao->status, ':usuario_id'=>$cada_permissao->usuario_id));
+            }
+        } catch (Exception $erro) {
+            // print_r($erro);
+            throw new Exception($erro->getMessage());
+        }
+        return true;
+    }
+
     public function selectObjectById($id = 0) {
         $this->query = "SELECT * FROM grupos_permissoes WHERE id=:id LIMIT 1;";
         try {

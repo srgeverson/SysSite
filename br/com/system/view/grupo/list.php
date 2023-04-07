@@ -47,6 +47,16 @@
                         </button>
                     </div>
                 </div>
+                <div class="col-sm-2 mb-4 mb-sm-0">
+                    <div class="input-group">
+                        <a  class="btn btn-secondary btn-icon-split" href="<?php echo server_url('?page=ControllerGrupo&option=vincular'); ?>">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-arrow-down-up-lock"></i>
+                            </span>
+                            <span class="text">Vincular Permissão</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

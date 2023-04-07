@@ -89,7 +89,7 @@ class DAOGrupo extends GenericDAO {
     }
 
     public function selectObjectsEnabled() {
-        $this->query = "SELECT g.* FROM grupos AS p WHERE g.status = 1;";
+        $this->query = "SELECT g.* FROM grupos AS g WHERE g.status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {

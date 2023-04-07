@@ -74,6 +74,7 @@ $GLOBALS['dictionary'] = array(
     'grupo_enabled' => "Grupo habilitado com sucesso.",
     'grupo_deleted' => "Grupo apagado com sucesso.",
     'grupo_disabled' => "Grupo desabilitado com sucesso.",
+    'grupo_granted_updated' => "Grupo atribuído permissões com sucesso.",
     'grupo_updated' => "Grupo atualizado com sucesso.",
     'grupo_uninformed' => "Grupo não informado.",
     'grupo_updated' => "Grupo atualizado com sucesso.",

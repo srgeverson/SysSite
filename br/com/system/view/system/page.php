@@ -74,14 +74,7 @@
                 <?php navbar(); ?>
             </div>
         </nav>
-        
-       
-        <!-- Centro da página -->
-        <?php main(); ?>
-        <!-- Rodapé -->
-        <footer class="py-5 bg-dark">
-            <?php footer(); ?>
-        </footer>
+
         <!-- Menssagens a ser exibida nas quequisições Ajax-->
         <?php
         include_once server_path("br/com/system/view/system/info.php");
@@ -117,6 +110,13 @@
 
         <!-- Datepicker bootstrap -->
         <script src="<?php echo server_url('br/com/system/assets/vendor/bootstrap/datepicker/js/') . 'bootstrap-datepicker.js'; ?>"></script>
+        <!-- Centro da página -->
+        <?php main(); ?>
+        <!-- Rodapé -->
+        <footer class="py-5 bg-dark">
+            <?php footer(); ?>
+        </footer>
+
         <script>
             function uploadImagem(){
                 $('#envio-teste').submit(function(e){

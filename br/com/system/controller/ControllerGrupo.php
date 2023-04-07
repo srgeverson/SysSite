@@ -7,23 +7,63 @@
  */
 include_once server_path("br/com/system/dao/DAOGrupo.php");
 include_once server_path("br/com/system/dao/DAOGrupoPermissao.php");
-// include_once server_path("br/com/system/dao/DAOMenuItem.php");
-// include_once server_path("br/com/system/dao/DAOUser.php");
+include_once server_path("br/com/system/dao/DAOAuthority.php");
+include_once server_path("br/com/system/model/ModelAuthority.php");
 include_once server_path("br/com/system/model/ModelGrupo.php");
+include_once server_path("br/com/system/model/ModelGrupoPermissao.php");
 
 class ControllerGrupo {
 
     private $info;
+    private $daoAuthority;
     private $daoGrupo;
     private $daoGrupoPermissao;
+    private $daoTeste;
     private $usuarioAutenticado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoGrupo = new DAOGrupo();
         $this->daoGrupoPermissao = new DAOGrupoPermissao();
+        $this->daoAuthority = new DAOAuthority();
         global $user_logged;
         $this->usuarioAutenticado = $user_logged;
+    }
+
+    public function adicionarPermissoes(){
+        if (HelperController::authotity()) {
+
+            $grupo = new ModelGrupo();
+            $grupo->id = strip_tags($_POST['grupo_id']);
+            $grupo->status = true;
+            $grupo->usuario_id = $this->usuarioAutenticado->id;
+
+            $ids_permissoes = $_POST['permissao_id'];
+
+            $permissoesDoGrupo = array();
+
+            foreach ($ids_permissoes as $permissao){
+                $autority = new ModelAuthority();
+                $autority->id = $permissao;
+                $autority->status = $grupo->status;
+                $autority->usuario_id = $this->usuarioAutenticado->id;
+
+                $permissaoGrupo = new ModelGrupoPermissao();
+                $permissaoGrupo->grupo_id = $grupo->id;
+                $permissaoGrupo->permissao_id = $autority->id;
+                $permissaoGrupo->usuario_id = $this->usuarioAutenticado->id;
+                $permissaoGrupo->status = $autority->status;
+                array_push($permissoesDoGrupo,$permissaoGrupo);
+            }
+            try {
+                $this->daoGrupoPermissao->saveBatch($permissoesDoGrupo);
+                $this->info = "success=grupo_granted_updated";
+            } catch (Exception $erro) {
+                print_r($erro);
+                $this->info = "error=" . $erro->getMessage();
+            }
+            $this->listar();
+        }
     }
 
     public function delete() {
@@ -143,6 +183,22 @@ class ControllerGrupo {
         }
     }
 
+    public function listarPermissoesGrupo($id = null){
+        try {
+            //if ($this->usuarioAutenticado === null)
+            //return $this->usuarioAutenticado;
+            // return $id;
+            return $this->daoAuthority->selectObjectsPermissoesByFKGrupo($id);
+            // return $this->daoGrupo->selectObjectsEnabled();
+            //else
+            //    http_response_code(401);
+            //code...
+        } catch (Exception $erro) {
+            http_response_code(500);
+            return $erro;
+        }
+    }
+
     public function novo() {
         if (HelperController::authotity()) {
             include_once server_path('br/com/system/view/grupo/new.php');
@@ -158,8 +214,7 @@ class ControllerGrupo {
             $existente = $this->daoGrupo->selectObjectsByNameUnique($grupo->nome);
             if (empty($existente)) {
                 try {
-                    $daoGrupo = new DAOGrupo();
-                    $daoGrupo->save($grupo);
+                    $this->daoGrupo->save($grupo);
                     $this->info = "success=grupo_created";
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
@@ -194,6 +249,18 @@ class ControllerGrupo {
                 $this->info = "error=" . $erro->getMessage();
             }
             $this->listar();
+        }
+    }
+
+    public function vincular() {
+        if (HelperController::authotity()) {
+            try {
+                //code...
+                $grupos = $this->daoGrupo->selectObjectsEnabled();
+            } catch (Exception $erro) {
+                print_r($erro);
+            }
+            include_once server_path('br/com/system/view/grupo/add_permissao.php');
         }
     }
 
