@@ -890,8 +890,8 @@
         (numGroup == 1) ? 'Group limit reached ({n} item max)' : 'Group limit reached ({n} items max)'
       ];
     },
-    selectAllText: 'Select All',
-    deselectAllText: 'Deselect All',
+    selectAllText: 'Selecionar Todos',
+    deselectAllText: 'Deselecionar Todos',
     doneButton: false,
     doneButtonText: 'Close',
     multipleSeparator: ', ',

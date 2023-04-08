@@ -157,6 +157,36 @@ class DAOUser extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function selectObjectsUsuariosByFKGrupo($grupo_id = null) {
+        $this->query = "SELECT u.* FROM usuarios AS u ";
+        $this->query .= "WHERE u.status = 1 ";
+        $this->query .= "AND EXISTS(SELECT 1 FROM usuarios_grupos AS ug WHERE ug.status =  1 AND ug.usuario_id = u.id AND ug.grupo_id = :grupo_id) ";
+        try {
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(":grupo_id", $grupo_id, PDO::PARAM_INT);
+            $this->statement->execute();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function selectObjectsUsuariosByNotFKGrupo($grupo_id = null) {
+        $this->query = "SELECT u.* FROM usuarios AS u ";
+        $this->query .= "WHERE u.status = 1 ";
+        $this->query .= "AND NOT EXISTS(SELECT 1 FROM usuarios_grupos AS ug WHERE ug.status =  1 AND ug.usuario_id = u.id AND ug.grupo_id = :grupo_id) ";
+        try {
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(":grupo_id", $grupo_id, PDO::PARAM_INT);
+            $this->statement->execute();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function update(ModelUser $user = null) {
         if (!is_object($user)) {
             throw new Exception("Dados incompletos");

@@ -21,6 +21,14 @@
 						echo $responseDTO->getJSONEncode();
 						break;
 					}
+					case 'listar-usuarios-grupo':
+						{
+							$controllerGrupo = new ControllerGrupo();
+							http_response_code(200);
+							$responseDTO->permissoes = $controllerGrupo->listarUsuariosGrupo(strip_tags($_GET['id']));
+							echo $responseDTO->getJSONEncode();
+							break;
+						}
 				default:
 					{
 						http_response_code(404);

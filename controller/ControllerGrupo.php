@@ -5,12 +5,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+include_once server_path("dao/DAOAuthority.php");
 include_once server_path("dao/DAOGrupo.php");
 include_once server_path("dao/DAOGrupoPermissao.php");
-include_once server_path("dao/DAOAuthority.php");
+include_once server_path("dao/DAOUser.php");
+include_once server_path("dao/DAOUsuarioGrupo.php");
 include_once server_path("model/ModelAuthority.php");
 include_once server_path("model/ModelGrupo.php");
 include_once server_path("model/ModelGrupoPermissao.php");
+include_once server_path("model/ModelUser.php");
+include_once server_path("model/ModelUsuarioGrupo.php");
 
 class ControllerGrupo {
 
@@ -19,13 +23,16 @@ class ControllerGrupo {
     private $daoGrupo;
     private $daoGrupoPermissao;
     private $daoTeste;
+    private $daoUser;
     private $usuarioAutenticado;
 
     function __construct() {
         $this->info = 'default=default';
+        $this->daoAuthority = new DAOAuthority();
         $this->daoGrupo = new DAOGrupo();
         $this->daoGrupoPermissao = new DAOGrupoPermissao();
-        $this->daoAuthority = new DAOAuthority();
+        $this->daoUser = new DAOUser();
+        $this->daoUsuarioGrupo = new DAOUsuarioGrupo();
         global $user_logged;
         $this->usuarioAutenticado = $user_logged;
     }
@@ -60,6 +67,42 @@ class ControllerGrupo {
                 $this->info = "success=grupo_granted_updated";
             } catch (Exception $erro) {
                 print_r($erro);
+                $this->info = "error=" . $erro->getMessage();
+            }
+            $this->listar();
+        }
+    }
+
+    public function adicionarUsuarios(){
+        if (HelperController::authotity()) {
+
+            $grupo = new ModelGrupo();
+            $grupo->id = strip_tags($_POST['grupo_id']);
+            $grupo->status = true;
+            $grupo->usuario_id = $this->usuarioAutenticado->id;
+
+            $ids_usuarios = $_POST['usuario_id'];
+
+            $usuariosDoGrupo = array();
+
+            foreach ($ids_usuarios as $usuario){
+                $user = new ModelUser();
+                $user->id = $usuario;
+                $user->status = $grupo->status;
+                $user->usuario_id = $this->usuarioAutenticado->id;
+
+                $usuarioGrupo = new ModelUsuarioGrupo();
+                $usuarioGrupo->grupo_id = $grupo->id;
+                $usuarioGrupo->usuario_id = $user->id;
+                $usuarioGrupo->usuario = $this->usuarioAutenticado->id;
+                $usuarioGrupo->status = $user->status;
+                array_push($usuariosDoGrupo,$usuarioGrupo);
+            }
+            try {
+                $this->daoUsuarioGrupo->saveBatch($usuariosDoGrupo);
+                $this->info = "success=grupo_granted_updated";
+            } catch (Exception $erro) {
+                // print_r($erro);
                 $this->info = "error=" . $erro->getMessage();
             }
             $this->listar();
@@ -115,7 +158,7 @@ class ControllerGrupo {
         }
     }
 
-    public function desvincular() {
+    public function desvincularPermissao() {
         if (HelperController::authotity()) {
             $id = $_GET['id'];
             if (!isset($id)) {
@@ -135,7 +178,31 @@ class ControllerGrupo {
             if ($grupo == false) {
                 $this->info = "warning=grupo_not_found";
             }
-            include_once server_path('view/grupo/remove_permissao.php');
+            include_once server_path('view/grupo/permissao/remove_permissao.php');
+        }
+    }
+
+    public function desvincularUsuario() {
+        if (HelperController::authotity()) {
+            $id = $_GET['id'];
+            if (!isset($id)) {
+                $this->info = 'warning=grupo_uninformed';
+                $this->listar();
+            }
+            try {
+                $grupo = $this->daoGrupo->selectObjectById($id);
+                if (!isset($grupo)) {
+                    $this->info = 'warning=grupo_not_exists';
+                    $this->listar();
+                }
+                $usuariosDoGrupo = $this->daoUser->selectObjectsUsuariosByFKGrupo($grupo->id);
+            } catch (Exception $erro) {
+                $this->info = "error=" . $erro->getMessage();
+            }
+            if ($grupo == false) {
+                $this->info = "warning=grupo_not_found";
+            }
+            include_once server_path('view/grupo/usuario/remove_usuario.php');
         }
     }
 
@@ -223,6 +290,22 @@ class ControllerGrupo {
         }
     }
 
+    public function listarUsuariosGrupo($id = null){
+        try {
+            //if ($this->usuarioAutenticado === null)
+            //return $this->usuarioAutenticado;
+            // return $id;
+            return $this->daoUser->selectObjectsUsuariosByNotFKGrupo($id);
+            // return $this->daoGrupo->selectObjectsEnabled();
+            //else
+            //    http_response_code(401);
+            //code...
+        } catch (Exception $erro) {
+            http_response_code(500);
+            return $erro;
+        }
+    }
+
     public function novo() {
         if (HelperController::authotity()) {
             include_once server_path('view/grupo/new.php');
@@ -247,6 +330,33 @@ class ControllerGrupo {
 
             try {
                $this->daoGrupoPermissao->deleteBatchByNotExistsArray($permissaoGrupo);
+                $this->info = "success=grupo_granted_updated";
+            } catch (Exception $erro) {
+                //print_r($erro);
+                $this->info = "error=" . $erro->getMessage();
+            }
+            $this->listar();
+        }
+    }
+
+    public function removerUsuarios(){
+        if (HelperController::authotity()) {
+
+            $grupo = new ModelGrupo();
+            $grupo->id = strip_tags($_POST['id']);
+            $grupo->status = true;
+            $grupo->usuario_id = $this->usuarioAutenticado->id;
+
+            $ids_usuarios = $_POST['usuario_id'];
+
+            $usuarioGrupo = new ModelUsuarioGrupo();
+            $usuarioGrupo->grupo_id = $grupo->id;
+            $usuarioGrupo->usuario = $this->usuarioAutenticado->id;
+            $usuarioGrupo->status = $autority->status;
+            $usuarioGrupo->ids_usuarios = join(",", $ids_usuarios);
+
+            try {
+                $this->daoUsuarioGrupo->deleteBatchByNotExistsArray($usuarioGrupo);
                 $this->info = "success=grupo_granted_updated";
             } catch (Exception $erro) {
                 //print_r($erro);
@@ -303,15 +413,25 @@ class ControllerGrupo {
         }
     }
 
-    public function vincular() {
+    public function vincularPermissao() {
         if (HelperController::authotity()) {
             try {
-                //code...
                 $grupos = $this->daoGrupo->selectObjectsEnabled();
             } catch (Exception $erro) {
                 print_r($erro);
             }
-            include_once server_path('view/grupo/add_permissao.php');
+            include_once server_path('view/grupo/permissao/add_permissao.php');
+        }
+    }
+
+    public function vincularUsuario() {
+        if (HelperController::authotity()) {
+            try {
+                $grupos = $this->daoGrupo->selectObjectsEnabled();
+            } catch (Exception $erro) {
+                print_r($erro);
+            }
+            include_once server_path('view/grupo/usuario/add_usuario.php');
         }
     }
 

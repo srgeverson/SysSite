@@ -10,19 +10,6 @@ include_once server_path('dao/GenericDAO.php');
 
 class DAOGrupoPermissao extends GenericDAO {
 
-    public function delete($id = 0) {
-        try {
-            $this->query = "DELETE FROM grupos_permissoes WHERE id=:id;";
-            $conexao = $this->getInstance();
-            $this->statement = $conexao->prepare($this->query);
-            $this->statement->bindParam(":id", $id, PDO::PARAM_INT);
-            $this->statement->execute();
-        } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        return true;
-    }
-
     public function deleteBatchByNotExistsArray(ModelGrupoPermissao $authority = null) {
         if (!is_object($authority)) {
             throw new Exception("Dados incompletos");
@@ -32,7 +19,7 @@ class DAOGrupoPermissao extends GenericDAO {
             $this->query .= "INNER JOIN grupos_permissoes AS gp2 ON gp2.permissao_id = gp.permissao_id AND gp2.grupo_id=gp.grupo_id ";
             $this->query .= "WHERE gp.status = 1 ";
             $this->query .= "AND gp.grupo_id = :grupo_id "; 
-            if(!empty($authority->ids_permissoes))
+            if(!isset($authority->ids_permissoes))
                 $this->query .= "AND gp.permissao_id NOT IN ($authority->ids_permissoes) ";
             $this->query .= "AND gp2.status = 1 ";
             $conexao = $this->getInstance();
@@ -40,29 +27,6 @@ class DAOGrupoPermissao extends GenericDAO {
             $this->statement->bindParam(":grupo_id", $authority->grupo_id, PDO::PARAM_INT);
             $this->statement->execute();
         } catch (Exception $erro) {
-            throw new Exception($erro->getMessage());
-        }
-        return true;
-    }
-    public function save(ModelGrupoPermissao $authority = null) {
-        if (!is_object($authority)) {
-            throw new Exception("Dados incompletos");
-        }
-        try {
-            $this->query = "INSERT INTO grupos_permissoes ";
-            $this->query .= "(descricao, nome, status, menu_item_id, usuario_id) ";
-            $this->query .= "VALUES ";
-            $this->query .= "(:descricao, :nome, :status, :menu_item_id, :usuario_id);";
-            $conexao = $this->getInstance();
-            $this->statement = $conexao->prepare($this->query);
-            $this->statement->bindParam(':descricao', $authority->descricao, PDO::PARAM_STR);
-            $this->statement->bindParam(':nome', $authority->nome, PDO::PARAM_STR);
-            $this->statement->bindParam(':status', $authority->status, PDO::PARAM_BOOL);
-            $this->statement->bindParam(':menu_item_id', $authority->menu_item_id, PDO::PARAM_STR);
-            $this->statement->bindParam(':usuario_id', $authority->usuario_id, PDO::PARAM_STR);
-            $this->statement->execute();
-        } catch (Exception $erro) {
-            // print_r($erro);
             throw new Exception($erro->getMessage());
         }
         return true;

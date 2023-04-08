@@ -47,13 +47,23 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-sm-2 mb-4 mb-sm-0">
+                <div class="col-sm-2 mb-3 mb-sm-0">
                     <div class="input-group">
-                        <a  class="btn btn-secondary btn-icon-split" href="<?php echo server_url('?page=ControllerGrupo&option=vincular'); ?>">
+                        <a  class="btn btn-secondary btn-icon-split" href="<?php echo server_url('?page=ControllerGrupo&option=vincularPermissao'); ?>">
                             <span class="icon text-white-50">
                                 <i class="fas fa-arrow-down-up-lock"></i>
                             </span>
                             <span class="text">Vincular Permissão</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-2 mb-4 mb-sm-0">
+                    <div class="input-group">
+                        <a  class="btn btn-info btn-icon-split" href="<?php echo server_url('?page=ControllerGrupo&option=vincularUsuario'); ?>">
+                            <span class="icon text-white-50">
+                                <i class="fa-solid fa-users-between-lines"></i>
+                            </span>
+                            <span class="text">Vincular Usuário</span>
                         </a>
                     </div>
                 </div>
@@ -84,8 +94,11 @@
                         echo '<a title="Desativar dados!" href="', server_url('?page=ControllerGrupo&option=disable&id=' . $each_grupo->id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
-                        echo '<a title="Desvincular Permissão!" href="', server_url('?page=ControllerGrupo&option=desvincular&id=' . $each_grupo->id), '" class="btn btn-warning btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<a title="Desvincular Permissão!" href="', server_url('?page=ControllerGrupo&option=desvincularPermissao&id=' . $each_grupo->id), '" class="btn btn-secondary btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-arrow-down-up-lock"></i>';
+                        echo '</a>';
+                        echo '<a title="Desvincular Usuario!" href="', server_url('?page=ControllerGrupo&option=desvincularUsuario&id=' . $each_grupo->id), '" class="btn btn-info btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<i class="fa-solid fa-users-between-lines"></i>';
                         echo '</a>';
                     } else {
                             echo '<a title="Editar dados!" href="', server_url('?page=ControllerGrupo&option=edit&id=' . $each_grupo->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
