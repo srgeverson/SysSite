@@ -19,7 +19,7 @@ class DAOUsuarioGrupo extends GenericDAO {
             $this->query .= "INNER JOIN usuarios_grupos AS ug2 ON ug2.usuario_id = ug.usuario_id AND ug2.grupo_id=ug.grupo_id ";
             $this->query .= "WHERE ug.status = 1 ";
             $this->query .= "AND ug.grupo_id = :grupo_id "; 
-            if(!isset($usuarioGrupo->ids_usuarios))
+            if($usuarioGrupo->ids_usuarios)
                 $this->query .= "AND ug.usuario_id NOT IN ($usuarioGrupo->ids_usuarios) ";
             $this->query .= "AND ug2.status = 1 ";
             $conexao = $this->getInstance();
