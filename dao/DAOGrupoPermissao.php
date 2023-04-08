@@ -83,20 +83,20 @@ class DAOGrupoPermissao extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectsByContainsFkPermissao($permissao_id = null) {
-        $this->query = "SELECT ";
-        $this->query .= "gp.* ";
-        $this->query .= "FROM grupos_permissoes AS gp ";
-        $this->query .= "WHERE 1 = 1 ";
-        $this->query .= "AND gp.permissao_id =:permissao_id;";
+    public function selectObjectsByContainsFkGrupo($grupo_id = null) {
         try {
+            $this->query = "SELECT ";
+            $this->query .= "gp.* ";
+            $this->query .= "FROM grupos_permissoes AS gp ";
+            $this->query .= "WHERE 1 = 1 ";
+            $this->query .= "AND gp.grupo_id =:grupo_id;";
             $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(":grupo_id", $grupo_id, PDO::PARAM_INT);
+            $this->statement->execute();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":permissao_id", $permissao_id, PDO::PARAM_INT);
-        $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 

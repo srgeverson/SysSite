@@ -74,10 +74,11 @@ $GLOBALS['dictionary'] = array(
     'grupo_enabled' => "Grupo habilitado com sucesso.",
     'grupo_deleted' => "Grupo apagado com sucesso.",
     'grupo_disabled' => "Grupo desabilitado com sucesso.",
-    'grupo_granted_updated' => "Grupo atribuído permissões com sucesso.",
+    'grupo_granted_updated' => "Operação com o grupo realizada com sucesso.",
     'grupo_updated' => "Grupo atualizado com sucesso.",
     'grupo_uninformed' => "Grupo não informado.",
     'grupo_updated' => "Grupo atualizado com sucesso.",
+    'grupo_in_use' => "Não é possível remover esse grupo, pois o mesmo está em uso, recomendamos desabilita-lo.",
 
     'menu_created' => "Menu criado com sucesso.",
     'menu_enabled' => "Menu habilitado com sucesso.",
@@ -86,7 +87,7 @@ $GLOBALS['dictionary'] = array(
     'menu_updated' => "Menu atualizado com sucesso.",
     'menu_uninformed' => "Menu não informado.",
     'menu_updated' => "Menu atualizado com sucesso.",
-
+    
     'menuItem_created' => "Item de menu criado com sucesso.",
     'menuItem_enabled' => "Item de menu habilitado com sucesso.",
     'menuItem_deleted' => "Item de menu apagado com sucesso.",

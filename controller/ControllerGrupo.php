@@ -116,7 +116,9 @@ class ControllerGrupo {
                 $this->info = 'warning=grupo_uninformed';
             }
             try {
-                if (empty($this->daoGrupoPermissao->selectObjectsByContainsFkPermissao($id))) {
+                $grupoDePermissoes = $this->daoGrupoPermissao->selectObjectsByContainsFkGrupo($id);
+                $grupoDeUsuarios = $this->daoUsuarioGrupo->selectObjectsByContainsFkGrupo($id);
+                if (empty($grupoDePermissoes) && empty($grupoDeUsuarios)) {
                     if (!$this->daoGrupo->delete($id)) {
                         $this->info = 'warning=grupo_not_exists';
                         $this->listar();

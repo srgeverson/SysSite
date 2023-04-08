@@ -53,6 +53,23 @@ class DAOUsuarioGrupo extends GenericDAO {
         return true;
     }
 
+    public function selectObjectsByContainsFkGrupo($grupo_id = null) {
+        $this->query = "SELECT ";
+        $this->query .= "ug.* ";
+        $this->query .= "FROM usuarios_grupos AS ug ";
+        $this->query .= "WHERE 1 = 1 ";
+        $this->query .= "AND ug.grupo_id =:grupo_id;";
+        try {
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(":grupo_id", $grupo_id, PDO::PARAM_INT);
+            $this->statement->execute();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function selectObjectsByContainsObject(ModelUsuarioGrupo $usuarioGrupo = null) {
         $this->query = "SELECT ";
         $this->query .= "* ";
