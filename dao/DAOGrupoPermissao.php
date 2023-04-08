@@ -22,7 +22,6 @@ class DAOGrupoPermissao extends GenericDAO {
             if($authority->ids_permissoes)
                 $this->query .= "AND gp.permissao_id NOT IN ($authority->ids_permissoes) ";
             $this->query .= "AND gp2.status = 1 ";
-            echo $this->query;
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
             $this->statement->bindParam(":grupo_id", $authority->grupo_id, PDO::PARAM_INT);
