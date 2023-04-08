@@ -53,9 +53,9 @@ class DAOEndereco extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO enderecos ";
-        $this->query .= "(logradouro, numero, bairro, cep, cidade_id, status, estado_id, usuario_id) ";
+        $this->query .= "(logradouro, numero, bairro, cep, cidade_id, status, usuario_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:logradouro, :numero, :bairro, :cep, :cidade_id, :status, :estado_id, :usuario_id);";
+        $this->query .= "(:logradouro, :numero, :bairro, :cep, :cidade_id, :status, :usuario_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -67,7 +67,6 @@ class DAOEndereco extends GenericDAO {
         $this->statement->bindParam(':bairro', $endereco->bairro, PDO::PARAM_STR);
         $this->statement->bindParam(':cep', $endereco->cep, PDO::PARAM_STR);
         $this->statement->bindParam(':cidade_id', $endereco->cidade_id, PDO::PARAM_STR);
-        $this->statement->bindParam(':estado_id', $endereco->estado_id, PDO::PARAM_INT);
         $this->statement->bindParam(':usuario_id', $endereco->usuario_id, PDO::PARAM_INT);
         $this->statement->bindParam(':status', $endereco->status, PDO::PARAM_BOOL);
         $this->statement->execute();

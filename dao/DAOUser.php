@@ -157,6 +157,18 @@ class DAOUser extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function selectObjectsNotExistsFuncionario() {
+        $this->query = "SELECT u.* FROM usuarios AS u WHERE u.status = 1 AND  NOT EXISTS (SELECT 1 FROM funcionarios AS f WHERE f.cpf = u.cpf);";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function selectObjectsUsuariosByFKGrupo($grupo_id = null) {
         $this->query = "SELECT u.* FROM usuarios AS u ";
         $this->query .= "WHERE u.status = 1 ";

@@ -14,11 +14,13 @@ class ControllerFuncionarioUser {
 
     private $info;
     private $daoFuncionarioUser;
+    private $daoUser;
     private $usuarioAutencitado;
 
     function __construct() {
         $this->info = 'default=default';
         $this->daoFuncionarioUser = new DAOFuncionarioUser();
+        $this->daoUser = new DAOUser();
         global $user_logged;
         $this->usuarioAutencitado = $user_logged;
     }

@@ -8,12 +8,13 @@
 include_once server_path("controller/ControllerFuncionarioUser.php");
 include_once server_path("controller/ControllerUser.php");
 include_once server_path("controller/ControllerSystem.php");
-include_once server_path("dao/DAOEstado.php");
+include_once server_path("dao/DAOCidade.php");
 include_once server_path("dao/DAOFuncionario.php");
 include_once server_path("model/ModelContact.php");
 include_once server_path("model/ModelEndereco.php");
 include_once server_path("model/ModelFuncionario.php");
 include_once server_path("model/ModelFuncionarioUser.php");
+include_once server_path("dao/DAOUser.php");
 
 class ControllerFuncionario {
 
@@ -23,7 +24,9 @@ class ControllerFuncionario {
 
     function __construct() {
         $this->info = 'default=default';
+        $this->daoCidade = new DAOCidade();
         $this->daoFuncionario = new DAOFuncionario();
+        $this->daoUser = new DAOUser();
         global $user_logged;
         $this->usuarioAutenticado = $user_logged;
     }
@@ -176,125 +179,98 @@ class ControllerFuncionario {
 
     public function novo() {
         if (HelperController::authotity()) {
-           $daoEstado = new DAOEstado();
-           $estados = $daoEstado->selectObjectsEnabled();
-           $controllerUser = new ControllerUser();
-        //    $users = $controllerUser->selectObjectsNotInFuncionarioUser();
+            $cidades = $this->daoCidade->selectObjectsEnabledWithEstados();
+            $users = $this->daoUser->selectObjectsNotExistsFuncionario();
             include_once server_path('view/funcionario/new.php');
         }
     }
 
     public function save() {
         if (HelperController::authotity()) {
-            $user_fk_authority_pk_id = strip_tags($_GET['user_fk_authority_pk_id']);
+            //$user_fk_authority_pk_id = strip_tags($_GET['user_fk_authority_pk_id']);
 
-            global $user_logged;
+            // global $user_logged;
 
-            $id = null;
-            if (isset($_POST['id'])) {
-                $id = strip_tags($_POST['id']);
-            } else {
-                $id = $user_logged->id;
-            }
+            // $id = null;
+            // if (isset($_POST['id'])) {
+            //     $id = strip_tags($_POST['id']);
+            // } else {
+            //     $id = $this->usuarioAutenticado->id;
+            // }
 
             //Contato
-            $cont_description = strip_tags($_POST['cont_description']);
-            $cont_phone = strip_tags($_POST['cont_phone']);
-            $cont_cell_phone = strip_tags($_POST['cont_cell_phone']);
-            $cont_whatsapp = strip_tags($_POST['cont_whatsapp']);
-            $cont_email = strip_tags($_POST['cont_email']);
-            $cont_facebook = strip_tags($_POST['cont_facebook']);
-            $cont_instagram = strip_tags($_POST['cont_instagram']);
-            $cont_text = strip_tags($_POST['cont_text']);
-            $cont_status = true;
-
             $contact = new ModelContact();
-            $contact->cont_description = $cont_description;
-            $contact->cont_phone = $cont_phone;
-            $contact->cont_cell_phone = $cont_cell_phone;
-            $contact->cont_whatsapp = $cont_whatsapp;
-            $contact->cont_email = $cont_email;
-            $contact->cont_facebook = $cont_facebook;
-            $contact->cont_instagram = $cont_instagram;
-            $contact->cont_text = $cont_text;
-            $contact->cont_status = $cont_status;
-            $contact->cont_fk_id = $user_logged->id;
-
+            $contact->cont_description = strip_tags($_POST['cont_description']);
+            $contact->cont_phone = strip_tags($_POST['cont_phone']);
+            $contact->cont_cell_phone = strip_tags($_POST['cont_cell_phone']);
+            $contact->cont_whatsapp = strip_tags($_POST['cont_whatsapp']);
+            $contact->cont_email = strip_tags($_POST['cont_email']);
+            $contact->cont_facebook = strip_tags($_POST['cont_facebook']);
+            $contact->cont_instagram = strip_tags($_POST['cont_instagram']);
+            $contact->cont_text = strip_tags($_POST['cont_text']);
+            $contact->cont_status = true;
+            $contact->cont_fk_user_pk_id = $this->usuarioAutenticado->id;
 
             //Endereço
-            $logradouro = strip_tags($_POST['logradouro']);
-            $numero = strip_tags($_POST['numero']);
-            $bairro = strip_tags($_POST['bairro']);
-            $cep = strip_tags($_POST['cep']);
-            $cidade_id = strip_tags($_POST['cidade_id']);
-            $estado_id = strip_tags($_POST['estado_id']);
-            $usuario_id = $user_logged->id;
-            $status = true;
-
             $endereco = new ModelEndereco();
-            $endereco->logradouro = $logradouro;
-            $endereco->numero = $numero;
-            $endereco->bairro = $bairro;
-            $endereco->cep = $cep;
-            $endereco->cidade_id = $cidade_id;
-            $endereco->estado_id = $estado_id;
-            $endereco->usuario_id = $usuario_id;
-            $endereco->status = $status;
+            $endereco->logradouro = strip_tags($_POST['logradouro']);
+            $endereco->numero = strip_tags($_POST['numero']);
+            $endereco->bairro = strip_tags($_POST['bairro']);
+            $endereco->cep = strip_tags($_POST['cep']);
+            $endereco->cidade_id = strip_tags($_POST['cidade_id']);
+            $endereco->usuario_id = $this->usuarioAutenticado->id;
+            $endereco->status = true;
 
             //DAOs
             $daoContact = new DAOContact();
             $daoEndereco = new DAOEndereco();
 
             //Funcionário
-            $nome = strip_tags($_POST['nome']);
-            $cpf = strip_tags($_POST['cpf']);
-            $rg = strip_tags($_POST['rg']);
-            $pis = strip_tags($_POST['pis']);
-            $data_nascimento = strip_tags($_POST['data_nascimento']);
             try {
                 $contato_id = $daoContact->saveAndReturnPkId($contact);
             } catch (Exception $erro) {
+                // print_r($erro);
                 $this->info = "error=Contato: " . $erro->getMessage();
             }
             try {
                 $endereco_id = $daoEndereco->saveAndReturnPkId($endereco);
             } catch (Exception $erro) {
+                // print_r($erro);
                 $this->info = "error=Endereço: " . $erro->getMessage();
             }
-            $usuario_id = $user_logged->id;
-            $status = true;
-
+            //$usuario_id = $user_logged->id;
             $funcionario = new ModelFuncionario();
-            $funcionario->nome = $nome;
-            $funcionario->cpf = $cpf;
-            $funcionario->rg = $rg;
-            $funcionario->pis = $pis;
-            $funcionario->data_nascimento = $data_nascimento;
+            $funcionario->nome = strip_tags($_POST['nome']);
+            $funcionario->cpf = strip_tags($_POST['cpf']);
+            $funcionario->rg = strip_tags($_POST['rg']);
+            $funcionario->pis = strip_tags($_POST['pis']);
+            $funcionario->data_nascimento = strip_tags($_POST['data_nascimento']);
             $funcionario->contato_id = $contato_id;
             $funcionario->endereco_id = $endereco_id;
-            $funcionario->usuario_id = $usuario_id;
-            $funcionario->status = $status;
+            $funcionario->usuario_id = $this->usuarioAutenticado->id;
+            $funcionario->status = true;
 
             try {
-                $id = $this->daoFuncionario->saveAndReturnPkId($funcionario);
+               $id = $this->daoFuncionario->saveAndReturnPkId($funcionario);
 
-                $funcionarioUser = new ModelFuncionarioUser();
-                $funcionarioUser->fuus_fk_funcionario_pk_id = $id;
-                $funcionarioUser->fuus_fk_id = $id;
-                $funcionarioUser->fuus_status = true;
+                // $funcionarioUser = new ModelFuncionarioUser();
+                // $funcionarioUser->fuus_fk_funcionario_pk_id = $id;
+                // $funcionarioUser->fuus_fk_id = $id;
+                // $funcionarioUser->fuus_status = true;
 
-                $controllerFunconarioUser = new ControllerFuncionarioUser();
-                $controllerFunconarioUser->saveFuncionarioUser($funcionarioUser);
+                // $controllerFunconarioUser = new ControllerFuncionarioUser();
+                //$controllerFunconarioUser->saveFuncionarioUser($funcionarioUser);
 
-                if ($user_fk_authority_pk_id == 0) {
-                    $this->info = "success=funcionario_created";
+                // if ($user_fk_authority_pk_id == 0) {
+                //     $this->info = "success=funcionario_created";
                     $this->listar();
-                }
+                // }
             } catch (Exception $erro) {
-                if ($user_fk_authority_pk_id == 0) {
-                    $this->info = "error=" . $erro->getMessage();
-                    $this->listar();
-                }
+                // print_r($erro);
+                $this->info = "error=" . $erro->getMessage();
+                $this->listar();
+                // if ($user_fk_authority_pk_id == 0) {
+                // }
             }
         }
     }

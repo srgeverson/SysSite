@@ -15,11 +15,7 @@ global $user_logged;
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
-        <form action="
-        <?php
-        global $user_logged;
-        echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerFuncionario&option=save&user_fk_authority_pk_id=' . $user_logged->id : '?page=ControllerFuncionario&option=save&user_fk_authority_pk_id=' . 0);
-        ?>" method="post">
+        <form action=" <?php echo server_url('?page=ControllerFuncionario&option=save'); ?>" method="post">
             <nav>
                 <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-dados-pessoais-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Dados Pessoais</a>
@@ -53,18 +49,15 @@ global $user_logged;
                                 <input class="form-control" name="data_nascimento" type="date" placeholder="Digite a data de nascimento..."  required>
                             </div>
                             <div class="form-group">
+                                <label class="text-primary">Usuário:</label><br>
+                                <select id="mySelect" name="usuario_id" class="selectpicker form-control" data-live-search="true" required>
+                                    <option></option>
                                 <?php
-                                if ($user_logged->user_fk_authority_pk_id != 3) {
-                                    echo '<label class="text-primary">Usuário:</label><br>';
-                                    echo '<select id="mySelect" name="id" class="selectpicker form-control" data-live-search="true" required>';
-                                    echo '<option></option>';
                                     foreach ($users as $each_user) {
                                         echo '<option value="', $each_user->id, '">', $each_user->login, '</option>';
                                     }
-
-                                    echo '</select>';
-                                }
                                 ?>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -128,15 +121,11 @@ global $user_logged;
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Cidade:</label><br>
-                                <input class="form-control" name="cidade_id" type="text" placeholder="Digite a cidade...">
-                            </div>
-                            <div class="form-group">
-                                <label class="text-primary">Estado:</label><br>
-                                <select  id="estados" name="estado_id" class="selectpicker form-control" data-live-search="true" required>
+                                <select name="cidade_id" class="form-control" required>
                                     <option></option>
                                     <?php
-                                    foreach ($estados as $each_estado) {
-                                        echo '<option value="', $each_estado->id, '">', $each_estado->nome, '</option>';
+                                    foreach ($cidades as $each_cidade) {
+                                        echo '<option value="', $each_cidade->id, '">', $each_cidade->nome, '</option>';
                                     }
                                     ?>
                                 </select>
