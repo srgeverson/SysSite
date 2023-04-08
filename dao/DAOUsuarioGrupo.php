@@ -25,7 +25,6 @@ class DAOUsuarioGrupo extends GenericDAO {
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
             $this->statement->bindParam(":grupo_id", $usuarioGrupo->grupo_id, PDO::PARAM_INT);
-            print_r($usuarioGrupo);
             $this->statement->execute();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
