@@ -1,5 +1,5 @@
-# system - Sistema de Disponibilização de Folha de Pagamento
-Este sistema servirá para disponibilizar folha de pagamento dos funcionários, onde o usuário ira realizar o updload dos contra-cheques em pdf e o sistema ler os arquivos e vincula aos respectivos funcionários.
+# SysSite - Site com sistema integrado para gerenciamento de seu próprio conteúdo.
+Este sistema possui um site onde o mesmo é genrenciado pelo mesmo.
 
 ### Pré-requisitos
 
@@ -34,15 +34,15 @@ $ git clone https://srgeverson@github.com/system.git
 # Acessando a pasta clonada
 $ cd system/
 
-# No arquivo /br/com/system/assets/php/conf.php conferir/alterar as seguintes variáveis globais para a seguinte maneira
+# No arquivo /assets/php/conf.php conferir/alterar as seguintes variáveis globais para a seguinte maneira
 $ $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/system/";
 $ $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/system/";
 
-# No arquivo /br/com/system/dao/GenericDAO.php especificar no atributo $host o IP ou nome do domínio
+# No arquivo /dao/GenericDAO.php especificar no atributo $host o IP ou nome do domínio
 $ $this->host='localhost' 
 
 # Execute o script de banco de dados.
-$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < /system/br/com/system/sql/system.sql
+$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < /system/sql/system.sql
 
 # Abra no navegador
 $ http://localhost/system
@@ -59,7 +59,7 @@ $ git clone https://srgeverson@github.com/system.git
 # Acessando a pasta clonada
 $ cd system/
 
-# No arquivo /br/com/system/assets/php/conf.php conferir/alterar as seguintes variáveis globais para a seguinte maneira
+# No arquivo /assets/php/conf.php conferir/alterar as seguintes variáveis globais para a seguinte maneira
 $ $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/";
 $ $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/";
 
@@ -100,7 +100,7 @@ $ http://localhost
 
 ```bash
 # Em ambientes windows execute o seguinte comando
-$ cd C:\Program Files\MySQL\MySQL Server 8.0\bin\
+$ cd C:\Program Files\MySQL\MySQL Server 8.0\
 
 # Autenticando no banco de dados em seguida será solicitado a senha
 $ mysql -u root -p
@@ -112,7 +112,7 @@ $ exit;
 $ mysqldump -u root -p system > {PASTA_DE_DESTINO_DO_BACACKUP}/backup_db_system.sql
 
 # Resraurando
-$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < {PASTA_ONDE_O_PROJETO_FOI_CLONADO}/system/br/com/system/sql/system.sql
+$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < {PASTA_ONDE_O_PROJETO_FOI_CLONADO}/system/sql/system.sql
 
 ```
 

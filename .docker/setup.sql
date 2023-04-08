@@ -3,6 +3,7 @@
 -- Host: localhost    Database: system
 -- ------------------------------------------------------
 -- Server version	8.0.32
+
 CREATE DATABASE IF NOT EXISTS `system`;
 USE `system`; 
 
@@ -18,31 +19,134 @@ USE `system`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `authority`
+-- Table structure for table `cidades`
 --
 
-DROP TABLE IF EXISTS `authority`;
+DROP TABLE IF EXISTS `cidades`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `authority` (
-  `auth_pk_id` int NOT NULL AUTO_INCREMENT,
-  `auth_description` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `auth_status` tinyint(1) NOT NULL,
-  `auth_screen` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `auth_function` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  PRIMARY KEY (`auth_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+CREATE TABLE `cidades` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `codigo` int NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `estado_id` int NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `usuario_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_cidades_estado_idx` (`estado_id`),
+  KEY `fk_cidades_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_cidades_estado` FOREIGN KEY (`estado_id`) REFERENCES `estados` (`id`),
+  CONSTRAINT `fk_cidades_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5571 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `authority`
+-- Dumping data for table `cidades`
 --
 
-LOCK TABLES `authority` WRITE;
-/*!40000 ALTER TABLE `authority` DISABLE KEYS */;
-INSERT INTO `authority` VALUES (1,'TI',0,'ti.php','Gerenciamento completo do sistema para auxiliar nossos clientes.'),(2,'Administrador',1,'administrador.php','ÁREA RESERVADA PARA GERENCIAR OPERAÇÕES E FAZER LANÇAMENTOS DAS FOLHA DE PAGAMENTOS'),(3,'Funcionário',1,'funcionario.php','ÁREA RESERVADA PARA ACOMPANHAMENTO DE SEUS CONTRA CHECHE'),(4,'Marketing',1,'marketing.php','ÁREA RESERVADA PARA GERENCIAMENTO DO CONTEÚDO DO SITE');
-/*!40000 ALTER TABLE `authority` ENABLE KEYS */;
+LOCK TABLES `cidades` WRITE;
+/*!40000 ALTER TABLE `cidades` DISABLE KEYS */;
+INSERT INTO `cidades` VALUES (935,2303709,'Caucaia',6,1,1),(947,2304285,'Eusébio',6,1,1),(950,2304400,'Fortaleza',6,1,1);
+/*!40000 ALTER TABLE `cidades` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `cidades_BEFORE_INSERT` BEFORE INSERT ON `cidades` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('cidades', NEW.id, 'INSERT', 'id', NEW.id, now()),
+        ('cidades', NEW.id, 'INSERT','codigo', NEW.codigo, now()),
+        ('cidades', NEW.id, 'INSERT','nome', NEW.nome, now()),
+        ('cidades', NEW.id, 'INSERT','estado_id', NEW.estado_id, now()),
+        ('cidades', NEW.id, 'INSERT','status', NEW.status, now()),
+        ('cidades', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `cidades_BEFORE_UPDATE` BEFORE UPDATE ON `cidades` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+    VALUES 
+  ('cidades', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+END IF;
+
+IF (OLD.codigo <> NEW.codigo or (OLD.codigo IS NULL and NEW.codigo IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('cidades', 'codigo', OLD.codigo, NEW.codigo, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES
+        ('cidades', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.estado_id <> NEW.estado_id or (OLD.estado_id IS NULL and NEW.estado_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('cidades', 'estado_id', OLD.estado_id, NEW.estado_id, now(), 'UPDATE', OLD.id);
+END IF;
+IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+        ('cidades', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id);
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `cidades_BEFORE_DELETE` BEFORE DELETE ON `cidades` FOR EACH ROW BEGIN
+
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('cidades', OLD.id, 'DELETE', 'id', OLD.id, now()),
+        ('cidades', OLD.id, 'DELETE','nome', OLD.nome, now()),
+        ('cidades', OLD.id, 'DELETE','codigo', OLD.codigo, now()),
+        ('cidades', OLD.id, 'DELETE','status', OLD.status, now()),
+        ('cidades', OLD.id, 'DELETE','estado_id', OLD.estado_id, now()),
+        ('cidades', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `contact`
@@ -63,7 +167,7 @@ CREATE TABLE `contact` (
   `cont_twitter` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `cont_status` tinyint(1) NOT NULL DEFAULT '1',
   `cont_text` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `cont_fk_user_pk_id` int NULL,
+  `cont_fk_user_pk_id` int DEFAULT NULL,
   PRIMARY KEY (`cont_pk_id`),
   KEY `cont_fk_user_pk_id_idx` (`cont_fk_user_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
@@ -96,13 +200,13 @@ CREATE TABLE `content` (
   `conte_link` varchar(255) DEFAULT NULL,
   `conte_status` tinyint(1) NOT NULL DEFAULT '1',
   `conte_fk_page_pk_id` int NOT NULL,
-  `conte_fk_user_pk_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
   PRIMARY KEY (`conte_pk_id`),
   KEY `conte_fk_page_pk_id_idx` (`conte_fk_page_pk_id`),
-  KEY `conte_fk_user_pk_id_idx` (`conte_fk_user_pk_id`),
+  KEY `fk_conteudos_usuario_idx` (`usuario_id`),
   CONSTRAINT `conte_fk_page_pk_id` FOREIGN KEY (`conte_fk_page_pk_id`) REFERENCES `page` (`page_pk_id`),
-  CONSTRAINT `conte_fk_user_pk_id` FOREIGN KEY (`conte_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+  CONSTRAINT `fk_conteudos_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,76 +215,294 @@ CREATE TABLE `content` (
 
 LOCK TABLES `content` WRITE;
 /*!40000 ALTER TABLE `content` DISABLE KEYS */;
-INSERT INTO `content` VALUES (1,'destaques_servicos','destaques_servicos','','','1200x300.png','',1,3,1),(2,'modern_business','A empresa...','','    Para ser percebida como uma empresa social e ambientalmente responsável e atuante, a Natura parte da premissa de que os impactos ambientais de sua atividade decorrem de uma cadeia de transformações, da qual representa somente uma parte. Por isso, acredita que, para ter eficácia, as ações ambientais precisam: considerar cada cadeia produtiva de maneira integral.','750x450.png','',1,4,1),(3,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',1,4,1),(4,'our_customers','our_customers','','','500x300.png','123',1,4,1),(5,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(6,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',1,4,1),(7,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',1,4,1),(8,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(9,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(10,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(11,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,1,4,1),(12,'slide_apresentacao','Primeiro Destaque','Descrição destaque','','1900x1080.png','',0,1,1),(13,'slide_apresentacao','Segundo Destaque','Descrição destaque 2','','1900x1080.png','',0,1,1),(14,'slide_apresentacao','Terceiro Destaque','Descrição destaque 3','','1900x1080.png','',0,1,1),(15,'outros_destaques','Outroes Destaque','','Descrição destaque 3\r\nDescrição destaque 3\r\nDescrição destaque 3\r\nDescrição destaque 3','','',0,1,1),(16,'nossos_destaques','nossos_destaques','','nossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaques','700x400.png','',0,1,1),(17,'nossos_servicos','nossos_servicos','nossos_servicos','nossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos',NULL,'',1,3,1), (18,'our_contact','Nosso contato','Nosso contato','Nosso contato',NULL,NULL,1,2,1);
+INSERT INTO `content` VALUES (1,'destaques_servicos','destaques_servicos','','','1200x300.png','',0,3,1),(2,'modern_business','A empresa...','','    Para ser percebida como uma empresa social e ambientalmente responsável e atuante, a Natura parte da premissa de que os impactos ambientais de sua atividade decorrem de uma cadeia de transformações, da qual representa somente uma parte. Por isso, acredita que, para ter eficácia, as ações ambientais precisam: considerar cada cadeia produtiva de maneira integral.','750x450.png','',0,4,1),(3,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',0,4,1),(4,'our_customers','our_customers','','','500x300.png','123',0,4,1),(5,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,0,4,1),(6,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',0,4,1),(7,'our_team','Nome do membro','Cargo do membro','Breve descrição do cardo do membro ou do próprio membro','750x450.png','',0,4,1),(8,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,0,4,1),(9,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,0,4,1),(10,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,0,4,1),(11,'our_customers','our_customers',NULL,NULL,'500x300.png',NULL,0,4,1),(12,'slide_apresentacao','Primeiro Destaque','Descrição destaque','','1900x1080.png','',0,1,1),(13,'slide_apresentacao','Segundo Destaque','Descrição destaque 2','','1900x1080.png','',0,1,1),(14,'slide_apresentacao','Terceiro Destaque','Descrição destaque 3','','1900x1080.png','',0,1,1),(15,'outros_destaques','Outroes Destaque','','Descrição destaque 3\r\nDescrição destaque 3\r\nDescrição destaque 3\r\nDescrição destaque 3','','',0,1,1),(16,'nossos_destaques','nossos_destaques','','nossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaquesnossos_destaques','700x400.png','',0,1,1),(17,'nossos_servicos','nossos_servicos','nossos_servicos','nossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos\r\nnossos_servicos',NULL,'',0,3,1),(18,'our_contact','Nosso contato','Nosso contato','Nosso contato',NULL,NULL,0,2,1);
 /*!40000 ALTER TABLE `content` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `endereco`
+-- Table structure for table `enderecos`
 --
 
-DROP TABLE IF EXISTS `endereco`;
+DROP TABLE IF EXISTS `enderecos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `endereco` (
-  `ende_pk_id` int NOT NULL AUTO_INCREMENT,
-  `ende_logradouro` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `ende_numero` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `ende_bairro` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `ende_cep` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `ende_cidade` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `ende_status` tinyint(1) NOT NULL DEFAULT '1',
-  `ende_fk_estado_pk_id` int NOT NULL,
-  `ende_fk_user_pk_id` int NOT NULL,
-  PRIMARY KEY (`ende_pk_id`),
-  KEY `ende_fk_user_pk_id_idx` (`ende_fk_user_pk_id`),
-  KEY `ende_fk_estado_pk_id_idx` (`ende_fk_estado_pk_id`),
-  CONSTRAINT `ende_fk_estado_pk_id` FOREIGN KEY (`ende_fk_estado_pk_id`) REFERENCES `estado` (`esta_pk_id`),
-  CONSTRAINT `ende_fk_user_pk_id` FOREIGN KEY (`ende_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+CREATE TABLE `enderecos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `logradouro` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `numero` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `bairro` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `cep` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `cidade_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_enderecos_cidade_idx` (`cidade_id`),
+  KEY `fk_enderecos_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_enderecos_cidade` FOREIGN KEY (`cidade_id`) REFERENCES `cidades` (`id`),
+  CONSTRAINT `fk_enderecos_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `endereco`
+-- Dumping data for table `enderecos`
 --
 
-LOCK TABLES `endereco` WRITE;
-/*!40000 ALTER TABLE `endereco` DISABLE KEYS */;
-INSERT INTO `endereco` VALUES (1,'Rua Padrão','00','Bairro Padrão','00.000-000','Municio Padrão',1,6,1),(2,'Rua','00','Bairro','00.000-000','Municio',1,6,1);
-/*!40000 ALTER TABLE `endereco` ENABLE KEYS */;
+LOCK TABLES `enderecos` WRITE;
+/*!40000 ALTER TABLE `enderecos` DISABLE KEYS */;
+INSERT INTO `enderecos` VALUES (1,'Logradouro','s/n','Bairro','00.000-000',1,950,2);
+/*!40000 ALTER TABLE `enderecos` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `enderecos_BEFORE_INSERT` BEFORE INSERT ON `enderecos` FOR EACH ROW BEGIN
+    INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+  VALUES
+      ('enderecos', NULL, 'INSERT','id', NEW.id, now(), NEW.usuario_id),
+      ('enderecos', NULL, 'INSERT','logradouro', NEW.logradouro, now(), NEW.usuario_id),
+      ('enderecos', NULL, 'INSERT','numero', NEW.numero, now(), NEW.usuario_id),
+      ('enderecos', NULL, 'INSERT','bairro', NEW.bairro, now(), NEW.usuario_id),
+      ('enderecos', NULL, 'INSERT','cep', NEW.cep, now(), NEW.usuario_id),
+      ('enderecos', NULL, 'INSERT','status', NEW.status, now(), NEW.usuario_id),
+      ('enderecos', NULL, 'INSERT','cidade_id', NEW.cidade_id, now(), NEW.usuario_id),
+      ('enderecos', NULL, 'INSERT','usuario_id', NEW.usuario_id, now(), NEW.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `enderecos_BEFORE_UPDATE` BEFORE UPDATE ON `enderecos` FOR EACH ROW BEGIN
+    IF (OLD.logradouro <> NEW.logradouro or (OLD.logradouro IS NULL and NEW.logradouro IS NOT NULL)) THEN
+		INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES 
+			('enderecos', 'logradouro', OLD.logradouro, NEW.logradouro, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	 END IF;
+    
+	IF (OLD.numero <> NEW.numero or (OLD.numero IS NULL and NEW.numero IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('enderecos', 'numero', OLD.numero, NEW.numero, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+    
+	IF (OLD.bairro <> NEW.bairro or (OLD.bairro IS NULL and NEW.bairro IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('enderecos', 'bairro', OLD.bairro, NEW.bairro, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+
+	IF (OLD.cep <> NEW.cep or (OLD.cep IS NULL and NEW.cep IS NOT NULL)) THEN
+			INSERT INTO logs 
+                        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES
+            ('enderecos', 'cep', OLD.cep, NEW.cep, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+    
+	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES
+            ('enderecos', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+
+	IF (OLD.cidade_id <> NEW.cidade_id or (OLD.cidade_id IS NULL and NEW.cidade_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('enderecos', 'cidade_id', OLD.cidade_id, NEW.cidade_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+
+	IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('enderecos', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `enderecos_BEFORE_DELETE` BEFORE DELETE ON `enderecos` FOR EACH ROW BEGIN
+
+    	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+		('enderecos', OLD.id, 'DELETE', 'id', OLD.id, now(), OLD.usuario_id),
+        ('enderecos', OLD.id, 'DELETE','logradouro', OLD.logradouro, now(), OLD.usuario_id),
+        ('enderecos', OLD.id, 'DELETE','numero', OLD.numero, now(), OLD.usuario_id),
+        ('enderecos', OLD.id, 'DELETE','bairro', OLD.bairro, now(), OLD.usuario_id),
+        ('enderecos', OLD.id, 'DELETE','cep', OLD.cep, now(), OLD.usuario_id),
+        ('enderecos', OLD.id, 'DELETE','status', OLD.status, now(), OLD.usuario_id),
+        ('enderecos', OLD.id, 'DELETE','cidade_id', OLD.cidade_id, now(), OLD.usuario_id),
+        ('enderecos', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now(), OLD.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `estado`
+-- Table structure for table `estados`
 --
 
-DROP TABLE IF EXISTS `estado`;
+DROP TABLE IF EXISTS `estados`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `estado` (
-  `esta_pk_id` int NOT NULL AUTO_INCREMENT,
-  `esta_nome` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `esta_sigla` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `esta_status` tinyint(1) NOT NULL DEFAULT '1',
-  `esta_fk_pais_pk_id` int NOT NULL,
-  `esta_fk_user_pk_id` int NOT NULL,
-  PRIMARY KEY (`esta_pk_id`),
-  KEY `esta_fk_user_pk_id_idx` (`esta_fk_user_pk_id`),
-  KEY `esta_fk_pais_pk_id_idx` (`esta_fk_pais_pk_id`),
-  CONSTRAINT `esta_fk_pais_pk_id` FOREIGN KEY (`esta_fk_pais_pk_id`) REFERENCES `pais` (`pais_pk_id`),
-  CONSTRAINT `esta_fk_user_pk_id` FOREIGN KEY (`esta_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+CREATE TABLE `estados` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `sigla` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `pais_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `esta_fk_pais_pk_id_idx` (`pais_id`),
+  KEY `fk_estados_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_estados_pais` FOREIGN KEY (`pais_id`) REFERENCES `paises` (`id`),
+  CONSTRAINT `fk_estados_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `estado`
+-- Dumping data for table `estados`
 --
 
-LOCK TABLES `estado` WRITE;
-/*!40000 ALTER TABLE `estado` DISABLE KEYS */;
-INSERT INTO `estado` VALUES (1,'Acre','AC',1,1,1),(2,'Alagoas','AL',1,1,1),(3,'Amapá','AP',1,1,1),(4,'Amazonas','AM',1,1,1),(5,'Bahia','BA',1,1,1),(6,'Ceará','CE',1,1,1),(7,'Distrito Federal','DF',1,1,1),(8,'Espírito Santo','ES',1,1,1),(9,'Goiás','GO',1,1,1),(10,'Maranhão','MA',1,1,1),(11,'Mato Grosso','MT',1,1,1),(12,'Mato Grosso do Sul','MS',1,1,1),(13,'Minas Gerais','MG',1,1,1),(14,'Pará','PA',1,1,1),(15,'Paraíba','PB',1,1,1),(16,'Paraná','PR',1,1,1),(17,'Pernambuco','PE',1,1,1),(18,'Piauí','PI',1,1,1),(19,'Rio de Janeiro','RJ',1,1,1),(20,'Rio Grande do Norte','RN',1,1,1),(21,'Rio Grande do Sul','RS',1,1,1),(22,'Rondônia','RO',1,1,1),(23,'Roraima','RR',1,1,1),(24,'Santa Catarina','SC',1,1,1),(25,'São Paulo','SP',1,1,1),(26,'Sergipe','SE',1,1,1),(27,'Tocantins','TO',1,1,1);
-/*!40000 ALTER TABLE `estado` ENABLE KEYS */;
+LOCK TABLES `estados` WRITE;
+/*!40000 ALTER TABLE `estados` DISABLE KEYS */;
+INSERT INTO `estados` VALUES (1,'Acre','AC',0,1,1),(2,'Alagoas','AL',0,1,1),(3,'Amapá','AP',0,1,1),(4,'Amazonas','AM',0,1,1),(5,'Bahia','BA',0,1,1),(6,'Ceará','CE',1,1,1),(7,'Distrito Federal','DF',0,1,1),(8,'Espírito Santo','ES',0,1,1),(9,'Goiás','GO',0,1,1),(10,'Maranhão','MA',0,1,1),(11,'Mato Grosso','MT',0,1,1),(12,'Mato Grosso do Sul','MS',0,1,1),(13,'Minas Gerais','MG',0,1,1),(14,'Pará','PA',0,1,1),(15,'Paraíba','PB',0,1,1),(16,'Paraná','PR',0,1,1),(17,'Pernambuco','PE',0,1,1),(18,'Piauí','PI',0,1,1),(19,'Rio de Janeiro','RJ',0,1,1),(20,'Rio Grande do Norte','RN',0,1,1),(21,'Rio Grande do Sul','RS',0,1,1),(22,'Rondônia','RO',0,1,1),(23,'Roraima','RR',0,1,1),(24,'Santa Catarina','SC',0,1,1),(25,'São Paulo','SP',0,1,1),(26,'Sergipe','SE',0,1,1),(27,'Tocantins','TO',0,1,1);
+/*!40000 ALTER TABLE `estados` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `estados_BEFORE_INSERT` BEFORE INSERT ON `estados` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('paises', NEW.id, 'INSERT', 'id', NEW.id, now()),
+        ('paises', NEW.id, 'INSERT','nome', NEW.nome, now()),
+        ('paises', NEW.id, 'INSERT','sigla', NEW.sigla, now()),
+        ('paises', NEW.id, 'INSERT','status', NEW.status, now()),
+        ('paises', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now()),
+        ('paises', NEW.id, 'INSERT','pais_id', NEW.pais_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `estados_BEFORE_UPDATE` BEFORE UPDATE ON `estados` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+		INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+			('estados', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+	 END IF;
+    
+	IF (OLD.sigla <> NEW.sigla or (OLD.sigla IS NULL and NEW.sigla IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('estados', 'sigla', OLD.sigla, NEW.sigla, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES
+            ('estados', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+	IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('estados', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id);
+	END IF;
+
+	IF (OLD.pais_id <> NEW.pais_id or (OLD.pais_id IS NULL and NEW.pais_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('estados', 'pais_id', OLD.pais_id, NEW.pais_id, now(), 'UPDATE', OLD.id);
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `estados_BEFORE_DELETE` BEFORE DELETE ON `estados` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('estados', OLD.id, 'DELETE', 'id', OLD.id, now()),
+        ('estados', OLD.id, 'DELETE','nome', OLD.nome, now()),
+        ('estados', OLD.id, 'DELETE','sigla', OLD.sigla, now()),
+        ('estados', OLD.id, 'DELETE','status', OLD.status, now()),
+        ('estados', OLD.id, 'DELETE','pais_id', OLD.pais_id, now()),
+        ('estados', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `folha_pagamento`
@@ -201,9 +523,7 @@ CREATE TABLE `folha_pagamento` (
   `fopa_fk_user_pk_id` int NOT NULL,
   PRIMARY KEY (`fopa_pk_id`),
   KEY `fopa_fk_funcionario_pk_id_idx` (`fopa_fk_funcionario_pk_id`),
-  KEY `func_fk_user_pk_id_idx` (`fopa_fk_user_pk_id`),
-  CONSTRAINT `fopa_fk_funcionario_pk_id` FOREIGN KEY (`fopa_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`),
-  CONSTRAINT `fopa_fk_user_pk_id` FOREIGN KEY (`fopa_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  CONSTRAINT `fopa_fk_funcionario_pk_id` FOREIGN KEY (`fopa_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=236 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -235,12 +555,10 @@ CREATE TABLE `funcionario` (
   `func_fk_endereco_pk_id` int NOT NULL,
   `func_fk_contact_pk_id` int NOT NULL,
   PRIMARY KEY (`func_pk_id`),
-  KEY `func_fk_user_pk_id_idx` (`func_fk_user_pk_id`),
   KEY `func_fk_endereco_pk_id_idx` (`func_fk_endereco_pk_id`),
   KEY `func_fk_contact_pk_id_idx` (`func_fk_contact_pk_id`),
   CONSTRAINT `func_fk_contact_pk_id` FOREIGN KEY (`func_fk_contact_pk_id`) REFERENCES `contact` (`cont_pk_id`),
-  CONSTRAINT `func_fk_endereco_pk_id` FOREIGN KEY (`func_fk_endereco_pk_id`) REFERENCES `endereco` (`ende_pk_id`),
-  CONSTRAINT `func_fk_user_pk_id` FOREIGN KEY (`func_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  CONSTRAINT `func_fk_endereco_pk_id` FOREIGN KEY (`func_fk_endereco_pk_id`) REFERENCES `enderecos` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -250,7 +568,6 @@ CREATE TABLE `funcionario` (
 
 LOCK TABLES `funcionario` WRITE;
 /*!40000 ALTER TABLE `funcionario` DISABLE KEYS */;
-INSERT INTO `funcionario` VALUES (1,'123','000.000.000-00','00000000000','00000000000','1212-03-12',1,1,2,1);
 /*!40000 ALTER TABLE `funcionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,11 +585,9 @@ CREATE TABLE `funcionario_user` (
   `fuus_status` tinyint(1) NOT NULL DEFAULT '1',
   `fuus_data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`fuus_pk_id`,`fuus_fk_user_pk_id`,`fuus_fk_funcionario_pk_id`),
-  UNIQUE KEY `fuus_fk_user_pk_id_UNIQUE` (`fuus_fk_user_pk_id`),
   UNIQUE KEY `fuus_fk_funcionario_pk_id_UNIQUE` (`fuus_fk_funcionario_pk_id`),
   UNIQUE KEY `fuus_pk_id_UNIQUE` (`fuus_pk_id`),
-  CONSTRAINT `fuus_fk_funcionario_pk_id` FOREIGN KEY (`fuus_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`),
-  CONSTRAINT `fuus_fk_user_pk_id` FOREIGN KEY (`fuus_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  CONSTRAINT `fuus_fk_funcionario_pk_id` FOREIGN KEY (`fuus_fk_funcionario_pk_id`) REFERENCES `funcionario` (`func_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=ascii COLLATE=ascii_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -282,37 +597,616 @@ CREATE TABLE `funcionario_user` (
 
 LOCK TABLES `funcionario_user` WRITE;
 /*!40000 ALTER TABLE `funcionario_user` DISABLE KEYS */;
-INSERT INTO `funcionario_user` VALUES (13,3,1,1,'2023-03-19 19:44:44');
 /*!40000 ALTER TABLE `funcionario_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `log_user`
+-- Table structure for table `grupos`
 --
 
-DROP TABLE IF EXISTS `log_user`;
+DROP TABLE IF EXISTS `grupos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `log_user` (
-  `luser_id_tabela` int DEFAULT NULL,
-  `luser_fk_usuario_pk_id` int DEFAULT NULL,
-  `luser_operacao` varchar(6) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
-  `luser_campo_modificado` varchar(45) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
-  `luser_valor_antigo` text CHARACTER SET ascii COLLATE ascii_bin,
-  `luser_valor_atual` text CHARACTER SET ascii COLLATE ascii_bin,
-  `luser_data_operacao` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin;
+CREATE TABLE `grupos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(60) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `usuario_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_grupos_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_grupos_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `log_user`
+-- Dumping data for table `grupos`
 --
 
-LOCK TABLES `log_user` WRITE;
-/*!40000 ALTER TABLE `log_user` DISABLE KEYS */;
-INSERT INTO `log_user` VALUES (1,NULL,'UPDATE','user_last_access','2020-08-09 15:49:31','2020-08-09 23:31:33','2020-08-09 23:31:33'),(1,NULL,'UPDATE','user_name','Geverson','Geverson J de Souza','2020-08-09 23:32:35'),(1,NULL,'UPDATE','user_password','$2y$10$7V6yhg6xSHut0jJ4Qs9CieXgRefbUrofSx3YizQDa5qG/8sOWMV62','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2020-08-09 23:32:35'),(6,NULL,'UPDATE','user_password','$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS','$2y$10$ppKWSgMr3KBq1fsGa2m/l.7UUu2AQTBiC0wl21M3U/TqoFgsBZRV6','2020-08-09 23:33:29'),(0,NULL,'INSERT','user_pk_id','0',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_name','g',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_login','root@root1',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_password','$2y$10$ggNgki2BK1lUFiQpH6En4eSLWPprI69P/0g.IEsuiBtxkSWlE4sdu',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_status','1',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_fk_authority_pk_id','2',NULL,'2020-08-10 00:15:49'),(0,NULL,'INSERT','user_pk_id','0',NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_name','teste1',NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_login','asd@asd',NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_password','$2y$10$V7o4ORE1d2ysUqFWYql6xe3UZ4oGmZ.ZmjoqhaVVK0b5GXW279.EW',NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_last_login',NULL,NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_image',NULL,NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_status','1',NULL,'2020-08-10 00:17:19'),(0,NULL,'INSERT','user_fk_authority_pk_id','2',NULL,'2020-08-10 00:17:19'),(11,NULL,'UPDATE','user_status','1','0','2020-08-10 00:20:06'),(11,NULL,'DELETE','user_pk_id','11',NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_name','teste1',NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_login','asd@asd',NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_password','$2y$10$V7o4ORE1d2ysUqFWYql6xe3UZ4oGmZ.ZmjoqhaVVK0b5GXW279.EW',NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_last_login',NULL,NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_image',NULL,NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_status','0',NULL,'2020-08-10 00:20:11'),(11,NULL,'DELETE','user_fk_authority_pk_id','2',NULL,'2020-08-10 00:20:11'),(10,NULL,'UPDATE','user_status','1','0','2020-08-10 00:20:50'),(10,NULL,'DELETE','user_pk_id','10',NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_name','g',NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_login','root@root1',NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_password','$2y$10$ggNgki2BK1lUFiQpH6En4eSLWPprI69P/0g.IEsuiBtxkSWlE4sdu',NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_last_login',NULL,NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_image',NULL,NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_status','0',NULL,'2020-08-10 00:20:54'),(10,NULL,'DELETE','user_fk_authority_pk_id','2',NULL,'2020-08-10 00:20:54'),(0,NULL,'INSERT','user_pk_id','0',NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_name','g',NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_login','root@root1',NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_password','$2y$10$w6zSx4hQjlX2lKVPBk3BxueZZGaEoN3RMiiB35yjiIpaZ8fOZflzG',NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_last_login',NULL,NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_image',NULL,NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_status','1',NULL,'2020-08-10 00:21:08'),(0,NULL,'INSERT','user_fk_authority_pk_id','2',NULL,'2020-08-10 00:21:08'),(6,NULL,'UPDATE','user_password','$2y$10$ppKWSgMr3KBq1fsGa2m/l.7UUu2AQTBiC0wl21M3U/TqoFgsBZRV6','$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS','2020-08-10 00:25:09'),(1,NULL,'UPDATE','user_last_access','2020-08-10 02:31:33','2023-03-19 16:06:10','2023-03-19 16:06:10'),(12,NULL,'DELETE','user_pk_id','12',NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_name','g',NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_login','root@root1',NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_password','$2y$10$w6zSx4hQjlX2lKVPBk3BxueZZGaEoN3RMiiB35yjiIpaZ8fOZflzG',NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_last_login',NULL,NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_image',NULL,NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_status','1',NULL,'2023-03-19 16:06:43'),(12,NULL,'DELETE','user_fk_authority_pk_id','2',NULL,'2023-03-19 16:06:43'),(1,NULL,'UPDATE','user_name','Geverson J de Souza','Administrator','2023-03-19 16:07:12'),(1,NULL,'UPDATE','user_image','15969434015f2f6c29364fb.jpg','NULL','2023-03-19 16:07:31'),(1,NULL,'UPDATE','user_last_access','2023-03-19 16:06:10','2023-03-19 16:07:53','2023-03-19 16:07:53'),(1,NULL,'UPDATE','user_image',NULL,'admin.png','2023-03-19 16:08:06'),(1,NULL,'UPDATE','user_last_access','2023-03-19 16:07:53','2023-03-19 16:09:34','2023-03-19 16:09:34'),(1,NULL,'UPDATE','user_image','admin.png','admin.jpg','2023-03-19 16:17:11'),(1,NULL,'UPDATE','user_last_access','2023-03-19 16:09:34','2023-03-19 16:17:22','2023-03-19 16:17:22'),(1,NULL,'UPDATE','user_login','geversonjosedesouza@gmail.com','admin@adminl.com','2023-03-19 16:19:24'),(4,NULL,'UPDATE','user_login','geversonjosedesouza@hotmail.com','geversonjosedesouza@gmail.com','2023-03-19 19:39:56'),(6,NULL,'UPDATE','user_login','root@root','geversonjosedesouza@hotmail.com','2023-03-19 19:40:09'),(6,NULL,'UPDATE','user_name','root','Geverson Souza','2023-03-19 19:40:19'),(2,NULL,'UPDATE','user_fk_authority_pk_id','3','1','2023-03-19 19:45:39'),(2,NULL,'UPDATE','user_password','$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-03-19 19:46:28'),(3,NULL,'UPDATE','user_password','$2y$10$DaiWSl4vFIs052rGw1CQo.cqtYBnTwJ88R9PwHtQX8bwL7S.lt8fS','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-03-19 19:46:28'),(2,NULL,'UPDATE','user_last_access','2020-08-09 14:37:10','2023-03-19 19:46:32','2023-03-19 19:46:32'),(2,NULL,'UPDATE','user_last_access','2023-03-19 19:46:32','2023-03-19 19:49:51','2023-03-19 19:49:51'),(2,NULL,'UPDATE','user_last_access','2023-03-19 19:49:51','2023-03-19 20:18:22','2023-03-19 20:18:22'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:18:22','2023-03-19 20:19:47','2023-03-19 20:19:47'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:19:47','2023-03-19 20:20:53','2023-03-19 20:20:53'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:20:53','2023-03-19 20:28:29','2023-03-19 20:28:29'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:28:29','2023-03-19 20:38:37','2023-03-19 20:38:37'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:38:37','2023-03-19 20:41:13','2023-03-19 20:41:13'),(2,NULL,'UPDATE','user_last_access','2023-03-19 20:41:13','2023-03-19 21:13:14','2023-03-19 21:13:14'),(2,NULL,'UPDATE','user_password','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2023-03-19 21:17:06'),(2,NULL,'UPDATE','user_last_access','2023-03-19 21:13:14','2023-03-19 21:17:52','2023-03-19 21:17:52'),(3,NULL,'UPDATE','user_password','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2023-03-19 21:18:56');
-/*!40000 ALTER TABLE `log_user` ENABLE KEYS */;
+LOCK TABLES `grupos` WRITE;
+/*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
+INSERT INTO `grupos` VALUES (1,'TI',1,2),(2,'Administrador',1,2),(3,'Usuário',1,2);
+/*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_BEFORE_INSERT` BEFORE INSERT ON `grupos` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+		('grupos', NEW.id, 'INSERT', 'id', NEW.id, now(), NEW.usuario_id),
+        ('grupos', NEW.id, 'INSERT','nome', NEW.nome, now(), NEW.usuario_id),
+        ('grupos', NEW.id, 'INSERT','status', NEW.status, now(), NEW.usuario_id),
+        ('grupos', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now(), NEW.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_BEFORE_UPDATE` BEFORE UPDATE ON `grupos` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+    VALUES 
+  ('grupos', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('grupos', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES 
+        ('grupos', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_BEFORE_DELETE` BEFORE DELETE ON `grupos` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+		('grupos', OLD.id, 'DELETE', 'id', OLD.id, now(), OLD.usuario_id),
+        ('grupos', OLD.id, 'DELETE','nome', OLD.nome, now(), OLD.usuario_id),
+        ('grupos', OLD.id, 'DELETE','status', OLD.status, now(), OLD.usuario_id),
+        ('grupos', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now(), OLD.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `grupos_permissoes`
+--
+
+DROP TABLE IF EXISTS `grupos_permissoes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `grupos_permissoes` (
+  `grupo_id` int NOT NULL,
+  `permissao_id` int NOT NULL,
+  `usuario_id` int DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`grupo_id`,`permissao_id`),
+  KEY `fk_grupos_permissoes_usuario_idx` (`usuario_id`),
+  KEY `fk_grupos_permissoes_permissao_idx` (`permissao_id`),
+  CONSTRAINT `fk_grupos_permissoes_grupo` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`),
+  CONSTRAINT `fk_grupos_permissoes_permissao` FOREIGN KEY (`permissao_id`) REFERENCES `permissoes` (`id`),
+  CONSTRAINT `fk_grupos_permissoes_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grupos_permissoes`
+--
+
+LOCK TABLES `grupos_permissoes` WRITE;
+/*!40000 ALTER TABLE `grupos_permissoes` DISABLE KEYS */;
+INSERT INTO `grupos_permissoes` VALUES (1,9,2,1),(1,16,2,1),(1,17,2,1),(1,18,2,1),(1,19,2,1),(1,20,2,1),(1,21,2,1),(1,22,2,1),(1,23,2,1),(1,24,2,1),(1,25,2,1),(1,26,2,1),(1,27,2,1),(1,28,2,1),(1,29,2,1),(1,30,2,1),(1,31,2,1),(1,32,2,1),(1,33,2,1),(1,34,2,1),(1,35,2,1),(2,9,2,1),(2,16,2,1),(2,17,2,1),(2,18,2,1),(2,19,2,1),(2,20,2,1),(3,18,2,1),(3,19,2,1),(3,20,2,1);
+/*!40000 ALTER TABLE `grupos_permissoes` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_permissoes_BEFORE_INSERT` BEFORE INSERT ON `grupos_permissoes` FOR EACH ROW BEGIN
+  INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+  VALUES
+      ('usuarios_permissoes', NULL, 'INSERT','status', NEW.status, now(), NEW.usuario_id),
+      ('usuarios_permissoes', NULL, 'INSERT','usuario_id', NEW.usuario_id, now(), NEW.usuario_id),
+      ('usuarios_permissoes', NULL, 'INSERT','grupo_id', NEW.grupo_id, now(), NEW.usuario_id),
+      ('usuarios_permissoes', NULL, 'INSERT','permissao_id', NEW.permissao_id, now(), NEW.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_permissoes_BEFORE_UPDATE` BEFORE UPDATE ON `grupos_permissoes` FOR EACH ROW BEGIN
+IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES
+            ('usuarios_grupos', 'status', OLD.status, NEW.status, now(), 'UPDATE', CONCAT(NEW.grupo_id, NEW.permissao_id), NEW.usuario_id);
+	END IF;
+
+  IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+    INSERT INTO logs 
+          (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+          VALUES 
+          ('usuarios_grupos', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', CONCAT(NEW.grupo_id, NEW.permissao_id), NEW.usuario_id);
+  END IF;
+
+	IF (OLD.grupo_id <> NEW.grupo_id or (OLD.grupo_id IS NULL and NEW.grupo_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('usuarios_grupos', 'grupo_id', OLD.grupo_id, NEW.grupo_id, now(), 'UPDATE', CONCAT(NEW.grupo_id, NEW.permissao_id), NEW.usuario_id);
+	END IF;
+
+  	IF (OLD.permissao_id <> NEW.permissao_id or (OLD.permissao_id IS NULL and NEW.permissao_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('usuarios_grupos', 'permissao_id', OLD.permissao_id, NEW.permissao_id, now(), 'UPDATE', CONCAT(NEW.grupo_id, NEW.permissao_id), NEW.usuario_id);
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `grupos_permissoes_BEFORE_DELETE` BEFORE DELETE ON `grupos_permissoes` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+        ('grupos_permissoes', OLD.usuario_id, 'DELETE','usuario_id', OLD.usuario_id, now(), OLD.usuario_id),
+        ('grupos_permissoes', OLD.grupo_id, 'DELETE','grupo_id', OLD.grupo_id, now(), OLD.usuario_id),
+        ('grupos_permissoes', OLD.grupo_id, 'DELETE','permissao_id', OLD.permissao_id, now(), OLD.usuario_id),
+        ('grupos_permissoes', OLD.status, 'DELETE','status', OLD.status, now(), OLD.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `logs`
+--
+
+DROP TABLE IF EXISTS `logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `logs` (
+  `nome_tabela` varchar(100) DEFAULT NULL,
+  `id_tabela` int DEFAULT NULL,
+  `usuario_id` int DEFAULT NULL,
+  `operacao` varchar(6) DEFAULT NULL,
+  `campo_modificado` varchar(45) DEFAULT NULL,
+  `valor_antigo` text,
+  `valor_atual` text,
+  `data_operacao` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `logs`
+--
+
+LOCK TABLES `logs` WRITE;
+/*!40000 ALTER TABLE `logs` DISABLE KEYS */;
+INSERT INTO `logs` VALUES ('menus',3,NULL,'UPDATE','descricao','Outras operações','1','2023-04-04 22:37:46'),('menus',3,NULL,'UPDATE','descricao','1','Outras operações','2023-04-04 22:38:20'),('menus',3,NULL,'UPDATE','status','0','1','2023-04-04 22:38:57'),('menus',0,2,'INSERT','id','0',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','nome','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','descricao','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','status','1',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','class','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','url','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','image','',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','icone','a',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','sistema_id','1',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','usuario_id','2',NULL,'2023-04-04 22:49:18'),('menus',0,2,'INSERT','id','0',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','nome','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','descricao','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','status','1',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','class','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','url','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','image','',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','icone','a',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','sistema_id','1',NULL,'2023-04-04 22:50:07'),('menus',0,2,'INSERT','usuario_id','2',NULL,'2023-04-04 22:50:07'),('menus',6,2,'UPDATE','status','1','0','2023-04-04 22:54:22'),('menus',6,2,'DELETE','id','6',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','nome','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','descricao','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','status','0',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','class','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','url','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','image','',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','icone','a',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','sistema_id','1',NULL,'2023-04-04 22:54:30'),('menus',6,2,'DELETE','usuario_id','2',NULL,'2023-04-04 22:54:30'),('menus',7,2,'UPDATE','status','1','0','2023-04-04 22:54:53'),('menus',7,2,'DELETE','id','7',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','nome','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','descricao','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','status','0',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','class','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','url','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','image','',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','icone','a',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','sistema_id','1',NULL,'2023-04-04 22:55:00'),('menus',7,2,'DELETE','usuario_id','2',NULL,'2023-04-04 22:55:00'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-04 20:16:35','2023-04-04 23:01:22','2023-04-04 23:01:22'),('menus',0,2,'INSERT','id','0',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','nome','Itens de Menu',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','descricao','Cadastro de Itens de Menu',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','status','1',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','class','',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','url','',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','image','',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','icone','fas fa-list-dropdown fa-fw',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','sistema_id','1',NULL,'2023-04-04 23:04:03'),('menus',0,2,'INSERT','usuario_id','2',NULL,'2023-04-04 23:04:03'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-04 23:01:22','2023-04-04 23:05:59','2023-04-04 23:05:59'),('menu_itens',18,1,'INSERT','id','18',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','nome','Itens de Menu',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','descricao','Cadastro de Itens de Menu do Sistema',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','status','1',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','class',NULL,NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','titulo',NULL,NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','url','?page=ControllerMenuItem&option=listar',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','image',NULL,NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','icone','fas fa-list-dropdown fa-sm fa-fw mr-2 text-gray-400',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','menu_item_id',NULL,NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','menu_id','2',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'INSERT','usuario_id','1',NULL,'2023-04-04 23:11:10'),('menu_itens',18,1,'UPDATE','icone','fas fa-list-dropdown fa-sm fa-fw mr-2 text-gray-400','fas fa-dropdown fa-sm fa-fw mr-2 text-gray-400','2023-04-05 00:00:54'),('menu_itens',18,1,'UPDATE','icone','fas fa-dropdown fa-sm fa-fw mr-2 text-gray-400','fas fa-list-dropdown fa-sm fa-fw mr-2 text-gray-400','2023-04-05 00:02:48'),('menu_itens',18,1,'UPDATE','icone','fas fa-list-dropdown fa-sm fa-fw mr-2 text-gray-400','fas fa-elementor fa-sm fa-fw mr-2 text-gray-400','2023-04-05 00:09:28'),('menu_itens',18,1,'UPDATE','icone','fas fa-elementor fa-sm fa-fw mr-2 text-gray-400','fas fa-list fa-sm fa-fw mr-2 text-gray-400','2023-04-05 00:12:19'),('menu_itens',12,2,'UPDATE','status','1','0','2023-04-05 01:27:54'),('menu_itens',12,2,'UPDATE','usuario_id','1','2','2023-04-05 01:27:54'),('menu_itens',12,2,'UPDATE','status','0','1','2023-04-05 01:31:00'),('menu_itens',2,2,'UPDATE','status','1','0','2023-04-05 01:31:48'),('menu_itens',2,2,'UPDATE','usuario_id','1','2','2023-04-05 01:31:48'),('menu_itens',0,2,'INSERT','id','0',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','nome','a',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','descricao','a',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','status','0',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','class','a',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','titulo','s',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','url','a',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','image','',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','icone','a',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','menu_item_id','1',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','menu_id','8',NULL,'2023-04-05 02:04:06'),('menu_itens',0,2,'INSERT','usuario_id','2',NULL,'2023-04-05 02:04:06'),('menu_itens',20,2,'UPDATE','menu_item_id','1','0','2023-04-05 02:14:34'),('menu_itens',20,2,'UPDATE','nome','a','ab','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','descricao','a','ab','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','titulo','s','sb','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','class','a','ab','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','url','a','ab','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','icone','a','ab','2023-04-05 02:14:46'),('menu_itens',20,2,'UPDATE','menu_id','8','1','2023-04-05 02:14:54'),('menu_itens',20,2,'UPDATE','menu_id','1','3','2023-04-05 02:15:02'),('menu_itens',20,2,'UPDATE','menu_item_id','0','18','2023-04-05 02:16:26'),('menu_itens',20,2,'UPDATE','menu_item_id','18','0','2023-04-05 02:16:37'),('menu_itens',2,2,'UPDATE','status','0','1','2023-04-05 02:16:58'),('menu_itens',20,2,'DELETE','id','20',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','nome','ab',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','descricao','ab',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','status','0',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','titulo','sb',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','class','ab',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','url','ab',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','image','',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','icone','ab',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','menu_item_id','0',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','menu_id','3',NULL,'2023-04-05 02:17:07'),('menu_itens',20,2,'DELETE','usuario_id','2',NULL,'2023-04-05 02:17:07'),('menu_itens',18,2,'UPDATE','status','1','0','2023-04-05 02:21:43'),('menu_itens',18,2,'UPDATE','usuario_id','1','2','2023-04-05 02:21:43'),('menu_itens',18,2,'UPDATE','status','0','1','2023-04-05 02:22:55'),('menus',5,2,'UPDATE','status','1','0','2023-04-05 02:23:08'),('menus',5,2,'UPDATE','usuario_id','1','2','2023-04-05 02:23:08'),('menu_itens',0,2,'INSERT','id','0',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','nome','Grupos',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','descricao','Cadastro de grupos',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','status','0',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','class','',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','titulo','',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','url','',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','image','',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','icone','',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','menu_item_id','0',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','menu_id','2',NULL,'2023-04-05 02:35:22'),('menu_itens',0,2,'INSERT','usuario_id','2',NULL,'2023-04-05 02:35:22'),('menu_itens',17,2,'UPDATE','status','1','0','2023-04-05 02:36:52'),('menu_itens',17,2,'UPDATE','usuario_id','1','2','2023-04-05 02:36:52'),('menu_itens',21,2,'UPDATE','icone','','fas fa-group fa-sm fa-fw mr-2 text-gray-400','2023-04-05 02:37:34'),('menu_itens',21,2,'UPDATE','status','0','1','2023-04-05 02:37:48'),('menu_itens',21,2,'UPDATE','status','1','0','2023-04-05 02:40:11'),('menu_itens',21,2,'UPDATE','icone','fas fa-group fa-sm fa-fw mr-2 text-gray-400','fas fa-layer-group fa-sm fa-fw mr-2 text-gray-400','2023-04-05 02:40:32'),('menu_itens',21,2,'UPDATE','status','0','1','2023-04-05 02:40:37'),('menu_itens',21,2,'UPDATE','status','1','0','2023-04-05 02:41:18'),('menu_itens',21,2,'UPDATE','url','','?page=ControllerGrupo&option=listar','2023-04-05 02:41:47'),('menu_itens',21,2,'UPDATE','status','0','1','2023-04-05 02:41:49'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-05 02:54:27'),('grupos',0,2,'INSERT','nome','',NULL,'2023-04-05 02:54:27'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-05 02:54:27'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-05 02:54:27'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-05 02:54:38'),('grupos',0,2,'INSERT','nome','a',NULL,'2023-04-05 02:54:38'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-05 02:54:38'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-05 02:54:38'),('grupos',1,NULL,'UPDATE','status','1','0','2023-04-05 02:56:32'),('grupos',2,NULL,'UPDATE','status','1','0','2023-04-05 02:56:48'),('grupos',1,1,'UPDATE','usuario_id',NULL,'1','2023-04-05 03:00:37'),('grupos',2,1,'UPDATE','usuario_id',NULL,'1','2023-04-05 03:00:37'),('grupos',2,2,'UPDATE','status','0','1','2023-04-05 03:01:41'),('grupos',2,2,'UPDATE','usuario_id','1','2','2023-04-05 03:01:41'),('grupos',2,NULL,'UPDATE','status','1','0','2023-04-05 03:02:08'),('grupos',2,2,'UPDATE','usuario_id',NULL,'2','2023-04-05 03:03:06'),('grupos',2,2,'UPDATE','status','0','1','2023-04-05 03:03:12'),('grupos',2,2,'UPDATE','status','1','0','2023-04-05 03:03:16'),('grupos',1,1,'UPDATE','nome','','a','2023-04-05 03:09:08'),('grupos',1,2,'UPDATE','status','0','1','2023-04-05 03:11:03'),('grupos',1,2,'UPDATE','usuario_id','1','2','2023-04-05 03:11:03'),('grupos',1,2,'UPDATE','status','1','0','2023-04-05 03:11:08'),('grupos',1,2,'DELETE','id','1',NULL,'2023-04-05 03:12:20'),('grupos',1,2,'DELETE','nome','a',NULL,'2023-04-05 03:12:20'),('grupos',1,2,'DELETE','status','0',NULL,'2023-04-05 03:12:20'),('grupos',1,2,'DELETE','usuario_id','2',NULL,'2023-04-05 03:12:20'),('grupos',2,2,'DELETE','id','2',NULL,'2023-04-05 03:12:27'),('grupos',2,2,'DELETE','nome','a',NULL,'2023-04-05 03:12:27'),('grupos',2,2,'DELETE','status','0',NULL,'2023-04-05 03:12:27'),('grupos',2,2,'DELETE','usuario_id','2',NULL,'2023-04-05 03:12:27'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-05 03:12:33'),('grupos',0,2,'INSERT','nome','a',NULL,'2023-04-05 03:12:33'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-05 03:12:33'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-05 03:12:33'),('grupos',3,2,'UPDATE','status','1','0','2023-04-05 03:12:36'),('grupos',3,2,'UPDATE','nome','a','aa','2023-04-05 03:15:20'),('grupos',3,2,'UPDATE','nome','aa','ab','2023-04-05 03:15:55'),('grupos',3,2,'UPDATE','nome','ab','aaaa','2023-04-05 03:16:14'),('grupos',3,2,'UPDATE','nome','aaaa','ab','2023-04-05 03:16:18'),('grupos',3,2,'UPDATE','nome','ab','blablabla','2023-04-05 03:17:07'),('grupos',3,2,'UPDATE','status','0','1','2023-04-05 03:17:10'),('grupos',3,2,'UPDATE','status','1','0','2023-04-05 03:17:15'),('grupos',3,2,'DELETE','id','3',NULL,'2023-04-05 03:17:19'),('grupos',3,2,'DELETE','nome','blablabla',NULL,'2023-04-05 03:17:19'),('grupos',3,2,'DELETE','status','0',NULL,'2023-04-05 03:17:19'),('grupos',3,2,'DELETE','usuario_id','2',NULL,'2023-04-05 03:17:19'),('menu_itens',9,2,'UPDATE','status','1','0','2023-04-05 03:19:24'),('menu_itens',9,2,'UPDATE','usuario_id','1','2','2023-04-05 03:19:24'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-04 23:05:59','2023-04-05 09:44:41','2023-04-05 09:44:41'),('menu_itens',17,2,'UPDATE','status','0','1','2023-04-05 09:45:44'),('menu_itens',21,2,'UPDATE','status','1','0','2023-04-05 09:45:59'),('menu_itens',21,2,'UPDATE','nome','Grupos','Grupos de Permissões','2023-04-05 09:46:24'),('menu_itens',21,2,'UPDATE','status','0','1','2023-04-05 09:46:33'),('menu_itens',0,2,'INSERT','id','0',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','nome','Grupos com Permissões',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','descricao','Cadastro de grupos a permissões',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','status','0',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','class','',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','titulo','',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','url','?page=ControllerGurpoPermissao&option=listar',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','image','',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','icone','fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','menu_item_id','0',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','menu_id','2',NULL,'2023-04-05 09:51:36'),('menu_itens',0,2,'INSERT','usuario_id','2',NULL,'2023-04-05 09:51:36'),('menu_itens',22,2,'UPDATE','icone','fas fa-file-code fa-sm fa-fw mr-2 text-gray-400','fas fa-share fa-sm fa-fw mr-2 text-gray-400','2023-04-05 09:54:36'),('menu_itens',22,2,'UPDATE','status','0','1','2023-04-05 09:54:38'),('menu_itens',22,2,'UPDATE','status','1','0','2023-04-05 10:26:29'),('menu_itens',22,2,'UPDATE','url','?page=ControllerGurpoPermissao&option=listar','?page=ControllerGrupoPermissao&option=listar','2023-04-05 10:26:50'),('menu_itens',22,2,'UPDATE','status','0','1','2023-04-05 10:27:30'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-05 09:44:41','2023-04-06 00:05:30','2023-04-06 00:05:30'),('menu_itens',22,2,'UPDATE','status','1','0','2023-04-06 00:12:52'),('menu_itens',22,2,'DELETE','id','22',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','nome','Grupos com Permissões',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','descricao','Cadastro de grupos a permissões',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','status','0',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','titulo','',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','class','',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','url','?page=ControllerGrupoPermissao&option=listar',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','image','',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','icone','fas fa-share fa-sm fa-fw mr-2 text-gray-400',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','menu_item_id','0',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','menu_id','2',NULL,'2023-04-06 00:12:59'),('menu_itens',22,2,'DELETE','usuario_id','2',NULL,'2023-04-06 00:12:59'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-06 01:08:25'),('grupos',0,2,'INSERT','nome','teste',NULL,'2023-04-06 01:08:25'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-06 01:08:25'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-06 01:08:25'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-06 01:28:56'),('grupos',0,2,'INSERT','nome','asdasdsda',NULL,'2023-04-06 01:28:56'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-06 01:28:56'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-06 01:28:56'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-06 01:29:08'),('grupos',0,2,'INSERT','nome','asdasdsda',NULL,'2023-04-06 01:29:08'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-06 01:29:08'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-06 01:29:08'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-06 01:29:25'),('grupos',0,2,'INSERT','nome','asdasdsda',NULL,'2023-04-06 01:29:25'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-06 01:29:25'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-06 01:29:25'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-06 01:29:30'),('grupos',0,2,'INSERT','nome','asdasdsda',NULL,'2023-04-06 01:29:30'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-06 01:29:30'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-06 01:29:30'),('usuarios',1,NULL,'UPDATE','ultimo_acesso','2023-04-04 20:16:01','2023-04-07 14:00:33','2023-04-07 14:00:33'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-06 00:05:30','2023-04-07 14:05:20','2023-04-07 14:05:20'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-07 14:05:20','2023-04-07 14:34:10','2023-04-07 14:34:10'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-07 14:34:10','2023-04-07 14:38:00','2023-04-07 14:38:00'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 15:22:34'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','1',NULL,'2023-04-07 15:22:34'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','4',NULL,'2023-04-07 15:22:34'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','9',NULL,'2023-04-07 15:22:34'),('permissoes',9,1,'UPDATE','status','0','1','2023-04-07 15:23:35'),('permissoes',NULL,1,'INSERT','id','0',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','nome','4',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','descricao','4',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','status','1',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','menu_item_id','16',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','usuario_id','1',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','id','0',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','nome','5',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','descricao','5',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','status','1',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','menu_item_id','16',NULL,'2023-04-07 15:33:46'),('permissoes',NULL,1,'INSERT','usuario_id','1',NULL,'2023-04-07 15:33:46'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 15:34:39'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','1',NULL,'2023-04-07 15:34:39'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','4',NULL,'2023-04-07 15:34:39'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','16',NULL,'2023-04-07 15:34:39'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 15:34:39'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','1',NULL,'2023-04-07 15:34:39'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','4',NULL,'2023-04-07 15:34:39'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','17',NULL,'2023-04-07 15:34:39'),('permissoes',NULL,1,'INSERT','id','0',NULL,'2023-04-07 15:35:23'),('permissoes',NULL,1,'INSERT','nome','6',NULL,'2023-04-07 15:35:23'),('permissoes',NULL,1,'INSERT','descricao','6',NULL,'2023-04-07 15:35:23'),('permissoes',NULL,1,'INSERT','status','1',NULL,'2023-04-07 15:35:23'),('permissoes',NULL,1,'INSERT','menu_item_id','1',NULL,'2023-04-07 15:35:23'),('permissoes',NULL,1,'INSERT','usuario_id','1',NULL,'2023-04-07 15:35:23'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 15:36:51'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','1',NULL,'2023-04-07 15:36:51'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','5',NULL,'2023-04-07 15:36:51'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','18',NULL,'2023-04-07 15:36:51'),('grupos_permissoes',1,NULL,'DELETE','usuario_id','1',NULL,'2023-04-07 16:50:45'),('grupos_permissoes',5,NULL,'DELETE','grupo_id','5',NULL,'2023-04-07 16:50:45'),('grupos_permissoes',5,NULL,'DELETE','permissao_id','18',NULL,'2023-04-07 16:50:45'),('grupos_permissoes',1,NULL,'DELETE','status','1',NULL,'2023-04-07 16:50:45'),('grupos_permissoes',1,NULL,'DELETE','usuario_id','1',NULL,'2023-04-07 16:51:48'),('grupos_permissoes',4,NULL,'DELETE','grupo_id','4',NULL,'2023-04-07 16:51:48'),('grupos_permissoes',4,NULL,'DELETE','permissao_id','17',NULL,'2023-04-07 16:51:48'),('grupos_permissoes',1,NULL,'DELETE','status','1',NULL,'2023-04-07 16:51:48'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 16:55:13'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','1',NULL,'2023-04-07 16:55:13'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','4',NULL,'2023-04-07 16:55:13'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','18',NULL,'2023-04-07 16:55:13'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 16:56:00'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','1',NULL,'2023-04-07 16:56:00'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','4',NULL,'2023-04-07 16:56:00'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','17',NULL,'2023-04-07 16:56:00'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 18:54:15'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','2',NULL,'2023-04-07 18:54:15'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','5',NULL,'2023-04-07 18:54:15'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','9',NULL,'2023-04-07 18:54:15'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','2',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','5',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','16',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','2',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','5',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','17',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','2',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','5',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','18',NULL,'2023-04-07 18:56:15'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','2',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','6',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','9',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','2',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','6',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','16',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','2',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','6',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','17',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','status','1',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','usuario_id','2',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','grupo_id','6',NULL,'2023-04-07 18:56:58'),('usuarios_permissoes',NULL,NULL,'INSERT','permissao_id','18',NULL,'2023-04-07 18:56:58'),(NULL,11,NULL,NULL,NULL,NULL,NULL,NULL),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-07 14:38:00','2023-04-07 19:52:33','2023-04-07 19:52:33'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 19:53:17'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 19:53:17'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','7',NULL,'2023-04-07 19:53:17'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-07 19:53:17'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 19:54:05'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 19:54:05'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','7',NULL,'2023-04-07 19:54:05'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-07 19:54:05'),('grupos_permissoes',1,1,'DELETE','usuario_id','1',NULL,'2023-04-07 20:44:23'),('grupos_permissoes',4,1,'DELETE','grupo_id','4',NULL,'2023-04-07 20:44:23'),('grupos_permissoes',4,1,'DELETE','permissao_id','9',NULL,'2023-04-07 20:44:23'),('grupos_permissoes',1,1,'DELETE','status','1',NULL,'2023-04-07 20:44:23'),('grupos_permissoes',1,1,'DELETE','usuario_id','1',NULL,'2023-04-07 20:44:23'),('grupos_permissoes',4,1,'DELETE','grupo_id','4',NULL,'2023-04-07 20:44:23'),('grupos_permissoes',4,1,'DELETE','permissao_id','18',NULL,'2023-04-07 20:44:23'),('grupos_permissoes',1,1,'DELETE','status','1',NULL,'2023-04-07 20:44:23'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 21:25:05'),('grupos_permissoes',5,2,'DELETE','grupo_id','5',NULL,'2023-04-07 21:25:05'),('grupos_permissoes',5,2,'DELETE','permissao_id','16',NULL,'2023-04-07 21:25:05'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 21:25:05'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 21:25:05'),('grupos_permissoes',5,2,'DELETE','grupo_id','5',NULL,'2023-04-07 21:25:05'),('grupos_permissoes',5,2,'DELETE','permissao_id','17',NULL,'2023-04-07 21:25:05'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 21:25:05'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 21:28:42'),('grupos_permissoes',5,2,'DELETE','grupo_id','5',NULL,'2023-04-07 21:28:42'),('grupos_permissoes',5,2,'DELETE','permissao_id','9',NULL,'2023-04-07 21:28:42'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 21:28:42'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 21:28:42'),('grupos_permissoes',5,2,'DELETE','grupo_id','5',NULL,'2023-04-07 21:28:42'),('grupos_permissoes',5,2,'DELETE','permissao_id','18',NULL,'2023-04-07 21:28:42'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 21:28:42'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','5',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','5',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','5',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','5',NULL,'2023-04-07 21:28:59'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-07 21:28:59'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',5,2,'DELETE','grupo_id','5',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',5,2,'DELETE','permissao_id','9',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',5,2,'DELETE','grupo_id','5',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',5,2,'DELETE','permissao_id','16',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',5,2,'DELETE','grupo_id','5',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',5,2,'DELETE','permissao_id','17',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',5,2,'DELETE','grupo_id','5',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',5,2,'DELETE','permissao_id','18',NULL,'2023-04-07 21:29:10'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 21:29:10'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-07 19:52:33','2023-04-07 21:36:20','2023-04-07 21:36:20'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-07 21:36:20','2023-04-07 21:42:06','2023-04-07 21:42:06'),('grupos',8,2,'UPDATE','status','1','0','2023-04-07 21:45:46'),('menu_itens',21,2,'UPDATE','status','1','0','2023-04-07 22:04:20'),('menu_itens',0,2,'INSERT','id','0',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','nome','Grupos de Usuários',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','descricao','Cadastro de grupos de usuários',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','status','0',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','class','',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','titulo','',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','url','?page=ControllerGrupoUsuario&option=listar',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','image','',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','icone','fas fa-layer-group fa-sm fa-fw mr-2 text-gray-400',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','menu_item_id','0',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','menu_id','2',NULL,'2023-04-07 22:05:42'),('menu_itens',0,2,'INSERT','usuario_id','2',NULL,'2023-04-07 22:05:42'),('menu_itens',23,2,'UPDATE','status','0','1','2023-04-07 22:06:30'),('menu_itens',21,2,'UPDATE','status','0','1','2023-04-07 22:07:10'),('menu_itens',23,2,'UPDATE','status','1','0','2023-04-07 22:16:17'),('menu_itens',23,2,'UPDATE','url','?page=ControllerGrupoUsuario&option=listar','?page=ControllerUsuarioGrupo&option=listar','2023-04-07 22:16:34'),('menu_itens',23,2,'UPDATE','status','0','1','2023-04-07 22:16:35'),('menu_itens',23,2,'UPDATE','icone','fas fa-layer-group fa-sm fa-fw mr-2 text-gray-400','fa-solid fa-users-between-lines fa-sm fa-fw mr-2 text-gray-400','2023-04-07 22:20:51'),('grupos',8,2,'UPDATE','status','0','1','2023-04-07 22:37:15'),('menu_itens',23,2,'DELETE','id','23',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','nome','Grupos de Usuários',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','descricao','Cadastro de grupos de usuários',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','status','1',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','titulo','',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','class','',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','url','?page=ControllerUsuarioGrupo&option=listar',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','image','',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','icone','fa-solid fa-users-between-lines fa-sm fa-fw mr-2 text-gray-400',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','menu_item_id','0',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','menu_id','2',NULL,'2023-04-07 22:37:40'),('menu_itens',23,2,'DELETE','usuario_id','2',NULL,'2023-04-07 22:37:40'),('menu_itens',21,2,'UPDATE','nome','Grupos de Permissões','Grupos de Permissões/Usuários','2023-04-07 22:38:48'),('menu_itens',21,2,'UPDATE','descricao','Cadastro de grupos','Cadastro de grupos de usuários e permissões','2023-04-07 22:38:48'),('usuarios_grupos',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:24:34'),('usuarios_grupos',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:24:34'),('usuarios_grupos',NULL,2,'INSERT','usuario','2',NULL,'2023-04-07 23:24:34'),('usuarios_grupos',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:24:34'),('usuarios_grupos',14,1,'INSERT','status','1',NULL,'2023-04-07 23:31:17'),('usuarios_grupos',14,1,'INSERT','usuario_id','1',NULL,'2023-04-07 23:31:17'),('usuarios_grupos',14,1,'INSERT','usuario','1',NULL,'2023-04-07 23:31:17'),('usuarios_grupos',14,1,'INSERT','grupo_id','4',NULL,'2023-04-07 23:31:17'),('usuarios_grupos',34,3,'INSERT','status','1',NULL,'2023-04-07 23:31:27'),('usuarios_grupos',34,3,'INSERT','usuario_id','3',NULL,'2023-04-07 23:31:27'),('usuarios_grupos',34,3,'INSERT','usuario','3',NULL,'2023-04-07 23:31:27'),('usuarios_grupos',34,3,'INSERT','grupo_id','4',NULL,'2023-04-07 23:31:27'),('grupos_permissoes',1,1,'DELETE','usuario_id','1',NULL,'2023-04-07 23:42:13'),('grupos_permissoes',4,1,'DELETE','grupo_id','4',NULL,'2023-04-07 23:42:13'),('grupos_permissoes',4,1,'DELETE','permissao_id','16',NULL,'2023-04-07 23:42:13'),('grupos_permissoes',1,1,'DELETE','status','1',NULL,'2023-04-07 23:42:13'),('grupos_permissoes',1,1,'DELETE','usuario_id','1',NULL,'2023-04-07 23:42:13'),('grupos_permissoes',4,1,'DELETE','grupo_id','4',NULL,'2023-04-07 23:42:13'),('grupos_permissoes',4,1,'DELETE','permissao_id','17',NULL,'2023-04-07 23:42:13'),('grupos_permissoes',1,1,'DELETE','status','1',NULL,'2023-04-07 23:42:13'),('usuarios_grupos',14,1,'DELETE','usuario_id','1',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',14,1,'DELETE','grupo_id','4',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',14,1,'DELETE','usuario','1',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',14,1,'DELETE','status','1',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',24,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',24,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',24,2,'DELETE','usuario','2',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',24,2,'DELETE','status','1',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',34,3,'DELETE','usuario_id','3',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',34,3,'DELETE','grupo_id','4',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',34,3,'DELETE','usuario','3',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',34,3,'DELETE','status','1',NULL,'2023-04-07 23:45:04'),('usuarios_grupos',24,2,'INSERT','status','1',NULL,'2023-04-07 23:45:24'),('usuarios_grupos',24,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:45:24'),('usuarios_grupos',24,2,'INSERT','usuario','2',NULL,'2023-04-07 23:45:24'),('usuarios_grupos',24,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:45:24'),('usuarios_grupos',34,2,'INSERT','status','1',NULL,'2023-04-07 23:45:24'),('usuarios_grupos',34,2,'INSERT','usuario_id','3',NULL,'2023-04-07 23:45:24'),('usuarios_grupos',34,2,'INSERT','usuario','2',NULL,'2023-04-07 23:45:24'),('usuarios_grupos',34,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:45:24'),('usuarios_grupos',24,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:45:36'),('usuarios_grupos',24,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:45:36'),('usuarios_grupos',24,2,'DELETE','usuario','2',NULL,'2023-04-07 23:45:36'),('usuarios_grupos',24,2,'DELETE','status','1',NULL,'2023-04-07 23:45:36'),('usuarios_grupos',34,2,'DELETE','usuario_id','3',NULL,'2023-04-07 23:45:36'),('usuarios_grupos',34,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:45:36'),('usuarios_grupos',34,2,'DELETE','usuario','2',NULL,'2023-04-07 23:45:36'),('usuarios_grupos',34,2,'DELETE','status','1',NULL,'2023-04-07 23:45:36'),('usuarios_grupos',14,2,'INSERT','status','1',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',14,2,'INSERT','usuario_id','1',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',14,2,'INSERT','usuario','2',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',14,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',24,2,'INSERT','status','1',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',24,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',24,2,'INSERT','usuario','2',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',24,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',34,2,'INSERT','status','1',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',34,2,'INSERT','usuario_id','3',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',34,2,'INSERT','usuario','2',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',34,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:47:02'),('usuarios_grupos',14,2,'DELETE','usuario_id','1',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',14,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',14,2,'DELETE','usuario','2',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',14,2,'DELETE','status','1',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',24,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',24,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',24,2,'DELETE','usuario','2',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',24,2,'DELETE','status','1',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',34,2,'DELETE','usuario_id','3',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',34,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',34,2,'DELETE','usuario','2',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',34,2,'DELETE','status','1',NULL,'2023-04-07 23:47:12'),('usuarios_grupos',14,2,'INSERT','status','1',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',14,2,'INSERT','usuario_id','1',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',14,2,'INSERT','usuario','2',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',14,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',24,2,'INSERT','status','1',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',24,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',24,2,'INSERT','usuario','2',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',24,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',34,2,'INSERT','status','1',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',34,2,'INSERT','usuario_id','3',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',34,2,'INSERT','usuario','2',NULL,'2023-04-07 23:47:40'),('usuarios_grupos',34,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:47:40'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:53:52'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-07 23:53:52'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',4,2,'DELETE','permissao_id','9',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',4,2,'DELETE','permissao_id','16',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',4,2,'DELETE','permissao_id','17',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',4,2,'DELETE','permissao_id','18',NULL,'2023-04-07 23:54:05'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 23:54:05'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:54:36'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-07 23:54:36'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',4,2,'DELETE','permissao_id','9',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',4,2,'DELETE','permissao_id','16',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',4,2,'DELETE','permissao_id','17',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',4,2,'DELETE','permissao_id','18',NULL,'2023-04-07 23:54:50'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 23:54:50'),('usuarios_grupos',34,2,'DELETE','usuario_id','3',NULL,'2023-04-07 23:56:24'),('usuarios_grupos',34,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:56:24'),('usuarios_grupos',34,2,'DELETE','usuario','2',NULL,'2023-04-07 23:56:24'),('usuarios_grupos',34,2,'DELETE','status','1',NULL,'2023-04-07 23:56:24'),('usuarios_grupos',34,2,'INSERT','status','1',NULL,'2023-04-07 23:56:37'),('usuarios_grupos',34,2,'INSERT','usuario_id','3',NULL,'2023-04-07 23:56:37'),('usuarios_grupos',34,2,'INSERT','usuario','2',NULL,'2023-04-07 23:56:37'),('usuarios_grupos',34,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:56:37'),('usuarios_grupos',14,2,'DELETE','usuario_id','1',NULL,'2023-04-07 23:56:58'),('usuarios_grupos',14,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:56:58'),('usuarios_grupos',14,2,'DELETE','usuario','2',NULL,'2023-04-07 23:56:58'),('usuarios_grupos',14,2,'DELETE','status','1',NULL,'2023-04-07 23:56:58'),('usuarios_grupos',24,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:56:58'),('usuarios_grupos',24,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:56:58'),('usuarios_grupos',24,2,'DELETE','usuario','2',NULL,'2023-04-07 23:56:58'),('usuarios_grupos',24,2,'DELETE','status','1',NULL,'2023-04-07 23:56:58'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-07 23:57:41'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-07 23:57:41'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:57:55'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:57:55'),('grupos_permissoes',4,2,'DELETE','permissao_id','9',NULL,'2023-04-07 23:57:55'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 23:57:55'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-07 23:57:55'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-07 23:57:55'),('grupos_permissoes',4,2,'DELETE','permissao_id','16',NULL,'2023-04-07 23:57:55'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-07 23:57:55'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-07 21:42:06','2023-04-08 00:11:49','2023-04-08 00:11:49'),('grupos',5,2,'UPDATE','status','1','0','2023-04-08 00:12:32'),('grupos',6,2,'UPDATE','status','1','0','2023-04-08 00:12:39'),('grupos',7,2,'UPDATE','status','1','0','2023-04-08 00:12:43'),('grupos',8,2,'UPDATE','status','1','0','2023-04-08 00:12:46'),('grupos',4,2,'UPDATE','status','1','0','2023-04-08 00:12:59'),('grupos',4,2,'UPDATE','status','0','1','2023-04-08 00:15:44'),('grupos',4,2,'UPDATE','status','1','0','2023-04-08 00:15:48'),('grupos',4,2,'UPDATE','status','0','1','2023-04-08 00:15:53'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:19:26'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:19:26'),('grupos_permissoes',4,2,'DELETE','permissao_id','17',NULL,'2023-04-08 00:19:26'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:19:26'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:19:26'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:19:26'),('grupos_permissoes',4,2,'DELETE','permissao_id','18',NULL,'2023-04-08 00:19:26'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:19:26'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:19:45'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-08 00:19:45'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',4,2,'DELETE','permissao_id','9',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',4,2,'DELETE','permissao_id','16',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',4,2,'DELETE','permissao_id','17',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',4,2,'DELETE','permissao_id','18',NULL,'2023-04-08 00:19:53'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:19:53'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:20:07'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-08 00:20:07'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',4,2,'DELETE','permissao_id','9',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',4,2,'DELETE','permissao_id','16',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',4,2,'DELETE','permissao_id','17',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',4,2,'DELETE','permissao_id','18',NULL,'2023-04-08 00:20:14'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:20:14'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:20:40'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-08 00:20:40'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:20:55'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:20:55'),('grupos_permissoes',4,2,'DELETE','permissao_id','16',NULL,'2023-04-08 00:20:55'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:20:55'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:20:55'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:20:55'),('grupos_permissoes',4,2,'DELETE','permissao_id','18',NULL,'2023-04-08 00:20:55'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:20:55'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:21:09'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:21:09'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:21:09'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-08 00:21:09'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:21:09'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:21:09'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','4',NULL,'2023-04-08 00:21:09'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-08 00:21:09'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',4,2,'DELETE','permissao_id','9',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',4,2,'DELETE','permissao_id','16',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',4,2,'DELETE','permissao_id','17',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',4,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',4,2,'DELETE','permissao_id','18',NULL,'2023-04-08 00:21:29'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:21:29'),('usuarios_grupos',34,2,'DELETE','usuario_id','3',NULL,'2023-04-08 00:23:38'),('usuarios_grupos',34,2,'DELETE','grupo_id','4',NULL,'2023-04-08 00:23:38'),('usuarios_grupos',34,2,'DELETE','usuario','2',NULL,'2023-04-08 00:23:38'),('usuarios_grupos',34,2,'DELETE','status','1',NULL,'2023-04-08 00:23:38'),('grupos',5,2,'UPDATE','status','0','1','2023-04-08 00:26:19'),('grupos',6,2,'UPDATE','status','0','1','2023-04-08 00:27:12'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',6,2,'DELETE','grupo_id','6',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',6,2,'DELETE','permissao_id','9',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',6,2,'DELETE','grupo_id','6',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',6,2,'DELETE','permissao_id','16',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',6,2,'DELETE','grupo_id','6',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',6,2,'DELETE','permissao_id','17',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',6,2,'DELETE','grupo_id','6',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',6,2,'DELETE','permissao_id','18',NULL,'2023-04-08 00:27:29'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:27:29'),('grupos',1,2,'UPDATE','nome','teste','TI','2023-04-08 00:29:05'),('grupos',2,2,'UPDATE','nome','asdasdsda','Administrador','2023-04-08 00:29:05'),('grupos',3,2,'UPDATE','nome','asdasdsda','Usuário','2023-04-08 00:29:05'),('grupos',7,2,'UPDATE','status','0','1','2023-04-08 00:39:50'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:40:11'),('grupos_permissoes',7,2,'DELETE','grupo_id','7',NULL,'2023-04-08 00:40:11'),('grupos_permissoes',7,2,'DELETE','permissao_id','9',NULL,'2023-04-08 00:40:11'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:40:11'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:40:11'),('grupos_permissoes',7,2,'DELETE','grupo_id','7',NULL,'2023-04-08 00:40:11'),('grupos_permissoes',7,2,'DELETE','permissao_id','17',NULL,'2023-04-08 00:40:11'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 00:40:11'),('grupos',7,2,'UPDATE','status','1','0','2023-04-08 00:40:18'),('grupos',7,2,'DELETE','id','7',NULL,'2023-04-08 00:42:17'),('grupos',7,2,'DELETE','nome','asdasdsda',NULL,'2023-04-08 00:42:17'),('grupos',7,2,'DELETE','status','0',NULL,'2023-04-08 00:42:17'),('grupos',7,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:42:17'),('grupos',8,2,'UPDATE','status','0','1','2023-04-08 00:42:28'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:42:37'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:42:37'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 00:42:37'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-08 00:42:37'),('grupos',8,2,'UPDATE','status','1','0','2023-04-08 00:42:44'),('grupos',8,2,'DELETE','id','8',NULL,'2023-04-08 00:42:48'),('grupos',8,2,'DELETE','nome','asdasdsda',NULL,'2023-04-08 00:42:48'),('grupos',8,2,'DELETE','status','0',NULL,'2023-04-08 00:42:48'),('grupos',8,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:42:48'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-08 00:43:27'),('grupos',0,2,'INSERT','nome','teste',NULL,'2023-04-08 00:43:27'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-08 00:43:27'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:43:27'),('grupos',9,2,'UPDATE','status','1','0','2023-04-08 00:43:31'),('grupos',9,2,'DELETE','id','9',NULL,'2023-04-08 00:44:21'),('grupos',9,2,'DELETE','nome','teste',NULL,'2023-04-08 00:44:21'),('grupos',9,2,'DELETE','status','0',NULL,'2023-04-08 00:44:21'),('grupos',9,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:44:21'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-08 00:44:29'),('grupos',0,2,'INSERT','nome','teste',NULL,'2023-04-08 00:44:29'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-08 00:44:29'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:44:29'),('grupos',10,2,'UPDATE','status','1','0','2023-04-08 00:44:32'),('grupos',10,2,'UPDATE','status','0','1','2023-04-08 00:44:39'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 00:44:47'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-08 00:44:47'),('grupos',10,2,'UPDATE','status','1','0','2023-04-08 00:44:50'),('grupos',10,2,'DELETE','id','10',NULL,'2023-04-08 00:44:54'),('grupos',10,2,'DELETE','nome','teste',NULL,'2023-04-08 00:44:54'),('grupos',10,2,'DELETE','status','0',NULL,'2023-04-08 00:44:54'),('grupos',10,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:44:54'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-08 00:45:37'),('grupos',0,2,'INSERT','nome','teste',NULL,'2023-04-08 00:45:37'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-08 00:45:37'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:45:37'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','2',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','2',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','2',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','2',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-08 00:45:46'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','11',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','9',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','11',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','16',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','11',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','17',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','11',NULL,'2023-04-08 00:45:57'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-08 00:45:57'),('grupos',11,2,'UPDATE','status','1','0','2023-04-08 00:46:02'),('grupos',0,2,'INSERT','id','0',NULL,'2023-04-08 00:50:42'),('grupos',0,2,'INSERT','nome','teste1',NULL,'2023-04-08 00:50:42'),('grupos',0,2,'INSERT','status','1',NULL,'2023-04-08 00:50:42'),('grupos',0,2,'INSERT','usuario_id','2',NULL,'2023-04-08 00:50:42'),('grupos',12,2,'UPDATE','status','1','0','2023-04-08 00:57:09'),('grupos',12,2,'DELETE','id','12',NULL,'2023-04-08 00:57:17'),('grupos',12,2,'DELETE','nome','teste1',NULL,'2023-04-08 00:57:17'),('grupos',12,2,'DELETE','status','0',NULL,'2023-04-08 00:57:17'),('grupos',12,2,'DELETE','usuario_id','2',NULL,'2023-04-08 00:57:17'),('grupos',11,2,'UPDATE','status','0','1','2023-04-08 01:13:44'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',11,2,'DELETE','grupo_id','11',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',11,2,'DELETE','permissao_id','9',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',11,2,'DELETE','grupo_id','11',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',11,2,'DELETE','permissao_id','16',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',11,2,'DELETE','grupo_id','11',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',11,2,'DELETE','permissao_id','17',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',2,2,'DELETE','usuario_id','2',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',11,2,'DELETE','grupo_id','11',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',11,2,'DELETE','permissao_id','18',NULL,'2023-04-08 01:13:53'),('grupos_permissoes',1,2,'DELETE','status','1',NULL,'2023-04-08 01:13:53'),('grupos',11,2,'UPDATE','status','1','0','2023-04-08 01:13:57'),('grupos',11,2,'DELETE','id','11',NULL,'2023-04-08 01:14:00'),('grupos',11,2,'DELETE','nome','teste',NULL,'2023-04-08 01:14:00'),('grupos',11,2,'DELETE','status','0',NULL,'2023-04-08 01:14:00'),('grupos',11,2,'DELETE','usuario_id','2',NULL,'2023-04-08 01:14:00'),('usuarios_grupos',21,2,'INSERT','status','1',NULL,'2023-04-08 01:37:17'),('usuarios_grupos',21,2,'INSERT','usuario_id','2',NULL,'2023-04-08 01:37:17'),('usuarios_grupos',21,2,'INSERT','usuario','2',NULL,'2023-04-08 01:37:17'),('usuarios_grupos',21,2,'INSERT','grupo_id','1',NULL,'2023-04-08 01:37:17'),('permissoes',9,NULL,'UPDATE','status','1','0','2023-04-08 02:00:38'),('permissoes',16,NULL,'UPDATE','status','1','0','2023-04-08 02:00:44'),('permissoes',17,NULL,'UPDATE','status','1','0','2023-04-08 02:00:49'),('permissoes',18,NULL,'UPDATE','status','1','0','2023-04-08 02:00:52'),('permissoes',18,2,'UPDATE','nome','6','Próprio Perfil','2023-04-08 02:01:56'),('permissoes',18,2,'UPDATE','descricao','6','Visualizar e editar as informações do próprio pefil','2023-04-08 02:01:56'),('permissoes',18,2,'UPDATE','usuario_id',NULL,'2','2023-04-08 02:01:56'),('permissoes',18,2,'UPDATE','status','0','1','2023-04-08 02:02:06'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:02:59'),('permissoes',NULL,2,'INSERT','nome','Página Inicial',NULL,'2023-04-08 02:02:59'),('permissoes',NULL,2,'INSERT','descricao','Página de início ao entrar no sistema',NULL,'2023-04-08 02:02:59'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:02:59'),('permissoes',NULL,2,'INSERT','menu_item_id','2',NULL,'2023-04-08 02:02:59'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:02:59'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:03:32'),('permissoes',NULL,2,'INSERT','nome','Sair do Sistema',NULL,'2023-04-08 02:03:32'),('permissoes',NULL,2,'INSERT','descricao','Desconectar do sistema',NULL,'2023-04-08 02:03:32'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:03:32'),('permissoes',NULL,2,'INSERT','menu_item_id','3',NULL,'2023-04-08 02:03:32'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:03:32'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:04:32'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar usuários',NULL,'2023-04-08 02:04:32'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de usuários',NULL,'2023-04-08 02:04:32'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:04:32'),('permissoes',NULL,2,'INSERT','menu_item_id','4',NULL,'2023-04-08 02:04:32'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:04:32'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:05:01'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar permissões',NULL,'2023-04-08 02:05:01'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de permissões',NULL,'2023-04-08 02:05:01'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:05:01'),('permissoes',NULL,2,'INSERT','menu_item_id','5',NULL,'2023-04-08 02:05:01'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:05:01'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:05:49'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar parâmetros',NULL,'2023-04-08 02:05:49'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de parâmetros de configuração do sistema',NULL,'2023-04-08 02:05:49'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:05:49'),('permissoes',NULL,2,'INSERT','menu_item_id','6',NULL,'2023-04-08 02:05:49'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:05:49'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:06:33'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar páginas do site',NULL,'2023-04-08 02:06:33'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de páginas do site',NULL,'2023-04-08 02:06:33'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:06:33'),('permissoes',NULL,2,'INSERT','menu_item_id','7',NULL,'2023-04-08 02:06:33'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:06:33'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:07:07'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar conteúdos',NULL,'2023-04-08 02:07:07'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de conteúdos das páginas do site',NULL,'2023-04-08 02:07:07'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:07:07'),('permissoes',NULL,2,'INSERT','menu_item_id','8',NULL,'2023-04-08 02:07:07'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:07:07'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:07:33'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar endereços',NULL,'2023-04-08 02:07:33'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de endereços',NULL,'2023-04-08 02:07:33'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:07:33'),('permissoes',NULL,2,'INSERT','menu_item_id','10',NULL,'2023-04-08 02:07:33'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:07:33'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:08:49'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar estados',NULL,'2023-04-08 02:08:49'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de estados',NULL,'2023-04-08 02:08:49'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:08:49'),('permissoes',NULL,2,'INSERT','menu_item_id','11',NULL,'2023-04-08 02:08:49'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:08:49'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:09:39'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar países',NULL,'2023-04-08 02:09:39'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de países',NULL,'2023-04-08 02:09:39'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:09:39'),('permissoes',NULL,2,'INSERT','menu_item_id','12',NULL,'2023-04-08 02:09:39'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:09:39'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:10:27'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar funcionários',NULL,'2023-04-08 02:10:27'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de funcionários',NULL,'2023-04-08 02:10:27'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:10:27'),('permissoes',NULL,2,'INSERT','menu_item_id','13',NULL,'2023-04-08 02:10:27'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:10:27'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:10:50'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar contatos',NULL,'2023-04-08 02:10:50'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de contatos',NULL,'2023-04-08 02:10:50'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:10:50'),('permissoes',NULL,2,'INSERT','menu_item_id','14',NULL,'2023-04-08 02:10:50'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:10:50'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:11:20'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar folha de pagamento',NULL,'2023-04-08 02:11:20'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de folha de pagamento',NULL,'2023-04-08 02:11:20'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:11:20'),('permissoes',NULL,2,'INSERT','menu_item_id','15',NULL,'2023-04-08 02:11:20'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:11:20'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:12:31'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar visualizar folha de pagamento',NULL,'2023-04-08 02:12:31'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de visualizar endereços',NULL,'2023-04-08 02:12:31'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:12:31'),('permissoes',NULL,2,'INSERT','menu_item_id','16',NULL,'2023-04-08 02:12:31'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:12:31'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:13:07'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar módulos(menu)',NULL,'2023-04-08 02:13:07'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de módulos(menus)',NULL,'2023-04-08 02:13:07'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:13:07'),('permissoes',NULL,2,'INSERT','menu_item_id','17',NULL,'2023-04-08 02:13:07'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:13:07'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:13:42'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar sub módulos(item de menu)',NULL,'2023-04-08 02:13:42'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de sub módulos(item de menu)',NULL,'2023-04-08 02:13:42'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:13:42'),('permissoes',NULL,2,'INSERT','menu_item_id','18',NULL,'2023-04-08 02:13:42'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:13:42'),('permissoes',NULL,2,'INSERT','id','0',NULL,'2023-04-08 02:14:18'),('permissoes',NULL,2,'INSERT','nome','Cadastrar/Listar/Excluir/Alterar grupos de acesso ao sistema',NULL,'2023-04-08 02:14:18'),('permissoes',NULL,2,'INSERT','descricao','Cadastro de grupos de acesso ao sistema',NULL,'2023-04-08 02:14:18'),('permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:14:18'),('permissoes',NULL,2,'INSERT','menu_item_id','21',NULL,'2023-04-08 02:14:18'),('permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:14:18'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','19',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','20',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','21',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','22',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','23',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','24',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','25',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','26',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','27',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','28',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','29',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','30',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','31',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','32',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','33',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','34',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','1',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','35',NULL,'2023-04-08 02:15:13'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:17:53'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:17:53'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','2',NULL,'2023-04-08 02:17:53'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','19',NULL,'2023-04-08 02:17:53'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:17:53'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:17:53'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','2',NULL,'2023-04-08 02:17:53'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','20',NULL,'2023-04-08 02:17:53'),('usuarios_grupos',12,2,'INSERT','status','1',NULL,'2023-04-08 02:18:37'),('usuarios_grupos',12,2,'INSERT','usuario_id','1',NULL,'2023-04-08 02:18:37'),('usuarios_grupos',12,2,'INSERT','usuario','2',NULL,'2023-04-08 02:18:37'),('usuarios_grupos',12,2,'INSERT','grupo_id','2',NULL,'2023-04-08 02:18:37'),('usuarios',1,NULL,'UPDATE','ultimo_acesso','2023-04-07 14:00:33','2023-04-08 02:18:48','2023-04-08 02:18:48'),('usuarios',2,NULL,'UPDATE','ultimo_acesso','2023-04-08 00:11:49','2023-04-08 02:18:56','2023-04-08 02:18:56'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','3',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','18',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','3',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','19',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','status','1',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','usuario_id','2',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','grupo_id','3',NULL,'2023-04-08 02:19:34'),('usuarios_permissoes',NULL,2,'INSERT','permissao_id','20',NULL,'2023-04-08 02:19:34'),('usuarios_grupos',33,2,'INSERT','status','1',NULL,'2023-04-08 02:19:45'),('usuarios_grupos',33,2,'INSERT','usuario_id','3',NULL,'2023-04-08 02:19:45'),('usuarios_grupos',33,2,'INSERT','usuario','2',NULL,'2023-04-08 02:19:45'),('usuarios_grupos',33,2,'INSERT','grupo_id','3',NULL,'2023-04-08 02:19:45');
+/*!40000 ALTER TABLE `logs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `menu_itens`
+--
+
+DROP TABLE IF EXISTS `menu_itens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `menu_itens` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `titulo` varchar(255) DEFAULT NULL,
+  `class` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `icone` varchar(255) DEFAULT NULL,
+  `menu_item_id` int DEFAULT NULL,
+  `menu_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_menu_item_menu_idx` (`menu_id`),
+  KEY `fk_menu_item_submenu` (`menu_item_id`),
+  KEY `fk_menu_itens_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_menu_item_menu` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`),
+  CONSTRAINT `fk_menu_itens_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menu_itens`
+--
+
+LOCK TABLES `menu_itens` WRITE;
+/*!40000 ALTER TABLE `menu_itens` DISABLE KEYS */;
+INSERT INTO `menu_itens` VALUES (1,'Perfil','Perfil do Usuário',1,NULL,NULL,'?page=ControllerUser&option=editProfile&id=usuario_logado_id',NULL,'fas fa-user fa-sm fa-fw mr-2 text-gray-400',NULL,1,1),(2,'Boas vindas','Boas vindas',1,NULL,NULL,'?page=ControllerSystem&option=welcome',NULL,'fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400',NULL,1,2),(3,'Sair','Sair',1,NULL,NULL,'?page=ControllerUser&option=logout',NULL,'fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400',NULL,1,1),(4,'Usuários','Usuários',1,NULL,NULL,'?page=ControllerUser&option=listar',NULL,'fas fa-users-cog fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(5,'Permissões','Permissões',1,NULL,NULL,'?page=ControllerAuthority&option=listar',NULL,'fas fa-user-lock fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(6,'Parâmetros','Parâmetros',1,NULL,NULL,'?page=ControllerParameter&option=listar',NULL,'fas fa-tasks fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(7,'Páginas do Site','Páginas do Site',1,NULL,NULL,'?page=ControllerPage&option=listar',NULL,'fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(8,'Conteúdo das Páginas','Conteúdo das Páginas',1,NULL,NULL,'?page=ControllerContent&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',NULL,2,1),(9,'Teste de Desenvolvimento','Teste de Desenvolvimento',0,NULL,NULL,'?page=ControllerTest&option=listar',NULL,'fas fa-file-code fa-sm fa-fw mr-2 text-gray-400',NULL,2,2),(10,'Endereços','Endereços',1,NULL,NULL,'?page=ControllerEndereco&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',NULL,3,1),(11,'Estados','Estados',1,NULL,NULL,'?page=ControllerEstado&option=listar',NULL,'fas fa-city fa-sm fa-fw mr-2 text-gray-400',NULL,3,1),(12,'Países','Países',1,NULL,NULL,'?page=ControllerPais&option=listar',NULL,'fas fa-university fa-sm fa-fw mr-2 text-gray-400',NULL,3,2),(13,'Funcionários','Funcionários',1,NULL,NULL,'?page=ControllerFuncionario&option=listar',NULL,'fas fa-users fa-sm fa-fw mr-2 text-gray-400',NULL,4,1),(14,'Contatos','Contatos',1,NULL,NULL,'?page=ControllerContact&option=listar',NULL,'fas fa-address-book fa-sm fa-fw mr-2 text-gray-400',NULL,4,1),(15,'Folha de Pagamento','Folha de Pagamento',1,NULL,NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'fas fa-money-check-alt fa-sm fa-fw mr-2 text-gray-400',NULL,4,1),(16,'Todas folhas de pagamento','Lista de contracheques disponíveis',1,'Não existe folha de pagamento lançado',NULL,'?page=ControllerFolhaPagamento&option=listar',NULL,'dropdown-item text-center small text-gray-500',NULL,5,1),(17,'Menus','Cadastro de Menus do Sistema',1,NULL,NULL,'?page=ControllerMenu&option=listar',NULL,'fas fa-bars fa-sm fa-fw mr-2 text-gray-400',NULL,2,2),(18,'Itens de Menu','Cadastro de Itens de Menu do Sistema',1,NULL,NULL,'?page=ControllerMenuItem&option=listar',NULL,'fas fa-list fa-sm fa-fw mr-2 text-gray-400',NULL,2,2),(21,'Grupos de Permissões/Usuários','Cadastro de grupos de usuários e permissões',1,'','','?page=ControllerGrupo&option=listar','','fas fa-layer-group fa-sm fa-fw mr-2 text-gray-400',0,2,2);
+/*!40000 ALTER TABLE `menu_itens` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menu_itens_BEFORE_INSERT` BEFORE INSERT ON `menu_itens` FOR EACH ROW BEGIN
+		INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+		('menu_itens', NEW.id, 'INSERT', 'id', NEW.id, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','nome', NEW.nome, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','descricao', NEW.descricao, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','status', NEW.status, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','class', NEW.class, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','titulo', NEW.titulo, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','url', NEW.url, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','image', NEW.image, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','icone', NEW.icone, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','menu_item_id', NEW.menu_item_id, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','menu_id', NEW.menu_id, now(), NEW.usuario_id),
+        ('menu_itens', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now(), NEW.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menu_itens_BEFORE_UPDATE` BEFORE UPDATE ON `menu_itens` FOR EACH ROW BEGIN
+
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+    VALUES 
+  ('menu_itens', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+
+IF (OLD.descricao <> NEW.descricao or (OLD.descricao IS NULL and NEW.descricao IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES 
+        ('menu_itens', 'descricao', OLD.descricao, NEW.descricao, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menu_itens', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.titulo <> NEW.titulo or (OLD.titulo IS NULL and NEW.titulo IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menu_itens', 'titulo', OLD.titulo, NEW.titulo, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.class <> NEW.class or (OLD.class IS NULL and NEW.class IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menu_itens', 'class', OLD.class, NEW.class, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.url <> NEW.url or (OLD.url IS NULL and NEW.url IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menu_itens', 'url', OLD.url, NEW.url, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.image <> NEW.image or (OLD.image IS NULL and NEW.image IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menu_itens', 'image', OLD.image, NEW.image, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.icone <> NEW.icone or (OLD.icone IS NULL and NEW.icone IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menu_itens', 'icone', OLD.icone, NEW.icone, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.menu_item_id <> NEW.menu_item_id or (OLD.menu_item_id IS NULL and NEW.menu_item_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES 
+        ('menu_itens', 'menu_item_id', OLD.menu_item_id, NEW.menu_item_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.menu_id <> NEW.menu_id or (OLD.menu_id IS NULL and NEW.menu_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES 
+        ('menu_itens', 'menu_id', OLD.menu_id, NEW.menu_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES 
+        ('menu_itens', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menu_itens_BEFORE_DELETE` BEFORE DELETE ON `menu_itens` FOR EACH ROW BEGIN
+
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+		('menu_itens', OLD.id, 'DELETE', 'id', OLD.id, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','nome', OLD.nome, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','descricao', OLD.descricao, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','status', OLD.status, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','titulo', OLD.titulo, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','class', OLD.class, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','url', OLD.url, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','image', OLD.image, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','icone', OLD.icone, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','menu_item_id', OLD.menu_item_id, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','menu_id', OLD.menu_id, now(), OLD.usuario_id),
+        ('menu_itens', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now(), OLD.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `menus`
+--
+
+DROP TABLE IF EXISTS `menus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `menus` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `class` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `icone` varchar(255) DEFAULT NULL,
+  `sistema_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_fk_usuario_idx` (`usuario_id`),
+  KEY `menu_fk_sistema_idx` (`sistema_id`,`usuario_id`),
+  CONSTRAINT `menu_fk_sistema` FOREIGN KEY (`sistema_id`) REFERENCES `sistemas` (`id`),
+  CONSTRAINT `menu_fk_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menus`
+--
+
+LOCK TABLES `menus` WRITE;
+/*!40000 ALTER TABLE `menus` DISABLE KEYS */;
+INSERT INTO `menus` VALUES (1,'Perfil','Perfil do usuário',1,NULL,NULL,NULL,'1',1,1),(2,'Sistema','Configurações do Sistema',1,NULL,NULL,NULL,'fas fa-cogs fa-fw',1,2),(3,'Outros','Outras operações',1,'','','','fas fa-arrows-alt fa-fw',1,2),(4,'Recursos Humanos','Operações de RH',1,NULL,NULL,NULL,'fas fa-chalkboard-teacher fa-fw',1,2),(5,'Contra-cheque','Caixa de Menssagens',0,NULL,NULL,NULL,'fas fa-envelope fa-fw',1,2),(8,'Itens de Menu','Cadastro de Itens de Menu',1,'','','','fas fa-list-dropdown fa-fw',1,2);
+/*!40000 ALTER TABLE `menus` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menus_BEFORE_INSERT` BEFORE INSERT ON `menus` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+		('menus', NEW.id, 'INSERT', 'id', NEW.id, now(), NEW.usuario_id),
+        ('menus', NEW.id, 'INSERT','nome', NEW.nome, now(), NEW.usuario_id),
+        ('menus', NEW.id, 'INSERT','descricao', NEW.descricao, now(), NEW.usuario_id),
+        ('menus', NEW.id, 'INSERT','status', NEW.status, now(), NEW.usuario_id),
+        ('menus', NEW.id, 'INSERT','class', NEW.class, now(), NEW.usuario_id),
+        ('menus', NEW.id, 'INSERT','url', NEW.url, now(), NEW.usuario_id),
+        ('menus', NEW.id, 'INSERT','image', NEW.image, now(), NEW.usuario_id),
+        ('menus', NEW.id, 'INSERT','icone', NEW.icone, now(), NEW.usuario_id),
+        ('menus', NEW.id, 'INSERT','sistema_id', NEW.sistema_id, now(), NEW.usuario_id),
+        ('menus', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now(), NEW.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menus_BEFORE_UPDATE` BEFORE UPDATE ON `menus` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+    VALUES 
+  ('menus', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+/**/
+IF (OLD.descricao <> NEW.descricao or (OLD.descricao IS NULL and NEW.descricao IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES 
+        ('menus', 'descricao', OLD.descricao, NEW.descricao, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menus', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.class <> NEW.class or (OLD.class IS NULL and NEW.class IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menus', 'class', OLD.class, NEW.class, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.url <> NEW.url or (OLD.url IS NULL and NEW.url IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menus', 'url', OLD.url, NEW.url, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.image <> NEW.image or (OLD.image IS NULL and NEW.image IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menus', 'image', OLD.image, NEW.image, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.icone <> NEW.icone or (OLD.icone IS NULL and NEW.icone IS NOT NULL)) THEN
+  INSERT INTO logs
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES
+        ('menus', 'icone', OLD.icone, NEW.icone, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.sistema_id <> NEW.sistema_id or (OLD.sistema_id IS NULL and NEW.sistema_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES 
+        ('menus', 'sistema_id', OLD.sistema_id, NEW.sistema_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+  INSERT INTO logs 
+        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES 
+        ('menus', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `menus_BEFORE_DELETE` BEFORE DELETE ON `menus` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+		('menus', OLD.id, 'DELETE', 'id', OLD.id, now(), OLD.usuario_id),
+        ('menus', OLD.id, 'DELETE','nome', OLD.nome, now(), OLD.usuario_id),
+        ('menus', OLD.id, 'DELETE','descricao', OLD.descricao, now(), OLD.usuario_id),
+        ('menus', OLD.id, 'DELETE','status', OLD.status, now(), OLD.usuario_id),
+        ('menus', OLD.id, 'DELETE','class', OLD.class, now(), OLD.usuario_id),
+        ('menus', OLD.id, 'DELETE','url', OLD.url, now(), OLD.usuario_id),
+        ('menus', OLD.id, 'DELETE','image', OLD.image, now(), OLD.usuario_id),
+        ('menus', OLD.id, 'DELETE','icone', OLD.icone, now(), OLD.usuario_id),
+        ('menus', OLD.id, 'DELETE','sistema_id', OLD.sistema_id, now(), OLD.usuario_id),
+        ('menus', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now(), OLD.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `page`
@@ -329,9 +1223,7 @@ CREATE TABLE `page` (
   `page_label` varchar(45) NOT NULL,
   `page_status` tinyint(1) NOT NULL DEFAULT '1',
   `page_fk_user_pk_id` int NOT NULL,
-  PRIMARY KEY (`page_pk_id`),
-  KEY `page_fk_user_pk_id_idx` (`page_fk_user_pk_id`),
-  CONSTRAINT `page_fk_user_pk_id` FOREIGN KEY (`page_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
+  PRIMARY KEY (`page_pk_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -346,33 +1238,124 @@ INSERT INTO `page` VALUES (1,'home','Página Inicial do Site','home','Página In
 UNLOCK TABLES;
 
 --
--- Table structure for table `pais`
+-- Table structure for table `paises`
 --
 
-DROP TABLE IF EXISTS `pais`;
+DROP TABLE IF EXISTS `paises`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pais` (
-  `pais_pk_id` int NOT NULL AUTO_INCREMENT,
-  `pais_nome` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `pais_sigla` varchar(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `pais_status` tinyint NOT NULL DEFAULT '1',
-  `pais_fk_user_pk_id` int NOT NULL,
-  PRIMARY KEY (`pais_pk_id`),
-  KEY `pais_fk_user_pk_id_idx` (`pais_fk_user_pk_id`),
-  CONSTRAINT `pais_fk_user_pk_id` FOREIGN KEY (`pais_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+CREATE TABLE `paises` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `sigla` varchar(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `status` tinyint NOT NULL DEFAULT '1',
+  `usuario_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_paises_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_paises_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pais`
+-- Dumping data for table `paises`
 --
 
-LOCK TABLES `pais` WRITE;
-/*!40000 ALTER TABLE `pais` DISABLE KEYS */;
-INSERT INTO `pais` VALUES (1,'Brasil','BRA',1,1);
-/*!40000 ALTER TABLE `pais` ENABLE KEYS */;
+LOCK TABLES `paises` WRITE;
+/*!40000 ALTER TABLE `paises` DISABLE KEYS */;
+INSERT INTO `paises` VALUES (1,'Brasil','BRA',1,2),(3,'a','s',1,2),(4,'','',1,2);
+/*!40000 ALTER TABLE `paises` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `paises_BEFORE_INSERT` BEFORE INSERT ON `paises` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('paises', NEW.id, 'INSERT', 'id', NEW.id, now()),
+        ('paises', NEW.id, 'INSERT','nome', NEW.nome, now()),
+        ('paises', NEW.id, 'INSERT','sigla', NEW.sigla, now()),
+        ('paises', NEW.id, 'INSERT','status', NEW.status, now()),
+        ('paises', NEW.id, 'INSERT','usuario_id', NEW.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `paises_BEFORE_UPDATE` BEFORE UPDATE ON `paises` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+		INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+        VALUES 
+			('paises', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id);
+	 END IF;
+    
+	IF (OLD.sigla <> NEW.sigla or (OLD.sigla IS NULL and NEW.sigla IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('paises', 'sigla', OLD.sigla, NEW.sigla, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES
+            ('paises', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id);
+	END IF;
+    
+	IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela)
+            VALUES 
+            ('paises', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id);
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `paises_BEFORE_DELETE` BEFORE DELETE ON `paises` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao)
+    VALUES
+		('paises', OLD.id, 'DELETE', 'id', OLD.id, now()),
+        ('paises', OLD.id, 'DELETE','nome', OLD.nome, now()),
+        ('paises', OLD.id, 'DELETE','sigla', OLD.sigla, now()),
+        ('paises', OLD.id, 'DELETE','status', OLD.status, now()),
+        ('paises', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `parameter`
@@ -389,10 +1372,8 @@ CREATE TABLE `parameter` (
   `para_status` tinyint(1) NOT NULL DEFAULT '1',
   `para_fk_user_pk_id` int NOT NULL,
   PRIMARY KEY (`para_pk_id`),
-  UNIQUE KEY `para_key` (`para_key`),
-  KEY `empr_fk_user_pk_id_idx` (`para_fk_user_pk_id`),
-  CONSTRAINT `empr_fk_user_pk_id` FOREIGN KEY (`para_fk_user_pk_id`) REFERENCES `user` (`user_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+  UNIQUE KEY `para_key` (`para_key`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -401,41 +1382,41 @@ CREATE TABLE `parameter` (
 
 LOCK TABLES `parameter` WRITE;
 /*!40000 ALTER TABLE `parameter` DISABLE KEYS */;
-INSERT INTO `parameter` VALUES (1,'nome_fantazia','','Nome como que todos conhecem',1,1),(2,'razao_social','','Nome como está no documento',1,1),(3,'titulo_site','','Nome para o site',1,1),(4,'icone_site','favicon.png','Imagem do Ícone do Site',1,1),(5,'email','paulistensetecnologia@gmail.com','Email para envio automático',1,1),(6,'senha','@G182534','Senha do email para envio automático',1,1),(7,'endereco','1','Endereço do dono/empresa do sistema',1,1),(8,'sobre_titulo','Sobre','',1,1),(9,'contato_titulo','Contato','',1,1),(10,'contato','1','Chave Estrangeira da tabela contatos',1,1),(11,'servicos_titulo','Serviços','Título da página de serviços',1,1),(12,'google_analytics','G-5ZS0PB48KT','Códifo do Google Analytics',1,1),(13,'servidor_email_smtp','smtp.gmail.com','Protocolo de E-mail',1,1),(14,'servidor_email_porta','587','Porta do Servidor de E-mail',1,1),(15,'servidor_email_seguranca','tls','Tipo da Segurança do Envio de E-mail',1,1),(16,'mostrar_error','1','Mostrar erros das páginas PHP',1,1),(17,'servidor_debug_email','0','MOSTRAR ERROR AO ENVIAR EMAIL',1,1),(18,'tempo_sessao_site','60','Tempo de usuário ficar logado',1,1),(19,'autor_site','Geverson Souza','Quem criou o site',1,1),(20,'modulos_sistema','2','Módulo do sistema que está ativo/contratado',1,1),(21,'teste_ambiente_sistema','1','Teste ambiente sistema',1,1);
+INSERT INTO `parameter` VALUES (1,'nome_fantazia','','Nome como que todos conhecem',1,1),(2,'razao_social','','Nome como está no documento',1,1),(3,'titulo_site','','Nome para o site',1,1),(4,'icone_site','favicon.png','Imagem do Ícone do Site',1,1),(5,'email','paulistensetecnologia@gmail.com','Email para envio automático',0,1),(6,'senha','@G182534','Senha do email para envio automático',0,1),(7,'endereco','1','Endereço do dono/empresa do sistema',1,1),(8,'sobre_titulo','Sobre','',1,1),(9,'contato_titulo','Contato','',1,1),(10,'contato','1','Chave Estrangeira da tabela contatos',1,1),(11,'servicos_titulo','Serviços','Título da página de serviços',1,1),(12,'google_analytics','G-5ZS0PB48KT','Códifo do Google Analytics',1,1),(13,'servidor_email_smtp','smtp.gmail.com','Protocolo de E-mail',0,1),(14,'servidor_email_porta','587','Porta do Servidor de E-mail',0,1),(15,'servidor_email_seguranca','tls','Tipo da Segurança do Envio de E-mail',0,1),(16,'mostrar_error','1','Mostrar erros das páginas PHP',0,1),(17,'servidor_debug_email','0','MOSTRAR ERROR AO ENVIAR EMAIL',1,1),(18,'tempo_sessao_site','60','Tempo de usuário ficar logado',1,1),(19,'autor_site','Geverson Souza','Quem criou o site',1,1),(20,'modulos_sistema','2','Módulo do sistema que está ativo/contratado',1,1),(21,'teste_ambiente_sistema','1','Teste ambiente sistema',1,1),(22,'landing_page','landing_page','landing_page',0,1);
 /*!40000 ALTER TABLE `parameter` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user`
+-- Table structure for table `permissoes`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `permissoes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-  `user_pk_id` int NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `user_login` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `user_password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `user_last_login` timestamp NULL DEFAULT NULL,
-  `user_image` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `user_status` tinyint(1) NOT NULL DEFAULT '0',
-  `user_fk_authority_pk_id` int NULL,
-  PRIMARY KEY (`user_pk_id`),
-  UNIQUE KEY `user_login_UNIQUE` (`user_login`),
-  KEY `user_fk_authority_pk_id_idx` (`user_fk_authority_pk_id`),
-  CONSTRAINT `user_fk_authority_pk_id` FOREIGN KEY (`user_fk_authority_pk_id`) REFERENCES `authority` (`auth_pk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+CREATE TABLE `permissoes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `descricao` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `menu_item_id` int NOT NULL,
+  `usuario_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nome_UNIQUE` (`nome`),
+  KEY `fk_permissoes_menu_item_idx` (`menu_item_id`),
+  KEY `fk_permissoes_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_permissoes_menu_item` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_itens` (`id`),
+  CONSTRAINT `fk_permissoes_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `permissoes`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-03-19 16:17:22',NULL,1,2),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2023-03-19 21:17:52',NULL,1,1),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$GO84OdmEE/ltQw3KIvUcFORh818wQIvW46x/2VS1Ya/JyWRYsSEma','2020-08-10 02:20:49',NULL,1,4);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `permissoes` WRITE;
+/*!40000 ALTER TABLE `permissoes` DISABLE KEYS */;
+INSERT INTO `permissoes` VALUES (9,'admin','admin',0,16,NULL),(16,'4','4',0,16,NULL),(17,'5','5',0,16,NULL),(18,'Próprio Perfil','Visualizar e editar as informações do próprio pefil',1,1,2),(19,'Página Inicial','Página de início ao entrar no sistema',1,2,2),(20,'Sair do Sistema','Desconectar do sistema',1,3,2),(21,'Cadastrar/Listar/Excluir/Alterar usuários','Cadastro de usuários',1,4,2),(22,'Cadastrar/Listar/Excluir/Alterar permissões','Cadastro de permissões',1,5,2),(23,'Cadastrar/Listar/Excluir/Alterar parâmetros','Cadastro de parâmetros de configuração do sistema',1,6,2),(24,'Cadastrar/Listar/Excluir/Alterar páginas do site','Cadastro de páginas do site',1,7,2),(25,'Cadastrar/Listar/Excluir/Alterar conteúdos','Cadastro de conteúdos das páginas do site',1,8,2),(26,'Cadastrar/Listar/Excluir/Alterar endereços','Cadastro de endereços',1,10,2),(27,'Cadastrar/Listar/Excluir/Alterar estados','Cadastro de estados',1,11,2),(28,'Cadastrar/Listar/Excluir/Alterar países','Cadastro de países',1,12,2),(29,'Cadastrar/Listar/Excluir/Alterar funcionários','Cadastro de funcionários',1,13,2),(30,'Cadastrar/Listar/Excluir/Alterar contatos','Cadastro de contatos',1,14,2),(31,'Cadastrar/Listar/Excluir/Alterar folha de pagamento','Cadastro de folha de pagamento',1,15,2),(32,'Cadastrar/Listar/Excluir/Alterar visualizar folha de pagamento','Cadastro de visualizar endereços',1,16,2),(33,'Cadastrar/Listar/Excluir/Alterar módulos(menu)','Cadastro de módulos(menus)',1,17,2),(34,'Cadastrar/Listar/Excluir/Alterar sub módulos(item de menu)','Cadastro de sub módulos(item de menu)',1,18,2),(35,'Cadastrar/Listar/Excluir/Alterar grupos de acesso ao sistema','Cadastro de grupos de acesso ao sistema',1,21,2);
+/*!40000 ALTER TABLE `permissoes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -444,20 +1425,18 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `trigger_user_insert` BEFORE INSERT ON `user` FOR EACH ROW BEGIN
-	INSERT INTO log_user 
-		(luser_id_tabela, luser_operacao, luser_campo_modificado, luser_valor_antigo, luser_data_operacao)
-    VALUES 
-		(NEW.user_pk_id, 'INSERT', 'user_pk_id', NEW.user_pk_id, now()),
-        (NEW.user_pk_id, 'INSERT','user_name', NEW.user_name, now()),
-        (NEW.user_pk_id, 'INSERT','user_login', NEW.user_login, now()),
-        (NEW.user_pk_id, 'INSERT','user_password', NEW.user_password, now()),
-        (NEW.user_pk_id, 'INSERT','user_last_login', NEW.user_last_login, now()),
-        (NEW.user_pk_id, 'INSERT','user_image', NEW.user_image, now()),
-        (NEW.user_pk_id, 'INSERT','user_status', NEW.user_status, now()),
-        (NEW.user_pk_id, 'INSERT','user_fk_authority_pk_id', NEW.user_fk_authority_pk_id, now());
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `permissoes_BEFORE_INSERT` BEFORE INSERT ON `permissoes` FOR EACH ROW BEGIN
+  INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+  VALUES
+      ('permissoes', NULL, 'INSERT','id', NEW.id, now(), NEW.usuario_id),
+      ('permissoes', NULL, 'INSERT','nome', NEW.nome, now(), NEW.usuario_id),
+      ('permissoes', NULL, 'INSERT','descricao', NEW.descricao, now(), NEW.usuario_id),
+      ('permissoes', NULL, 'INSERT','status', NEW.status, now(), NEW.usuario_id),
+      ('permissoes', NULL, 'INSERT','menu_item_id', NEW.menu_item_id, now(), NEW.usuario_id),
+      ('permissoes', NULL, 'INSERT','usuario_id', NEW.usuario_id, now(), NEW.usuario_id);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -471,56 +1450,42 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `trigger_user_update` BEFORE UPDATE ON `user` FOR EACH ROW BEGIN
-	IF (OLD.user_name <> NEW.user_name or (OLD.user_name IS NULL and NEW.user_name IS NOT NULL)) THEN
-		INSERT INTO log_user
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `permissoes_BEFORE_UPDATE` BEFORE UPDATE ON `permissoes` FOR EACH ROW BEGIN
+    IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+		INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
         VALUES 
-			('user_name', OLD.user_name, NEW.user_name, now(), 'UPDATE', OLD.user_pk_id);
+			('permissoes', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 	 END IF;
     
-	IF (OLD.user_login <> NEW.user_login or (OLD.user_login IS NULL and NEW.user_login IS NOT NULL)) THEN
-			INSERT INTO log_user
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+	IF (OLD.descricao <> NEW.descricao or (OLD.descricao IS NULL and NEW.descricao IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
             VALUES 
-            ('user_login', OLD.user_login, NEW.user_login, now(), 'UPDATE', OLD.user_pk_id);
-	END IF;
-    
-	IF (OLD.user_password <> NEW.user_password or (OLD.user_password IS NULL and NEW.user_password IS NOT NULL)) THEN
-			INSERT INTO log_user 
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
-            VALUES 
-            ('user_password', OLD.user_password, NEW.user_password, now(), 'UPDATE', OLD.user_pk_id);
-	END IF;
-    
-	IF (OLD.user_status <> NEW.user_status or (OLD.user_status IS NULL and NEW.user_status IS NOT NULL)) THEN
-			INSERT INTO log_user
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
-            VALUES
-            ('user_status', OLD.user_status, NEW.user_status, now(), 'UPDATE', OLD.user_pk_id);
+            ('permissoes', 'descricao', OLD.descricao, NEW.descricao, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 	END IF;
 
-	IF (OLD.user_image <> NEW.user_image or (OLD.user_image IS NULL and NEW.user_image IS NOT NULL)) THEN
-			INSERT INTO log_user 
-                        (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
             VALUES
-            ('user_image', OLD.user_image, NEW.user_image, now(), 'UPDATE', OLD.user_pk_id);
+            ('permissoes', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 	END IF;
 
-	IF (OLD.user_last_login <> NEW.user_last_login or (OLD.user_last_login IS NULL and NEW.user_last_login IS NOT NULL)) THEN
-			INSERT INTO log_user 
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
+	IF (OLD.menu_item_id <> NEW.menu_item_id or (OLD.menu_item_id IS NULL and NEW.menu_item_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
             VALUES 
-            ('user_last_access', OLD.user_last_login, NEW.user_last_login, now(), 'UPDATE', OLD.user_pk_id);
+            ('permissoes', 'menu_item_id', OLD.menu_item_id, NEW.menu_item_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 	END IF;
-    
-	IF (OLD.user_fk_authority_pk_id <> NEW.user_fk_authority_pk_id or (OLD.user_fk_authority_pk_id IS NULL and NEW.user_fk_authority_pk_id IS NOT NULL)) THEN
-			INSERT INTO log_user 
-            (luser_campo_modificado, luser_valor_antigo, luser_valor_atual, luser_data_operacao, luser_operacao, luser_id_tabela)
-            VALUES
-            ('user_fk_authority_pk_id', OLD.user_fk_authority_pk_id, NEW.user_fk_authority_pk_id, now(), 'UPDATE', OLD.user_pk_id);
+
+	IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('permissoes', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', OLD.id, NEW.usuario_id);
 	END IF;
 END */;;
 DELIMITER ;
@@ -535,20 +1500,312 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `trigger_user_delete` BEFORE DELETE ON `user` FOR EACH ROW BEGIN
-	INSERT INTO log_user 
-		(luser_id_tabela, luser_operacao, luser_campo_modificado, luser_valor_antigo, luser_data_operacao)
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `permissoes_BEFORE_DELETE` BEFORE DELETE ON `permissoes` FOR EACH ROW BEGIN
+    	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
     VALUES
-		(OLD.user_pk_id, 'DELETE', 'user_pk_id', OLD.user_pk_id, now()),
-        (OLD.user_pk_id, 'DELETE','user_name', OLD.user_name, now()),
-        (OLD.user_pk_id, 'DELETE','user_login', OLD.user_login, now()),
-        (OLD.user_pk_id, 'DELETE','user_password', OLD.user_password, now()),
-        (OLD.user_pk_id, 'DELETE','user_last_login', OLD.user_last_login, now()),
-        (OLD.user_pk_id, 'DELETE','user_image', OLD.user_image, now()),
-        (OLD.user_pk_id, 'DELETE','user_status', OLD.user_status, now()),
-        (OLD.user_pk_id, 'DELETE','user_fk_authority_pk_id', OLD.user_fk_authority_pk_id, now());
+		('permissoes', OLD.id, 'DELETE', 'id', OLD.id, now(), OLD.usuario_id),
+        ('permissoes', OLD.id, 'DELETE','nome', OLD.nome, now(), OLD.usuario_id),
+        ('permissoes', OLD.id, 'DELETE','descricao', OLD.descricao, now(), OLD.usuario_id),
+        ('permissoes', OLD.id, 'DELETE','status', OLD.status, now(), OLD.usuario_id),
+        ('permissoes', OLD.id, 'DELETE','menu_item_id', OLD.menu_item_id, now(), OLD.usuario_id),
+        ('permissoes', OLD.id, 'DELETE','usuario_id', OLD.usuario_id, now(), OLD.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `sistemas`
+--
+
+DROP TABLE IF EXISTS `sistemas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sistemas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `usuario_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nome_UNIQUE` (`nome`),
+  KEY `sitemas_fk_usuario_idx` (`usuario_id`),
+  CONSTRAINT `sitemas_fk_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sistemas`
+--
+
+LOCK TABLES `sistemas` WRITE;
+/*!40000 ALTER TABLE `sistemas` DISABLE KEYS */;
+INSERT INTO `sistemas` VALUES (1,'SysSite','Sistema Integrado com Site',1,NULL);
+/*!40000 ALTER TABLE `sistemas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) DEFAULT NULL,
+  `login` varchar(255) NOT NULL,
+  `senha` varchar(255) DEFAULT NULL,
+  `ultimo_acesso` timestamp NULL DEFAULT NULL,
+  `imagem` varchar(255) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  `usuario_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `login_UNIQUE` (`login`),
+  KEY `fk_usuarios_usuario_idx` (`usuario_id`),
+  CONSTRAINT `fk_usuarios_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,'Administrator','admin@admin.com','$2y$10$IfvfgkG1LLW2jwJKgDueHe6YwJEt5dtUHyru5f7L3.yKSQKuhotOy','2023-04-08 02:18:48',NULL,1,NULL),(2,'Geverson J de Souza','geversonjosedesouza@gmail.com','$2y$10$EAW9YOmIdECWXAhAMUyP9uTitfcl0QRty2AlxeXcg0k2Vn1.plvUO','2023-04-08 02:18:56',NULL,1,NULL),(3,'Geverson Souza','geversonjosedesouza@hotmail.com','$2y$10$SWj6kd3RCpNAn2Alne32Ge0nSU37.GAtkL7SwlwlPAbWsBHIZL9jm',NULL,NULL,1,2),(14,'a','a@gmail.com','$2y$10$RO7D4b41JM1uiZxmZcppbe/.gru0TuWxucIt6zZG6bMs31Azpq0pm','2023-03-29 01:10:54',NULL,0,2);
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_BEFORE_INSERT` BEFORE INSERT ON `usuarios` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+		('usuarios', NEW.id, 'INSERT', 'id', NEW.id, now(), NEW.usuario_id),
+        ('usuarios', NEW.id, 'INSERT','nome', NEW.nome, now(), NEW.usuario_id),
+        ('usuarios', NEW.id, 'INSERT','login', NEW.login, now(), NEW.usuario_id),
+        ('usuarios', NEW.id, 'INSERT','senha', NEW.senha, now(), NEW.usuario_id),
+        ('usuarios', NEW.id, 'INSERT','ultimo_acesso', NEW.ultimo_acesso, now(), NEW.usuario_id),
+        ('usuarios', NEW.id, 'INSERT','imagem', NEW.imagem, now(), NEW.usuario_id),
+        ('usuarios', NEW.id, 'INSERT','status', NEW.status, now(), NEW.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_BEFORE_UPDATE` BEFORE UPDATE ON `usuarios` FOR EACH ROW BEGIN
+IF (OLD.nome <> NEW.nome or (OLD.nome IS NULL and NEW.nome IS NOT NULL)) THEN
+		INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+        VALUES 
+			('usuarios', 'nome', OLD.nome, NEW.nome, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	 END IF;
+    
+	IF (OLD.login <> NEW.login or (OLD.login IS NULL and NEW.login IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('usuarios', 'login', OLD.login, NEW.login, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+    
+	IF (OLD.senha <> NEW.senha or (OLD.senha IS NULL and NEW.senha IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('usuarios', 'senha', OLD.senha, NEW.senha, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+    
+	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES
+            ('usuarios', 'status', OLD.status, NEW.status, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+
+	IF (OLD.imagem <> NEW.imagem or (OLD.imagem IS NULL and NEW.imagem IS NOT NULL)) THEN
+			INSERT INTO logs 
+                        (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES
+            ('usuarios', 'imagem', OLD.imagem, NEW.imagem, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+
+	IF (OLD.ultimo_acesso <> NEW.ultimo_acesso or (OLD.ultimo_acesso IS NULL and NEW.ultimo_acesso IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('usuarios', 'ultimo_acesso', OLD.ultimo_acesso, NEW.ultimo_acesso, now(), 'UPDATE', OLD.id, NEW.usuario_id);
+	END IF;
+    
+    
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_BEFORE_DELETE` BEFORE DELETE ON `usuarios` FOR EACH ROW BEGIN
+	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+		('usuarios', OLD.id, 'DELETE', 'id', OLD.id, now(), OLD.usuario_id),
+        ('usuarios', OLD.id, 'DELETE','nome', OLD.nome, now(), OLD.usuario_id),
+        ('usuarios', OLD.id, 'DELETE','login', OLD.login, now(), OLD.usuario_id),
+        ('usuarios', OLD.id, 'DELETE','senha', OLD.senha, now(), OLD.usuario_id),
+        ('usuarios', OLD.id, 'DELETE','ultimo_acesso', OLD.ultimo_acesso, now(), OLD.usuario_id),
+        ('usuarios', OLD.id, 'DELETE','imagem', OLD.imagem, now(), OLD.usuario_id),
+        ('usuarios', OLD.id, 'DELETE','status', OLD.status, now(), OLD.usuario_id);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `usuarios_grupos`
+--
+
+DROP TABLE IF EXISTS `usuarios_grupos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuarios_grupos` (
+  `usuario_id` int NOT NULL,
+  `grupo_id` int NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `usuario` int NOT NULL,
+  PRIMARY KEY (`usuario_id`,`grupo_id`),
+  KEY `fk_usuarios_grupos_grupos_idx` (`grupo_id`),
+  KEY `fk_usuarios_grupos_usuario_operacao_idx` (`usuario`),
+  CONSTRAINT `fk_usuarios_grupos_grupos` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`),
+  CONSTRAINT `fk_usuarios_grupos_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `fk_usuarios_grupos_usuario_operacao` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios_grupos`
+--
+
+LOCK TABLES `usuarios_grupos` WRITE;
+/*!40000 ALTER TABLE `usuarios_grupos` DISABLE KEYS */;
+INSERT INTO `usuarios_grupos` VALUES (1,2,1,2),(2,1,1,2),(3,3,1,2);
+/*!40000 ALTER TABLE `usuarios_grupos` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_grupos_AFTER_INSERT` AFTER INSERT ON `usuarios_grupos` FOR EACH ROW BEGIN
+  INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+  VALUES
+      ('usuarios_grupos', CONCAT(NEW.usuario_id, NEW.grupo_id), 'INSERT','status', NEW.status, now(), NEW.usuario),
+      ('usuarios_grupos', CONCAT(NEW.usuario_id, NEW.grupo_id), 'INSERT','usuario_id', NEW.usuario_id, now(), NEW.usuario),
+      ('usuarios_grupos', CONCAT(NEW.usuario_id, NEW.grupo_id), 'INSERT','usuario', NEW.usuario, now(), NEW.usuario),
+      ('usuarios_grupos', CONCAT(NEW.usuario_id, NEW.grupo_id), 'INSERT','grupo_id', NEW.grupo_id, now(), NEW.usuario);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_grupos_AFTER_UPDATE` AFTER UPDATE ON `usuarios_grupos` FOR EACH ROW BEGIN
+	IF (OLD.status <> NEW.status or (OLD.status IS NULL and NEW.status IS NOT NULL)) THEN
+			INSERT INTO logs
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES
+            ('usuarios_grupos', 'status', OLD.status, NEW.status, now(), 'UPDATE', CONCAT(NEW.usuario_id, NEW.grupo_id), NEW.usuario);
+	END IF;
+
+  IF (OLD.usuario_id <> NEW.usuario_id or (OLD.usuario_id IS NULL and NEW.usuario_id IS NOT NULL)) THEN
+    INSERT INTO logs 
+          (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+          VALUES 
+          ('usuarios_grupos', 'usuario_id', OLD.usuario_id, NEW.usuario_id, now(), 'UPDATE', CONCAT(NEW.usuario_id, NEW.grupo_id), NEW.usuario);
+  END IF;
+
+	IF (OLD.grupo_id <> NEW.grupo_id or (OLD.grupo_id IS NULL and NEW.grupo_id IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('grupos_grupos', 'grupo_id', OLD.grupo_id, NEW.grupo_id, now(), 'UPDATE', CONCAT(NEW.usuario_id, NEW.grupo_id), NEW.usuario);
+  END IF;
+
+	IF (OLD.usuario <> NEW.usuario or (OLD.usuario IS NULL and NEW.usuario IS NOT NULL)) THEN
+			INSERT INTO logs 
+            (nome_tabela, campo_modificado, valor_antigo, valor_atual, data_operacao, operacao, id_tabela, usuario_id)
+            VALUES 
+            ('grupos_grupos', 'usuario', OLD.usuario, NEW.usuario, now(), 'UPDATE', CONCAT(NEW.usuario_id, NEW.grupo_id), NEW.usuario);
+  END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `usuarios_grupos_BEFORE_DELETE` BEFORE DELETE ON `usuarios_grupos` FOR EACH ROW BEGIN
+  	INSERT INTO logs 
+		(nome_tabela, id_tabela, operacao, campo_modificado, valor_antigo, data_operacao, usuario_id)
+    VALUES
+        ('usuarios_grupos', CONCAT(OLD.usuario_id, OLD.grupo_id), 'DELETE','usuario_id', OLD.usuario_id, now(), OLD.usuario),
+        ('usuarios_grupos', CONCAT(OLD.usuario_id, OLD.grupo_id), 'DELETE','grupo_id', OLD.grupo_id, now(), OLD.usuario),
+        ('usuarios_grupos', CONCAT(OLD.usuario_id, OLD.grupo_id), 'DELETE','usuario', OLD.usuario, now(), OLD.usuario),
+        ('usuarios_grupos', CONCAT(OLD.usuario_id, OLD.grupo_id), 'DELETE','status', OLD.status, now(), OLD.usuario);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -565,19 +1822,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-
---
--- Table structure for table `tests`
---
-
-DROP TABLE IF EXISTS `tests`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tests` (
-  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
--- Dump completed on 2023-03-19 18:22:54
+-- Dump completed on 2023-04-07 23:22:22
