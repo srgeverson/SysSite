@@ -19,11 +19,11 @@ global $user_logged;
             $funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->id);
             if (isset($funcionario)) {
                 $controllerFolhaPagamento = new ControllerFolhaPagamento();
-                $listaFolhaPagamento = $controllerFolhaPagamento->listEnabledsByFuncionario(isset($funcionario->func_pk_id) ? $funcionario->func_pk_id : 0);
+                $listaFolhaPagamento = $controllerFolhaPagamento->listEnabledsByFuncionario(isset($funcionario->id) ? $funcionario->id : 0);
                 echo '<li class="nav-item dropdown no-arrow mx-1">';
                 echo '<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
                 echo '<i class="fas fa-envelope fa-fw"></i>';
-                if (isset($funcionario->func_pk_id)) {
+                if (isset($funcionario->id)) {
                     echo '<span class="badge badge-danger badge-counter">', count($listaFolhaPagamento), '</span>';
                 }
                 echo '</a>';
@@ -51,7 +51,7 @@ global $user_logged;
                     echo '<h2>Não existe folha de pagamento lançado.</h2>';
                     echo '</a>';
                 }
-                if (isset($funcionario->func_pk_id)) {
+                if (isset($funcionario->id)) {
                     echo '<a class="dropdown-item text-center small text-gray-500" href="', server_url("?page=ControllerFolhaPagamento&option=listar"), '">Todas folhas de pagamento</a>';
                 }
                 echo '</div>';
@@ -70,7 +70,7 @@ global $user_logged;
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="<?php
-                    echo server_url($funcionario == false ? '?page=ControllerFuncionario&option=novo' : '?page=ControllerFuncionario&option=edit&func_pk_id=' . $funcionario->func_pk_id);
+                    echo server_url($funcionario == false ? '?page=ControllerFuncionario&option=novo' : '?page=ControllerFuncionario&option=edit&id=' . $funcionario->id);
                     ?>">
                         <i class="fas fa-address-card fa-sm fa-fw mr-2 text-gray-400"></i>
                         Dados Profissionais

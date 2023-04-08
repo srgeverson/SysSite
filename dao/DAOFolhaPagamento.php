@@ -50,9 +50,9 @@ class DAOFolhaPagamento extends GenericDAO {
 
     public function selectObjectById($fopa_pk_id = 0) {
         $this->query = "SELECT ";
-        $this->query .= "fp.*, f.func_pk_id, func_nome, u.id, nome ";
+        $this->query .= "fp.*, f.id, nome, u.id, nome ";
         $this->query .= "FROM folha_pagamento AS fp ";
-        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.func_pk_id) ";
+        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.id) ";
         $this->query .= "INNER JOIN user AS u ON (fp.fopa_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "fp.fopa_pk_id=:fopa_pk_id LIMIT 1;";
@@ -71,11 +71,11 @@ class DAOFolhaPagamento extends GenericDAO {
         $this->query = "SELECT ";
         $this->query .= "fp.*, f.*, u.id, nome ";
         $this->query .= "FROM folha_pagamento AS fp ";
-        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.func_pk_id) ";
+        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.id) ";
         $this->query .= "INNER JOIN user AS u ON (fp.fopa_fk_id=u.id) ";
         $this->query .= "WHERE ";
-        $this->query .= "f.func_nome LIKE '%$folhaPagamento->func_nome%' AND ";
-        $this->query .= "f.func_cpf LIKE '%$folhaPagamento->func_cpf%' AND ";
+        $this->query .= "f.nome LIKE '%$folhaPagamento->nome%' AND ";
+        $this->query .= "f.cpf LIKE '%$folhaPagamento->cpf%' AND ";
         $this->query .= "fp.fopa_competencia LIKE '%$folhaPagamento->fopa_competencia%';";
         try {
             $conexao = $this->getInstance();
@@ -89,9 +89,9 @@ class DAOFolhaPagamento extends GenericDAO {
 
     public function selectObjectsEnabled() {
         $this->query = "SELECT ";
-        $this->query .= "fp.*, f.func_pk_id, f.func_nome, f.func_cpf, u.id, u.nome ";
+        $this->query .= "fp.*, f.id, f.nome, f.cpf, u.id, u.nome ";
         $this->query .= "FROM folha_pagamento AS fp ";
-        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.func_pk_id) ";
+        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.id) ";
         $this->query .= "INNER JOIN user AS u ON (fp.fopa_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "fp.fopa_status = 1;";
@@ -107,9 +107,9 @@ class DAOFolhaPagamento extends GenericDAO {
 
     public function selectObjectsEnabledByFuncionario($fopa_fk_funcionario_pk_id = 0) {
         $this->query = "SELECT ";
-        $this->query .= "fp.*, f.func_pk_id, f.func_nome, f.func_cpf, u.id, u.nome ";
+        $this->query .= "fp.*, f.id, f.nome, f.cpf, u.id, u.nome ";
         $this->query .= "FROM folha_pagamento AS fp ";
-        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.func_pk_id) ";
+        $this->query .= "INNER JOIN funcionario AS f ON (fp.fopa_fk_funcionario_pk_id=f.id) ";
         $this->query .= "INNER JOIN user AS u ON (fp.fopa_fk_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "fp.fopa_status = 1 AND fp.fopa_fk_funcionario_pk_id = :fopa_fk_funcionario_pk_id;";

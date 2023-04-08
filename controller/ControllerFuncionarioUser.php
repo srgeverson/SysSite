@@ -47,10 +47,10 @@ class ControllerFuncionarioUser {
         }
     }
 
-    public function deleteFuncionarioUserByFuncionario($func_pk_id = 0) {
+    public function deleteFuncionarioUserByFuncionario($id = 0) {
         if (HelperController::authotity()) {
             try {
-                $this->daoFuncionarioUser->deleteByFuncionario($func_pk_id);
+                $this->daoFuncionarioUser->deleteByFuncionario($id);
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
@@ -176,11 +176,11 @@ class ControllerFuncionarioUser {
         }
     }
 
-    public function searchByFkFucionario($func_pk_id = 0) {
+    public function searchByFkFucionario($id = 0) {
         if (HelperController::authotity()) {
             $funcionarioUser = null;
             try {
-                $funcionarioUser = $this->daoFuncionarioUser->selectObjectByFkFuncionario($func_pk_id);
+                $funcionarioUser = $this->daoFuncionarioUser->selectObjectByFkFuncionario($id);
                 if (!isset($funcionarioUser)) {
                     $this->info = 'warning=funcionario_not_exists';
                 }

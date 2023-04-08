@@ -27,10 +27,10 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
                 $funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->id);
                 if (isset($funcionario)) {
                     $controllerFolhaPagamento = new ControllerFolhaPagamento();
-                    $listaFolhaPagamento = $controllerFolhaPagamento->listEnabledsByFuncionario(isset($funcionario->func_pk_id) ? $funcionario->func_pk_id : 0);
+                    $listaFolhaPagamento = $controllerFolhaPagamento->listEnabledsByFuncionario(isset($funcionario->id) ? $funcionario->id : 0);
                 }    
                 echo '<i class="' . $each_menu->icone . '"></i>';
-                if (isset($funcionario->func_pk_id)) {
+                if (isset($funcionario->id)) {
                     echo '<span class="badge badge-danger badge-counter">', count($listaFolhaPagamento), '</span>';
                 }
                 echo '<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">';
@@ -69,7 +69,7 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
                         echo '<h2>' . $each_item->titulo . '1.</h2>';
                         echo '</a>';
                     }
-                    if (isset($funcionario->func_pk_id)) {
+                    if (isset($funcionario->id)) {
                         echo '<a class="' . $each_item->icone . '" href="', server_url($url), '"> ' . $each_item->nome . '</a>';
                     }
                     echo 'ops';

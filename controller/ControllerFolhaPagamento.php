@@ -170,10 +170,10 @@ class ControllerFolhaPagamento {
 
     public function filterByFuncionario() {
         if (HelperController::authotity()) {
-            if (isset($_POST['func_nome']) && isset($_POST['func_cpf']) && isset($_POST['fopa_competencia'])) {
+            if (isset($_POST['nome']) && isset($_POST['cpf']) && isset($_POST['fopa_competencia'])) {
                 $folhaPagamento = new ModelFolhaPagamento();
-                $folhaPagamento->func_nome = strip_tags($_POST['func_nome']);
-                $folhaPagamento->func_cpf = strip_tags($_POST['func_cpf']);
+                $folhaPagamento->nome = strip_tags($_POST['nome']);
+                $folhaPagamento->cpf = strip_tags($_POST['cpf']);
                 $folhaPagamento->fopa_competencia = strip_tags($_POST['fopa_competencia']);
                 try {
                     $folhaPagamentos = $this->daoFolhaPagamento->selectObjectsByContainsObject($folhaPagamento);
@@ -191,10 +191,10 @@ class ControllerFolhaPagamento {
 
     public function listar() {
         if (HelperController::authotity()) {
-            if (isset($_POST['func_nome']) && isset($_POST['func_cpf']) && isset($_POST['fopa_competencia'])) {
+            if (isset($_POST['nome']) && isset($_POST['cpf']) && isset($_POST['fopa_competencia'])) {
                 $folhaPagamento = new ModelFolhaPagamento();
-                $folhaPagamento->func_nome = strip_tags($_POST['func_nome']);
-                $folhaPagamento->func_cpf = strip_tags($_POST['func_cpf']);
+                $folhaPagamento->nome = strip_tags($_POST['nome']);
+                $folhaPagamento->cpf = strip_tags($_POST['cpf']);
                 $folhaPagamento->fopa_competencia = strip_tags($_POST['fopa_competencia']);
                 try {
                     $folhaPagamentos = $this->daoFolhaPagamento->selectObjectsByContainsObject($folhaPagamento);
@@ -261,8 +261,8 @@ class ControllerFolhaPagamento {
                 $funcionarios = $daoFuncionario->selectObjectsEnabled();
                 if (!empty($funcionarios)) {
                     foreach ($funcionarios as $each_funcionario) {
-                        if ($this->searchCPFInFile($arquivo_temporario, $each_funcionario->func_cpf)) {
-                            $fopa_fk_funcionario_pk_id = $each_funcionario->func_pk_id;
+                        if ($this->searchCPFInFile($arquivo_temporario, $each_funcionario->cpf)) {
+                            $fopa_fk_funcionario_pk_id = $each_funcionario->id;
                             $fopa_status = true;
                             if (strstr('.pdf', $extensao)) {
                                 if (move_uploaded_file($arquivo_temporario, $uploadfile)) {
@@ -307,14 +307,14 @@ class ControllerFolhaPagamento {
                 if (!empty($funcionarios)) {
                     for ($index = 0; $index < count($arquivos['name']); $index++) {
                         foreach ($funcionarios as $each_funcionario) {
-                            if ($this->searchCPFInFile($arquivos['tmp_name'][$index], $each_funcionario->func_cpf)) {
+                            if ($this->searchCPFInFile($arquivos['tmp_name'][$index], $each_funcionario->cpf)) {
                                 $extensao = pathinfo($arquivos['name'][$index], PATHINFO_EXTENSION);
                                 $extensao = strtolower($extensao);
                                 $uploaddir = server_path('uploads/folha_pagamento/');
                                 $novo_nome = uniqid(time()) . '.' . $extensao;
                                 $uploadfile = $uploaddir . $novo_nome;
 
-                                $fopa_fk_funcionario_pk_id = $each_funcionario->func_pk_id;
+                                $fopa_fk_funcionario_pk_id = $each_funcionario->id;
                                 $fopa_status = true;
                                 if (strstr('.pdf', $extensao)) {
                                     if (move_uploaded_file($arquivos['tmp_name'][$index], $uploadfile)) {

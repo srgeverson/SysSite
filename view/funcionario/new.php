@@ -33,24 +33,24 @@ global $user_logged;
                         <div class="card-body">
                             <div class="form-group">
                                 <label class="text-primary">Nome*:</label><br>
-                                <input class="form-control" name="func_nome" type="text" placeholder="Digite o nome completo..." required>
+                                <input class="form-control" name="nome" type="text" placeholder="Digite o nome completo..." required>
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">CPF*:</label><br>
-                                <input class="form-control" id="cpf" name="func_cpf" type="text" placeholder="Digite o CPF..."  required>
+                                <input class="form-control" id="cpf" name="cpf" type="text" placeholder="Digite o CPF..."  required>
                                 <p class="help-block text-danger text-bold" id="resultado_cpf"></p>
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">RG*:</label><br>
-                                <input class="form-control" name="func_rg" type="text" placeholder="Digite o RG..."  required>
+                                <input class="form-control" name="rg" type="text" placeholder="Digite o RG..."  required>
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">PIS:</label><br>
-                                <input class="form-control" name="func_pis" type="text" placeholder="Digite o PIS/PASEP..." >
+                                <input class="form-control" name="pis" type="text" placeholder="Digite o PIS/PASEP..." >
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Data Nascimento*:</label><br>
-                                <input class="form-control" name="func_data_nascimento" type="date" placeholder="Digite a data de nascimento..."  required>
+                                <input class="form-control" name="data_nascimento" type="date" placeholder="Digite a data de nascimento..."  required>
                             </div>
                             <div class="form-group">
                                 <?php

@@ -16,19 +16,19 @@
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">Nome</span>
-                        <input class="form-control" type="text" name="func_nome">
+                        <input class="form-control" type="text" name="nome">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">CPF</span>
-                        <input class="form-control" id="cpf" type="text" name="func_cpf">
+                        <input class="form-control" id="cpf" type="text" name="cpf">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="input-group input-group-lg">
                         <span class="input-group-text">RG</span>
-                        <input class="form-control" type="text" name="func_rg">
+                        <input class="form-control" type="text" name="rg">
                     </div>
                 </div>
             </div>
@@ -76,27 +76,27 @@
                 echo '<tbody>';
                 foreach ($funcionarios as $each_funcionario) {
                     echo '<tr>';
-                    echo '<td>', $each_funcionario->func_pk_id, '</td>';
-                    echo '<td>', $each_funcionario->func_nome, '</td>';
-                    echo '<td>', $each_funcionario->func_cpf, '</td>';
-                    echo '<td>', $each_funcionario->func_rg, '</td>';
-                    $data = new DateTime($each_funcionario->func_data_nascimento);
+                    echo '<td>', $each_funcionario->id, '</td>';
+                    echo '<td>', $each_funcionario->nome, '</td>';
+                    echo '<td>', $each_funcionario->cpf, '</td>';
+                    echo '<td>', $each_funcionario->rg, '</td>';
+                    $data = new DateTime($each_funcionario->data_nascimento);
                     echo '<td>', $data->format('d-m-Y'), '</td>';
                     echo '<td>';
-                    echo '<a title="Editar dados!" href="', server_url('?page=ControllerFuncionario&option=edit&func_pk_id=' . $each_funcionario->func_pk_id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                    echo '<a title="Editar dados!" href="', server_url('?page=ControllerFuncionario&option=edit&id=' . $each_funcionario->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
                     echo '<i class="fas fa-edit"></i>';
                     echo '</a>';
-                    if ($each_funcionario->func_status) {
-                        echo '<a title="Desabilitar dados!" href="', server_url('?page=ControllerFuncionario&option=disable&func_pk_id=' . $each_funcionario->func_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
+                    if ($each_funcionario->status) {
+                        echo '<a title="Desabilitar dados!" href="', server_url('?page=ControllerFuncionario&option=disable&id=' . $each_funcionario->id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
                     } else {
-                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerFuncionario&option=enable&func_pk_id=' . $each_funcionario->func_pk_id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
+                        echo '<a title="Ativar dados!" href="', server_url('?page=ControllerFuncionario&option=enable&id=' . $each_funcionario->id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
                     }
                     if ($permissao == 1) {
-                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerFuncionario&option=delete&func_pk_id=' . $each_funcionario->func_pk_id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
+                        echo '<a title="Excluir dados!" href="', server_url('?page=ControllerFuncionario&option=delete&id=' . $each_funcionario->id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                         echo '<i class="fas fa-trash"></i>';
                         echo '</a>';
                     }

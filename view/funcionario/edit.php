@@ -31,27 +31,27 @@ global $user_logged;
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="form-group">
-                                <input class="form-control" name="func_pk_id" type="hidden" value="<?php echo $funcionario->func_pk_id; ?>">
+                                <input class="form-control" name="id" type="hidden" value="<?php echo $funcionario->id; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Nome*:</label><br>
-                                <input class="form-control" name="func_nome" type="text" placeholder="Digite o nome completo..." value="<?php echo $funcionario->func_nome; ?>" required>
+                                <input class="form-control" name="nome" type="text" placeholder="Digite o nome completo..." value="<?php echo $funcionario->nome; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">CPF*:</label><br>
-                                <input class="form-control" id="cpf" name="func_cpf" type="text" placeholder="Digite o CPF..."  value="<?php echo $funcionario->func_cpf; ?>" required>
+                                <input class="form-control" id="cpf" name="cpf" type="text" placeholder="Digite o CPF..."  value="<?php echo $funcionario->cpf; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">RG*:</label><br>
-                                <input class="form-control" name="func_rg" type="text" placeholder="Digite o RG..."  value="<?php echo $funcionario->func_rg; ?>" required>
+                                <input class="form-control" name="rg" type="text" placeholder="Digite o RG..."  value="<?php echo $funcionario->rg; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">PIS:</label><br>
-                                <input class="form-control" name="func_pis" type="text" placeholder="Digite o PIS/PASEP..."  value="<?php echo $funcionario->func_pis; ?>">
+                                <input class="form-control" name="pis" type="text" placeholder="Digite o PIS/PASEP..."  value="<?php echo $funcionario->pis; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Data Nascimento*:</label><br>
-                                <input class="form-control" name="func_data_nascimento" type="date" placeholder="Digite a data de nascimento..."  value="<?php echo $funcionario->func_data_nascimento; ?>" required>
+                                <input class="form-control" name="data_nascimento" type="date" placeholder="Digite a data de nascimento..."  value="<?php echo $funcionario->data_nascimento; ?>" required>
                             </div>
                             <div class="form-group">
                                 <?php
@@ -73,7 +73,7 @@ global $user_logged;
                     <div class="card h-100">   
                         <div class="card-body">
                             <div class="form-group">
-                                <input class="form-control" name="func_fk_contact_pk_id" type="hidden" value="<?php echo $funcionario->func_fk_contact_pk_id; ?>">
+                                <input class="form-control" name="contato_id" type="hidden" value="<?php echo $funcionario->contato_id; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Descrição:</label><br>
@@ -114,7 +114,7 @@ global $user_logged;
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="form-group">
-                                <input class="form-control" name="func_fk_endereco_pk_id" type="hidden" value="<?php echo $funcionario->func_fk_endereco_pk_id; ?>">
+                                <input class="form-control" name="endereco_id" type="hidden" value="<?php echo $funcionario->endereco_id; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Logradouro:</label><br>

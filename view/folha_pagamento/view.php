@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label class="text-primary">Funcionário:</label><br>
                     <select id="mySelect" name="fopa_fk_funcionario_pk_id" class="selectpicker form-control" data-live-search="true" disabled>
-                        <option value="<?php echo $folhaPagamento->fopa_fk_funcionario_pk_id; ?>" > <?php echo $folhaPagamento->func_nome; ?></option>;
+                        <option value="<?php echo $folhaPagamento->fopa_fk_funcionario_pk_id; ?>" > <?php echo $folhaPagamento->nome; ?></option>;
                     </select>
                 </div>
                 <div class="form-group">
