@@ -7,13 +7,13 @@
 include_once server_path("controller/ControllerMenu.php");
 include_once server_path("controller/ControllerFolhaPagamento.php");
 include_once server_path("controller/ControllerFuncionarioUser.php");
-
+// print_r($user_logged);
 echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
     echo '<ul class="navbar-nav ml-auto">';
     // echo 'Ops';
         $controllerMenu = new ControllerMenu();
-        $menus = $controllerMenu->listEnableds();
-        //print_r($menus);
+        $menus = $controllerMenu->listMenuVinculadosAoUsuario($user_logged->id);
+        // print_r($menus);
         foreach ($menus as $each_menu) {
             echo '<li class="nav-item dropdown no-arrow">';
             echo '  <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';

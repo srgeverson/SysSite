@@ -137,7 +137,34 @@ class DAOMenuItem extends GenericDAO {
         $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
-    
+
+    public function selectObjectsEnabledAndFkMenuAndUsuario($menu_id = null, $usuario_id = null) {
+        $this->query = "";
+        $this->query .= "SELECT  ";
+        $this->query .= "    mi.id, mi.nome, mi.descricao, mi.status, mi.titulo, mi.class, mi.url, mi.image, mi.icone, mi.menu_item_id, mi.menu_id ";
+        $this->query .= "FROM menu_itens AS mi  ";
+        $this->query .= "INNER JOIN permissoes AS p ON p.menu_item_id = mi.id ";
+        $this->query .= "INNER JOIN grupos_permissoes AS gp ON gp.permissao_id = p.id ";
+        $this->query .= "INNER JOIN usuarios_grupos AS ug ON ug.grupo_id = gp.grupo_id ";
+        $this->query .= "WHERE  ";
+        $this->query .= "    1 = 1  ";
+        $this->query .= "    AND mi.status = 1  ";
+        $this->query .= "    AND ug.usuario_id = :usuario_id ";
+        $this->query .= "    AND mi.menu_id = :menu_id ";
+        $this->query .= "GROUP BY  ";
+        $this->query .= "    mi.id, mi.nome, mi.descricao, mi.status, mi.titulo, mi.class, mi.url, mi.image, mi.icone, mi.menu_item_id, mi.menu_id; ";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(":menu_id", $menu_id, PDO::PARAM_INT);
+        $this->statement->bindParam(":usuario_id", $usuario_id, PDO::PARAM_INT);
+        $this->statement->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function update(ModelMenuItem $menuItem = null) {
         if (!is_object($menuItem)) {
             throw new Exception("Dados incompletos");

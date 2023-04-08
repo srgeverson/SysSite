@@ -160,6 +160,27 @@ class ControllerMenu {
         }
     }
 
+    public function listMenuVinculadosAoUsuario($id = null) {
+        try {
+            $menus = $this->daoMenu->selectObjectsVinculadosAoUsuario($id);
+            $menus = $this->daoMenu->selectObjectsVinculadosAoUsuario($id);
+            $menusComItem = array();
+            foreach ($menus as $each_menu) {
+               $itens = $this->daoMenuItem->selectObjectsEnabledAndFkMenuAndUsuario($each_menu->id, $id);
+               if(!empty($itens)){
+                    $each_menu->itens = $itens;
+                    array_push($menusComItem, $each_menu);
+                }
+            }
+            return $menusComItem;
+        } catch (Exception $erro) {
+            $this->info = "error=" . $erro->getMessage();
+        }
+        if (isset($this->info)) {
+            HelperController::valid_messages($this->info);
+        }
+    }
+
     public function novo() {
         if (HelperController::authotity()) {
             $sistemas = $this->daoSistema->selectObjectsEnabled();

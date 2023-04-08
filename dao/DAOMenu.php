@@ -122,6 +122,34 @@ class DAOMenu extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function selectObjectsVinculadosAoUsuario($id = null) {
+        $this->query = "";
+        $this->query .= "SELECT ";
+        $this->query .= "    m.id, m.nome, m.descricao,m.status,m.class, m.url,m.image,m.icone,m.sistema_id ";
+        $this->query .= "FROM menus AS m  ";
+        $this->query .= "INNER JOIN menu_itens AS mi ON mi.menu_id = m.id ";
+        $this->query .= "INNER JOIN permissoes AS p ON p.menu_item_id = mi.id ";
+        $this->query .= "INNER JOIN grupos_permissoes AS gp ON gp.permissao_id = p.id ";
+        $this->query .= "INNER JOIN usuarios_grupos AS ug ON ug.grupo_id = gp.grupo_id ";
+        $this->query .= "WHERE ";
+        $this->query .= "    1 = 1 ";
+        $this->query .= "    AND m.status = 1 ";
+        $this->query .= "    AND m.sistema_id = 1 ";
+        $this->query .= "    AND ug.usuario_id = :usuario_id ";
+        $this->query .= "GROUP BY ";
+        $this->query .= "    m.id, m.nome, m.descricao,m.status,m.class, m.url,m.image,m.icone,m.sistema_id ";
+        $this->query .= "ORDER BY m.id DESC;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(':usuario_id', $id, PDO::PARAM_INT);
+        $this->statement->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function update(ModelMenu $menu = null) {
         if (!is_object($menu)) {
             throw new Exception("Dados incompletos");
