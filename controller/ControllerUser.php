@@ -14,6 +14,8 @@ include_once server_path("dao/DAOParameter.php");
 include_once server_path("model/ModelParameter.php");
 //Para versões do PHP 5.x
 //include_once server_path("assets/php/random_compat/lib/random.php");
+//Para versões do PHP 5.3/5.4
+//include_once server_path("assets/php/phpPasswordHashingLib/passwordLib.php");
 
 class ControllerUser {
 
