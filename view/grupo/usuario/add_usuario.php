@@ -14,7 +14,7 @@ $(document).ready(function () {
         let id = e.target.value;
         $.ajax({
             type: "GET",
-            url: `/handler?endpoint=listar-usuarios-grupo&id=${id}`,
+            url: "<?php echo server_url('handler?endpoint=listar-usuarios-grupo&id');?>" + id ,
             dataType: "json",
             success: function(data){
                 let dados = data.data.permissoes.map((item, index) => {

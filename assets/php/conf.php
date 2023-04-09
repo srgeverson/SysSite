@@ -5,6 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$GLOBALS['base_directory'] = "SysSite";
 $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/";
 $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/";
 
@@ -143,12 +144,16 @@ $GLOBALS['dictionary'] = array(
     'user_uninformed' => "Usuário não informado."
 );
 
+function server_directory() {
+    return isset($GLOBALS['base_directory']) ? $GLOBALS['base_directory'] . "/" : "";
+}
+
 function server_path($caminho = "") {
-    return $GLOBALS['base_server'] . $caminho;
+    return $GLOBALS['base_server'] . server_directory() . $caminho;
 }
 
 function server_url($caminho = "") {
-    return $GLOBALS['base_url'] . $caminho;
+    return $GLOBALS['base_url'] . server_directory() . $caminho;
 }
 
 function redirect($caminho = "") {

@@ -19,6 +19,7 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 * **[jquery v3.4.1](https://jquery.com/)**
 * **[datepicker](https://www.eyecon.ro/bootstrap-datepicker/)**
 * **[select v1.13.18](https://developer.snapappointments.com/bootstrap-select/)**
+* **[phpPasswordHashingLib](https://github.com/superandrew/phpPasswordHashingLib)**
 
 ## 🛠️ Configurando o ambiente
 
@@ -63,12 +64,18 @@ $ cd system/
 $ $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/";
 $ $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/";
 
-# Crie um banco de dados e adicione ao arquivo .env na raiz do projeto as seguintes configurações:
+# Crie um banco de dados e adicione ao arquivo .env na raiz do projeto as seguintes configurações: 
 $ BANCO_HOST_IP=db_system
 $ BANCO_PORTA=3306
 $ BANCO_USUARIO=root
 $ BANCO_SENHA=12345678
 $ BANCO_NOME=system
+
+# Para ciar variável de ambiente no linux:
+$ export BANCO_HOST_IP="db_system"
+
+# Para ciar variável de ambiente no windows:
+$ setx BANCO_HOST_IP db_system /m
 
 # Baixar as imagems e executar os containers em modo não iterativo(deve ser utilizado na primeira execução)
 $ docker-compose up -d
@@ -112,7 +119,7 @@ $ exit;
 $ mysqldump -u root -p system > {PASTA_DE_DESTINO_DO_BACACKUP}/backup_db_system.sql
 
 # Resraurando
-$ mysql -u {NOME_USUÁRIO_DE_BANCO_DE_DADOS} -p {NOME_BANCO_DE_DADOS} < {PASTA_ONDE_O_PROJETO_FOI_CLONADO}/system/sql/system.sql
+$ mysql -u root -p system < {PASTA_ONDE_O_PROJETO_FOI_CLONADO}/system/sql/system.sql
 
 ```
 

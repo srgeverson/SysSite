@@ -4,7 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once server_path("controller/ControllerFuncionarioUser.php");
+//include_once server_path("controller/ControllerFuncionarioUser.php");
 // $controllerFuncionarioUser = new ControllerFuncionarioUser();
 // global $user_logged;
 // if (($controllerFuncionarioUser->searchByFkUser($user_logged->id) == false) && ($user_logged->user_fk_authority_pk_id == 3)) {
