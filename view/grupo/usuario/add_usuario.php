@@ -14,13 +14,13 @@ $(document).ready(function () {
         let id = e.target.value;
         $.ajax({
             type: "GET",
-            url: "<?php echo server_url('handler?endpoint=listar-usuarios-grupo&id');?>" + id ,
+            url: "<?php echo server_url('handler?endpoint=listar-usuarios-grupo&id=');?>" + id ,
             dataType: "json",
             success: function(data){
                 let dados = data.data.permissoes.map((item, index) => {
                     return { id: item.id, text: item.nome }
                 });
-            preencherSelect(dados, $("select[name='usuario_id[]']"), id)
+                preencherSelect(dados, $("select[name='usuario_id[]']"), id)
             },
             error: function(a,b,c){
                 //console.log('Erro durante o preenhemento das permissões');

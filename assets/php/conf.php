@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$GLOBALS['base_directory'] = "SysSite";
+$GLOBALS['base_directory'] = null;
 $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/";
 $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/";
 

@@ -29,6 +29,28 @@
 							echo $responseDTO->getJSONEncode();
 							break;
 						}
+					//Teste
+					case 'dashboard':
+						{
+							while (true) {
+								$controllerGrupo = new ControllerGrupo();
+								date_default_timezone_set("America/Fortaleza");
+								header("Cache-Control: no-store");
+								header("Content-Type: text/event-stream");
+								http_response_code(200);
+								$responseDTO->permissoes = $controllerGrupo->listarUsuariosGrupo(strip_tags($_GET['id']));
+								echo $responseDTO->getJSONEncode();
+								
+								if (ob_get_length()) 
+									ob_end_clean();
+								
+								flush();
+								
+								if(connection_aborted())
+									break;
+							}
+							break;
+						}
 				default:
 					{
 						http_response_code(404);
