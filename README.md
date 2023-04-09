@@ -1,4 +1,4 @@
-# <a href="http://mystore-app.ddns.net/SysSite/">SysSite</a>
+# <a href="http://mystore-app.ddns.net/SysSite/" target="_blank">SysSite</a>
 Site com sistema integrado para gerenciamento de seu próprio conteúdo.
 Este sistema possui um site onde o mesmo é genrenciado pelo mesmo.
 
