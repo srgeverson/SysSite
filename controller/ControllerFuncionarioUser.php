@@ -32,20 +32,20 @@ class ControllerFuncionarioUser {
                 $this->info = 'warning=authority_uninformed';
             }
             try {
-                $daoUser = new DAOUser();
-                if (empty($daoUser->selectCountObjectsByFKAuthority($fuus_pk_id))) {
-                    if (!$this->daoFuncionarioUser->delete($fuus_pk_id)) {
-                        $this->info = 'warning=authority_not_exists';
-                        $this->listar();
-                    }
-                    $this->info = "success=authority_deleted";
-                } else {
-                    $this->info = "warning=authority_in_use";
-                }
+                // $daoUser = new DAOUser();
+                // if (empty($daoUser->selectCountObjectsByFKAuthority($fuus_pk_id))) {
+                //     if (!$this->daoFuncionarioUser->delete($fuus_pk_id)) {
+                //         $this->info = 'warning=authority_not_exists';
+                //         $this->listar();
+                //     }
+                //     $this->info = "success=authority_deleted";
+                // } else {
+                //     $this->info = "warning=authority_in_use";
+                // }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            $this->listar();
+            //$this->listar();
         }
     }
 
