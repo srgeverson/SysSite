@@ -13,7 +13,7 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 * **[phpmailer](https://github.com/PHPMailer/PHPMailer)**
 * **[random_compat]()**
 * **[bootstrap v4.1.3](https://getbootstrap.com/)**
-* **[fontawesome-free 5.8.2](https://fontawesome.com)**
+* **[fontawesome-free-6.4.0](https://fontawesome.com)**
 * **[chart.js v2.8.0](https://www.chartjs.org)**
 * **[datatables 1.10.19](https://www.datatables.net/)**
 * **[jquery v3.4.1](https://jquery.com/)**
