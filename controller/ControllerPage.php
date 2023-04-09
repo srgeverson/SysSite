@@ -12,6 +12,7 @@ include_once server_path("dao/DAOContact.php");
 include_once server_path("dao/DAOContent.php");
 include_once server_path("dao/DAOEndereco.php");
 include_once server_path("dao/DAOPage.php");
+include_once server_path("dao/DAOParameter.php");
 
 class ControllerPage {
 
@@ -22,6 +23,7 @@ class ControllerPage {
     function __construct() {
         $this->info = 'default=default';
         $this->daoPage = new DAOPage();
+        $this->daoParameter = new DAOParameter();
         global $user_logged;
         $this->usuarioAutencitado = $user_logged;
     }
@@ -204,6 +206,12 @@ class ControllerPage {
             if ($this->daoPage->selectObjectByKey('home')) {
                 include_once server_path('view/page/pages/default.php');
             } else {
+                $page = new ModelPage();
+                if($this->daoParameter->verificaConfiguracaoDeEmail())
+                    $page->enviar_senha_por_email = true;
+                else
+                    $page->enviar_senha_por_email = false;
+                    
                 include_once server_path('view/user/authenticate.php');
             }
         }

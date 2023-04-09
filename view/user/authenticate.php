@@ -34,12 +34,16 @@
                             </button>
                         </div>
                         <div class="input-group">
-                            <a  class="btn btn-success btn-icon-split" href="<?php echo server_url('?page=ControllerUser&option=createAccount'); ?>" type="submit">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-user-plus"></i>
-                                </span>
-                                <span class="text">Cadastre-se</span>
-                            </a>
+                        <?php
+                            if($page->enviar_senha_por_email !== false){
+                                echo '<a  class="btn btn-success btn-icon-split" href="', server_url('?page=ControllerUser&option=createAccount'), '" type="submit">';
+                                echo '<span class="icon text-white-50">';
+                                echo '<i class="fas fa-user-plus"></i>';
+                                echo '</span>';
+                                echo '<span class="text">Cadastre-se</span>';
+                                echo '</a>';
+                            }
+                        ?>
                         </div>
                     </div>
                 </div>

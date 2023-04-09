@@ -25,17 +25,6 @@
                         <label class="text-primary">E-mail:</label><br>
                         <input class="form-control" name="login" type="text" placeholder="Digite um email..."  value="<?php echo $user->login; ?>" required>
                     </div>
-                    <div class="form-group">
-                        <label class="text-primary">Grupo/Perfil:</label><br>
-                        <select name="user_fk_authority_pk_id" class="form-control" required>
-                            <option value="<?php echo $user->id; ?>"><?php echo $user->descricao; ?></option>
-                            <?php
-                            foreach ($authorities as $each_authority) {
-                                echo '<option value="', $each_authority->id, '">', $each_authority->descricao, '</option>';
-                            }
-                            ?>
-                        </select>
-                    </div>
                     <?php 
                     if($user->enviar_senha_por_email !== true){
                         echo '<div class="form-group">';

@@ -7,6 +7,7 @@
  */
 include_once server_path("dao/DAOAuthority.php");
 include_once server_path("dao/DAOUser.php");
+include_once server_path("dao/DAOUsuarioGrupo.php");
 include_once server_path("controller/ControllerContact.php");
 include_once server_path("model/ModelUser.php");
 include_once server_path("model/ModelContact.php");
@@ -32,6 +33,7 @@ class ControllerUser {
         global $user_logged;
         $this->usuarioAutenticado = $user_logged;
         $this->daoParameter = new DAOParameter();
+        $this->daoUsuarioGrupo = new DAOUsuarioGrupo();
     }
 
     public function authenticate() {
@@ -386,13 +388,26 @@ class ControllerUser {
         $senha = password_hash($password, PASSWORD_BCRYPT);
         $status = true; // usuário ativo
         //Consultando módulo do sistema para cadastro de usuário padrão
-        $parameter = $this->daoParameter->selectObjectByKey('modulos_sistema');
-        if (!isset($parameter->para_value)) {
-            $user_fk_authority_pk_id = null;
-        } else {
-            $user_fk_authority_pk_id = $parameter->para_value;
+        $parameter = $this->daoParameter->selectObjectByKey('grupo_usuario_padrao');
+        if (isset($parameter->para_value)) {
+            //$user_fk_authority_pk_id = $parameter->para_value;
+            $usuariosDoGrupo = array($parameter->para_value);
+            foreach ($ids_usuarios as $usuario){
+                $user = new ModelUser();
+                $user->id = $usuario;
+                $user->status = $grupo->status;
+                $user->usuario_id = $this->usuarioAutenticado->id;
+    
+                $usuarioGrupo = new ModelUsuarioGrupo();
+                $usuarioGrupo->grupo_id = $grupo->id;
+                $usuarioGrupo->usuario_id = $user->id;
+                $usuarioGrupo->usuario = $this->usuarioAutenticado->id;
+                $usuarioGrupo->status = $user->status;
+                array_push($usuariosDoGrupo,$usuarioGrupo);
+            }
+            $this->daoUsuarioGrupo->saveBatch($usuariosDoGrupo);
         }
-        
+
         //Enviando email para acesso ao sistema
         $contact = new ModelContact();
         $contact->cont_descricao = $nome;

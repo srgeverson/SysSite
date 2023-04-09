@@ -155,7 +155,7 @@ class DAOParameter extends GenericDAO {
     }
 
     public function verificaConfiguracaoDeEmail(){
-        $this->query = "SELECT * FROM parameter AS p where p.para_key in ('email','senha') and p.para_status = 1;";
+        $this->query = "SELECT * FROM parameter AS p where p.para_key in ('email','senha') and p.para_key is not null and p.para_status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
