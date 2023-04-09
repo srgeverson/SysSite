@@ -37,6 +37,11 @@ class ControllerUser {
     }
 
     public function authenticate() {
+        $page = new ModelPage();
+        if($this->daoParameter->verificaConfiguracaoDeEmail())
+            $page->enviar_senha_por_email = true;
+        else
+            $page->enviar_senha_por_email = false;
         include_once server_path('view/user/authenticate.php');
     }
 

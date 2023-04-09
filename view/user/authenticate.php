@@ -35,7 +35,7 @@
                         </div>
                         <div class="input-group">
                         <?php
-                            if($page->enviar_senha_por_email !== false){
+                            if($page->enviar_senha_por_email){
                                 echo '<a  class="btn btn-success btn-icon-split" href="', server_url('?page=ControllerUser&option=createAccount'), '" type="submit">';
                                 echo '<span class="icon text-white-50">';
                                 echo '<i class="fas fa-user-plus"></i>';
