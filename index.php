@@ -8,7 +8,8 @@ include_once './controller/ControllerPage.php';
 $parameter = new ControllerParameter();
 ini_set('display_errors', $parameter->getProperty('mostrar_error'));
 
-session_cache_expire($parameter->getProperty('tempo_sessao_site') != '' ? $parameter->getProperty('mostrar_error') : 60);
+$tempo = $parameter->getProperty('tempo_sessao_site');
+session_cache_expire( $tempo == 'Vazio/Desabilitado' ? 60 : $tempo);
 session_start();
 
 $landingpage = $parameter->getProperty('landing_page');
