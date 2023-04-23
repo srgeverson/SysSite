@@ -17,9 +17,12 @@
                     <div class="form-group">
                         <input class="form-control" name="id" type="hidden" value="<?php echo $authority->id; ?>">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group was-validated">
                         <label class="text-primary">Nome:</label><br>
                         <input class="form-control" name="nome" type="text" placeholder="Digite um nome para a permissão..." value="<?php echo $authority->nome; ?>" required>
+                        <div class="invalid-feedback">
+                            Este é um campo chave utilizado internamente pelo sistema e deve ser unico.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Descrição:</label><br>
