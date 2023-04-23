@@ -35,7 +35,8 @@ class ControllerAuthority {
                 $this->info = 'warning=authority_uninformed';
             }
             try {
-                if (empty($this->daoGrupoPermissao->selectObjectsByContainsFkPermissao($id))) {
+                $existente = $this->daoGrupoPermissao->selectObjectsByContainsFkPermissao($id);
+                if (empty($existente)) {
                     if (!$this->daoAuthority->delete($id)) {
                         $this->info = 'warning=authority_not_exists';
                         $this->listar();
