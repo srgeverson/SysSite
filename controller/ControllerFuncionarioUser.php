@@ -17,7 +17,7 @@ class ControllerFuncionarioUser {
     private $daoUser;
     private $usuarioAutencitado;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoFuncionarioUser = new DAOFuncionarioUser();
         $this->daoUser = new DAOUser();
@@ -29,18 +29,18 @@ class ControllerFuncionarioUser {
         if (HelperController::authotity()) {
             $fuus_pk_id = strip_tags($_GET['fuus_pk_id']);
             if (!isset($fuus_pk_id)) {
-                $this->info = 'warning=authority_uninformed';
+                $this->info = 'warning=permissao_uninformed';
             }
             try {
                 // $daoUser = new DAOUser();
                 // if (empty($daoUser->selectCountObjectsByFKAuthority($fuus_pk_id))) {
                 //     if (!$this->daoFuncionarioUser->delete($fuus_pk_id)) {
-                //         $this->info = 'warning=authority_not_exists';
+                //         $this->info = 'warning=permissao_not_exists';
                 //         $this->listar();
                 //     }
-                //     $this->info = "success=authority_deleted";
+                //     $this->info = "success=permissao_deleted";
                 // } else {
-                //     $this->info = "warning=authority_in_use";
+                //     $this->info = "warning=permissao_in_use";
                 // }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
@@ -66,20 +66,20 @@ class ControllerFuncionarioUser {
                 $fuus_status = false;
                 try {
                     if (($this->daoFuncionarioUser->selectObjectById($fuus_pk_id)) === null) {
-                        $this->info = 'warning=authority_not_exists';
+                        $this->info = 'warning=permissao_not_exists';
                     } else {
-                        $authority = new ModelFuncionarioUser();
-                        $authority->fuus_pk_id = $fuus_pk_id;
-                        $authority->fuus_status = $fuus_status;
+                        $permissao = new ModelFuncionarioUser();
+                        $permissao->fuus_pk_id = $fuus_pk_id;
+                        $permissao->fuus_status = $fuus_status;
 
-                        $this->daoFuncionarioUser->updateStatus($authority);
-                        $this->info = 'success=authority_disabled';
+                        $this->daoFuncionarioUser->updateStatus($permissao);
+                        $this->info = 'success=permissao_disabled';
                     }
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
             } else {
-                $this->info = 'warning=authority_uninformed';
+                $this->info = 'warning=permissao_uninformed';
             }
             $this->listar();
         }
@@ -89,22 +89,22 @@ class ControllerFuncionarioUser {
         if (HelperController::authotity()) {
             $fuus_pk_id = $_GET['fuus_pk_id'];
             if (!isset($fuus_pk_id)) {
-                $this->info = 'warning=authority_uninformed';
+                $this->info = 'warning=permissao_uninformed';
                 $this->listar();
             }
             try {
-                $authority = $this->daoFuncionarioUser->selectObjectById($fuus_pk_id);
-                if (!isset($authority)) {
-                    $this->info = 'warning=authority_not_exists';
+                $permissao = $this->daoFuncionarioUser->selectObjectById($fuus_pk_id);
+                if (!isset($permissao)) {
+                    $this->info = 'warning=permissao_not_exists';
                     $this->listar();
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
-            if ($authority == false) {
-                $this->info = "warning=authority_not_found";
+            if ($permissao == false) {
+                $this->info = "warning=permissao_not_found";
             }
-            include_once server_path('view/authority/edit.php');
+            include_once server_path('view/permissao/edit.php');
         }
     }
 
@@ -115,20 +115,20 @@ class ControllerFuncionarioUser {
                 $fuus_status = true;
                 try {
                     if (($this->daoFuncionarioUser->selectObjectById($fuus_pk_id)) === null) {
-                        $this->info = 'warning=authority_not_exists';
+                        $this->info = 'warning=permissao_not_exists';
                     } else {
-                        $authority = new ModelFuncionarioUser();
-                        $authority->fuus_pk_id = $fuus_pk_id;
-                        $authority->fuus_status = $fuus_status;
+                        $permissao = new ModelFuncionarioUser();
+                        $permissao->fuus_pk_id = $fuus_pk_id;
+                        $permissao->fuus_status = $fuus_status;
 
-                        $this->daoFuncionarioUser->updateStatus($authority);
-                        $this->info = 'success=authority_enabled';
+                        $this->daoFuncionarioUser->updateStatus($permissao);
+                        $this->info = 'success=permissao_enabled';
                     }
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
             } else {
-                $this->info = 'warning=authority_uninformed';
+                $this->info = 'warning=permissao_uninformed';
             }
             $this->listar();
         }
@@ -137,11 +137,11 @@ class ControllerFuncionarioUser {
     public function listar() {
         if (HelperController::authotity()) {
             if (isset($_POST['fuus_description'])) {
-                $authority = new ModelFuncionarioUser();
-                $authority->fuus_description = strip_tags($_POST['fuus_description']);
+                $permissao = new ModelFuncionarioUser();
+                $permissao->fuus_description = strip_tags($_POST['fuus_description']);
                 try {
-                    $authorities = $this->daoFuncionarioUser->selectObjectsByContainsObject($authority);
-                    $permissao = $this->usuarioAutencitado->user_fk_authority_pk_id;
+                    $authorities = $this->daoFuncionarioUser->selectObjectsByContainsObject($permissao);
+                    $permissao = $this->usuarioAutencitado->user_fk_permissao_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -149,13 +149,7 @@ class ControllerFuncionarioUser {
             if (isset($this->info)) {
                 HelperController::valid_messages($this->info);
             }
-            include_once server_path('view/authority/list.php');
-        }
-    }
-
-    public function novo() {
-        if (HelperController::authotity()) {
-            include_once server_path('view/authority/new.php');
+            include_once server_path('view/permissao/list.php');
         }
     }
 
@@ -166,12 +160,12 @@ class ControllerFuncionarioUser {
             try {
                 $this->daoFuncionarioUser->save($funcionarioUser);
                 $this->info = "success=funcionario_user_created";
-                if ($user_logged->user_fk_authority_pk_id == 3) {
+                if ($user_logged->user_fk_permissao_pk_id == 3) {
                     $controlerSystem->welcome($this->info);
                 }
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
-                if ($user_logged->user_fk_authority_pk_id == 3) {
+                if ($user_logged->user_fk_permissao_pk_id == 3) {
                     $controlerSystem->welcome($this->info);
                 }
             }
@@ -218,7 +212,7 @@ class ControllerFuncionarioUser {
             }
             $controlerSystem = new ControllerSystem();
             global $user_logged;
-            if ($user_logged->user_fk_authority_pk_id == 3) {
+            if ($user_logged->user_fk_permissao_pk_id == 3) {
                 $controlerSystem->welcome($this->info);
             }
         }

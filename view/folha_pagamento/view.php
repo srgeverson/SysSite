@@ -62,7 +62,7 @@
                     <div class="input-group">
                         <?php
                         global $user_logged;
-                        if ($user_logged->user_fk_authority_pk_id != 3) {
+                        if ($user_logged->user_fk_permissao_pk_id != 3) {
                             echo '<a  class="btn btn-warning btn-icon-split" href="' . server_url('?page=ControllerFolhaPagamento&option=edit&fopa_pk_id=') . $folhaPagamento->fopa_pk_id . '">';
                             echo '<span class = "icon text-white-50">';
                             echo '<i class = "fas fa-edit"></i>';

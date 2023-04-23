@@ -20,7 +20,7 @@ class ControllerPage {
     private $daoPage;
     private $usuarioAutencitado;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoPage = new DAOPage();
         $this->daoParameter = new DAOParameter();

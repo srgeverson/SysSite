@@ -10,7 +10,7 @@
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
-        <form action="<?php echo server_url('?page=ControllerAuthority&option=save'); ?>" method="post">
+        <form action="<?php echo server_url('?page=ControllerPemissao&option=save'); ?>" method="post">
             <div class="card h-100">
                 <h4 class="card-header text-primary">Cadastrar Permissão</h4>
                 <div class="card-body">
@@ -48,7 +48,7 @@
                             </button>
                         </div>
                         <div class="input-group">
-                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerAuthority&option=listar'); ?>" type="submit">
+                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerPemissao&option=listar'); ?>" type="submit">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-window-close"></i>
                                 </span>

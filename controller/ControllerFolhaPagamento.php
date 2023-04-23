@@ -16,7 +16,7 @@ class ControllerFolhaPagamento {
     private $daoFolhaPagamento;
     private $usuarioAutenticado;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoFolhaPagamento = new DAOFolhaPagamento();
         global $user_logged;
@@ -177,7 +177,7 @@ class ControllerFolhaPagamento {
                 $folhaPagamento->fopa_competencia = strip_tags($_POST['fopa_competencia']);
                 try {
                     $folhaPagamentos = $this->daoFolhaPagamento->selectObjectsByContainsObject($folhaPagamento);
-                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
+                    $permissao = $this->usuarioAutenticado->user_fk_permissao_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -364,7 +364,7 @@ class ControllerFolhaPagamento {
     public function tests() {
         global $user_logged;
         if (HelperController::authotity()) {
-            if ($user_logged->user_fk_authority_pk_id == 1) {
+            if ($user_logged->user_fk_permissao_pk_id == 1) {
                 //echo 'Conteúdo: ' . $this->readFile('http://192.168.0.101/system/uploads/folha_pagamento/15963265325f260284eebde.pdf', '606.717.623-89');
                 //echo 'Conteúdo: ' . $this->searchCPFInFile('http://192.168.0.101/system/uploads/folha_pagamento/15963272065f2605269da0a.pdf', '606.717.623-89');   
                 //echo 'Conteúdo: ' . $this->searchCPFInFile('http://localhost/system/uploads/folha_pagamento/tests.pdf', str_replace('-', '', str_replace('.', '', trim('606.717.623-89'))));

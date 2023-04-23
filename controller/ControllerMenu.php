@@ -19,7 +19,7 @@ class ControllerMenu {
     private $daoSistema;
     private $usuarioAutencitado;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoMenu = new DAOMenu();
         $this->daoMenuItem = new DAOMenuItem();

@@ -21,7 +21,7 @@ class ControllerMenuItem {
     private $daoMenuItem;
     private $usuarioAutenticado;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoMenu = new DAOMenu();
         $this->daoMenuItem = new DAOMenuItem();

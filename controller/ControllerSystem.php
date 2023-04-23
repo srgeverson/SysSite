@@ -12,7 +12,7 @@ class ControllerSystem {
 
     private $info;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
     }
 

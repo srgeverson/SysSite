@@ -10,23 +10,23 @@
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
-        <form action="<?php echo server_url('?page=ControllerAuthority&option=update'); ?>" method="post">
+        <form action="<?php echo server_url('?page=ControllerPemissao&option=update'); ?>" method="post">
             <div class="card h-100">
                 <h4 class="card-header text-primary">Alterar Permissão</h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <input class="form-control" name="id" type="hidden" value="<?php echo $authority->id; ?>">
+                        <input class="form-control" name="id" type="hidden" value="<?php echo $permissao->id; ?>">
                     </div>
                     <div class="form-group was-validated">
                         <label class="text-primary">Nome:</label><br>
-                        <input class="form-control" name="nome" type="text" placeholder="Digite um nome para a permissão..." value="<?php echo $authority->nome; ?>" required>
+                        <input class="form-control" name="nome" type="text" placeholder="Digite um nome para a permissão..." value="<?php echo $permissao->nome; ?>" required>
                         <div class="invalid-feedback">
                             Este é um campo chave utilizado internamente pelo sistema e deve ser unico.
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Descrição:</label><br>
-                        <input class="form-control" name="descricao" type="text" placeholder="Digite uma descrição..." value="<?php echo $authority->descricao; ?>" required>
+                        <input class="form-control" name="descricao" type="text" placeholder="Digite uma descrição..." value="<?php echo $permissao->descricao; ?>" required>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Item de Menu:</label><br>
@@ -34,7 +34,7 @@
                             <option></option>
                             <?php
                             foreach ($menuItens as $each_menu_item) {
-                                echo '<option value="', $each_menu_item->id, '"', $each_menu_item->id === $authority->menu_item_id ? 'selected' : '', '>', $each_menu_item->nome, '</option>';
+                                echo '<option value="', $each_menu_item->id, '"', $each_menu_item->id === $permissao->menu_item_id ? 'selected' : '', '>', $each_menu_item->nome, '</option>';
                             }
                             ?>
                         </select>
@@ -51,7 +51,7 @@
                             </button>
                         </div>
                         <div class="input-group">
-                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerAuthority&option=listar'); ?>" type="submit">
+                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerPemissao&option=listar'); ?>" type="submit">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-window-close"></i>
                                 </span>

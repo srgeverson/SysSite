@@ -1,7 +1,7 @@
 // MINHA FUNÇÕES DE CONFIMAÇÃO
 $(document).ready(function () {
     //TELA DE LISTAR PERMISSÕES
-    $(document).on('click', '.authority_buscar', function () {
+    $(document).on('click', '.permissao_buscar', function () {
         let item_selecionado = $(this).closest('tr');
         let coluna_id = item_selecionado.children()[0];
         let acao = '?page=ControllerAtualizacao&option=excluir&atua_pk_id=';

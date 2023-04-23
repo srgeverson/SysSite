@@ -15,7 +15,7 @@ class ControllerContact {
     private $controllerSystem;
     private $parameter;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoContact = new DAOContact();
         $this->controllerSystem = new ControllerSystem();

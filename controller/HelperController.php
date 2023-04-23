@@ -6,6 +6,7 @@
  * and open the template in the editor.
  */
 include_once server_path('controller/ControllerSystem.php');
+include_once server_path('dao/DAOPemissao.php');
 
 class HelperController {
 

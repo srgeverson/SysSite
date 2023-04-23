@@ -74,7 +74,7 @@ class DAOUser extends GenericDAO {
         $this->query = "SELECT u.* ";
         //$this->query .= "u.*, a.id, a.descricao ";
         $this->query .= "FROM usuarios AS u ";
-        //$this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.id) ";
+        //$this->query .= "INNER JOIN permissao AS a ON (u.user_fk_permissao_pk_id = a.id) ";
         $this->query .= "WHERE u.id = :id LIMIT 1;";
         try {
             $conexao = $this->getInstance();
@@ -91,11 +91,11 @@ class DAOUser extends GenericDAO {
         $this->query = "SELECT ";
         $this->query .= "* ";
         $this->query .= "FROM usuarios AS u ";
-        //$this->query .= "INNER JOIN authority AS a ON (u.user_fk_authority_pk_id = a.id) ";
+        //$this->query .= "INNER JOIN permissao AS a ON (u.user_fk_permissao_pk_id = a.id) ";
         $this->query .= "WHERE 1 = 1 ";
         $this->query .= "AND u.nome LIKE '%$user->nome%' ";
         $this->query .= "AND u.login LIKE '%$user->login%' ";
-        //$this->query .= "u.user_fk_authority_pk_id LIKE '%$user->user_fk_authority_pk_id%';";
+        //$this->query .= "u.user_fk_permissao_pk_id LIKE '%$user->user_fk_permissao_pk_id%';";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -106,18 +106,18 @@ class DAOUser extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selectCountObjectsByFKAuthority($user_fk_authority_pk_id = null) {
+    public function selectCountObjectsByFKAuthority($user_fk_permissao_pk_id = null) {
         $this->query = "SELECT ";
         $this->query .= "u.id, u.nome ";
         $this->query .= "FROM usuarios AS u ";
-        //$this->query .= "WHERE u.user_fk_authority_pk_id = :user_fk_authority_pk_id;";
+        //$this->query .= "WHERE u.user_fk_permissao_pk_id = :user_fk_permissao_pk_id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        //$this->statement->bindParam(':user_fk_authority_pk_id', $user_fk_authority_pk_id, PDO::PARAM_INT);
+        //$this->statement->bindParam(':user_fk_permissao_pk_id', $user_fk_permissao_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
@@ -126,7 +126,7 @@ class DAOUser extends GenericDAO {
         $this->query = "SELECT u.* ";
         //$this->query .= "u.*, a.* ";
         $this->query .= "FROM usuarios AS u ";
-        //$this->query .= "INNER JOIN authority AS a ON u.user_fk_authority_pk_id = a.id ";
+        //$this->query .= "INNER JOIN permissao AS a ON u.user_fk_permissao_pk_id = a.id ";
         $this->query .= "WHERE u.login = :login LIMIT 1;";
         try {
             $conexao = $this->getInstance();

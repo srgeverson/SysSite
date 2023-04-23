@@ -19,7 +19,7 @@ class ControllerTest {
     private $teste;
     private $usuarioAutenticado;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->controllerSystem = new ControllerSystem();
         $this->daoTest = new DAOTest();

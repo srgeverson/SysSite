@@ -7,7 +7,7 @@
 //include_once server_path("controller/ControllerFuncionarioUser.php");
 // $controllerFuncionarioUser = new ControllerFuncionarioUser();
 // global $user_logged;
-// if (($controllerFuncionarioUser->searchByFkUser($user_logged->id) == false) && ($user_logged->user_fk_authority_pk_id == 3)) {
+// if (($controllerFuncionarioUser->searchByFkUser($user_logged->id) == false) && ($user_logged->user_fk_permissao_pk_id == 3)) {
 //     $controllerSystem = new ControllerSystem();
 //     $controllerSystem->funcionario_info('warning=funcionario_not_associated');
 // }

@@ -15,7 +15,7 @@ class ControllerContent {
     private $info;
     private $daoContent;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoContent = new DAOContent();
     }

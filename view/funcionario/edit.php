@@ -17,7 +17,7 @@ global $user_logged;
         <form action="
         <?php
         global $user_logged;
-        echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerFuncionario&option=update&user_fk_authority_pk_id=' . $user_logged->id : '?page=ControllerFuncionario&option=update&user_fk_authority_pk_id=' . 0);
+        echo server_url($user_logged->user_fk_permissao_pk_id == 3 ? '?page=ControllerFuncionario&option=update&user_fk_permissao_pk_id=' . $user_logged->id : '?page=ControllerFuncionario&option=update&user_fk_permissao_pk_id=' . 0);
         ?>" method="post">
             <nav>
                 <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
@@ -55,7 +55,7 @@ global $user_logged;
                             </div>
                             <div class="form-group">
                                 <?php
-                                if ($user_logged->user_fk_authority_pk_id != 3) {
+                                if ($user_logged->user_fk_permissao_pk_id != 3) {
                                     echo '<label class="text-primary">Usuário:</label><br>';
                                     echo '<select id="mySelect" name="id" class="selectpicker form-control" data-live-search="true" required>';
                                     echo '<option value="', $funcionario->id, '">', $funcionario->login, '</option>';
@@ -160,7 +160,7 @@ global $user_logged;
                                 </div>
                                 <div class="input-group">
                                     <a  class="btn btn-danger btn-icon-split" href="<?php
-                                    echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerSystem&option=welcome' : '?page=ControllerFuncionario&option=listar');
+                                    echo server_url($user_logged->user_fk_permissao_pk_id == 3 ? '?page=ControllerSystem&option=welcome' : '?page=ControllerFuncionario&option=listar');
                                     ?>" type="submit">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-window-close"></i>

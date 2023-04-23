@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once server_path("dao/DAOAuthority.php");
+include_once server_path("dao/DAOPemissao.php");
 include_once server_path("dao/DAOUser.php");
 include_once server_path("dao/DAOUsuarioGrupo.php");
 include_once server_path("controller/ControllerContact.php");
@@ -26,7 +26,7 @@ class ControllerUser {
     private $usuarioAutenticado;
     private $daoParameter;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->controllerSystem = new ControllerSystem();
         $this->daoUser = new DAOUser();
@@ -45,6 +45,7 @@ class ControllerUser {
         include_once server_path('view/user/authenticate.php');
     }
 
+    //kkkkk
     public function createAccount() {
         include_once server_path('view/user/create_account.php');
     }
@@ -107,8 +108,8 @@ class ControllerUser {
             }
             try {
                 $user = $this->daoUser->selectObjectById($id);
-                //$daoAuthority = new DAOAuthority();
-                //$authorities = $daoAuthority->selectObjectsEnabled();
+                //$daoPemissao = new DAOPemissao();
+                //$authorities = $daoPemissao->selectObjectsEnabled();
                 if (!isset($user)) {
                     $this->info = 'warning=user_not_exists';
                     $this->listar();
@@ -240,7 +241,7 @@ class ControllerUser {
             if ($filterUser->nome != null || $filterUser->login != null || $filterUser->todos) {
                 try {
                     $users = $this->daoUser->selectObjectsByContainsObjetc($filterUser);
-                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
+                    $permissao = $this->usuarioAutenticado->user_fk_permissao_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -395,7 +396,7 @@ class ControllerUser {
         //Consultando módulo do sistema para cadastro de usuário padrão
         $parameter = $this->daoParameter->selectObjectByKey('grupo_usuario_padrao');
         if (isset($parameter->para_value)) {
-            //$user_fk_authority_pk_id = $parameter->para_value;
+            //$user_fk_permissao_pk_id = $parameter->para_value;
             $usuariosDoGrupo = array($parameter->para_value);
             foreach ($ids_usuarios as $usuario){
                 $user = new ModelUser();

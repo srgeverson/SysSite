@@ -22,7 +22,7 @@ class ControllerFuncionario {
     private $daoFuncionario;
     private $usuarioAutenticado;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoCidade = new DAOCidade();
         $this->daoFuncionario = new DAOFuncionario();
@@ -165,7 +165,7 @@ class ControllerFuncionario {
                 $funcionario->rg = strip_tags($_POST['rg']);
                 try {
                     $funcionarios = $this->daoFuncionario->selectObjectsByContainsObject($funcionario);
-                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
+                    $permissao = $this->usuarioAutenticado->user_fk_permissao_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
@@ -187,7 +187,7 @@ class ControllerFuncionario {
 
     public function save() {
         if (HelperController::authotity()) {
-            //$user_fk_authority_pk_id = strip_tags($_GET['user_fk_authority_pk_id']);
+            //$user_fk_permissao_pk_id = strip_tags($_GET['user_fk_permissao_pk_id']);
 
             // global $user_logged;
 
@@ -261,7 +261,7 @@ class ControllerFuncionario {
                 // $controllerFunconarioUser = new ControllerFuncionarioUser();
                 //$controllerFunconarioUser->saveFuncionarioUser($funcionarioUser);
 
-                // if ($user_fk_authority_pk_id == 0) {
+                // if ($user_fk_permissao_pk_id == 0) {
                 //     $this->info = "success=funcionario_created";
                     $this->listar();
                 // }
@@ -269,7 +269,7 @@ class ControllerFuncionario {
                 // print_r($erro);
                 $this->info = "error=" . $erro->getMessage();
                 $this->listar();
-                // if ($user_fk_authority_pk_id == 0) {
+                // if ($user_fk_permissao_pk_id == 0) {
                 // }
             }
         }
@@ -282,7 +282,7 @@ class ControllerFuncionario {
                 if (!isset($id)) {
                     $this->info = 'warning=funcionario_uninformed';
                 } else {
-                    $user_fk_authority_pk_id = strip_tags($_GET['user_fk_authority_pk_id']);
+                    $user_fk_permissao_pk_id = strip_tags($_GET['user_fk_permissao_pk_id']);
 
                     global $user_logged;
 
@@ -383,12 +383,12 @@ class ControllerFuncionario {
                             try {
                                 $this->daoFuncionario->update($funcionario);
                                 $controllerFunconarioUser->updateFuncionarioUser($funcionarioUser);
-                                if ($user_fk_authority_pk_id == 0) {
+                                if ($user_fk_permissao_pk_id == 0) {
                                     $this->info = "success=funcionario_updated";
                                     $this->listar();
                                 }
                             } catch (Exception $erro) {
-                                if ($user_fk_authority_pk_id == 0) {
+                                if ($user_fk_permissao_pk_id == 0) {
                                     $this->info = "error=" . $erro->getMessage();
                                     $this->listar();
                                 } else {
@@ -398,7 +398,7 @@ class ControllerFuncionario {
                                 }
                             }
                         } catch (Exception $erro) {
-                            if ($user_fk_authority_pk_id == 0) {
+                            if ($user_fk_permissao_pk_id == 0) {
                                 $this->info = "error=Endereço: " . $erro->getMessage();
                                 $this->listar();
                             } else {
@@ -408,7 +408,7 @@ class ControllerFuncionario {
                             }
                         }
                     } catch (Exception $erro) {
-                        if ($user_fk_authority_pk_id == 0) {
+                        if ($user_fk_permissao_pk_id == 0) {
                             $this->info = "error=Contato: " . $erro->getMessage();
                             $this->listar();
                         } else {
