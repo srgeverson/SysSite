@@ -8,7 +8,7 @@
 
 include_once server_path("model/ModelContent.php");
 include_once server_path("model/ModelPage.php");
-include_once server_path("dao/DAOContact.php");
+include_once server_path("dao/DAOContato.php");
 include_once server_path("dao/DAOContent.php");
 include_once server_path("dao/DAOEndereco.php");
 include_once server_path("dao/DAOPage.php");
@@ -58,7 +58,7 @@ class ControllerPage {
         include_once server_path('view/page/pages/about.php');
     }
 
-    public function contact($msg = null) {
+    public function contato($msg = null) {
         if (!isset($msg)) {
             $msg = $this->info;
         }
@@ -69,16 +69,16 @@ class ControllerPage {
         $content = null;
         $content = new ModelContent();
         $content->conte_fk_page_pk_id = 2;
-        $content->conte_component = "our_contact";
-        $our_contacts = $daoContent->selectObjectsByObject($content);
+        $content->conte_component = "our_contato";
+        $our_contatos = $daoContent->selectObjectsByObject($content);
 
         $parameter = new ControllerParameter();
         $daoEndereco = new DAOEndereco();
         $endereco = $daoEndereco->selectObjectById($parameter->getProperty('endereco'));
 
-        $daoContact = new DAOContact();
-        $contact = $daoContact->selectObjectById($parameter->getProperty('contato'));
-        include_once server_path('view/page/pages/contact.php');
+        $daoContato = new DAOContato();
+        $contato = $daoContato->selectObjectById($parameter->getProperty('contato'));
+        include_once server_path('view/page/pages/contato.php');
     }
 
     public function delete() {
@@ -226,8 +226,8 @@ class ControllerPage {
             $daoEndereco = new DAOEndereco();
             $endereco = $daoEndereco->selectObjectById($parameter->getProperty('endereco'));
             
-            $daoContact = new DAOContact();
-            $contact = $daoContact->selectObjectById($parameter->getProperty('contato'));
+            $daoContato = new DAOContato();
+            $contato = $daoContato->selectObjectById($parameter->getProperty('contato'));
             //code...
         } catch (Exception $ex) {
            throw $ex;

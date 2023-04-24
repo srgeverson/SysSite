@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-include_once server_path("model/ModelContact.php");
+include_once server_path("model/ModelContato.php");
 
 class ControllerSystem {
 
@@ -16,12 +16,12 @@ class ControllerSystem {
         $this->info = 'default=default';
     }
 
-    public function contact_info($msg = null) {
+    public function contato_info($msg = null) {
         if (!isset($msg)) {
             $msg = $this->info;
         }
         HelperController::valid_messages($msg);
-        include_once server_path('view/page/pages/contact.php');
+        include_once server_path('view/page/pages/contato.php');
     }
 
     public function folha_pagamento_info($msg = null) {
@@ -29,7 +29,7 @@ class ControllerSystem {
             $msg = $this->info;
         }
         HelperController::valid_messages($msg);
-        include_once server_path('view/page/pages/contact.php');
+        include_once server_path('view/page/pages/contato.php');
     }  
     
     public function funcionario_info($msg = null) {

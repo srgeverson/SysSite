@@ -23,7 +23,7 @@ class DAOSistema extends GenericDAO {
         return true;
     }
 
-    public function save(ModelAuthority $permissao = null) {
+    public function save(ModelPermissao $permissao = null) {
         if (!is_object($permissao)) {
             throw new Exception("Dados incompletos");
         }
@@ -59,7 +59,7 @@ class DAOSistema extends GenericDAO {
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectsByContainsObject(ModelAuthority $permissao = null) {
+    public function selectObjectsByContainsObject(ModelPermissao $permissao = null) {
         $this->query = "SELECT ";
         $this->query .= "s.* ";
         $this->query .= "FROM sistemas AS s ";
@@ -101,7 +101,7 @@ class DAOSistema extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function update(ModelAuthority $permissao = null) {
+    public function update(ModelPermissao $permissao = null) {
         if (!is_object($permissao)) {
             throw new Exception("Dados incompletos");
         }
@@ -125,7 +125,7 @@ class DAOSistema extends GenericDAO {
         return true;
     }
 
-    public function updateStatus(ModelAuthority $permissao = null) {
+    public function updateStatus(ModelPermissao $permissao = null) {
         if (!is_object($permissao)) {
             throw new Exception("Dados incompletos");
         }

@@ -10,7 +10,7 @@ include_once server_path("dao/DAOGrupo.php");
 include_once server_path("dao/DAOGrupoPermissao.php");
 include_once server_path("dao/DAOUser.php");
 include_once server_path("dao/DAOUsuarioGrupo.php");
-include_once server_path("model/ModelAuthority.php");
+include_once server_path("model/ModelPermissao.php");
 include_once server_path("model/ModelGrupo.php");
 include_once server_path("model/ModelGrupoPermissao.php");
 include_once server_path("model/ModelUser.php");
@@ -50,7 +50,7 @@ class ControllerGrupo {
             $permissoesDoGrupo = array();
 
             foreach ($ids_permissoes as $permissao){
-                $autority = new ModelAuthority();
+                $autority = new ModelPermissao();
                 $autority->id = $permissao;
                 $autority->status = $grupo->status;
                 $autority->usuario_id = $this->usuarioAutenticado->id;

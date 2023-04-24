@@ -10,9 +10,9 @@
     <hr>
     <p>
         <?php
-        echo 'Olá <b>' . $contact->cont_description .
+        echo 'Olá <b>' . $contato->descricao .
         '</b> em breve você receberá um email confirmando seu contado, em breve retornaremos o contato.';
         ?>
     </p>
-    <a class="btn btn-primary" href="<?php echo server_url('?page=ControllerPage&option=contact'); ?>">Voltar...</a>
+    <a class="btn btn-primary" href="<?php echo server_url('?page=ControllerPage&option=contato'); ?>">Voltar...</a>
 </div>

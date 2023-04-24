@@ -10,7 +10,7 @@
 include_once server_path("dao/DAOMenu.php");
 include_once server_path("dao/DAOMenuItem.php");
 include_once server_path("model/ModelMenuItem.php");
-// include_once server_path("dao/DAOContact.php");
+// include_once server_path("dao/DAOContato.php");
 // include_once server_path("dao/DAOContent.php");
 // include_once server_path("dao/DAOEndereco.php");
 

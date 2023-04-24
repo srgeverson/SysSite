@@ -10,7 +10,7 @@ include_once server_path("controller/ControllerUser.php");
 include_once server_path("controller/ControllerSystem.php");
 include_once server_path("dao/DAOCidade.php");
 include_once server_path("dao/DAOFuncionario.php");
-include_once server_path("model/ModelContact.php");
+include_once server_path("model/ModelContato.php");
 include_once server_path("model/ModelEndereco.php");
 include_once server_path("model/ModelFuncionario.php");
 include_once server_path("model/ModelFuncionarioUser.php");
@@ -40,7 +40,7 @@ class ControllerFuncionario {
                 $this->listar();
             } else {
                 //DAOs
-                $daoContact = new DAOContact();
+                $daoContato = new DAOContato();
                 $daoEndereco = new DAOEndereco();
 
                 $funcionario = $this->daoFuncionario->selectObjectById($id);
@@ -52,7 +52,7 @@ class ControllerFuncionario {
                         $this->daoFuncionario->delete($funcionario->id);
                         $this->info = "success=funcionario_deleted";
                         try {
-                            $daoContact->delete($funcionario->contato_id);
+                            $daoContato->delete($funcionario->contato_id);
                             try {
                                 $daoEndereco->delete($funcionario->endereco_id);
                                 $this->listar();
@@ -199,17 +199,17 @@ class ControllerFuncionario {
             // }
 
             //Contato
-            $contact = new ModelContact();
-            $contact->cont_description = strip_tags($_POST['cont_description']);
-            $contact->cont_phone = strip_tags($_POST['cont_phone']);
-            $contact->cont_cell_phone = strip_tags($_POST['cont_cell_phone']);
-            $contact->cont_whatsapp = strip_tags($_POST['cont_whatsapp']);
-            $contact->cont_email = strip_tags($_POST['cont_email']);
-            $contact->cont_facebook = strip_tags($_POST['cont_facebook']);
-            $contact->cont_instagram = strip_tags($_POST['cont_instagram']);
-            $contact->cont_text = strip_tags($_POST['cont_text']);
-            $contact->cont_status = true;
-            $contact->cont_fk_user_pk_id = $this->usuarioAutenticado->id;
+            $contato = new ModelContato();
+            $contato->descricao = strip_tags($_POST['descricao']);
+            $contato->telefene = strip_tags($_POST['telefene']);
+            $contato->celular = strip_tags($_POST['celular']);
+            $contato->whatsapp = strip_tags($_POST['whatsapp']);
+            $contato->email = strip_tags($_POST['email']);
+            $contato->facebook = strip_tags($_POST['facebook']);
+            $contato->instagram = strip_tags($_POST['instagram']);
+            $contato->observacao = strip_tags($_POST['observacao']);
+            $contato->cont_status = true;
+            $contato->cont_fk_user_pk_id = $this->usuarioAutenticado->id;
 
             //Endereço
             $endereco = new ModelEndereco();
@@ -222,12 +222,12 @@ class ControllerFuncionario {
             $endereco->status = true;
 
             //DAOs
-            $daoContact = new DAOContact();
+            $daoContato = new DAOContato();
             $daoEndereco = new DAOEndereco();
 
             //Funcionário
             try {
-                $contato_id = $daoContact->saveAndReturnPkId($contact);
+                $contato_id = $daoContato->saveAndReturnPkId($contato);
             } catch (Exception $erro) {
                 // print_r($erro);
                 $this->info = "error=Contato: " . $erro->getMessage();
@@ -288,28 +288,28 @@ class ControllerFuncionario {
 
                     //Contato
                     $contato_id = strip_tags($_POST['contato_id']);
-                    $cont_description = strip_tags($_POST['cont_description']);
-                    $cont_phone = strip_tags($_POST['cont_phone']);
-                    $cont_cell_phone = strip_tags($_POST['cont_cell_phone']);
-                    $cont_whatsapp = strip_tags($_POST['cont_whatsapp']);
-                    $cont_email = strip_tags($_POST['cont_email']);
-                    $cont_facebook = strip_tags($_POST['cont_facebook']);
-                    $cont_instagram = strip_tags($_POST['cont_instagram']);
-                    $cont_text = strip_tags($_POST['cont_text']);
+                    $descricao = strip_tags($_POST['descricao']);
+                    $telefene = strip_tags($_POST['telefene']);
+                    $celular = strip_tags($_POST['celular']);
+                    $whatsapp = strip_tags($_POST['whatsapp']);
+                    $email = strip_tags($_POST['email']);
+                    $facebook = strip_tags($_POST['facebook']);
+                    $instagram = strip_tags($_POST['instagram']);
+                    $observacao = strip_tags($_POST['observacao']);
                     $cont_status = true;
 
-                    $contact = new ModelContact();
-                    $contact->contato_id = $contato_id;
-                    $contact->cont_description = $cont_description;
-                    $contact->cont_phone = $cont_phone;
-                    $contact->cont_cell_phone = $cont_cell_phone;
-                    $contact->cont_whatsapp = $cont_whatsapp;
-                    $contact->cont_email = $cont_email;
-                    $contact->cont_facebook = $cont_facebook;
-                    $contact->cont_instagram = $cont_instagram;
-                    $contact->cont_text = $cont_text;
-                    $contact->cont_status = $cont_status;
-                    $contact->cont_fk_id = $user_logged->id;
+                    $contato = new ModelContato();
+                    $contato->contato_id = $contato_id;
+                    $contato->descricao = $descricao;
+                    $contato->telefene = $telefene;
+                    $contato->celular = $celular;
+                    $contato->whatsapp = $whatsapp;
+                    $contato->email = $email;
+                    $contato->facebook = $facebook;
+                    $contato->instagram = $instagram;
+                    $contato->observacao = $observacao;
+                    $contato->cont_status = $cont_status;
+                    $contato->cont_fk_id = $user_logged->id;
 
 
                     //Endereço
@@ -335,7 +335,7 @@ class ControllerFuncionario {
                     $endereco->status = $status;
 
                     //DAOs
-                    $daoContact = new DAOContact();
+                    $daoContato = new DAOContato();
                     $daoEndereco = new DAOEndereco();
 
                     //Funcionário
@@ -375,7 +375,7 @@ class ControllerFuncionario {
 
                     //Tratando exceção do contato
                     try {
-                        $daoContact->update($contact);
+                        $daoContato->update($contato);
                         //Tratando exceção do endereço
                         try {
                             $daoEndereco->update($endereco);

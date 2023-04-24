@@ -9,7 +9,7 @@ include_once server_path("dao/DAOPermissao.php");
 include_once server_path("dao/DAOGrupoPermissao.php");
 include_once server_path("dao/DAOMenuItem.php");
 include_once server_path("dao/DAOUser.php");
-include_once server_path("model/ModelAuthority.php");
+include_once server_path("model/ModelPermissao.php");
 
 class ControllerPemissao {
 
@@ -61,7 +61,7 @@ class ControllerPemissao {
                     if (($this->daoPermissao->selectObjectById($id)) === null) {
                         $this->info = 'warning=permissao_not_exists';
                     } else {
-                        $permissao = new ModelAuthority();
+                        $permissao = new ModelPermissao();
                         $permissao->id = $id;
                         $permissao->status = $status;
 
@@ -111,7 +111,7 @@ class ControllerPemissao {
                     if (($this->daoPermissao->selectObjectById($id)) === null) {
                         $this->info = 'warning=permissao_not_exists';
                     } else {
-                        $permissao = new ModelAuthority();
+                        $permissao = new ModelPermissao();
                         $permissao->id = $id;
                         $permissao->status = $status;
                         $permissao->usuario_id = $this->usuarioAutencitado->id;
@@ -130,7 +130,7 @@ class ControllerPemissao {
 
     public function listar() {
         if (HelperController::authotity()) {
-            $permissao = new ModelAuthority();
+            $permissao = new ModelPermissao();
             $permissao->descricao = strip_tags($_POST['descricao']);
             $permissao->todos = strip_tags($_POST['todos']);
             if ($permissao->descricao != null || $permissao->todos) {
@@ -157,7 +157,7 @@ class ControllerPemissao {
 
     public function save() {
         if (HelperController::authotity()) {
-            $permissao = new ModelAuthority();
+            $permissao = new ModelPermissao();
             $permissao->descricao = strip_tags($_POST['descricao']);
             $permissao->nome = strip_tags($_POST['nome']);
             $permissao->status = true;
@@ -184,7 +184,7 @@ class ControllerPemissao {
     public function update() {
         if (HelperController::authotity()) {
             if (HelperController::authotity()) {
-                $permissao = new ModelAuthority();
+                $permissao = new ModelPermissao();
                 $permissao->id = strip_tags($_POST['id']);;
                 $permissao->nome =strip_tags($_POST['nome']);
                 $permissao->descricao =strip_tags($_POST['descricao']);

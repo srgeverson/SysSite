@@ -78,7 +78,7 @@
                     Parâmetros
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContact&option=listar"); ?>">
+                <a class="dropdown-item" href="<?php echo server_url("?page=ControllerContato&option=listar"); ?>">
                     <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
                     Contatos
                 </a>
