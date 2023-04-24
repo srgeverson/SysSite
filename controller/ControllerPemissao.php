@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once server_path("dao/DAOPemissao.php");
+include_once server_path("dao/DAOPermissao.php");
 include_once server_path("dao/DAOGrupoPermissao.php");
 include_once server_path("dao/DAOMenuItem.php");
 include_once server_path("dao/DAOUser.php");
@@ -14,14 +14,14 @@ include_once server_path("model/ModelAuthority.php");
 class ControllerPemissao {
 
     private $info;
-    private $daoPemissao;
+    private $daoPermissao;
     private $daoGrupoPermissao;
     private $daoMenuItem;
     private $usuarioAutencitado;
 
     function __construct($pemissoes = array()) {
         $this->info = 'default=default';
-        $this->daoPemissao = new DAOPemissao();
+        $this->daoPermissao = new DAOPermissao();
         $this->daoGrupoPermissao = new DAOGrupoPermissao();
         $this->daoMenuItem = new DAOMenuItem();
         global $user_logged;
@@ -37,7 +37,7 @@ class ControllerPemissao {
             try {
                 $existente = $this->daoGrupoPermissao->selectObjectsByContainsFkPermissao($id);
                 if (empty($existente)) {
-                    if (!$this->daoPemissao->delete($id)) {
+                    if (!$this->daoPermissao->delete($id)) {
                         $this->info = 'warning=permissao_not_exists';
                         $this->listar();
                     }
@@ -58,14 +58,14 @@ class ControllerPemissao {
             if (isset($id)) {
                 $status = false;
                 try {
-                    if (($this->daoPemissao->selectObjectById($id)) === null) {
+                    if (($this->daoPermissao->selectObjectById($id)) === null) {
                         $this->info = 'warning=permissao_not_exists';
                     } else {
                         $permissao = new ModelAuthority();
                         $permissao->id = $id;
                         $permissao->status = $status;
 
-                        $this->daoPemissao->updateStatus($permissao);
+                        $this->daoPermissao->updateStatus($permissao);
                         $this->info = 'success=permissao_disabled';
                     }
                 } catch (Exception $erro) {
@@ -87,7 +87,7 @@ class ControllerPemissao {
             }
             try {
                 $menuItens = $this->daoMenuItem->selectObjectsEnabled();
-                $permissao = $this->daoPemissao->selectObjectById($id);
+                $permissao = $this->daoPermissao->selectObjectById($id);
                 if (!isset($permissao)) {
                     $this->info = 'warning=permissao_not_exists';
                     $this->listar();
@@ -108,14 +108,14 @@ class ControllerPemissao {
             if (isset($id)) {
                 $status = true;
                 try {
-                    if (($this->daoPemissao->selectObjectById($id)) === null) {
+                    if (($this->daoPermissao->selectObjectById($id)) === null) {
                         $this->info = 'warning=permissao_not_exists';
                     } else {
                         $permissao = new ModelAuthority();
                         $permissao->id = $id;
                         $permissao->status = $status;
                         $permissao->usuario_id = $this->usuarioAutencitado->id;
-                        $this->daoPemissao->updateStatus($permissao);
+                        $this->daoPermissao->updateStatus($permissao);
                         $this->info = 'success=permissao_enabled';
                     }
                 } catch (Exception $erro) {
@@ -135,7 +135,7 @@ class ControllerPemissao {
             $permissao->todos = strip_tags($_POST['todos']);
             if ($permissao->descricao != null || $permissao->todos) {
                 try {
-                    $authorities = $this->daoPemissao->selectObjectsByContainsObject($permissao);
+                    $authorities = $this->daoPermissao->selectObjectsByContainsObject($permissao);
                     //$permissao = $this->usuarioAutencitado->user_fk_permissao_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
@@ -163,11 +163,11 @@ class ControllerPemissao {
             $permissao->status = true;
             $permissao->menu_item_id = strip_tags($_POST['menu_item_id']);
             $permissao->usuario_id = $this->usuarioAutencitado->id;
-            $existente = $this->daoPemissao->selectObjectsByNameUnique($permissao->nome);
+            $existente = $this->daoPermissao->selectObjectsByNameUnique($permissao->nome);
             if (empty($existente)) {
                 try {
-                    $daoPemissao = new DAOPemissao();
-                    $daoPemissao->save($permissao);
+                    $daoPermissao = new DAOPermissao();
+                    $daoPermissao->save($permissao);
                     $this->info = "success=permissao_created";
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
@@ -195,7 +195,7 @@ class ControllerPemissao {
                 }
 
                 try {
-                    $this->daoPemissao->update($permissao);
+                    $this->daoPermissao->update($permissao);
                     if ($permissao == null) {
                         $this->info = 'warning=permissao_not_exists';
                         $this->listar();

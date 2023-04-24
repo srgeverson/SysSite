@@ -36,7 +36,7 @@
             <div class="form-group row">
                 <div class="col-sm-2 mb-3 mb-sm-4">
                     <div class="input-group">
-                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerUser&option=novo'); ?>" class="btn btn-primary btn-icon-split">
+                        <a  title="Cadastrar dados!" href="<?php echo server_url('?page=ControllerUser&option=novo'); ?>" class="btn btn-primary btn-icon-split" <?php echo !$filterUser->cadastrar ? 'disabled' : ''; ?>>
                             <span class="icon text-white-50">
                                 <i class="fas fa-plus"></i>
                             </span>
@@ -84,13 +84,15 @@
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';
                     } else {
-                        echo '<a title="Editar dados!" href="', server_url('?page=ControllerUser&option=edit&id=' . $each_user->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
-                        echo '<i class="fas fa-edit"></i>';
-                        echo '</a>';
+                        if ($filterUser->alterar) {
+                            echo '<a title="Editar dados!" href="', server_url('?page=ControllerUser&option=edit&id=' . $each_user->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
+                            echo '<i class="fas fa-edit"></i>';
+                            echo '</a>';
+                        }
                         echo '<a title="Ativar dados!" href="', server_url('?page=ControllerUser&option=enable&id=' . $each_user->id), '" class="btn btn-success btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-check-circle"></i>';
                         echo '</a>';
-                        if ($permissao == 1) {
+                        if ($filterUser->excluir) {
                             echo '<a title="Excluir dados!" href="', server_url('?page=ControllerUser&option=delete&id=' . $each_user->id), '" class="btn btn-danger btn-circle btn-sm excluir" onclick="return confirm(´Deseja realmente excluir, esta operação não podera ser desfeita!´)" style="margin: 5px">';
                             echo '<i class="fas fa-trash"></i>';
                             echo '</a>';

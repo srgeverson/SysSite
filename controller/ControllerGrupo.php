@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once server_path("dao/DAOPemissao.php");
+include_once server_path("dao/DAOPermissao.php");
 include_once server_path("dao/DAOGrupo.php");
 include_once server_path("dao/DAOGrupoPermissao.php");
 include_once server_path("dao/DAOUser.php");
@@ -19,7 +19,7 @@ include_once server_path("model/ModelUsuarioGrupo.php");
 class ControllerGrupo {
 
     private $info;
-    private $daoPemissao;
+    private $daoPermissao;
     private $daoGrupo;
     private $daoGrupoPermissao;
     private $daoTeste;
@@ -28,7 +28,7 @@ class ControllerGrupo {
 
     function __construct($pemissoes = array()) {
         $this->info = 'default=default';
-        $this->daoPemissao = new DAOPemissao();
+        $this->daoPermissao = new DAOPermissao();
         $this->daoGrupo = new DAOGrupo();
         $this->daoGrupoPermissao = new DAOGrupoPermissao();
         $this->daoUser = new DAOUser();
@@ -173,7 +173,7 @@ class ControllerGrupo {
                     $this->info = 'warning=grupo_not_exists';
                     $this->listar();
                 }
-                $permissoesDoGrupo = $this->daoPemissao->selectObjectsPermissoesByFKGrupo($grupo->id);
+                $permissoesDoGrupo = $this->daoPermissao->selectObjectsPermissoesByFKGrupo($grupo->id);
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
@@ -281,7 +281,7 @@ class ControllerGrupo {
             //if ($this->usuarioAutenticado === null)
             //return $this->usuarioAutenticado;
             // return $id;
-            return $this->daoPemissao->selectObjectsPermissoesByNotFKGrupo($id);
+            return $this->daoPermissao->selectObjectsPermissoesByNotFKGrupo($id);
             // return $this->daoGrupo->selectObjectsEnabled();
             //else
             //    http_response_code(401);

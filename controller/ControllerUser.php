@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once server_path("dao/DAOPemissao.php");
+include_once server_path("dao/DAOPermissao.php");
 include_once server_path("dao/DAOUser.php");
 include_once server_path("dao/DAOUsuarioGrupo.php");
 include_once server_path("controller/ControllerContact.php");
@@ -25,6 +25,7 @@ class ControllerUser {
     private $daoUser;
     private $usuarioAutenticado;
     private $daoParameter;
+    private $pemissoes;
 
     function __construct($pemissoes = array()) {
         $this->info = 'default=default';
@@ -34,6 +35,7 @@ class ControllerUser {
         $this->usuarioAutenticado = $user_logged;
         $this->daoParameter = new DAOParameter();
         $this->daoUsuarioGrupo = new DAOUsuarioGrupo();
+        $this->pemissoes = $pemissoes;
     }
 
     public function authenticate() {
@@ -108,8 +110,8 @@ class ControllerUser {
             }
             try {
                 $user = $this->daoUser->selectObjectById($id);
-                //$daoPemissao = new DAOPemissao();
-                //$authorities = $daoPemissao->selectObjectsEnabled();
+                //$daoPermissao = new DAOPermissao();
+                //$authorities = $daoPermissao->selectObjectsEnabled();
                 if (!isset($user)) {
                     $this->info = 'warning=user_not_exists';
                     $this->listar();
@@ -238,6 +240,7 @@ class ControllerUser {
             $filterUser->nome = strip_tags($_POST['nome_usuario']);
             $filterUser->login = strip_tags($_POST['login_usuario']);
             $filterUser->todos = strip_tags($_POST['todos']);
+            $filterUser = HelperController::validar_permissoes($this->pemissoes,  $filterUser);
             if ($filterUser->nome != null || $filterUser->login != null || $filterUser->todos) {
                 try {
                     $users = $this->daoUser->selectObjectsByContainsObjetc($filterUser);
@@ -246,6 +249,8 @@ class ControllerUser {
                     $this->info = "error=" . $erro->getMessage();
                 }
             }
+            //kkkkk
+            //var_dump($filterUser);
             if (isset($this->info)) {
                 HelperController::valid_messages($this->info);
             }
@@ -358,10 +363,10 @@ class ControllerUser {
                 $user_atual = $this->daoUser->selectObjectByName($user->login);
                 if (!$user_atual) {
                     $user->senha = password_hash($user->senha, PASSWORD_BCRYPT);
-                    if($user->senha){
-                        $this->daoUser->createOtherUser($user);
+                    if($user->senha) {
+                        $this->daoUser->save($user);
                         $this->info = "success=user_created";
-                    }else{
+                    } else {
                         $password = random_int(100000, 99999999); //senha aleatoria
                         $user->senha = password_hash($password, PASSWORD_BCRYPT);
                         //Enviando email para acesso ao sistema

@@ -59,8 +59,8 @@ function navbar() {
     if (!isset($user_logged)) {
         include_once server_path("view/system/nav_offline.php");
     } else {
-        include_once server_path("view/authority/screen/menu.php");
-        // include_once server_path("view/authority/screen/" . $user_logged->auth_screen);
+        include_once server_path("view/permissao/screen/menu.php");
+        // include_once server_path("view/permissao/screen/" . $user_logged->auth_screen);
     }
 }
 

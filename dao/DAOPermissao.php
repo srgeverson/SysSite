@@ -8,7 +8,7 @@
 
 include_once server_path('dao/GenericDAO.php');
 
-class DAOPemissao extends GenericDAO {
+class DAOPermissao extends GenericDAO {
 
     public function delete($id = 0) {
         try {
@@ -125,6 +125,24 @@ class DAOPemissao extends GenericDAO {
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
             $this->statement->bindParam(":grupo_id", $grupo_id, PDO::PARAM_INT);
+            $this->statement->execute();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function selectObjectsPermissoesByMenuItemAndUsuario($menu_item = null, $usuario_id = null) {
+        $this->query = "SELECT p.* FROM permissoes  AS p ";
+        $this->query .= "INNER JOIN menu_itens AS mi ON mi.id = p.menu_item_id AND mi.status = 1 ";
+        $this->query .= "INNER JOIN grupos_permissoes AS gp ON gp.permissao_id = p.id AND gp.status = 1 ";
+        $this->query .= "INNER JOIN usuarios AS u ON u.id = gp.usuario_id AND u.status = 1 ";
+        $this->query .= "WHERE p.status = 1 ";
+        $this->query .= "AND u.id = '$usuario_id' ";
+        $this->query .= "AND mi.url LIKE '?page=$menu_item%';";
+        try {
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
             $this->statement->execute();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());

@@ -53,12 +53,13 @@ class DAOUser extends GenericDAO {
                 throw new Exception("Dados incompletos");
             }
             $this->query = "INSERT INTO usuarios ";
-            $this->query .= "(nome, login, senha, status, imagem) ";
+            $this->query .= "(nome, cpf, login, senha, status, imagem) ";
             $this->query .= "VALUES ";
-            $this->query .= "(:nome, :login, :senha, :status, :imagem);";
+            $this->query .= "(:nome, :cpf, :login, :senha, :status, :imagem);";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
             $this->statement->bindParam(':nome', $user->nome, PDO::PARAM_STR);
+            $this->statement->bindParam(':cpf', $user->cpf, PDO::PARAM_STR);
             $this->statement->bindParam(':login', $user->login, PDO::PARAM_STR);
             $this->statement->bindParam(':senha', $user->senha, PDO::PARAM_STR);
             $this->statement->bindParam(':status', $user->status, PDO::PARAM_BOOL);
