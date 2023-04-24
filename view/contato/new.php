@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Telefone:</label><br>
-                        <input class="form-control" name="telefene" id="phone" type="text" placeholder="Digite o telefone...">
+                        <input class="form-control" name="telefone" id="phone" type="text" placeholder="Digite o telefone...">
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Celular:</label><br>

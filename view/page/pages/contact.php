@@ -117,7 +117,7 @@
             echo 'UF: ', $endereco->sigla, '<br>';
             echo '</p>';
             echo '<p>';
-            echo '<abbr title="Nosso telefone">Telefone</abbr>: ', $contato->telefene, '<br>';
+            echo '<abbr title="Nosso telefone">Telefone</abbr>: ', $contato->telefone, '<br>';
             echo '<abbr title="Nosso Celular">Celular</abbr>: ', $contato->celular, '<br>';
             echo '<abbr title="Nosso E-mail">E-mail</abbr>: ', $contato->email, '<br>';
             echo '</p>';

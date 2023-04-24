@@ -70,9 +70,9 @@
                     echo '<td>', $each_contato->id, '</td>';
                     echo '<td>', $each_contato->descricao, '</td>';
                     echo '<td>', $each_contato->celular, '</td>';
-                    echo '<td>', $each_contato->telefene, '</td>';
+                    echo '<td>', $each_contato->telefone, '</td>';
                     echo '<td>';
-                    if ($each_contato->cont_status == true) {
+                    if ($each_contato->status == true) {
                         echo '<a title="Desenable dados!" href="', server_url('?page=ControllerContato&option=disable&id=' . $each_contato->id), '" class="btn btn-danger btn-circle btn-sm excluir" style="margin: 5px">';
                         echo '<i class="fas fa-times-circle"></i>';
                         echo '</a>';

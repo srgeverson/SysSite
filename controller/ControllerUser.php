@@ -5,14 +5,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once server_path("dao/DAOPermissao.php");
+include_once server_path("dao/DAOContato.php");
+include_once server_path("dao/DAOEndereco.php");
+include_once server_path("dao/DAOFuncionario.php");
 include_once server_path("dao/DAOUser.php");
 include_once server_path("dao/DAOUsuarioGrupo.php");
-include_once server_path("controller/ControllerContato.php");
-include_once server_path("model/ModelUser.php");
-include_once server_path("model/ModelContato.php");
 include_once server_path("dao/DAOParameter.php");
+include_once server_path("dao/DAOPermissao.php");
+include_once server_path("controller/ControllerContato.php");
+include_once server_path("model/ModelContato.php");
+include_once server_path("model/ModelEndereco.php");
+include_once server_path("model/ModelFuncionario.php");
 include_once server_path("model/ModelParameter.php");
+include_once server_path("model/ModelGrupo.php");
+include_once server_path("model/ModelUser.php");
+include_once server_path("model/ModelUsuarioGrupo.php");
 //Para versões do PHP 5.x
 //include_once server_path("assets/php/random_compat/lib/random.php");
 //Para versões do PHP 5.3/5.4
@@ -25,17 +32,23 @@ class ControllerUser {
     private $daoUser;
     private $usuarioAutenticado;
     private $daoParameter;
+    private $daoContato;
+    private $daoFuncionario;
+    private $daoEndereco;
     private $pemissoes;
 
     function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->controllerSystem = new ControllerSystem();
-        $this->daoUser = new DAOUser();
-        global $user_logged;
-        $this->usuarioAutenticado = $user_logged;
+        $this->daoContato = new DAOContato();
+        $this->daoEndereco = new DAOEndereco();
         $this->daoParameter = new DAOParameter();
+        $this->daoFuncionario = new DAOFuncionario();
+        $this->daoUser = new DAOUser();
         $this->daoUsuarioGrupo = new DAOUsuarioGrupo();
         $this->pemissoes = $pemissoes;
+        global $user_logged;
+        $this->usuarioAutenticado = $user_logged;
     }
 
     public function authenticate() {
@@ -59,14 +72,19 @@ class ControllerUser {
                 $this->info = 'warning=user_uninformed';
             } else {
                 $user = $this->daoUser->selectObjectById($id);
-                if ($user->imagem != null || $user->imagem != '') {
-                    unlink(server_path('uploads/user/' . $user->imagem));
-                }
-                try {
-                    $this->daoUser->delete($id);
-                    $this->info = "success=user_deleted";
-                } catch (Exception $erro) {
-                    $this->info = "error=" . $erro->getMessage();
+                $funcionarioCPF = $this->daoFuncionario->selectObjectByCPF($user->cpf);
+                if(!$funcionarioCPF){
+                    if ($user->imagem != null || $user->imagem != '') {
+                        unlink(server_path('uploads/user/' . $user->imagem));
+                    }
+                    try {
+                        $this->daoUser->delete($id);
+                        $this->info = "success=user_deleted";
+                    } catch (Exception $erro) {
+                        $this->info = "error=" . $erro->getMessage();
+                    }
+                } else {
+                    $this->info = "warning=user_in_use";
                 }
             }
             $this->listar();
@@ -333,7 +351,7 @@ class ControllerUser {
             $user_updated = $this->daoUser->selectObjectById($id);
             //Enviando email para acesso ao sistema
             $contato = new ModelContato();
-            $contato->cont_descricao = $user_updated->nome;
+            $contato->descricao = $user_updated->nome;
             $contato->email = $user_updated->login;
             $contato->observacaoo = 'Senha Provisória: ' . $password;
 
@@ -355,6 +373,7 @@ class ControllerUser {
         if (HelperController::authotity()) {
             $user = new ModelUser();
             $user->nome = strip_tags($_POST['nome']);
+            $user->cpf = strip_tags($_POST['cpf']);
             $user->login = strip_tags($_POST['login']);
             $user->senha = strip_tags($_POST['senha']);
             $user->status = true;
@@ -363,21 +382,82 @@ class ControllerUser {
                 $user_atual = $this->daoUser->selectObjectByName($user->login);
                 if (!$user_atual) {
                     $user->senha = password_hash($user->senha, PASSWORD_BCRYPT);
+                    //Endereço
+                    $endereco = new ModelEndereco();
+                    $endereco->usuario_id = $this->usuarioAutenticado->id;
+                    $endereco->status = $user->status;
+                    //Contato
+                    $contato = new ModelContato();
+                    $contato->descricao = "Contato de usuário padrão.";
+                    $contato->email = $user->login;
+                    $contato->observacao = $contato->descricao;
+                    $contato->status = $user->status;
+                    $contato->contato_id = $this->usuarioAutenticado->id;
+                    //Funcionário
+                    $funcionario = new ModelFuncionario();
+                    $funcionario->nome = $user->nome;
+                    $funcionario->cpf = $user->cpf;
+                    $funcionario->status = $user->status;
+                    $funcionario->usuario_id = $this->usuarioAutenticado->id;
+
+                    //Grupo
+                    $grupo = new ModelGrupo();
+                    $grupo->id = $user->cpf ? 4 : 5;//Funcionário ou marketing
+                    $grupo->status = $user->status;
+                    $grupo->usuario_id = $this->usuarioAutenticado->id;
+                    $usuariosDoGrupo = array();
+                                        
                     if($user->senha) {
-                        $this->daoUser->save($user);
-                        $this->info = "success=user_created";
+                        $existente = $this->daoUser->selectObjectByCPF($user->cpf);
+                        if(empty($existente)){
+                            $user->id = $this->daoUser->saveAndReturnId($user);
+                            $funcionario->endereco_id = $this->daoEndereco->saveAndReturnPkId($endereco);
+                            $funcionario->contato_id = $this->daoContato->saveAndReturnPkId($contato);
+                            $funcionario_id = $this->daoFuncionario->saveAndReturnPkId($funcionario);
+                            //Grupo de permissão para usuário
+                            $usuarioGrupo = new ModelUsuarioGrupo();
+                            $usuarioGrupo->grupo_id = $grupo->id;
+                            $usuarioGrupo->usuario_id = $user->id;
+                            $usuarioGrupo->usuario = $this->usuarioAutenticado->id;
+                            $usuarioGrupo->status = $user->status;
+                            array_push($usuariosDoGrupo,$usuarioGrupo);
+                            $this->daoUsuarioGrupo->saveBatch($usuariosDoGrupo);
+                            $this->info = "success=user_created";
+                        } else {
+                            $this->info = "warning=user_already_registered";
+                            HelperController::valid_messages($this->info);
+                            $this->novo();
+                        }
+                       
                     } else {
                         $password = random_int(100000, 99999999); //senha aleatoria
                         $user->senha = password_hash($password, PASSWORD_BCRYPT);
                         //Enviando email para acesso ao sistema
-                        $contato = new ModelContato();
-                        $contato->cont_descricao = $nome;
-                        $contato->email = $login;
                         $contato->observacaoo = 'Senha Provisória: ' . $password;
                         $controllerContato = new ControllerContato();
                         if ($controllerContato->send_email($contato)) {
-                            $this->daoUser->createOtherUser($user);
-                            $this->info = "success=user_created";
+                            $id = $this->daoUser->saveAndReturnId($user);
+                                                        
+                            $existente = $this->daoUser->selectObjectByCPF($user->cpf);
+                            if(empty($existente)){
+                                $user->id = $this->daoUser->createOtherUserAndReturnId($user);
+                                $funcionario->endereco_id = $this->daoEndereco->saveAndReturnPkId($endereco);
+                                $funcionario->contato_id = $this->daoContato->saveAndReturnPkId($contato);
+                                $funcionario_id = $this->daoFuncionario->saveAndReturnPkId($funcionario);
+                                //Grupo de permissão para usuário
+                                $usuarioGrupo = new ModelUsuarioGrupo();
+                                $usuarioGrupo->grupo_id = $grupo->id;
+                                $usuarioGrupo->usuario_id = $user->id;
+                                $usuarioGrupo->usuario = $this->usuarioAutenticado->id;
+                                $usuarioGrupo->status = $user->status;
+                                array_push($usuariosDoGrupo,$usuarioGrupo);
+                                $this->daoUsuarioGrupo->saveBatch($usuariosDoGrupo);
+                                $this->info = "success=user_created";
+                            } else {
+                                $this->info = "warning=user_already_registered";
+                                HelperController::valid_messages($this->info);
+                                $this->novo();
+                            }
                         } else {
                             $this->info = "error=contato_not_send_email";
                         }
@@ -421,7 +501,7 @@ class ControllerUser {
 
         //Enviando email para acesso ao sistema
         $contato = new ModelContato();
-        $contato->cont_descricao = $nome;
+        $contato->descricao = $nome;
         $contato->email = $login;
         $contato->observacaoo = 'Senha Provisória: ' . $password;
 

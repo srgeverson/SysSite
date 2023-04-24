@@ -28,9 +28,9 @@ class DAOContato extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO contatos ";
-        $this->query .= "(descricao, telefene, celular, whatsapp, email, facebook, instagram, observacao, cont_status) ";
+        $this->query .= "(descricao, telefone, celular, whatsapp, email, facebook, instagram, observacao, status) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:descricao, :telefene, :celular, :whatsapp, :email, :facebook, :instagram, :observacao, :cont_status);";
+        $this->query .= "(:descricao, :telefone, :celular, :whatsapp, :email, :facebook, :instagram, :observacao, :status);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -38,14 +38,14 @@ class DAOContato extends GenericDAO {
         }
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':descricao', $contato->descricao, PDO::PARAM_STR);
-        $this->statement->bindParam(':telefene', $contato->telefene, PDO::PARAM_STR);
+        $this->statement->bindParam(':telefone', $contato->telefone, PDO::PARAM_STR);
         $this->statement->bindParam(':celular', $contato->celular, PDO::PARAM_STR);
         $this->statement->bindParam(':whatsapp', $contato->whatsapp, PDO::PARAM_STR);
         $this->statement->bindParam(':email', $contato->email, PDO::PARAM_STR);
         $this->statement->bindParam(':facebook', $contato->facebook, PDO::PARAM_STR);
         $this->statement->bindParam(':instagram', $contato->instagram, PDO::PARAM_STR);
         $this->statement->bindParam(':observacao', $contato->observacao, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_status', $contato->cont_status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':status', $contato->status, PDO::PARAM_BOOL);
         $this->statement->execute();
         return true;
     }
@@ -55,9 +55,9 @@ class DAOContato extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "INSERT INTO contatos ";
-        $this->query .= "(descricao, telefene, celular, whatsapp, email, facebook, instagram, observacao, cont_status, cont_fk_user_pk_id) ";
+        $this->query .= "(descricao, telefone, celular, whatsapp, email, facebook, instagram, observacao, status, usuario_id) ";
         $this->query .= "VALUES ";
-        $this->query .= "(:descricao, :telefene, :celular, :whatsapp, :email, :facebook, :instagram, :observacao, :cont_status, :cont_fk_user_pk_id);";
+        $this->query .= "(:descricao, :telefone, :celular, :whatsapp, :email, :facebook, :instagram, :observacao, :status, :usuario_id);";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -65,15 +65,15 @@ class DAOContato extends GenericDAO {
         }
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':descricao', $contato->descricao, PDO::PARAM_STR);
-        $this->statement->bindParam(':telefene', $contato->telefene, PDO::PARAM_STR);
+        $this->statement->bindParam(':telefone', $contato->telefone, PDO::PARAM_STR);
         $this->statement->bindParam(':celular', $contato->celular, PDO::PARAM_STR);
         $this->statement->bindParam(':whatsapp', $contato->whatsapp, PDO::PARAM_STR);
         $this->statement->bindParam(':email', $contato->email, PDO::PARAM_STR);
         $this->statement->bindParam(':facebook', $contato->facebook, PDO::PARAM_STR);
         $this->statement->bindParam(':instagram', $contato->instagram, PDO::PARAM_STR);
         $this->statement->bindParam(':observacao', $contato->observacao, PDO::PARAM_STR);
-        $this->statement->bindParam(':cont_status', $contato->cont_status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':cont_fk_user_pk_id', $contato->cont_fk_user_pk_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':status', $contato->status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':usuario_id', $contato->usuario_id, PDO::PARAM_INT);
         $this->statement->execute();
         return $conexao->lastInsertId();
     }
@@ -114,7 +114,7 @@ class DAOContato extends GenericDAO {
         }
         $this->query = "UPDATE contatos SET ";
         $this->query .= "descricao=:descricao, ";
-        $this->query .= "telefene=:telefene, ";
+        $this->query .= "telefone=:telefone, ";
         $this->query .= "celular=:celular, ";
         $this->query .= "whatsapp=:whatsapp, ";
         $this->query .= "email=:email, ";
@@ -129,7 +129,7 @@ class DAOContato extends GenericDAO {
         }
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':descricao', $contato->descricao, PDO::PARAM_STR);
-        $this->statement->bindParam(':telefene', $contato->telefene, PDO::PARAM_STR);
+        $this->statement->bindParam(':telefone', $contato->telefone, PDO::PARAM_STR);
         $this->statement->bindParam(':celular', $contato->celular, PDO::PARAM_STR);
         $this->statement->bindParam(':whatsapp', $contato->whatsapp, PDO::PARAM_STR);
         $this->statement->bindParam(':email', $contato->email, PDO::PARAM_STR);
@@ -146,7 +146,7 @@ class DAOContato extends GenericDAO {
             throw new Exception("Dados incompletos");
         }
         $this->query = "UPDATE contatos SET ";
-        $this->query .= "cont_status=:cont_status ";
+        $this->query .= "status=:status ";
         $this->query .= "WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
@@ -154,7 +154,7 @@ class DAOContato extends GenericDAO {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':cont_status', $contato->cont_status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':status', $contato->status, PDO::PARAM_BOOL);
         $this->statement->bindParam(':id', $contato->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;

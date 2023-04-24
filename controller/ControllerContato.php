@@ -43,14 +43,14 @@ class ControllerContato {
         if (HelperController::authotity()) {
             $id = strip_tags($_GET['id']);
             if (isset($id)) {
-                $cont_status = false;
+                $status = false;
                 try {
                     if (($this->daoContato->selectObjectById($id)) === null) {
                         $this->info = 'warning=contato_not_exists';
                     } else {
                         $contato = new ModelContato();
                         $contato->id = $id;
-                        $contato->cont_status = $cont_status;
+                        $contato->status = $status;
 
                         $this->daoContato->updateStatus($contato);
                         $this->info = 'success=contato_disabled';
@@ -92,14 +92,14 @@ class ControllerContato {
         if (HelperController::authotity()) {
             $id = strip_tags($_GET['id']);
             if (isset($id)) {
-                $cont_status = true;
+                $status = true;
                 try {
                     if (($this->daoContato->selectObjectById($id)) === null) {
                         $this->info = 'warning=contato_not_exists';
                     } else {
                         $contato = new ModelContato();
                         $contato->id = $id;
-                        $contato->cont_status = $cont_status;
+                        $contato->status = $status;
 
                         $this->daoContato->updateStatus($contato);
                         $this->info = 'success=contato_enabled';
@@ -142,25 +142,25 @@ class ControllerContato {
     public function save() {
         if (HelperController::authotity()) {
             $descricao = strip_tags($_POST['descricao']);
-            $telefene = strip_tags($_POST['telefene']);
+            $telefone = strip_tags($_POST['telefone']);
             $celular = strip_tags($_POST['celular']);
             $whatsapp = strip_tags($_POST['whatsapp']);
             $email = strip_tags($_POST['email']);
             $facebook = strip_tags($_POST['facebook']);
             $instagram = strip_tags($_POST['instagram']);
             $observacao = strip_tags($_POST['observacao']);
-            $cont_status = false;
+            $status = false;
 
             $contato = new ModelContato();
             $contato->descricao = $descricao;
-            $contato->telefene = $telefene;
+            $contato->telefone = $telefone;
             $contato->celular = $celular;
             $contato->whatsapp = $whatsapp;
             $contato->email = $email;
             $contato->facebook = $facebook;
             $contato->instagram = $instagram;
             $contato->observacao = $observacao;
-            $contato->cont_status = $cont_status;
+            $contato->status = $status;
             try {
                 $daoContato = new DAOContato();
                 $daoContato->save($contato);
@@ -205,7 +205,7 @@ class ControllerContato {
             }
         }
 
-        $conteudoEmail = "Nome: $contato->cont_descricao\n\nE-mail: $contato->email\n\nMensagem: $contato->observacaoo\n";
+        $conteudoEmail = "Nome: $contato->descricao\n\nE-mail: $contato->email\n\nMensagem: $contato->observacaoo\n";
         return smtpmailer($contato->email, $email, $nomeFantazia, 'Dados de Acesso', $conteudoEmail);
 
         if (!empty($error)) {
@@ -224,11 +224,11 @@ class ControllerContato {
         $contato->celular = $celular;
         $contato->email = $email;
         $contato->observacao = $observacao;
-        $contato->telefene = '';
+        $contato->telefone = '';
         $contato->whatsapp = '';
         $contato->facebook = '';
         $contato->instagram = '';
-        $contato->cont_status = true;
+        $contato->status = true;
 
         try {
             if ($this->send_email($contato)) {
@@ -252,7 +252,7 @@ class ControllerContato {
                 }
 
                 $descricao = strip_tags($_POST['descricao']);
-                $telefene = strip_tags($_POST['telefene']);
+                $telefone = strip_tags($_POST['telefone']);
                 $celular = strip_tags($_POST['celular']);
                 $whatsapp = strip_tags($_POST['whatsapp']);
                 $email = strip_tags($_POST['email']);
@@ -263,7 +263,7 @@ class ControllerContato {
                 $contato = new ModelContato();
                 $contato->id = $id;
                 $contato->descricao = $descricao;
-                $contato->telefene = $telefene;
+                $contato->telefone = $telefone;
                 $contato->celular = $celular;
                 $contato->whatsapp = $whatsapp;
                 $contato->email = $email;

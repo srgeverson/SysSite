@@ -71,7 +71,7 @@ global $user_logged;
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Telefone:</label><br>
-                                <input class="form-control" name="telefene" id="phone" type="tel" placeholder="Digite o telefone no formato (999)99999-99999...">
+                                <input class="form-control" name="telefone" id="phone" type="tel" placeholder="Digite o telefone no formato (999)99999-99999...">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Celular:</label><br>

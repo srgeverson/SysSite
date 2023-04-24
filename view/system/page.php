@@ -146,7 +146,7 @@
                     request.send(formdata);
                 });
             }
-            $('#telefene').on('click', function (e) {
+            $('#telefone').on('click', function (e) {
                 e.preventDefault();
                 navigator.clipboard.writeText($('#chave_pix').val());
                 $('#liveToast').toast('show');

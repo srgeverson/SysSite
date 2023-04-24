@@ -81,7 +81,7 @@ global $user_logged;
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Telefone:</label><br>
-                                <input class="form-control" name="telefene" id="phone" type="tel" placeholder="Digite o telefone..." value="<?php echo $funcionario->telefene; ?>">
+                                <input class="form-control" name="telefone" id="phone" type="tel" placeholder="Digite o telefone..." value="<?php echo $funcionario->telefone; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Celular:</label><br>

@@ -21,7 +21,7 @@
     </div>
     <?php
         echo '<div class="row justify-content-center">';
-        echo '<input type="hidden" id="chave_pix" value="', $contato->telefene, '" />';
+        echo '<input type="hidden" id="chave_pix" value="', $contato->telefone, '" />';
         echo '<img class="img-profile rounded-circle" style="width: 20rem; height: 10rem; padding: 10px;" src="', server_url('assets/img/logo.png'), '">';
         echo '</div>';
         echo '<div class="row justify-content-center">';
@@ -37,13 +37,13 @@
         echo '<a class="btn btn-primary btn-lg m-3" style="border-radius:100rem;background-color:#1877f2;border:0;" href="https://www.facebook.com/', $contato->facebook ,'"><i class="fab fa-facebook-f"></i> Facebook</a>';
         echo '</div>';
         echo '<div class="row justify-content-center">';
-        echo '<a class="btn btn-primary btn-lg m-3" style="border-radius:100rem;background-color:#3c6cb6;border:0;" href="tel:+55', $contato->telefene, '"><i class="fas fa-phone"></i> Telefone</a>';
+        echo '<a class="btn btn-primary btn-lg m-3" style="border-radius:100rem;background-color:#3c6cb6;border:0;" href="tel:+55', $contato->telefone, '"><i class="fas fa-phone"></i> Telefone</a>';
         echo '</div>';
         echo '<div class="row justify-content-center">';
         echo '<a class="btn btn-primary btn-lg m-3" style="border-radius:100rem;background-color:#22bf9b;border:0;" href="#" data-toggle="modal" data-target="#qrCodePix"><i class="fab fa-pix"></i> PIX</a>';
         echo '</div>';
         echo '<div class="row justify-content-center">';
-        echo '<a id="telefene" class="btn btn-primary btn-lg m-3" style="border-radius:100rem;background-color:#22bf9b;border:0;" href="#"><i class="fas fa-copy"></i> Copiar Chave PIX</a>';
+        echo '<a id="telefone" class="btn btn-primary btn-lg m-3" style="border-radius:100rem;background-color:#22bf9b;border:0;" href="#"><i class="fas fa-copy"></i> Copiar Chave PIX</a>';
         echo '</div>';
         echo '<div class="row justify-content-center">';
         echo '<a class="btn btn-primary btn-lg m-3" style="border-radius:100rem;background-color:#1d9bf0;border:0;" href="https://twitter.com/', $contato->cont_twitter ,'"><i class="fab fa-twitter"></i> Twitter</a>';

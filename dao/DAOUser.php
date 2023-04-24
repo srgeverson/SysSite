@@ -16,12 +16,13 @@ class DAOUser extends GenericDAO {
                 throw new Exception("Dados incompletos");
             }
             $this->query = "INSERT INTO usuarios ";
-            $this->query .= "(nome, login, senha, status, usuario_id) ";
+            $this->query .= "(nome, cpf, login, senha, status, usuario_id) ";
             $this->query .= "VALUES ";
             $this->query .= "(:nome, :login, :senha, :status, :usuario_id);";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
             $this->statement->bindParam(':nome', $user->nome, PDO::PARAM_STR);
+            $this->statement->bindParam(':cpf', $user->cpf, PDO::PARAM_STR);
             $this->statement->bindParam(':login', $user->login, PDO::PARAM_STR);
             $this->statement->bindParam(':senha', $user->senha, PDO::PARAM_STR);
             $this->statement->bindParam(':status', $user->status, PDO::PARAM_BOOL);
@@ -33,7 +34,31 @@ class DAOUser extends GenericDAO {
         return true;
     }
 
-    public function delete($id = "") {
+    public function createOtherUserAndReturnId(ModelUser $user = null) {
+        try {
+            if (!is_object($user)) {
+                throw new Exception("Dados incompletos");
+            }
+            $this->query = "INSERT INTO usuarios ";
+            $this->query .= "(nome, cpf, login, senha, status, usuario_id) ";
+            $this->query .= "VALUES ";
+            $this->query .= "(:nome, :login, :senha, :status, :usuario_id);";
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(':nome', $user->nome, PDO::PARAM_STR);
+            $this->statement->bindParam(':cpf', $user->cpf, PDO::PARAM_STR);
+            $this->statement->bindParam(':login', $user->login, PDO::PARAM_STR);
+            $this->statement->bindParam(':senha', $user->senha, PDO::PARAM_STR);
+            $this->statement->bindParam(':status', $user->status, PDO::PARAM_BOOL);
+            $this->statement->bindParam(':usuario_id', $user->usuario_id, PDO::PARAM_INT);
+            $this->statement->execute();
+            return $conexao->lastInsertId();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+    }
+
+    public function delete($id = null) {
         $this->query = "DELETE FROM usuarios WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
@@ -69,6 +94,30 @@ class DAOUser extends GenericDAO {
             throw new Exception($erro->getMessage());
         }
         return true;
+    }
+
+    public function saveAndReturnId(ModelUser $user = null) {
+        try {
+            if (!is_object($user)) {
+                throw new Exception("Dados incompletos");
+            }
+            $this->query = "INSERT INTO usuarios ";
+            $this->query .= "(nome, cpf, login, senha, status, imagem) ";
+            $this->query .= "VALUES ";
+            $this->query .= "(:nome, :cpf, :login, :senha, :status, :imagem);";
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(':nome', $user->nome, PDO::PARAM_STR);
+            $this->statement->bindParam(':cpf', $user->cpf, PDO::PARAM_STR);
+            $this->statement->bindParam(':login', $user->login, PDO::PARAM_STR);
+            $this->statement->bindParam(':senha', $user->senha, PDO::PARAM_STR);
+            $this->statement->bindParam(':status', $user->status, PDO::PARAM_BOOL);
+            $this->statement->bindParam(':imagem', $user->imagem, PDO::PARAM_STR);
+            $this->statement->execute();
+            return $conexao->lastInsertId();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
     }
 
     public function selectObjectById($id = "") {
@@ -136,6 +185,23 @@ class DAOUser extends GenericDAO {
         }
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':login', $login, PDO::PARAM_STR);
+        $this->statement->execute();
+        return $this->statement->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function selectObjectByCPF($cpf = "") {
+        $this->query = "SELECT u.* ";
+        //$this->query .= "u.*, a.* ";
+        $this->query .= "FROM usuarios AS u ";
+        //$this->query .= "INNER JOIN permissao AS a ON u.user_fk_permissao_pk_id = a.id ";
+        $this->query .= "WHERE u.cpf = :cpf LIMIT 1;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->bindParam(':cpf', $cpf, PDO::PARAM_STR);
         $this->statement->execute();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
