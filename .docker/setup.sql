@@ -3,6 +3,8 @@
 -- Host: localhost    Database: system
 -- ------------------------------------------------------
 -- Server version	8.0.32
+CREATE DATABASE IF NOT EXISTS `system`;
+USE `system`;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
