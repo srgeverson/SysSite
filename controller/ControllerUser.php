@@ -73,7 +73,8 @@ class ControllerUser {
             } else {
                 $user = $this->daoUser->selectObjectById($id);
                 $funcionarioCPF = $this->daoFuncionario->selectObjectByCPF($user->cpf);
-                if(!$funcionarioCPF){
+                $usuarioPermissoes =  $this->daoUsuarioGrupo->selectObjectsByContainsFkUsuario($user->id);
+                if(!$funcionarioCPF && empty($usuarioPermissoes)){
                     if ($user->imagem != null || $user->imagem != '') {
                         unlink(server_path('uploads/user/' . $user->imagem));
                     }

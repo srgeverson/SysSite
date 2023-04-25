@@ -8,8 +8,9 @@
 include_once server_path("controller/ControllerFuncionarioUser.php");
 include_once server_path("controller/ControllerUser.php");
 include_once server_path("controller/ControllerSystem.php");
-// include_once server_path("dao/DAOEstado.php");
 include_once server_path("dao/DAOCidade.php");
+include_once server_path("dao/DAOContato.php");
+include_once server_path("dao/DAOEndereco.php");
 include_once server_path("dao/DAOFuncionario.php");
 include_once server_path("dao/DAOUser.php");
 include_once server_path("model/ModelContato.php");
@@ -20,19 +21,27 @@ include_once server_path("model/ModelFuncionarioUser.php");
 
 class ControllerFuncionario {
 
+    private $daoCidade;
+    private $daoContato;
+    private $daoEndereco;
     private $daoFuncionario;
+    private $daoUser;
     private $info;
     private $pemissoes;
     private $usuarioAutenticado;
+    private $mensagens;
 
     function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoCidade = new DAOCidade();
+        $this->daoContato = new DAOContato();
+        $this->daoEndereco = new DAOEndereco();
         $this->daoFuncionario = new DAOFuncionario();
         $this->daoUser = new DAOUser();
         $this->pemissoes = $pemissoes;
         global $user_logged;
         $this->usuarioAutenticado = $user_logged;
+        $this->mensagens = array();
     }
 
     public function delete() {
@@ -51,13 +60,16 @@ class ControllerFuncionario {
                     //$controlleFuncionarioUser->deleteFuncionarioUserByFuncionario($funcionario->id);
                     try {
                         $this->daoFuncionario->delete($funcionario->id);
+                        array_push($this->mensagens, "funcionario_deleted");
                         $this->info = "success=funcionario_deleted";
                         try {
-                            $daoContato->delete($funcionario->contato_id);
+                            $this->daoContato->delete($funcionario->contato_id);
+                            array_push($this->mensagens, "contato_deleted");
                             try {
-                                $daoEndereco->delete($funcionario->endereco_id);
+                                $this->daoEndereco->delete($funcionario->endereco_id);
+                                array_push($this->mensagens, "endereco_deleted");
                                 $this->listar();
-                            } catch (Exception $exc) {
+                            } catch (Exception $erro) {
                                 $this->info = "error=Endereço: " . $erro->getMessage();
                                 $this->listar();
                             }
@@ -176,7 +188,7 @@ class ControllerFuncionario {
                 }
             }
             if (isset($this->info)) {
-                HelperController::valid_messages($this->info);
+                HelperController::valid_messages($this->info, $this->mensagens);
             }
             include_once server_path('view/funcionario/list.php');
         }

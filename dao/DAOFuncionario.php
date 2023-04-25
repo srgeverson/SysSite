@@ -13,7 +13,6 @@ class DAOFuncionario extends GenericDAO {
     public function delete($id = null) {
         try {
             $this->query = "DELETE FROM funcionarios WHERE id=:id;";
-            echo $id;
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
             $this->statement->bindParam(":id", $id, PDO::PARAM_INT);
@@ -80,7 +79,7 @@ class DAOFuncionario extends GenericDAO {
 
     public function selectObjectByCPF($cpf = null) {
         $this->query = "SELECT ";
-        $this->query .= "* ";
+        $this->query .= "f.* ";
         $this->query .= "FROM funcionarios AS f ";
         $this->query .= "INNER JOIN enderecos AS e ON (f.endereco_id=e.id) ";
         $this->query .= "INNER JOIN contatos AS c ON (f.contato_id=c.id) ";
@@ -88,16 +87,15 @@ class DAOFuncionario extends GenericDAO {
         $this->query .= "LEFT JOIN usuarios AS u ON (u.id=u.usuario_id) ";
         $this->query .= "WHERE ";
         $this->query .= "f.cpf=:cpf LIMIT 1;";
-        
         try {
             $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(":cpf", $cpf, PDO::PARAM_STR);
+            $this->statement->execute();
+            return $this->statement->fetch(PDO::FETCH_OBJ);
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(":cpf", $cpf, PDO::PARAM_INT);
-        $this->statement->execute();
-        return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
     public function selectObjectById($id = null) {

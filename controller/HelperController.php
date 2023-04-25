@@ -55,7 +55,7 @@ class HelperController {
         }
     }
 
-    public static function valid_messages($msg) {
+    public static function valid_messages($msg, $messages = array()) {
         if ($msg != 'default=default') {
             list($type, $info) = explode("=", $msg);
             switch ($type) {
@@ -76,6 +76,7 @@ class HelperController {
                     $alert_icon = "exclamation-triangle";
             }
             $alert_text = HelperController::dictionary($info);
+            $message_text = join(",", $messages);
             include server_path('view/system/alert.php');
         }
     }

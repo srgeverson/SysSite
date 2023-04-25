@@ -122,8 +122,10 @@ class DAOUser extends GenericDAO {
 
     public function selectObjectById($id = "") {
         $this->query = "SELECT u.* ";
+        //kkkkk
         //$this->query .= "u.*, a.id, a.descricao ";
         $this->query .= "FROM usuarios AS u ";
+        //kkkkk
         //$this->query .= "INNER JOIN permissao AS a ON (u.user_fk_permissao_pk_id = a.id) ";
         $this->query .= "WHERE u.id = :id LIMIT 1;";
         try {
