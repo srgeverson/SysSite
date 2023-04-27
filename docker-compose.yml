@@ -2,9 +2,9 @@ version: '3.9'
 
 # Quando utilizar redes específicas
 networks:
-  system_network:
+  paulistense_network_private:
     driver: bridge
-  system_network_public:
+  paulistense_network_public:
     driver: bridge
     #external: true
 
@@ -19,8 +19,8 @@ services:
       # - '80:80'
       #- '443:443' #quando utilizar um certificado especificar essa porta
     networks:
-      - system_network
-      - system_network_public
+      - paulistense_network_private
+      - paulistense_network_public
     volumes:
       - .:/var/www/html
     environment:
@@ -38,8 +38,8 @@ services:
     ports: #para teste
       - '3306:3306' #para teste
     networks:
-      - system_network
-      - system_network_public #para teste
+      - paulistense_network_private
+      - paulistense_network_public #para teste
     volumes:
       - '.docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql'
     environment:
@@ -53,6 +53,6 @@ services:
     ports:
       - "80:80"
     networks:
-      - system_network_public
+      - paulistense_network_public
     links:
       - site_system
