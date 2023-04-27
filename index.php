@@ -6,7 +6,7 @@ include_once './controller/ControllerParameter.php';
 include_once './controller/ControllerPage.php';
 
 $parameter = new ControllerParameter();
-ini_set('display_errors', $parameter->getProperty('mostrar_error'));
+ini_set('display_errors', 1);
 
 $tempo = $parameter->getProperty('tempo_sessao_site');
 session_cache_expire( $tempo == 'Vazio/Desabilitado' ? 60 : $tempo);
@@ -56,12 +56,10 @@ function main() {
 
 function navbar() {
     global $user_logged;
-    if (!isset($user_logged)) {
+    if (!isset($user_logged)) 
         include_once server_path("view/system/nav_offline.php");
-    } else {
-        include_once server_path("view/authority/screen/menu.php");
-        // include_once server_path("view/authority/screen/" . $user_logged->auth_screen);
-    }
+    else 
+        include_once server_path("view/permissao/screen/menu.php");
 }
 
 include_once 'view/system/page.php';

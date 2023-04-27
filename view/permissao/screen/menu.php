@@ -23,6 +23,7 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
                 else
                     echo '<img class="img-profile rounded-circle" style="width: 30px; height: 30px" src="' . server_url('uploads/user/not_found.png') . '">';
             } else if($each_menu->nome == 'Contra-cheque' /*&& $each_menu->id == 5*/){
+                $listaFolhaPagamento = array();
                 $controllerFuncionarioUser = new ControllerFuncionarioUser();
                 $funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->id);
                 if (isset($funcionario)) {

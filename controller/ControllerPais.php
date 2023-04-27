@@ -13,7 +13,7 @@ class ControllerPais {
     private $info;
     private $daoPais;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoPais = new DAOPais();
     }

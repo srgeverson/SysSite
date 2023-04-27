@@ -5,6 +5,22 @@
  * and open the template in the editor.
  */
 ?>
+<script>
+$(document).ready(function () {
+  
+    $("input[name='cpf']").keyup(function(e){
+        //console.log(e.target.value);
+    });
+
+    $("#confirma_senha_sem_email").keyup(function () {
+        if (($('#confirma_senha_sem_email').val() === $('#senha_sem_email').val()) && $('#confirma_senha_sem_email').val() != '') {
+            $('#salvar_novo_usuario_com_senha').removeAttr("disabled");
+        } else {
+            $('#salvar_novo_usuario_com_senha').attr('disabled', '');
+        }
+    });
+});
+</script>
 <br>
 <div class="row">
     <div class="col-lg-4 mb-4">
@@ -19,8 +35,18 @@
                         <input class="form-control" name="nome" type="text" placeholder="Digite um nome..." required>
                     </div>
                     <div class="form-group">
+                        <label class="text-primary">CPF:</label><br>
+                        <input class="form-control is-valid" id="cpf" name="cpf" type="text" placeholder="Digite um cpf...">
+                        <div class="valid-feedback">
+                            Esta informação é utilizado internamente pelo sistema, só utilizada quando usuário funcionário.
+                        </div>
+                    </div>
+                    <div class="form-group was-validated">
                         <label class="text-primary">E-mail:</label><br>
                         <input class="form-control" name="login" type="email" placeholder="Digite um email..." value=""  required>
+                        <div class="invalid-feedback">
+                            Este é um campo chave utilizado internamente pelo sistema e deve ser unico.
+                        </div>
                     </div>
                     <?php
                     if($user->enviar_senha_por_email !== true){

@@ -10,8 +10,8 @@ include_once server_path('dao/GenericDAO.php');
 
 class DAOGrupoPermissao extends GenericDAO {
 
-    public function deleteBatchByNotExistsArray(ModelGrupoPermissao $authority = null) {
-        if (!is_object($authority)) {
+    public function deleteBatchByNotExistsArray(ModelGrupoPermissao $permissao = null) {
+        if (!is_object($permissao)) {
             throw new Exception("Dados incompletos");
         }
         try {
@@ -19,12 +19,12 @@ class DAOGrupoPermissao extends GenericDAO {
             $this->query .= "INNER JOIN grupos_permissoes AS gp2 ON gp2.permissao_id = gp.permissao_id AND gp2.grupo_id=gp.grupo_id ";
             $this->query .= "WHERE gp.status = 1 ";
             $this->query .= "AND gp.grupo_id = :grupo_id "; 
-            if($authority->ids_permissoes)
-                $this->query .= "AND gp.permissao_id NOT IN ($authority->ids_permissoes) ";
+            if($permissao->ids_permissoes)
+                $this->query .= "AND gp.permissao_id NOT IN ($permissao->ids_permissoes) ";
             $this->query .= "AND gp2.status = 1 ";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
-            $this->statement->bindParam(":grupo_id", $authority->grupo_id, PDO::PARAM_INT);
+            $this->statement->bindParam(":grupo_id", $permissao->grupo_id, PDO::PARAM_INT);
             $this->statement->execute();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
@@ -67,12 +67,12 @@ class DAOGrupoPermissao extends GenericDAO {
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectsByContainsObject(ModelGrupoPermissao $authority = null) {
+    public function selectObjectsByContainsObject(ModelGrupoPermissao $permissao = null) {
         $this->query = "SELECT ";
         $this->query .= "* ";
         $this->query .= "FROM grupos_permissoes ";
         $this->query .= "WHERE ";
-        $this->query .= "descricao LIKE '%$authority->descricao%';";
+        $this->query .= "descricao LIKE '%$permissao->descricao%';";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -100,6 +100,23 @@ class DAOGrupoPermissao extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function selectObjectsByContainsFkPermissao($permissao_id = null) {
+        try {
+            $this->query = "SELECT ";
+            $this->query .= "gp.* ";
+            $this->query .= "FROM grupos_permissoes AS gp ";
+            $this->query .= "WHERE 1 = 1 ";
+            $this->query .= "AND gp.permissao_id =:permissao_id;";
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(":permissao_id", $permissao_id, PDO::PARAM_INT);
+            $this->statement->execute();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function selectObjectsEnabled() {
         $this->query = "SELECT gp.* FROM grupos_permissoes AS gp WHERE gp.status = 1;";
         try {
@@ -112,8 +129,8 @@ class DAOGrupoPermissao extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function update(ModelGrupoPermissao $authority = null) {
-        if (!is_object($authority)) {
+    public function update(ModelGrupoPermissao $permissao = null) {
+        if (!is_object($permissao)) {
             throw new Exception("Dados incompletos");
         }
         $this->query = "UPDATE grupos_permissoes SET ";
@@ -127,17 +144,17 @@ class DAOGrupoPermissao extends GenericDAO {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':descricao', $authority->descricao, PDO::PARAM_STR);
-        $this->statement->bindParam(':nome', $authority->nome, PDO::PARAM_STR);
-        $this->statement->bindParam(':menu_item_id', $authority->menu_item_id, PDO::PARAM_STR);
-        $this->statement->bindParam(':usuario_id', $authority->usuario_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':id', $authority->id, PDO::PARAM_INT);
+        $this->statement->bindParam(':descricao', $permissao->descricao, PDO::PARAM_STR);
+        $this->statement->bindParam(':nome', $permissao->nome, PDO::PARAM_STR);
+        $this->statement->bindParam(':menu_item_id', $permissao->menu_item_id, PDO::PARAM_STR);
+        $this->statement->bindParam(':usuario_id', $permissao->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':id', $permissao->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
 
-    public function updateStatus(ModelGrupoPermissao $authority = null) {
-        if (!is_object($authority)) {
+    public function updateStatus(ModelGrupoPermissao $permissao = null) {
+        if (!is_object($permissao)) {
             throw new Exception("Dados incompletos");
         }
         $this->query = "UPDATE grupos_permissoes SET ";
@@ -150,9 +167,9 @@ class DAOGrupoPermissao extends GenericDAO {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':status', $authority->status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':usuario_id', $authority->usuario_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':id', $authority->id, PDO::PARAM_INT);
+        $this->statement->bindParam(':status', $permissao->status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':usuario_id', $permissao->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':id', $permissao->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }

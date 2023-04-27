@@ -10,13 +10,16 @@
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
-        <form action="<?php echo server_url('?page=ControllerAuthority&option=save'); ?>" method="post">
+        <form action="<?php echo server_url('?page=ControllerPemissao&option=save'); ?>" method="post">
             <div class="card h-100">
                 <h4 class="card-header text-primary">Cadastrar Permissão</h4>
                 <div class="card-body">
-                    <div class="form-group">
+                    <div class="form-group was-validated">
                         <label class="text-primary">Nome:</label><br>
                         <input class="form-control" name="nome" type="text" placeholder="Digite um nome para a tela..."  required>
+                        <div class="invalid-feedback">
+                            Este é um campo chave utilizado internamente pelo sistema e deve ser unico.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="text-primary">Descrição:</label><br>
@@ -45,7 +48,7 @@
                             </button>
                         </div>
                         <div class="input-group">
-                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerAuthority&option=listar'); ?>" type="submit">
+                            <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerPemissao&option=listar'); ?>" type="submit">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-window-close"></i>
                                 </span>

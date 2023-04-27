@@ -5,12 +5,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once server_path("dao/DAOAuthority.php");
+include_once server_path("dao/DAOPermissao.php");
 include_once server_path("dao/DAOGrupo.php");
 include_once server_path("dao/DAOGrupoPermissao.php");
 include_once server_path("dao/DAOUser.php");
 include_once server_path("dao/DAOUsuarioGrupo.php");
-include_once server_path("model/ModelAuthority.php");
+include_once server_path("model/ModelPermissao.php");
 include_once server_path("model/ModelGrupo.php");
 include_once server_path("model/ModelGrupoPermissao.php");
 include_once server_path("model/ModelUser.php");
@@ -19,16 +19,16 @@ include_once server_path("model/ModelUsuarioGrupo.php");
 class ControllerGrupo {
 
     private $info;
-    private $daoAuthority;
+    private $daoPermissao;
     private $daoGrupo;
     private $daoGrupoPermissao;
     private $daoTeste;
     private $daoUser;
     private $usuarioAutenticado;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
-        $this->daoAuthority = new DAOAuthority();
+        $this->daoPermissao = new DAOPermissao();
         $this->daoGrupo = new DAOGrupo();
         $this->daoGrupoPermissao = new DAOGrupoPermissao();
         $this->daoUser = new DAOUser();
@@ -50,7 +50,7 @@ class ControllerGrupo {
             $permissoesDoGrupo = array();
 
             foreach ($ids_permissoes as $permissao){
-                $autority = new ModelAuthority();
+                $autority = new ModelPermissao();
                 $autority->id = $permissao;
                 $autority->status = $grupo->status;
                 $autority->usuario_id = $this->usuarioAutenticado->id;
@@ -173,7 +173,7 @@ class ControllerGrupo {
                     $this->info = 'warning=grupo_not_exists';
                     $this->listar();
                 }
-                $permissoesDoGrupo = $this->daoAuthority->selectObjectsPermissoesByFKGrupo($grupo->id);
+                $permissoesDoGrupo = $this->daoPermissao->selectObjectsPermissoesByFKGrupo($grupo->id);
             } catch (Exception $erro) {
                 $this->info = "error=" . $erro->getMessage();
             }
@@ -281,7 +281,7 @@ class ControllerGrupo {
             //if ($this->usuarioAutenticado === null)
             //return $this->usuarioAutenticado;
             // return $id;
-            return $this->daoAuthority->selectObjectsPermissoesByNotFKGrupo($id);
+            return $this->daoPermissao->selectObjectsPermissoesByNotFKGrupo($id);
             // return $this->daoGrupo->selectObjectsEnabled();
             //else
             //    http_response_code(401);

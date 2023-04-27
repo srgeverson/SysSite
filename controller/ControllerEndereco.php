@@ -17,7 +17,7 @@ class ControllerEndereco {
     private $daoEndereco;
     private $daoCidade;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoEndereco = new DAOEndereco();
         $this->daoCidade = new DAOCidade();

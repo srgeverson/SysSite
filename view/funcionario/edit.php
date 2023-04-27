@@ -17,13 +17,13 @@ global $user_logged;
         <form action="
         <?php
         global $user_logged;
-        echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerFuncionario&option=update&user_fk_authority_pk_id=' . $user_logged->id : '?page=ControllerFuncionario&option=update&user_fk_authority_pk_id=' . 0);
+        echo server_url($user_logged->user_fk_permissao_pk_id == 3 ? '?page=ControllerFuncionario&option=update&user_fk_permissao_pk_id=' . $user_logged->id : '?page=ControllerFuncionario&option=update&user_fk_permissao_pk_id=' . 0);
         ?>" method="post">
             <nav>
                 <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-dados-pessoais-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Dados Pessoais</a>
                     <a class="nav-item nav-link" id="nav-contato-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Contato</a>
-                    <a class="nav-item nav-link" id="nav-endereco-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Endereço</a>
+                    <a class="nav-item nav-link" id="nav-endereco-tab" data-toggle="tab" href="#nav-contato" role="tab" aria-controls="nav-contato" aria-selected="false">Endereço</a>
                 </div>
             </nav>  
             <div class="tab-content" id="nav-tabContent">
@@ -55,7 +55,7 @@ global $user_logged;
                             </div>
                             <div class="form-group">
                                 <?php
-                                if ($user_logged->user_fk_authority_pk_id != 3) {
+                                if ($user_logged->user_fk_permissao_pk_id != 3) {
                                     echo '<label class="text-primary">Usuário:</label><br>';
                                     echo '<select id="mySelect" name="id" class="selectpicker form-control" data-live-search="true" required>';
                                     echo '<option value="', $funcionario->id, '">', $funcionario->login, '</option>';
@@ -77,40 +77,40 @@ global $user_logged;
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Descrição:</label><br>
-                                <input class="form-control" name="cont_description" type="tel" placeholder="Digite uma descrição..." value="<?php echo $funcionario->cont_description; ?>">
+                                <input class="form-control" name="descricao" type="tel" placeholder="Digite uma descrição..." value="<?php echo $funcionario->descricao; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Telefone:</label><br>
-                                <input class="form-control" name="cont_phone" id="phone" type="tel" placeholder="Digite o telefone..." value="<?php echo $funcionario->cont_phone; ?>">
+                                <input class="form-control" name="telefone" id="phone" type="tel" placeholder="Digite o telefone..." value="<?php echo $funcionario->telefone; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Celular:</label><br>
-                                <input class="form-control" name="cont_cell_phone" id="cell" type="tel" placeholder="Digite o celular..." value="<?php echo $funcionario->cont_cell_phone; ?>">
+                                <input class="form-control" name="celular" id="cell" type="tel" placeholder="Digite o celular..." value="<?php echo $funcionario->celular; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Whatsapp:</label><br>
-                                <input class="form-control" name="cont_whatsapp" id="whatsapp" type="tel" placeholder="Digite o whatsapp..."value="<?php echo $funcionario->cont_whatsapp; ?>">
+                                <input class="form-control" name="whatsapp" id="whatsapp" type="tel" placeholder="Digite o whatsapp..."value="<?php echo $funcionario->whatsapp; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">E-mail:</label><br>
-                                <input class="form-control" name="cont_email" type="email" placeholder="Digite o email..." value="<?php echo $funcionario->cont_email; ?>">
+                                <input class="form-control" name="email" type="email" placeholder="Digite o email..." value="<?php echo $funcionario->email; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Facebook:</label><br>
-                                <input class="form-control" name="cont_facebook" type="text" placeholder="Digite o facebook..." value="<?php echo $funcionario->cont_facebook; ?>">
+                                <input class="form-control" name="facebook" type="text" placeholder="Digite o facebook..." value="<?php echo $funcionario->facebook; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Instagram:</label><br>
-                                <input class="form-control" name="cont_instagram" type="text" placeholder="Digite o instagram..." value="<?php echo $funcionario->cont_instagram; ?>">
+                                <input class="form-control" name="instagram" type="text" placeholder="Digite o instagram..." value="<?php echo $funcionario->instagram; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Obeservação:</label><br>
-                                <textarea class="form-control" name="cont_text" placeholder="Uma breve descrição sobre a tela..." required><?php echo $funcionario->cont_text; ?></textarea>
+                                <textarea class="form-control" name="observacao" placeholder="Uma breve descrição sobre a tela..." required><?php echo $funcionario->observacao; ?></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-endereco-tab">
+                <div class="tab-pane fade" id="nav-contato" role="tabpanel" aria-labelledby="nav-endereco-tab">
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="form-group">
@@ -160,7 +160,7 @@ global $user_logged;
                                 </div>
                                 <div class="input-group">
                                     <a  class="btn btn-danger btn-icon-split" href="<?php
-                                    echo server_url($user_logged->user_fk_authority_pk_id == 3 ? '?page=ControllerSystem&option=welcome' : '?page=ControllerFuncionario&option=listar');
+                                    echo server_url($user_logged->user_fk_permissao_pk_id == 3 ? '?page=ControllerSystem&option=welcome' : '?page=ControllerFuncionario&option=listar');
                                     ?>" type="submit">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-window-close"></i>

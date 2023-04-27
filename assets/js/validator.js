@@ -15,13 +15,6 @@ $(document).ready(function () {
         }
     });
     $("#confirma_senha_sem_email").keyup(function () {
-        if (($('#confirma_senha_sem_email').val() === $('#senha_sem_email').val()) && $('#confirma_senha_sem_email').val() != '') {
-            $('#salvar_novo_usuario_com_senha').removeAttr("disabled");
-        } else {
-            $('#salvar_novo_usuario_com_senha').attr('disabled', '');
-        }
-    });
-    $("#confirma_senha_sem_email").keyup(function () {
         if (($('#confirma_senha').val() === $('#senha').val()) && $('#confirma_senha').val() != '') {
             $('#editar_perfil').removeAttr("disabled");
         } else {

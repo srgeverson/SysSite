@@ -15,7 +15,7 @@ class ControllerEstado {
     private $controllerSystem;
     private $daoEstado;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->controllerSystem = new ControllerSystem();
         $this->daoEstado = new DAOEstado();

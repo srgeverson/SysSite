@@ -48,9 +48,9 @@ class DAOEstado extends GenericDAO {
 
     public function selectObjectById($id = 0) {
         $this->query = "SELECT ";
-        $this->query .= "e.*, p.id AS pais_id, p.nome AS pais_nome, u.id AS usuario_id, u.nome AS usuario_nome ";
+        $this->query .= "e.*, e.id AS pais_id, e.nome AS pais_nome, u.id AS usuario_id, u.nome AS usuario_nome ";
         $this->query .= "FROM estados AS e ";
-        $this->query .= "INNER JOIN paises AS p ON (e.pais_id=p.id) ";
+        $this->query .= "INNER JOIN paises AS e ON (e.pais_id=e.id) ";
         $this->query .= "INNER JOIN usuarios AS u ON (e.usuario_id=u.id) ";
         $this->query .= "WHERE e.id=:id LIMIT 1;";
         try {
@@ -66,13 +66,13 @@ class DAOEstado extends GenericDAO {
 
     public function selectObjectsByContainsObject(ModelEstado $estado = null) {
         $this->query = "SELECT ";
-        $this->query .= "e.*, p.id AS pais_id, p.nome AS pais_nome, u.id AS usuario_id, u.nome usuario_nome ";
+        $this->query .= "e.*, e.id AS pais_id, e.nome AS pais_nome, u.id AS usuario_id, u.nome usuario_nome ";
         $this->query .= "FROM estados AS e ";
-        $this->query .= "INNER JOIN paises AS p ON (e.pais_id=p.id) ";
+        $this->query .= "INNER JOIN paises AS e ON (e.pais_id=e.id) ";
         $this->query .= "INNER JOIN usuarios AS u ON (e.usuario_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "e.nome LIKE '%$estado->nome%' AND ";
-        $this->query .= "p.nome LIKE '%$estado->pais_nome%';";
+        $this->query .= "e.nome LIKE '%$estado->pais_nome%';";
         try {
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
@@ -84,7 +84,7 @@ class DAOEstado extends GenericDAO {
     }
 
     public function selectObjectsEnabled() {
-        $this->query = "SELECT p.* FROM estados AS p WHERE p.status = 1;";
+        $this->query = "SELECT e.* FROM estados AS e WHERE e.status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {

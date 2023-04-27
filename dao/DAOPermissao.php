@@ -8,7 +8,7 @@
 
 include_once server_path('dao/GenericDAO.php');
 
-class DAOAuthority extends GenericDAO {
+class DAOPermissao extends GenericDAO {
 
     public function delete($id = 0) {
         try {
@@ -23,8 +23,8 @@ class DAOAuthority extends GenericDAO {
         return true;
     }
 
-    public function save(ModelAuthority $authority = null) {
-        if (!is_object($authority)) {
+    public function save(ModelPermissao $permissao = null) {
+        if (!is_object($permissao)) {
             throw new Exception("Dados incompletos");
         }
         try {
@@ -34,11 +34,11 @@ class DAOAuthority extends GenericDAO {
             $this->query .= "(:descricao, :nome, :status, :menu_item_id, :usuario_id);";
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
-            $this->statement->bindParam(':descricao', $authority->descricao, PDO::PARAM_STR);
-            $this->statement->bindParam(':nome', $authority->nome, PDO::PARAM_STR);
-            $this->statement->bindParam(':status', $authority->status, PDO::PARAM_BOOL);
-            $this->statement->bindParam(':menu_item_id', $authority->menu_item_id, PDO::PARAM_STR);
-            $this->statement->bindParam(':usuario_id', $authority->usuario_id, PDO::PARAM_STR);
+            $this->statement->bindParam(':descricao', $permissao->descricao, PDO::PARAM_STR);
+            $this->statement->bindParam(':nome', $permissao->nome, PDO::PARAM_STR);
+            $this->statement->bindParam(':status', $permissao->status, PDO::PARAM_BOOL);
+            $this->statement->bindParam(':menu_item_id', $permissao->menu_item_id, PDO::PARAM_STR);
+            $this->statement->bindParam(':usuario_id', $permissao->usuario_id, PDO::PARAM_STR);
             $this->statement->execute();
         } catch (Exception $erro) {
             // print_r($erro);
@@ -60,13 +60,13 @@ class DAOAuthority extends GenericDAO {
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectsByContainsObject(ModelAuthority $authority = null) {
+    public function selectObjectsByContainsObject(ModelPermissao $permissao = null) {
         $this->query = "SELECT ";
         $this->query .= "p.*, mi.id AS menu_item_id, mi.nome AS menu_item_nome ";
         $this->query .= "FROM permissoes AS p ";
         $this->query .= "INNER JOIN menu_itens AS mi ON  mi.id = p.menu_item_id ";
         $this->query .= "WHERE 1 = 1 ";
-        $this->query .= "AND p.descricao LIKE '%$authority->descricao%';";
+        $this->query .= "AND p.descricao LIKE '%$permissao->descricao%';";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -132,8 +132,26 @@ class DAOAuthority extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function update(ModelAuthority $authority = null) {
-        if (!is_object($authority)) {
+    public function selectObjectsPermissoesByMenuItemAndUsuario($menu_item = null, $usuario_id = null) {
+        $this->query = "SELECT p.* FROM permissoes  AS p ";
+        $this->query .= "INNER JOIN menu_itens AS mi ON mi.id = p.menu_item_id AND mi.status = 1 ";
+        $this->query .= "INNER JOIN grupos_permissoes AS gp ON gp.permissao_id = p.id AND gp.status = 1 ";
+        $this->query .= "INNER JOIN usuarios AS u ON u.id = gp.usuario_id AND u.status = 1 ";
+        $this->query .= "WHERE p.status = 1 ";
+        $this->query .= "AND u.id = '$usuario_id' ";
+        $this->query .= "AND mi.url LIKE '?page=$menu_item%';";
+        try {
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->execute();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function update(ModelPermissao $permissao = null) {
+        if (!is_object($permissao)) {
             throw new Exception("Dados incompletos");
         }
         $this->query = "UPDATE permissoes SET ";
@@ -148,17 +166,17 @@ class DAOAuthority extends GenericDAO {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':descricao', $authority->descricao, PDO::PARAM_STR);
-        $this->statement->bindParam(':nome', $authority->nome, PDO::PARAM_STR);
-        $this->statement->bindParam(':menu_item_id', $authority->menu_item_id, PDO::PARAM_STR);
-        $this->statement->bindParam(':usuario_id', $authority->usuario_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':id', $authority->id, PDO::PARAM_INT);
+        $this->statement->bindParam(':descricao', $permissao->descricao, PDO::PARAM_STR);
+        $this->statement->bindParam(':nome', $permissao->nome, PDO::PARAM_STR);
+        $this->statement->bindParam(':menu_item_id', $permissao->menu_item_id, PDO::PARAM_STR);
+        $this->statement->bindParam(':usuario_id', $permissao->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':id', $permissao->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }
 
-    public function updateStatus(ModelAuthority $authority = null) {
-        if (!is_object($authority)) {
+    public function updateStatus(ModelPermissao $permissao = null) {
+        if (!is_object($permissao)) {
             throw new Exception("Dados incompletos");
         }
         $this->query = "UPDATE permissoes SET ";
@@ -171,9 +189,9 @@ class DAOAuthority extends GenericDAO {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':status', $authority->status, PDO::PARAM_BOOL);
-        $this->statement->bindParam(':usuario_id', $authority->usuario_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':id', $authority->id, PDO::PARAM_INT);
+        $this->statement->bindParam(':status', $permissao->status, PDO::PARAM_BOOL);
+        $this->statement->bindParam(':usuario_id', $permissao->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':id', $permissao->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
     }

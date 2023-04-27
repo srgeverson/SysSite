@@ -10,7 +10,7 @@ include_once server_path('dao/GenericDAO.php');
 
 class DAOEndereco extends GenericDAO {
 
-    public function delete($id = 0) {
+    public function delete($id = null) {
         try {
             $this->query = "DELETE FROM enderecos WHERE id=:id;";
             $conexao = $this->getInstance();

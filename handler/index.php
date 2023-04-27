@@ -23,38 +23,38 @@
 						echo $responseDTO->getJSONEncode();
 						break;
 					}
-					case 'listar-usuarios-grupo':
-						{
-							$controllerGrupo = new ControllerGrupo();
-							http_response_code(200);
-							$responseDTO->permissoes = $controllerGrupo->listarUsuariosGrupo(strip_tags($_GET['id']));
-							echo $responseDTO->getJSONEncode();
-							break;
-						}
-					case 'listar-logs':
-						{
-							$log = new ModelLog();
-							$log->nome_tabela = strip_tags($_GET['nome_tabela']);
-							$log->id_tabela = strip_tags($_GET['id_tabela']);
-							$log->usuario_id = strip_tags($_GET['usuario_id']);
-							$log->operacao = strip_tags($_GET['operacao']);
-							$log->campo_modificado = strip_tags($_GET['campo_modificado']);
-							$log->valor_antigo = strip_tags($_GET['valor_antigo']);
-							$log->valor_atual = strip_tags($_GET['valor_atual']);
-							$log->data_operacao = strip_tags($_GET['data_operacao']);
-							if($log->nome_tabela || $log->id_tabela || $log->usuario_id || $log->operacao ||
-								$log->campo_modificado || $log->valor_antigo || $log->valor_atual || $log->data_operacao ){									
-									$daoLog = new DAOLog();
-									http_response_code(200);
-									$responseDTO->permissoes = $daoLog->selectObjectsByContainsObject($log);
-								}else{
-									http_response_code(400);
-									$responseDTO->messege = "Informe pelo menos um campo!";
-									$responseDTO->log = $log;
-								}
-							echo $responseDTO->getJSONEncode();
-							break;
-						}
+				case 'listar-usuarios-grupo':
+					{
+						$controllerGrupo = new ControllerGrupo();
+						http_response_code(200);
+						$responseDTO->permissoes = $controllerGrupo->listarUsuariosGrupo(strip_tags($_GET['id']));
+						echo $responseDTO->getJSONEncode();
+						break;
+					}
+				case 'listar-logs':
+					{
+						$log = new ModelLog();
+						$log->nome_tabela = strip_tags($_GET['nome_tabela']);
+						$log->id_tabela = strip_tags($_GET['id_tabela']);
+						$log->usuario_id = strip_tags($_GET['usuario_id']);
+						$log->operacao = strip_tags($_GET['operacao']);
+						$log->campo_modificado = strip_tags($_GET['campo_modificado']);
+						$log->valor_antigo = strip_tags($_GET['valor_antigo']);
+						$log->valor_atual = strip_tags($_GET['valor_atual']);
+						$log->data_operacao = date('Y-m-d', strtotime(strip_tags($_GET['data_operacao'])));
+						if($log->nome_tabela || $log->id_tabela || $log->usuario_id || $log->operacao ||
+							$log->campo_modificado || $log->valor_antigo || $log->valor_atual || $log->data_operacao ){									
+								$daoLog = new DAOLog();
+								http_response_code(200);
+								$responseDTO->logs = $daoLog->selectObjectsByContainsObject($log);
+								// $responseDTO->logs = $log->data_operacao;
+							}else{
+								http_response_code(400);
+								$responseDTO->messege = "Informe pelo menos um campo!";
+							}
+						echo $responseDTO->getJSONEncode();
+						break;
+					}
 					//Teste
 					case 'dashboard':
 						{

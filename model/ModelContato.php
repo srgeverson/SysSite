@@ -12,7 +12,7 @@ include_once server_path('model/GenericModel.php');
  *
  * @author geverson
  */
-class ModelAuthority implements \br\com\system\model\generic\GenericModel {
+class ModelContato implements \br\com\system\model\generic\GenericModel {
 
     private $atributos = [];
 

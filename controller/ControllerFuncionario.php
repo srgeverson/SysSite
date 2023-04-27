@@ -9,54 +9,67 @@ include_once server_path("controller/ControllerFuncionarioUser.php");
 include_once server_path("controller/ControllerUser.php");
 include_once server_path("controller/ControllerSystem.php");
 include_once server_path("dao/DAOCidade.php");
+include_once server_path("dao/DAOContato.php");
+include_once server_path("dao/DAOEndereco.php");
 include_once server_path("dao/DAOFuncionario.php");
-include_once server_path("model/ModelContact.php");
+include_once server_path("dao/DAOUser.php");
+include_once server_path("model/ModelContato.php");
 include_once server_path("model/ModelEndereco.php");
+include_once server_path("model/ModelEstado.php");
 include_once server_path("model/ModelFuncionario.php");
 include_once server_path("model/ModelFuncionarioUser.php");
-include_once server_path("dao/DAOUser.php");
 
 class ControllerFuncionario {
 
-    private $info;
+    private $daoCidade;
+    private $daoContato;
+    private $daoEndereco;
     private $daoFuncionario;
+    private $daoUser;
+    private $info;
+    private $pemissoes;
     private $usuarioAutenticado;
+    private $mensagens;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoCidade = new DAOCidade();
+        $this->daoContato = new DAOContato();
+        $this->daoEndereco = new DAOEndereco();
         $this->daoFuncionario = new DAOFuncionario();
         $this->daoUser = new DAOUser();
+        $this->pemissoes = $pemissoes;
         global $user_logged;
         $this->usuarioAutenticado = $user_logged;
+        $this->mensagens = array();
     }
 
     public function delete() {
         if (HelperController::authotity()) {
             $id = strip_tags($_GET['id']);
-            $funcionario = null;
+            //$funcionario = null;
             if (!isset($id)) {
                 $this->info = 'warning=funcionario_uninformed';
                 $this->listar();
             } else {
-                //DAOs
-                $daoContact = new DAOContact();
-                $daoEndereco = new DAOEndereco();
-
                 $funcionario = $this->daoFuncionario->selectObjectById($id);
-
-                try {
-                $controlleFuncionarioUser = new ControllerFuncionarioUser();
-                    $controlleFuncionarioUser->deleteFuncionarioUserByFuncionario($funcionario->id);
+                //var_dump($funcionario);
+                // try {
+                    //kkkkk
+                    //$controlleFuncionarioUser = new ControllerFuncionarioUser();
+                    //$controlleFuncionarioUser->deleteFuncionarioUserByFuncionario($funcionario->id);
                     try {
                         $this->daoFuncionario->delete($funcionario->id);
+                        array_push($this->mensagens, "funcionario_deleted");
                         $this->info = "success=funcionario_deleted";
                         try {
-                            $daoContact->delete($funcionario->contato_id);
+                            $this->daoContato->delete($funcionario->contato_id);
+                            array_push($this->mensagens, "contato_deleted");
                             try {
-                                $daoEndereco->delete($funcionario->endereco_id);
+                                $this->daoEndereco->delete($funcionario->endereco_id);
+                                array_push($this->mensagens, "endereco_deleted");
                                 $this->listar();
-                            } catch (Exception $exc) {
+                            } catch (Exception $erro) {
                                 $this->info = "error=Endereço: " . $erro->getMessage();
                                 $this->listar();
                             }
@@ -68,10 +81,10 @@ class ControllerFuncionario {
                         $this->info = "error=Funcionário: " . $erro->getMessage();
                         $this->listar();
                     }
-                } catch (Exception $erro) {
-                    $this->info = "error=Funcionário Usuário: " . $erro->getMessage();
-                    $this->listar();
-                }
+                // } catch (Exception $erro) {
+                //     $this->info = "error=Funcionário Usuário: " . $erro->getMessage();
+                //     $this->listar();
+                // }
             }
         }
     }
@@ -82,12 +95,14 @@ class ControllerFuncionario {
             if (isset($id)) {
                 $status = false;
                 try {
-                    if (($this->daoFuncionario->selectObjectById($id)) === null) {
+                    $existente = $this->daoFuncionario->selectObjectById($id);
+                    if ($existente === null)
                         $this->info = 'warning=funcionario_not_exists';
-                    } else {
+                    else {
                         $funcionario = new ModelFuncionario();
                         $funcionario->id = $id;
                         $funcionario->status = $status;
+                        $funcionario->usuario_id = $this->usuarioAutenticado->id;
 
                         $this->daoFuncionario->updateStatus($funcionario);
                         $this->info = 'success=funcionario_disabled';
@@ -110,10 +125,9 @@ class ControllerFuncionario {
                 $this->listar();
             }
             try {
-                $daoEstado = new DAOEstado();
-                $estados = $daoEstado->selectObjectsEnabled();
+                //$estados = $this->daoEstado->selectObjectsEnabled();
                 $funcionario = $this->daoFuncionario->selectObjectById($id);
-                $estadoUFAtual = $daoEstado->selectObjectById($funcionario->estado_id);
+                //$estadoUFAtual = $this->daoEstado->selectObjectById($funcionario->estado_id);
                 $controllerUser = new ControllerUser();
                 $users = $controllerUser->selectObjectsNotInFuncionarioUser();
                 if (!isset($funcionario)) {
@@ -142,6 +156,7 @@ class ControllerFuncionario {
                         $funcionario = new ModelFuncionario();
                         $funcionario->id = $id;
                         $funcionario->status = $status;
+                        $funcionario->usuario_id = $this->usuarioAutenticado->id;
 
                         $this->daoFuncionario->updateStatus($funcionario);
                         $this->info = 'success=funcionario_enabled';
@@ -158,20 +173,22 @@ class ControllerFuncionario {
 
     public function listar() {
         if (HelperController::authotity()) {
-            if (isset($_POST['nome']) && isset($_POST['cpf']) && isset($_POST['rg'])) {
-                $funcionario = new ModelFuncionario();
-                $funcionario->nome = strip_tags($_POST['nome']);
-                $funcionario->cpf = strip_tags($_POST['cpf']);
-                $funcionario->rg = strip_tags($_POST['rg']);
+            $funcionario = new ModelFuncionario();
+            $funcionario->nome = strip_tags($_POST['nome']);
+            $funcionario->cpf = strip_tags($_POST['cpf']);
+            $funcionario->rg = strip_tags($_POST['rg']);
+            $funcionario->todos = strip_tags($_POST['todos']);
+            $funcionario = HelperController::validar_permissoes($this->pemissoes,  $funcionario);
+            if ($funcionario->nome || $funcionario->cpf || $funcionario->rg || $funcionario->todos) {
                 try {
                     $funcionarios = $this->daoFuncionario->selectObjectsByContainsObject($funcionario);
-                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
+                    $permissao = $this->usuarioAutenticado->user_fk_permissao_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
             }
             if (isset($this->info)) {
-                HelperController::valid_messages($this->info);
+                HelperController::valid_messages($this->info, $this->mensagens);
             }
             include_once server_path('view/funcionario/list.php');
         }
@@ -187,7 +204,7 @@ class ControllerFuncionario {
 
     public function save() {
         if (HelperController::authotity()) {
-            //$user_fk_authority_pk_id = strip_tags($_GET['user_fk_authority_pk_id']);
+            //$user_fk_permissao_pk_id = strip_tags($_GET['user_fk_permissao_pk_id']);
 
             // global $user_logged;
 
@@ -199,17 +216,17 @@ class ControllerFuncionario {
             // }
 
             //Contato
-            $contact = new ModelContact();
-            $contact->cont_description = strip_tags($_POST['cont_description']);
-            $contact->cont_phone = strip_tags($_POST['cont_phone']);
-            $contact->cont_cell_phone = strip_tags($_POST['cont_cell_phone']);
-            $contact->cont_whatsapp = strip_tags($_POST['cont_whatsapp']);
-            $contact->cont_email = strip_tags($_POST['cont_email']);
-            $contact->cont_facebook = strip_tags($_POST['cont_facebook']);
-            $contact->cont_instagram = strip_tags($_POST['cont_instagram']);
-            $contact->cont_text = strip_tags($_POST['cont_text']);
-            $contact->cont_status = true;
-            $contact->cont_fk_user_pk_id = $this->usuarioAutenticado->id;
+            $contato = new ModelContato();
+            $contato->descricao = strip_tags($_POST['descricao']);
+            $contato->telefone = strip_tags($_POST['telefone']);
+            $contato->celular = strip_tags($_POST['celular']);
+            $contato->whatsapp = strip_tags($_POST['whatsapp']);
+            $contato->email = strip_tags($_POST['email']);
+            $contato->facebook = strip_tags($_POST['facebook']);
+            $contato->instagram = strip_tags($_POST['instagram']);
+            $contato->observacao = strip_tags($_POST['observacao']);
+            $contato->status = true;
+            $contato->usuario_id = $this->usuarioAutenticado->id;
 
             //Endereço
             $endereco = new ModelEndereco();
@@ -222,12 +239,12 @@ class ControllerFuncionario {
             $endereco->status = true;
 
             //DAOs
-            $daoContact = new DAOContact();
+            $daoContato = new DAOContato();
             $daoEndereco = new DAOEndereco();
 
             //Funcionário
             try {
-                $contato_id = $daoContact->saveAndReturnPkId($contact);
+                $contato_id = $daoContato->saveAndReturnPkId($contato);
             } catch (Exception $erro) {
                 // print_r($erro);
                 $this->info = "error=Contato: " . $erro->getMessage();
@@ -261,7 +278,7 @@ class ControllerFuncionario {
                 // $controllerFunconarioUser = new ControllerFuncionarioUser();
                 //$controllerFunconarioUser->saveFuncionarioUser($funcionarioUser);
 
-                // if ($user_fk_authority_pk_id == 0) {
+                // if ($user_fk_permissao_pk_id == 0) {
                 //     $this->info = "success=funcionario_created";
                     $this->listar();
                 // }
@@ -269,7 +286,7 @@ class ControllerFuncionario {
                 // print_r($erro);
                 $this->info = "error=" . $erro->getMessage();
                 $this->listar();
-                // if ($user_fk_authority_pk_id == 0) {
+                // if ($user_fk_permissao_pk_id == 0) {
                 // }
             }
         }
@@ -282,34 +299,34 @@ class ControllerFuncionario {
                 if (!isset($id)) {
                     $this->info = 'warning=funcionario_uninformed';
                 } else {
-                    $user_fk_authority_pk_id = strip_tags($_GET['user_fk_authority_pk_id']);
+                    $user_fk_permissao_pk_id = strip_tags($_GET['user_fk_permissao_pk_id']);
 
                     global $user_logged;
 
                     //Contato
                     $contato_id = strip_tags($_POST['contato_id']);
-                    $cont_description = strip_tags($_POST['cont_description']);
-                    $cont_phone = strip_tags($_POST['cont_phone']);
-                    $cont_cell_phone = strip_tags($_POST['cont_cell_phone']);
-                    $cont_whatsapp = strip_tags($_POST['cont_whatsapp']);
-                    $cont_email = strip_tags($_POST['cont_email']);
-                    $cont_facebook = strip_tags($_POST['cont_facebook']);
-                    $cont_instagram = strip_tags($_POST['cont_instagram']);
-                    $cont_text = strip_tags($_POST['cont_text']);
-                    $cont_status = true;
+                    $descricao = strip_tags($_POST['descricao']);
+                    $telefone = strip_tags($_POST['telefone']);
+                    $celular = strip_tags($_POST['celular']);
+                    $whatsapp = strip_tags($_POST['whatsapp']);
+                    $email = strip_tags($_POST['email']);
+                    $facebook = strip_tags($_POST['facebook']);
+                    $instagram = strip_tags($_POST['instagram']);
+                    $observacao = strip_tags($_POST['observacao']);
+                    $status = true;
 
-                    $contact = new ModelContact();
-                    $contact->contato_id = $contato_id;
-                    $contact->cont_description = $cont_description;
-                    $contact->cont_phone = $cont_phone;
-                    $contact->cont_cell_phone = $cont_cell_phone;
-                    $contact->cont_whatsapp = $cont_whatsapp;
-                    $contact->cont_email = $cont_email;
-                    $contact->cont_facebook = $cont_facebook;
-                    $contact->cont_instagram = $cont_instagram;
-                    $contact->cont_text = $cont_text;
-                    $contact->cont_status = $cont_status;
-                    $contact->cont_fk_id = $user_logged->id;
+                    $contato = new ModelContato();
+                    $contato->contato_id = $contato_id;
+                    $contato->descricao = $descricao;
+                    $contato->telefone = $telefone;
+                    $contato->celular = $celular;
+                    $contato->whatsapp = $whatsapp;
+                    $contato->email = $email;
+                    $contato->facebook = $facebook;
+                    $contato->instagram = $instagram;
+                    $contato->observacao = $observacao;
+                    $contato->status = $status;
+                    $contato->cont_fk_id = $user_logged->id;
 
 
                     //Endereço
@@ -335,7 +352,7 @@ class ControllerFuncionario {
                     $endereco->status = $status;
 
                     //DAOs
-                    $daoContact = new DAOContact();
+                    $daoContato = new DAOContato();
                     $daoEndereco = new DAOEndereco();
 
                     //Funcionário
@@ -375,7 +392,7 @@ class ControllerFuncionario {
 
                     //Tratando exceção do contato
                     try {
-                        $daoContact->update($contact);
+                        $daoContato->update($contato);
                         //Tratando exceção do endereço
                         try {
                             $daoEndereco->update($endereco);
@@ -383,12 +400,12 @@ class ControllerFuncionario {
                             try {
                                 $this->daoFuncionario->update($funcionario);
                                 $controllerFunconarioUser->updateFuncionarioUser($funcionarioUser);
-                                if ($user_fk_authority_pk_id == 0) {
+                                if ($user_fk_permissao_pk_id == 0) {
                                     $this->info = "success=funcionario_updated";
                                     $this->listar();
                                 }
                             } catch (Exception $erro) {
-                                if ($user_fk_authority_pk_id == 0) {
+                                if ($user_fk_permissao_pk_id == 0) {
                                     $this->info = "error=" . $erro->getMessage();
                                     $this->listar();
                                 } else {
@@ -398,7 +415,7 @@ class ControllerFuncionario {
                                 }
                             }
                         } catch (Exception $erro) {
-                            if ($user_fk_authority_pk_id == 0) {
+                            if ($user_fk_permissao_pk_id == 0) {
                                 $this->info = "error=Endereço: " . $erro->getMessage();
                                 $this->listar();
                             } else {
@@ -408,7 +425,7 @@ class ControllerFuncionario {
                             }
                         }
                     } catch (Exception $erro) {
-                        if ($user_fk_authority_pk_id == 0) {
+                        if ($user_fk_permissao_pk_id == 0) {
                             $this->info = "error=Contato: " . $erro->getMessage();
                             $this->listar();
                         } else {

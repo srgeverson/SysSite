@@ -15,7 +15,7 @@ class ControllerParameter {
     private $controllerSystem;
     private $usuarioAutenticado;
 
-    function __construct() {
+    function __construct($pemissoes = array()) {
         $this->info = 'default=default';
         $this->daoParameter = new DAOParameter();
         $this->controllerSystem = new ControllerSystem();
@@ -135,7 +135,7 @@ class ControllerParameter {
                     $parameter->para_key = strip_tags($_POST['para_key']);
                     $parameter->para_value = strip_tags($_POST['para_value']);
                     $parameters = $this->daoParameter->selectObjectsByContainsObject($parameter);
-                    $permissao = $this->usuarioAutenticado->user_fk_authority_pk_id;
+                    $permissao = $this->usuarioAutenticado->user_fk_permissao_pk_id;
                 } catch (Exception $erro) {
                     $this->info = "error=" . $erro->getMessage();
                 }
