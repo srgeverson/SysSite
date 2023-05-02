@@ -9,7 +9,9 @@ $parameter = new ControllerParameter();
 ini_set('display_errors', 1);
 
 $tempo = $parameter->getProperty('tempo_sessao_site');
-session_cache_expire( $tempo == 'Vazio/Desabilitado' ? 60 : $tempo);
+ini_set("session.gc_maxlifetime", $tempo);
+ini_set("session.cookie_lifetime", $tempo);
+
 session_start();
 
 $landingpage = $parameter->getProperty('landing_page');
@@ -20,6 +22,7 @@ if($landingpage != 'Vazio/Desabilitado' && !is_dir('./' . $landingpage)){
 
 if (isset($_SESSION['usuario'])) {
     $user_logged = $_SESSION['usuario'];
+    HelperController::validar_sessao($tempo == 'Vazio/Desabilitado' ? 60 : $tempo);
 }
 
 function access() {
@@ -36,8 +39,8 @@ function footer() {
 }
 
 function main() {
-
     global $user_logged;
+    
     if (!HelperController::filter()) {
         if (!isset($user_logged)) {
             $controllerPage = new ControllerPage();
@@ -50,8 +53,8 @@ function main() {
             redirect(server_url('?page=ControllerUser&option=authenticate'));
         } else {
             include_once server_path("view/system/welcome.php");
-        }
-    }
+        } 
+     } 
 }
 
 function navbar() {

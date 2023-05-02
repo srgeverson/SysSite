@@ -138,6 +138,7 @@ $GLOBALS['dictionary'] = array(
     'user_logout' => "Sessão finalizada com sucesso.",
     'user_not_allowed' => "Usuário não permitido .",
     'user_not_found' => "Usuário não encontrado.",
+    'user_not_defined_profile' => "Usuário não possui perfil definido.",
     'user_not_exists' => "Usuário inexistente.",
     'user_profile_edit' => "Perfil atualizado com sucesso.",
     'user_password_reseted' => "Senha gerada e enviada por e-mail com sucesso.",

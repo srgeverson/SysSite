@@ -16,6 +16,7 @@ include_once server_path("controller/ControllerContato.php");
 include_once server_path("model/ModelContato.php");
 include_once server_path("model/ModelEndereco.php");
 include_once server_path("model/ModelFuncionario.php");
+include_once server_path("dao/DAOMenu.php");
 include_once server_path("model/ModelParameter.php");
 include_once server_path("model/ModelGrupo.php");
 include_once server_path("model/ModelUser.php");
@@ -42,8 +43,9 @@ class ControllerUser {
         $this->controllerSystem = new ControllerSystem();
         $this->daoContato = new DAOContato();
         $this->daoEndereco = new DAOEndereco();
-        $this->daoParameter = new DAOParameter();
         $this->daoFuncionario = new DAOFuncionario();
+        $this->daoMenu = new DAOMenu();
+        $this->daoParameter = new DAOParameter();
         $this->daoUser = new DAOUser();
         $this->daoUsuarioGrupo = new DAOUsuarioGrupo();
         $this->pemissoes = $pemissoes;
@@ -289,21 +291,26 @@ class ControllerUser {
             if ($user_logged !== false) {
                 if ($user_logged->status == true) {
                     if (!password_verify($senha, $user_logged->senha)) {
-                        $this->controllerSystem->user_info('error=user_incorrect_password');
+                        $this->controllerSystem->user_info('warning=user_incorrect_password');
                     } else {
-                        $user_logging = new ModelUser();
-                        $user_logging->id = $user_logged->id;
-                        $user_logging->ultimo_acesso = date('Y-m-d H:i:s');
-                        $this->daoUser->updateLastAccess($user_logging);
-                        $_SESSION['usuario'] = $user_logged;
-
-                        redirect(server_url('?page=ControllerSystem&option=welcome'));
+                        $menus = $this->daoMenu->selectObjectsVinculadosAoUsuario($user_logged->id);
+                        if(empty($menus))
+                            $this->controllerSystem->user_info('warning=user_not_defined_profile');
+                        else {
+                            $user_logging = new ModelUser();
+                            $user_logging->id = $user_logged->id;
+                            $user_logging->ultimo_acesso = date('Y-m-d H:i:s');
+                            $menus = $this->daoMenu->selectObjectsVinculadosAoUsuario($id);
+                            $this->daoUser->updateLastAccess($user_logging);
+                            $_SESSION['usuario'] = $user_logged;
+                            redirect(server_url('?page=ControllerSystem&option=welcome'));
+                        }
                     }
                 } else {
-                    $this->controllerSystem->user_info('error=user_not_allowed');
+                    $this->controllerSystem->user_info('warning=user_not_allowed');
                 }
             } else {
-                $this->controllerSystem->user_info('error=user_not_exists');
+                $this->controllerSystem->user_info('warning=user_not_exists');
             }
         } catch (Exception $erro) {
             $this->controllerSystem->user_info("error=" . $erro->getMessage());
