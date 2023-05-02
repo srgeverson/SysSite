@@ -84,7 +84,7 @@ class DAOUser extends GenericDAO {
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
             $this->statement->bindParam(':nome', $user->nome, PDO::PARAM_STR);
-            $this->statement->bindParam(':cpf', $user->cpf, PDO::PARAM_STR);
+            $this->statement->bindParam(':cpf', isst($user->cpf) ? $user->cpf : null, PDO::PARAM_STR);
             $this->statement->bindParam(':login', $user->login, PDO::PARAM_STR);
             $this->statement->bindParam(':senha', $user->senha, PDO::PARAM_STR);
             $this->statement->bindParam(':status', $user->status, PDO::PARAM_BOOL);

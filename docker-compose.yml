@@ -2,9 +2,9 @@ version: '3.9'
 
 # Quando utilizar redes específicas
 networks:
-  paulistense_network_private:
+  network_private:
     driver: bridge
-  paulistense_network_public:
+  network_public:
     driver: bridge
     #external: true
 
@@ -14,13 +14,13 @@ services:
       context: .docker/
       dockerfile: Dockerfile
     container_name: conteiner_site_system
-    # command: [".docker/wait-for-it.sh", "db_system:3306", "-t", "30"]
+    # command: [".docker/wait-for-it.sh", "db_paulistense:3306", "-t", "30"]
     # ports: 
       # - '80:80'
       #- '443:443' #quando utilizar um certificado especificar essa porta
     networks:
-      - paulistense_network_private
-      - paulistense_network_public
+      - network_private
+      - network_public
     volumes:
       - .:/var/www/html
     environment:
@@ -30,29 +30,29 @@ services:
       - BANCO_SENHA=$BANCO_SENHA
       - BANCO_NOME=$BANCO_NOME
     links:
-      - db_system
+      - db_paulistense
         
-  db_system:
+  db_paulistense:
     image: mysql:latest
-    container_name: container_site_system_db
+    container_name: container_db_paulistense
     ports: #para teste
       - '3306:3306' #para teste
     networks:
-      - paulistense_network_private
-      - paulistense_network_public #para teste
+      - network_private
+      - network_public #para teste
     volumes:
       - '.docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql'
     environment:
       - MYSQL_ROOT_PASSWORD=$BANCO_SENHA
-      #- MYSQL_USER=user_teste
-      #- MYSQL_PASS=12345678
+      - MYSQL_USER=$BANCO_USUARIO
+      - MYSQL_PASS=$BANCO_SENHA
   
-  system_proxy:
+  site_proxy:
     build: ./nginx
-    image: system_proxy
+    container_name: container_site_proxy
     ports:
       - "80:80"
     networks:
-      - paulistense_network_public
+      - network_public
     links:
       - site_system
