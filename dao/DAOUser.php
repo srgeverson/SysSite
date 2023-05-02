@@ -227,7 +227,7 @@ class DAOUser extends GenericDAO {
     }
 
     public function selectObjectsNotExistsFuncionario() {
-        $this->query = "SELECT u.* FROM usuarios AS u WHERE u.status = 1 AND  NOT EXISTS (SELECT 1 FROM funcionarios AS f WHERE f.cpf = u.cpf);";
+        $this->query = "SELECT u.* FROM usuarios AS u WHERE u.status = 1 AND  NOT EXISTS (SELECT 1 FROM funcionarios AS f WHERE f.cpf = u.cpf) AND u.cpf IS NOT NULL;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {

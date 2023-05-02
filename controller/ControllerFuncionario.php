@@ -13,6 +13,7 @@ include_once server_path("dao/DAOContato.php");
 include_once server_path("dao/DAOEndereco.php");
 include_once server_path("dao/DAOFuncionario.php");
 include_once server_path("dao/DAOUser.php");
+include_once server_path("dao/DAOUsuarioGrupo.php");
 include_once server_path("model/ModelContato.php");
 include_once server_path("model/ModelEndereco.php");
 include_once server_path("model/ModelEstado.php");
@@ -26,6 +27,7 @@ class ControllerFuncionario {
     private $daoEndereco;
     private $daoFuncionario;
     private $daoUser;
+    private $daoUsuarioGrupo;
     private $info;
     private $pemissoes;
     private $usuarioAutenticado;
@@ -38,6 +40,7 @@ class ControllerFuncionario {
         $this->daoEndereco = new DAOEndereco();
         $this->daoFuncionario = new DAOFuncionario();
         $this->daoUser = new DAOUser();
+        $this->daoUsuarioGrupo = new DAOUsuarioGrupo();
         $this->pemissoes = $pemissoes;
         global $user_logged;
         $this->usuarioAutenticado = $user_logged;
@@ -196,8 +199,11 @@ class ControllerFuncionario {
 
     public function novo() {
         if (HelperController::authotity()) {
-            $cidades = $this->daoCidade->selectObjectsEnabledWithEstados();
-            $users = $this->daoUser->selectObjectsNotExistsFuncionario();
+            $funcionario = new ModelFuncionario();
+            $funcionario->cidades = $this->daoCidade->selectObjectsEnabledWithEstados();
+            $funcionario->usuarios = $this->daoUser->selectObjectsNotExistsFuncionario();
+            $temPermissao = $this->daoUsuarioGrupo->selectAllowedPermission($this->usuarioAutenticado->id);
+            $funcionario->administrador = $temPermissao->temPermissao;
             include_once server_path('view/funcionario/new.php');
         }
     }

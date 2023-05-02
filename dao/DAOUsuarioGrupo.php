@@ -53,6 +53,25 @@ class DAOUsuarioGrupo extends GenericDAO {
         return true;
     }
 
+    public function selectAllowedPermission($usuario_id){
+        $this->query = "SELECT CASE WHEN count(*) > 0 THEN TRUE ELSE FALSE END temPermissao ";
+        $this->query .= "FROM   usuarios_grupos AS ug";
+        $this->query .= "       INNER JOIN grupos AS g ON g.id = ug.grupo_id AND g.status = 1 ";
+        $this->query .= "       INNER JOIN grupos_permissoes AS gp ON  gp.grupo_id = ug.grupo_id AND gp.status = 1 ";
+        $this->query .= "       INNER JOIN permissoes AS p ON  p.id = gp.permissao_id AND p.status = 1 ";
+        $this->query .= "WHERE  ug.status = 1 AND ug.usuario_id = :usuario_id";
+        $this->query .= "       AND p.nome IN ('Cadastrar/Listar/Excluir/Alterar folha de pagamento', 'Cadastrar/Listar/Excluir/Alterar funcionários'); ";
+        try {
+            $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(":usuario_id", $usuario_id, PDO::PARAM_INT);
+            $this->statement->execute();
+            return $this->statement->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+    }
+
     public function selectObjectsByContainsFkGrupo($grupo_id = null) {
         $this->query = "SELECT ";
         $this->query .= "ug.* ";
