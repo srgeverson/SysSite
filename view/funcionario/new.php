@@ -41,7 +41,7 @@ $(document).ready(function () {
                     $("textarea[name='observacao']").val('Funcionário vinculado a usuário existente');
                     $("input[name='descricao']").val('Funcionário vinculado a usuário existente');
                 },
-                error: function(a,b,c){
+                error: function(a, b, c){
                     //console.log('Erro durante o preenhemento das permissões');
                 }
             });
@@ -52,12 +52,13 @@ $(document).ready(function () {
         $("input[name='nome']").val('');
         $("input[name='email']").val('');
         $("select[name='usuario_cpf']").val('').trigger('change');
-        //$("textarea[name='observacao']").val('Funcionário vinculado a usuário existente');
+        $("select[name='usuario_cpf']").removeAttr('required');
+        $("textarea[name='observacao']").val('Funcionário vinculado a usuário novo');
+        $("input[name='descricao']").val('Funcionário vinculado a usuário novo');
     });
 
     $("input[name='cpf']").keyup(function () {
         let CPF = $("input[name='cpf']").val();
-        console.log(CPF);
         if(validarCPF(CPF) === false){
             $('#resultado_cpf').html('*CPF Inválido.');
             $('#salvar_dados').attr('disabled');
@@ -97,17 +98,23 @@ $(document).ready(function () {
                                 ?>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label class="text-primary">Nome*:</label><br>
-                                <input class="form-control" name="nome" type="text" placeholder="Digite o nome completo...">
-                            </div>
-                            <div class="form-group">
-                                <label class="text-primary">CPF*:</label><br>
+                            <div class="form-group was-validated">
+                                <label class="text-primary">CPF:</label><br>
                                 <input class="form-control" name="cpf" type="text" placeholder="Digite o CPF..."  required>
                                 <p class="help-block text-danger text-bold" id="resultado_cpf"></p>
+                                <div class="invalid-feedback">
+                                    Campo obrigatório
+                                </div>
+                            </div>
+                            <div class="form-group was-validated">
+                                <label class="text-primary">Nome:</label><br>
+                                <input class="form-control" name="nome" type="text" placeholder="Digite o nome completo..." required>
+                                <div class="invalid-feedback">
+                                    Campo obrigatório
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label class="text-primary">RG*:</label><br>
+                                <label class="text-primary">RG:</label><br>
                                 <input class="form-control" name="rg" type="text" placeholder="Digite o RG...">
                             </div>
                             <div class="form-group">
@@ -115,7 +122,7 @@ $(document).ready(function () {
                                 <input class="form-control" name="pis" type="text" placeholder="Digite o PIS/PASEP..." >
                             </div>
                             <div class="form-group">
-                                <label class="text-primary">Data Nascimento*:</label><br>
+                                <label class="text-primary">Data Nascimento:</label><br>
                                 <input class="form-control" name="data_nascimento" type="date" placeholder="Digite a data de nascimento...">
                             </div>
                         </div>
@@ -152,9 +159,12 @@ $(document).ready(function () {
                                 <label class="text-primary">Whatsapp:</label><br>
                                 <input class="form-control" name="whatsapp" type="tel" placeholder="Digite o whatsapp  no formato (99)99999-99999...">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group was-validated">
                                 <label class="text-primary">E-mail:</label><br>
-                                <input class="form-control" name="email" type="email" placeholder="Digite o email...">
+                                <input class="form-control" name="email" type="email" placeholder="Digite o email..."  required>
+                                <div class="invalid-feedback">
+                                    Campo obrigatório
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Facebook:</label><br>
@@ -166,7 +176,7 @@ $(document).ready(function () {
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Obeservação:</label><br>
-                                <textarea class="form-control" name="observacao" placeholder="Uma breve descrição sobre a tela..." required></textarea>
+                                <textarea class="form-control" name="observacao" placeholder="Uma breve descrição sobre a tela..."></textarea>
                             </div>
                         </div>
                         <div class="card-footer">

@@ -262,6 +262,45 @@ class ControllerFuncionario {
             $funcionario->usuario_cpf = strip_tags($_POST['usuario_cpf']);
             $funcionario->status = true;
 
+            $usuario = new ModelUser();
+            $usuario->login = $contato->email;
+            $usuario->nome = $funcionario->nome;
+            $usuario->cpf = $funcionario->cpf;
+            $usuario->status = $funcionario->status;
+
+            $emailExixtente = $this->daoUser->selectObjectByName($usuario->login);
+            if(!$funcionario->usuario_cpf){
+                try {
+                    $cpfExixtente = $this->daoUser->selectObjectByCPF($usuario->cpf); 
+                    if(!empty($cpfExixtente) || $emailExixtente){
+                        $this->info = "warning=user_already_registered";
+                        HelperController::valid_messages($this->info);
+                        return $this->novo();
+                    } else 
+                        $usuario->id = $this->daoUser->saveAndReturnId($usuario);
+                } catch (Exception $erro) {
+                    // print_r($erro);
+                    $this->info = "error=Usuário: " . $erro->getMessage();
+                    $this->listar();
+                }
+            }
+            $grupo = new ModelGrupo();
+            $grupo->id = 4;//Funcionário
+            $grupo->status = $user->status;
+            $grupo->usuario_id = $this->usuarioAutenticado->id;
+            $usuariosDoGrupo = array();
+            //Grupo de permissão para usuário
+            $usuarioGrupo = new ModelUsuarioGrupo();
+            $usuarioGrupo->grupo_id = $grupo->id;
+            $usuarioGrupo->usuario_id = $usuario->id ? $usuario->id : $emailExixtente->id;
+            $usuarioGrupo->usuario = $this->usuarioAutenticado->id;
+            $usuarioGrupo->status = $usuario->status;
+            $grupoVinculadoAoUsuario = $this->daoUsuarioGrupo->selectObjectsByContainsFkUsuarioAndFkGrupo($usuarioGrupo->usuario_id,  $grupo->id);
+            if(!$grupoVinculadoAoUsuario){
+                array_push($usuariosDoGrupo,$usuarioGrupo);
+                $this->daoUsuarioGrupo->saveBatch($usuariosDoGrupo);
+            }
+
             try {
                $id = $this->daoFuncionario->saveAndReturnPkId($funcionario);
                 $this->listar();
