@@ -19,30 +19,52 @@ $(document).ready(function () {
         $('.nav-tabs > .active').prev('a').trigger('click');
     });
 
-    $("select[name='usuario_id']").change(function(e){
+    $("select[name='usuario_cpf']").change(function(e){
         let id = e.target.value;
-        $.ajax({
-            type: "GET",
-            url: "<?php echo server_url('handler?endpoint=buscar-usuario&id=');?>" + id ,
-            dataType: "json",
-            success: function(data){
-                let usuario = data.data;
-                $("input[name='nome']").val(usuario.usuario.nome);
-                $("input[name='email']").val(usuario.usuario.login);
-                $("input[name='cpf']").val(usuario.usuario.cpf);
-                $("textarea[name='observacao']").val('Funcionário vinculado a usuário existente');
-            },
-            error: function(a,b,c){
-                //console.log('Erro durante o preenhemento das permissões');
-            }
-        });
+        if (id != null && id != '') {
+            $.ajax({
+                type: "GET",
+                url: "<?php echo server_url('handler?endpoint=buscar-usuario&id=');?>" + id ,
+                dataType: "json",
+                success: function(data){
+                    let usuario = data.data;
+                    $("input[name='nome']").val(usuario.usuario.nome);
+                    $("input[name='email']").val(usuario.usuario.login);
+                    if(validarCPF(usuario.usuario.cpf) === false){
+                        $('#resultado_cpf').html('*CPF Inválido.');
+                        $('#salvar_dados').attr('disabled');
+                    } else {
+                        $("input[name='cpf']").val(usuario.usuario.cpf);
+                        $('#salvar_dados').removeAttr("disabled");
+                        $('#resultado_cpf').html('');
+                    }
+                    $("textarea[name='observacao']").val('Funcionário vinculado a usuário existente');
+                    $("input[name='descricao']").val('Funcionário vinculado a usuário existente');
+                },
+                error: function(a,b,c){
+                    //console.log('Erro durante o preenhemento das permissões');
+                }
+            });
+        }
     });
 
     $("input[name='cpf']").change(function(e){
         $("input[name='nome']").val('');
         $("input[name='email']").val('');
-        $("select[name='usuario_id']").val('').trigger('change');
+        $("select[name='usuario_cpf']").val('').trigger('change');
         //$("textarea[name='observacao']").val('Funcionário vinculado a usuário existente');
+    });
+
+    $("input[name='cpf']").keyup(function () {
+        let CPF = $("input[name='cpf']").val();
+        console.log(CPF);
+        if(validarCPF(CPF) === false){
+            $('#resultado_cpf').html('*CPF Inválido.');
+            $('#salvar_dados').attr('disabled');
+        } else {
+            $('#salvar_dados').removeAttr("disabled");
+            $('#resultado_cpf').html('');
+        }
     });
 });
 
@@ -66,7 +88,7 @@ $(document).ready(function () {
                         <div class="card-body">
                             <div class="form-group">
                                 <label class="text-primary">Usuário:</label><br>
-                                <select id="mySelect" name="usuario_id" class="selectpicker form-control" data-live-search="true" required>
+                                <select name="usuario_cpf" class="selectpicker form-control" data-live-search="true" required>
                                     <option></option>
                                 <?php
                                     foreach ($funcionario->usuarios as $usuario) {
@@ -77,16 +99,16 @@ $(document).ready(function () {
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Nome*:</label><br>
-                                <input class="form-control" name="nome" type="text" placeholder="Digite o nome completo..." required>
+                                <input class="form-control" name="nome" type="text" placeholder="Digite o nome completo...">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">CPF*:</label><br>
-                                <input class="form-control" id="cpf" name="cpf" type="text" placeholder="Digite o CPF..."  required>
+                                <input class="form-control" name="cpf" type="text" placeholder="Digite o CPF..."  required>
                                 <p class="help-block text-danger text-bold" id="resultado_cpf"></p>
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">RG*:</label><br>
-                                <input class="form-control" name="rg" type="text" placeholder="Digite o RG..."  required>
+                                <input class="form-control" name="rg" type="text" placeholder="Digite o RG...">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">PIS:</label><br>
@@ -94,7 +116,7 @@ $(document).ready(function () {
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Data Nascimento*:</label><br>
-                                <input class="form-control" name="data_nascimento" type="date" placeholder="Digite a data de nascimento..."  required>
+                                <input class="form-control" name="data_nascimento" type="date" placeholder="Digite a data de nascimento...">
                             </div>
                         </div>
                         <div class="card-footer">
@@ -116,19 +138,19 @@ $(document).ready(function () {
                         <div class="card-body">
                             <div class="form-group">
                                 <label class="text-primary">Descrição:</label><br>
-                                <input class="form-control" name="descricao" type="text" placeholder="Digite uma descrição..." required>
+                                <input class="form-control" name="descricao" type="text" placeholder="Digite uma descrição...">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Telefone:</label><br>
-                                <input class="form-control" name="telefone" id="phone" type="tel" placeholder="Digite o telefone no formato (999)99999-99999...">
+                                <input class="form-control" name="telefone" type="tel" placeholder="Digite o telefone no formato (99)99999-99999...">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Celular:</label><br>
-                                <input class="form-control" name="celular" id="cell" type="tel" placeholder="Digite o celular no formato (999)99999-99999...">
+                                <input class="form-control" name="celular" type="tel" placeholder="Digite o celular no formato (99)99999-99999...">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Whatsapp:</label><br>
-                                <input class="form-control" name="whatsapp" id="whatsapp" type="tel" placeholder="Digite o whatsapp  no formato (999)99999-99999...">
+                                <input class="form-control" name="whatsapp" type="tel" placeholder="Digite o whatsapp  no formato (99)99999-99999...">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">E-mail:</label><br>
@@ -174,7 +196,7 @@ $(document).ready(function () {
                         <div class="card-body">
                             <div class="form-group">
                                 <label class="text-primary">Logradouro:</label><br>
-                                <input class="form-control" name="logradouro" type="text" placeholder="Digite o logradouro..." required>
+                                <input class="form-control" name="logradouro" type="text" placeholder="Digite o logradouro...">
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Número:</label><br>
@@ -190,7 +212,7 @@ $(document).ready(function () {
                             </div>
                             <div class="form-group">
                                 <label class="text-primary">Cidade:</label><br>
-                                <select name="cidade_id" class="form-control" required>
+                                <select name="cidade_id" class="form-control">
                                     <option></option>
                                     <?php
                                     foreach ($funcionario->cidades as $each_cidade) {

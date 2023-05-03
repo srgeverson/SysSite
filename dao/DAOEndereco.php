@@ -66,7 +66,7 @@ class DAOEndereco extends GenericDAO {
         $this->statement->bindParam(':numero', $endereco->numero, PDO::PARAM_STR);
         $this->statement->bindParam(':bairro', $endereco->bairro, PDO::PARAM_STR);
         $this->statement->bindParam(':cep', $endereco->cep, PDO::PARAM_STR);
-        $this->statement->bindParam(':cidade_id', $endereco->cidade_id, PDO::PARAM_STR);
+        $this->statement->bindParam(':cidade_id', $endereco->cidade_id, $endereco->cidade_id ? PDO::PARAM_INT : PDO::PARAM_NULL);
         $this->statement->bindParam(':usuario_id', $endereco->usuario_id, PDO::PARAM_INT);
         $this->statement->bindParam(':status', $endereco->status, PDO::PARAM_BOOL);
         $this->statement->execute();

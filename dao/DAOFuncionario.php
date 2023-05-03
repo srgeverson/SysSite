@@ -60,21 +60,21 @@ class DAOFuncionario extends GenericDAO {
         $this->query .= "(:nome, :cpf, :rg, :pis, :data_nascimento, :status, :contato_id, :endereco_id, :usuario_id);";
         try {
             $conexao = $this->getInstance();
+            $this->statement = $conexao->prepare($this->query);
+            $this->statement->bindParam(':nome', $funcionario->nome, PDO::PARAM_STR);
+            $this->statement->bindParam(':cpf', $funcionario->cpf, PDO::PARAM_STR);
+            $this->statement->bindParam(':rg', $funcionario->rg, PDO::PARAM_STR);
+            $this->statement->bindParam(':pis', $funcionario->pis, PDO::PARAM_STR);
+            $this->statement->bindParam(':data_nascimento', $funcionario->data_nascimento, $funcionario->data_nascimento ? PDO::PARAM_STR : PDO::PARAM_NULL);
+            $this->statement->bindParam(':contato_id', $funcionario->contato_id, PDO::PARAM_INT);
+            $this->statement->bindParam(':endereco_id', $funcionario->endereco_id, PDO::PARAM_INT);
+            $this->statement->bindParam(':usuario_id', $funcionario->usuario_id, PDO::PARAM_INT);
+            $this->statement->bindParam(':status', $funcionario->status, PDO::PARAM_BOOL);
+            $this->statement->execute();
+            return $conexao->lastInsertId();
         } catch (Exception $erro) {
             throw new Exception($erro->getMessage());
         }
-        $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':nome', $funcionario->nome, PDO::PARAM_STR);
-        $this->statement->bindParam(':cpf', $funcionario->cpf, PDO::PARAM_STR);
-        $this->statement->bindParam(':rg', $funcionario->rg, PDO::PARAM_STR);
-        $this->statement->bindParam(':pis', $funcionario->pis, PDO::PARAM_STR);
-        $this->statement->bindParam(':data_nascimento', $funcionario->data_nascimento, PDO::PARAM_STR);
-        $this->statement->bindParam(':contato_id', $funcionario->contato_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':endereco_id', $funcionario->endereco_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':usuario_id', $funcionario->usuario_id, PDO::PARAM_INT);
-        $this->statement->bindParam(':status', $funcionario->status, PDO::PARAM_BOOL);
-        $this->statement->execute();
-        return $conexao->lastInsertId();
     }
 
     public function selectObjectByCPF($cpf = null) {
