@@ -10,15 +10,15 @@ $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/";
 $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/";
 
 $GLOBALS['dictionary'] = array(
-    'permissao_created' => "Permissão cadastrada com sucesso.",
-    'permissao_deleted' => "Permissão removida com sucesso.",
-    'permissao_disabled' => "Permissão desabilitada.",
-    'permissao_enabled' => "Permissão halitada.",
-    'permissao_in_use' => "Não é possível remover essa permissão, pois a mesma está em uso, recomendamos que desabilite-a.",
-    'permissao_not_exists' => "Permissão inexistente.",
-    'permissao_already_registered' => "Já consta uma permissão cadastrada com o nome informado!",
-    'permissao_updated' => "Permissão atualizada com sucesso.",
-    'permissao_uninformed' => "Permissão não informada.",
+    
+    'cidade_created' => "Cidade criada com sucesso.",
+    'cidade_enabled' => "Cidade habilitada com sucesso.",
+    'cidade_deleted' => "Cidade apagada com sucesso.",
+    'cidade_disabled' => "Cidade desabilitada com sucesso.",
+    'cidade_updated' => "Cidade atualizada com sucesso.",
+    'cidade_uninformed' => "Cidade nãa informado.",
+    'cidade_updated' => "Cidade atualizada com sucesso.",
+
     'contato_created' => "Contato criado com sucesso.",
     'contato_enabled' => "Contato habilitado com sucesso.",
     'contato_deleted' => "Contato apagado com sucesso.",
@@ -112,8 +112,7 @@ $GLOBALS['dictionary'] = array(
     'pais_updated' => "País atualizado com sucesso.",
     'pais_uninformed' => "País não informado.",
     'pais_updated' => "País atualizado com sucesso.",
-    'permission_created' => "Permissão criada com sucesso.",
-    'permission_denied' => "Usuário não está autenticado ou não possui permissão.",
+
     'parameter_already_registered' => "Já existe um parâmetro com essa chave.",
     'parameter_created' => "Parâmetro cadastrado com sucesso.",
     'parameter_disabled' => "Parâmetro desabilitado com sucesso.",
@@ -121,6 +120,17 @@ $GLOBALS['dictionary'] = array(
     'parameter_enabled' => "Parâmetro habilitado com sucesso.",
     'parameter_updated' => "Parâmetro atualizado com sucesso.",
     'parameter_uninformed' => "Parâmetro não informado.",
+    
+    'permissao_denied' => "Usuário não está autenticado ou não possui permissão.",
+    'permissao_deleted' => "Permissão removida com sucesso.",
+    'permissao_disabled' => "Permissão desabilitada.",
+    'permissao_enabled' => "Permissão halitada.",
+    'permissao_in_use' => "Não é possível remover essa permissão, pois a mesma está em uso, recomendamos que desabilite-a.",
+    'permissao_not_exists' => "Permissão inexistente.",
+    'permissao_already_registered' => "Já consta uma permissão cadastrada com o nome informado!",
+    'permissao_updated' => "Permissão atualizada com sucesso.",
+    'permissao_uninformed' => "Permissão não informada.",
+
     'test_already_registered' => "Já existe um teste com essa chave.",
     'test_created' => "Teste cadastrado com sucesso.",
     'test_disabled' => "Teste desabilitado com sucesso.",

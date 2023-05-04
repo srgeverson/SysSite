@@ -5,7 +5,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once server_path("controller/ControllerFuncionarioUser.php");
 include_once server_path("controller/ControllerUser.php");
 include_once server_path("controller/ControllerSystem.php");
 include_once server_path("dao/DAOCidade.php");
@@ -50,17 +49,11 @@ class ControllerFuncionario {
     public function delete() {
         if (HelperController::authotity()) {
             $id = strip_tags($_GET['id']);
-            //$funcionario = null;
             if (!isset($id)) {
                 $this->info = 'warning=funcionario_uninformed';
                 $this->listar();
             } else {
                 $funcionario = $this->daoFuncionario->selectObjectById($id);
-                //var_dump($funcionario);
-                // try {
-                    //kkkkk
-                    //$controlleFuncionarioUser = new ControllerFuncionarioUser();
-                    //$controlleFuncionarioUser->deleteFuncionarioUserByFuncionario($funcionario->id);
                     try {
                         $this->daoFuncionario->delete($funcionario->id);
                         array_push($this->mensagens, "funcionario_deleted");
@@ -84,10 +77,6 @@ class ControllerFuncionario {
                         $this->info = "error=Funcionário: " . $erro->getMessage();
                         $this->listar();
                     }
-                // } catch (Exception $erro) {
-                //     $this->info = "error=Funcionário Usuário: " . $erro->getMessage();
-                //     $this->listar();
-                // }
             }
         }
     }

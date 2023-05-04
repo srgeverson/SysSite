@@ -37,7 +37,7 @@ class DAOCidade extends GenericDAO {
             throw new Exception($erro->getMessage());
         }
         $this->statement = $conexao->prepare($this->query);
-        $this->statement->bindParam(':codigo', $cidade->codigo, PDO::PARAM_STR);
+        $this->statement->bindParam(':codigo', $cidade->codigo, PDO::PARAM_INT);
         $this->statement->bindParam(':nome', $cidade->nome, PDO::PARAM_STR);
         $this->statement->bindParam(':status', $cidade->status, PDO::PARAM_BOOL);
         $this->statement->bindParam(':estado_id', $cidade->estado_id, PDO::PARAM_INT);
@@ -71,7 +71,7 @@ class DAOCidade extends GenericDAO {
 
     public function selectObjectById($id = 0) {
         $this->query = "SELECT ";
-        $this->query .= "c.*, es.id as cidade_id, es.nome as cidade_nome, u.id as usuario_id, u.nome as usuario_nome ";
+        $this->query .= "c.*, e.nome as estado_nome, u.nome as usuario_nome ";
         $this->query .= "FROM cidades AS c ";
         $this->query .= "INNER JOIN estados AS e ON (e.id=c.estado_id) ";
         $this->query .= "INNER JOIN usuarios AS u ON (u.id=c.usuario_id) ";
@@ -90,7 +90,7 @@ class DAOCidade extends GenericDAO {
 
     public function selectObjectsByContainsObject(ModelCidade $cidade = null) {
         $this->query = "SELECT ";
-        $this->query .= "c.*, es.id as cidade_id, es.nome as cidade_nome, u.id as usuario_id, u.nome as usuario_nome ";
+        $this->query .= "c.*, e.nome as estado_nome, u.nome as usuario_nome ";
         $this->query .= "FROM cidades AS c ";
         $this->query .= "INNER JOIN estados AS e ON (e.id=c.estado_id) ";
         $this->query .= "INNER JOIN usuarios AS u ON (u.id=c.usuario_id) ";
@@ -150,8 +150,6 @@ class DAOCidade extends GenericDAO {
         $this->query = "UPDATE cidades SET ";
         $this->query .= "nome=:nome, ";
         $this->query .= "codigo=:codigo, ";
-        $this->query .= "nome=:nome, ";
-        $this->query .= "cep=:cep, ";
         $this->query .= "estado_id=:estado_id, ";
         $this->query .= "usuario_id=:usuario_id ";
         $this->query .= "WHERE id=:id;";
@@ -163,9 +161,7 @@ class DAOCidade extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':nome', $cidade->nome, PDO::PARAM_STR);
         $this->statement->bindParam(':codigo', $cidade->codigo, PDO::PARAM_STR);
-        $this->statement->bindParam(':nome', $cidade->nome, PDO::PARAM_STR);
-        $this->statement->bindParam(':cep', $cidade->cep, PDO::PARAM_STR);
-        $this->statement->bindParam(':estado_id', $cidade->estado_id, PDO::PARAM_STR);
+        $this->statement->bindParam(':estado_id', $cidade->estado_id, PDO::PARAM_INT);
         $this->statement->bindParam(':usuario_id', $cidade->usuario_id, PDO::PARAM_INT);
         $this->statement->bindParam(':id', $cidade->id, PDO::PARAM_INT);
         $this->statement->execute();
@@ -187,7 +183,7 @@ class DAOCidade extends GenericDAO {
         }
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':status', $cidade->status, PDO::PARAM_BOOL);        
-        $this->statement->bindParam(':usuario_id', $user->usuario_id, PDO::PARAM_INT);
+        $this->statement->bindParam(':usuario_id', $cidade->usuario_id, PDO::PARAM_INT);
         $this->statement->bindParam(':id', $cidade->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;

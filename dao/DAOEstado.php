@@ -50,7 +50,7 @@ class DAOEstado extends GenericDAO {
         $this->query = "SELECT ";
         $this->query .= "e.*, e.id AS pais_id, e.nome AS pais_nome, u.id AS usuario_id, u.nome AS usuario_nome ";
         $this->query .= "FROM estados AS e ";
-        $this->query .= "INNER JOIN paises AS e ON (e.pais_id=e.id) ";
+        $this->query .= "INNER JOIN paises AS p ON (p.id=e.pais_id) ";
         $this->query .= "INNER JOIN usuarios AS u ON (e.usuario_id=u.id) ";
         $this->query .= "WHERE e.id=:id LIMIT 1;";
         try {
@@ -68,7 +68,7 @@ class DAOEstado extends GenericDAO {
         $this->query = "SELECT ";
         $this->query .= "e.*, e.id AS pais_id, e.nome AS pais_nome, u.id AS usuario_id, u.nome usuario_nome ";
         $this->query .= "FROM estados AS e ";
-        $this->query .= "INNER JOIN paises AS e ON (e.pais_id=e.id) ";
+        $this->query .= "INNER JOIN paises AS p ON (p.id=e.pais_id) ";
         $this->query .= "INNER JOIN usuarios AS u ON (e.usuario_id=u.id) ";
         $this->query .= "WHERE ";
         $this->query .= "e.nome LIKE '%$estado->nome%' AND ";

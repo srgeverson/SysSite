@@ -4,10 +4,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-// include_once server_path("controller/ControllerFolhaPagamento.php");
-// include_once server_path("controller/ControllerFuncionarioUser.php");
-// $controllerFuncionarioUser = new ControllerFuncionarioUser();
-// global $user_logged;
 ?>
 <script>
 $(document).ready(function () {

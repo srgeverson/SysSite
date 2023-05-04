@@ -6,8 +6,6 @@
  */
 include_once server_path("controller/ControllerMenu.php");
 include_once server_path("controller/ControllerFolhaPagamento.php");
-include_once server_path("controller/ControllerFuncionarioUser.php");
-// print_r($user_logged);
 echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
     echo '<ul class="navbar-nav ml-auto">';
     // echo 'Ops';
@@ -24,12 +22,11 @@ echo '<div class="collapse navbar-collapse" id="navbarResponsive">';
                     echo '<img class="img-profile rounded-circle" style="width: 30px; height: 30px" src="' . server_url('uploads/user/not_found.png') . '">';
             } else if($each_menu->nome == 'Contra-cheque' /*&& $each_menu->id == 5*/){
                 $listaFolhaPagamento = array();
-                $controllerFuncionarioUser = new ControllerFuncionarioUser();
-                $funcionario = $controllerFuncionarioUser->searchByFkUser($user_logged->id);
+                $funcionario = null;
                 if (isset($funcionario)) {
                     $controllerFolhaPagamento = new ControllerFolhaPagamento();
                     $listaFolhaPagamento = $controllerFolhaPagamento->listEnabledsByFuncionario(isset($funcionario->id) ? $funcionario->id : 0);
-                }    
+                }
                 echo '<i class="' . $each_menu->icone . '"></i>';
                 if (isset($funcionario->id)) {
                     echo '<span class="badge badge-danger badge-counter">', count($listaFolhaPagamento), '</span>';
