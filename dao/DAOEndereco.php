@@ -77,9 +77,9 @@ class DAOEndereco extends GenericDAO {
         $this->query = "SELECT ";
         $this->query .= "e.*, c.id AS cidade_id, c.nome AS cidade_nome,es.id as estado_id, es.sigla as estado_sigla, u.id AS usuario_id, u.nome AS usuario_nome ";
         $this->query .= "FROM enderecos AS e ";
-        $this->query .= "INNER JOIN cidades AS c ON (c.id=e.cidade_id) ";
-        $this->query .= "INNER JOIN estados AS es ON (es.id=c.estado_id) ";
-        $this->query .= "INNER JOIN usuarios AS u ON (u.id=e.usuario_id) ";
+        $this->query .= "LEFT JOIN cidades AS c ON (c.id=e.cidade_id) ";
+        $this->query .= "LEFT JOIN estados AS es ON (es.id=c.estado_id) ";
+        $this->query .= "LEFT JOIN usuarios AS u ON (u.id=e.usuario_id) ";
         $this->query .= "WHERE 1 = 1 ";
         $this->query .= "AND e.id=:id LIMIT 1;";
         try {
@@ -153,7 +153,7 @@ class DAOEndereco extends GenericDAO {
         $this->statement->bindParam(':numero', $endereco->numero, PDO::PARAM_STR);
         $this->statement->bindParam(':bairro', $endereco->bairro, PDO::PARAM_STR);
         $this->statement->bindParam(':cep', $endereco->cep, PDO::PARAM_STR);
-        $this->statement->bindParam(':cidade_id', $endereco->cidade_id, PDO::PARAM_STR);
+        $this->statement->bindParam(':cidade_id', $endereco->cidade_id, $endereco->cidade_id ? PDO::PARAM_INT : PDO::PARAM_NULL);
         $this->statement->bindParam(':usuario_id', $endereco->usuario_id, PDO::PARAM_INT);
         $this->statement->bindParam(':id', $endereco->id, PDO::PARAM_INT);
         $this->statement->execute();

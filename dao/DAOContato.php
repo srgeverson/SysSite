@@ -120,7 +120,8 @@ class DAOContato extends GenericDAO {
         $this->query .= "email=:email, ";
         $this->query .= "facebook=:facebook, ";
         $this->query .= "instagram=:instagram, ";
-        $this->query .= "observacao=:observacao ";
+        $this->query .= "observacao=:observacao, ";
+        $this->query .= "usuario_id=:usuario_id ";
         $this->query .= " WHERE id=:id;";
         try {
             $conexao = $this->getInstance();
@@ -136,6 +137,7 @@ class DAOContato extends GenericDAO {
         $this->statement->bindParam(':facebook', $contato->facebook, PDO::PARAM_STR);
         $this->statement->bindParam(':instagram', $contato->instagram, PDO::PARAM_STR);
         $this->statement->bindParam(':observacao', $contato->observacao, PDO::PARAM_STR);
+        $this->statement->bindParam(':usuario_id', $contato->usuario_id, PDO::PARAM_INT);
         $this->statement->bindParam(':id', $contato->id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;

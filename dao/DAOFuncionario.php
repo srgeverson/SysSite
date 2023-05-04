@@ -186,7 +186,7 @@ class DAOFuncionario extends GenericDAO {
         $this->statement->bindParam(':cpf', $funcionario->cpf, PDO::PARAM_STR);
         $this->statement->bindParam(':rg', $funcionario->rg, PDO::PARAM_STR);
         $this->statement->bindParam(':pis', $funcionario->pis, PDO::PARAM_STR);
-        $this->statement->bindParam(':data_nascimento', $funcionario->data_nascimento, PDO::PARAM_STR);
+        $this->statement->bindParam(':data_nascimento', $funcionario->data_nascimento, $funcionario->data_nascimento ? PDO::PARAM_STR : PDO::PARAM_NULL);
         $this->statement->bindParam(':usuario_id', $funcionario->usuario_id, PDO::PARAM_INT);
         $this->statement->bindParam(':id', $funcionario->id, PDO::PARAM_INT);
         $this->statement->execute();
