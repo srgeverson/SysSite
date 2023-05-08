@@ -26,13 +26,13 @@ class GenericDAO {
             $this->port = 3306;
         $this->user = $_ENV['BANCO_USUARIO'];
         if(!isset($this->user))
-            $this->user = 'system';
+            $this->user = 'root';
         $this->pass = $_ENV['BANCO_SENHA'];
         if(!isset($this->pass))
             $this->pass = '12345678';
         $this->dbname = $_ENV['BANCO_NOME'];
         if(!isset($this->dbname))
-            $this->dbname = 'system';
+            $this->dbname = 'db_teste';
     }
 
     public function getInstance() {

@@ -23,35 +23,35 @@ $(document).ready(function () {
     });
     //Validando CPF
     $("#cpf").keyup(function () {
-        var conteudoCPF = $('#cpf').val();
-        var Soma;
-        var Resto;
-        Soma = 0;
-        conteudoCPF = conteudoCPF.replace('.', '');//Remove o 1º ponto
-        conteudoCPF = conteudoCPF.replace('.', '');//Remove o 1º ponto
-        conteudoCPF = conteudoCPF.replace('-', '');//Remove o hífen
+        let CPF = $('#cpf').val();
+        let soma;
+        let resto;
+        soma = 0;
+        CPF = CPF.replace('.', '');//Remove o 1º ponto
+        CPF = CPF.replace('.', '');//Remove o 1º ponto
+        CPF = CPF.replace('-', '');//Remove o hífen
 
-        if (conteudoCPF != "00000000000") {
+        if (CPF != "00000000000") {
             for (i = 1; i <= 9; i++) {
-                Soma = Soma + parseInt(conteudoCPF.substring(i - 1, i)) * (11 - i);
+                soma = soma + parseInt(CPF.substring(i - 1, i)) * (11 - i);
             }
-            Resto = (Soma * 10) % 11;
-            if ((Resto == 10) || (Resto == 11)) {
-                Resto = 0;
+            resto = (soma * 10) % 11;
+            if ((resto == 10) || (resto == 11)) {
+                resto = 0;
             }
-            if (Resto != parseInt(conteudoCPF.substring(9, 10))) {
+            if (resto != parseInt(CPF.substring(9, 10))) {
                 $('#resultado_cpf').html('*CPF Inválido.');
                 $('#salvar_dados').attr('disabled', '');
             } else {
-                Soma = 0;
+                soma = 0;
                 for (i = 1; i <= 10; i++) {
-                    Soma = Soma + parseInt(conteudoCPF.substring(i - 1, i)) * (12 - i);
+                    soma = soma + parseInt(CPF.substring(i - 1, i)) * (12 - i);
                 }
-                Resto = (Soma * 10) % 11;
-                if ((Resto == 10) || (Resto == 11)) {
-                    Resto = 0;
+                resto = (soma * 10) % 11;
+                if ((resto == 10) || (resto == 11)) {
+                    resto = 0;
                 }
-                if (Resto != parseInt(conteudoCPF.substring(10, 11))) {
+                if (resto != parseInt(CPF.substring(10, 11))) {
                     $('#resultado_cpf').html('*CPF Inválido.');
                     $('#salvar_dados').attr('disabled', '');
                 } else {
@@ -64,5 +64,40 @@ $(document).ready(function () {
             $('#salvar_dados').attr('disabled', '');
         }
     });
+
 });
+
+function validarCPF(CPF) {
+    let soma;
+    let resto;
+    soma = 0;
+    CPF = CPF.replace('.', '');//Remove o 1º ponto
+    CPF = CPF.replace('.', '');//Remove o 1º ponto
+    CPF = CPF.replace('-', '');//Remove o hífen
+
+    if (CPF != "00000000000") {
+        for (i = 1; i <= 9; i++) 
+            soma = soma + parseInt(CPF.substring(i - 1, i)) * (11 - i);
+
+        resto = (soma * 10) % 11;
+        if ((resto == 10) || (resto == 11))
+            resto = 0;
+        if (resto != parseInt(CPF.substring(9, 10)))
+            return false;
+        else {
+            soma = 0;
+            for (i = 1; i <= 10; i++) 
+                soma = soma + parseInt(CPF.substring(i - 1, i)) * (12 - i);
+                
+            resto = (soma * 10) % 11;
+            if ((resto == 10) || (resto == 11))
+                resto = 0;
+            if (resto != parseInt(CPF.substring(10, 11)))
+                return false;
+            else
+                return true;
+        }
+    } else
+        return false;
+}
 

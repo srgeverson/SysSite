@@ -22,8 +22,8 @@ class ControllerGrupo {
     private $daoPermissao;
     private $daoGrupo;
     private $daoGrupoPermissao;
-    private $daoTeste;
     private $daoUser;
+    private $daoUsuarioGrupo;
     private $usuarioAutenticado;
 
     function __construct($pemissoes = array()) {

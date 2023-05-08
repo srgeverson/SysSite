@@ -6,9 +6,6 @@
  */
 
 include_once server_path("controller/ControllerFolhaPagamento.php");
-include_once server_path("controller/ControllerFuncionarioUser.php");
-$controllerFuncionarioUser = new ControllerFuncionarioUser();
-global $user_logged;
 ?>
 <div class="collapse navbar-collapse" id="navbarResponsive">
     <div class="collapse navbar-collapse" id="navbarResponsive">

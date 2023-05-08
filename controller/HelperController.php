@@ -11,13 +11,17 @@ include_once server_path('dao/DAOPermissao.php');
 class HelperController {
 
     public static function authotity() {
-        if (!isset($_SESSION['usuario'])) {
+        $nome_sessao = session_name();
+        if(isset($_SESSION['usuario']) && !isset($_COOKIE[$nome_sessao])){
             $controllerPage = new ControllerPage();
-            $controllerPage->home('error=permission_denied');
+            $controllerPage->home('warning=access_expired');
             return false;
-        } else {
+        } else if (!isset($_SESSION['usuario'])) {
+            $controllerPage = new ControllerPage();
+            $controllerPage->home('warning=permission_denied');
+            return false;
+        } else 
             return true;
-        }
     }
 
     private static function dictionary($msg) {
@@ -101,5 +105,11 @@ class HelperController {
                 $objeto->alterar = true;
         }
         return $objeto; 
+    }
+
+    public static function validar_sessao($tempo = 60){
+        $nome_sessao = session_name();
+        if(isset($_COOKIE[$nome_sessao]))
+            setcookie($nome_sessao, $_COOKIE[$nome_sessao], time() + $tempo, '/');
     }
 }

@@ -84,7 +84,7 @@ class DAOUser extends GenericDAO {
             $conexao = $this->getInstance();
             $this->statement = $conexao->prepare($this->query);
             $this->statement->bindParam(':nome', $user->nome, PDO::PARAM_STR);
-            $this->statement->bindParam(':cpf', $user->cpf, PDO::PARAM_STR);
+            $this->statement->bindParam(':cpf', $user->cpf, $user->cpf ? PDO::PARAM_STR : PDO::PARAM_NULL);
             $this->statement->bindParam(':login', $user->login, PDO::PARAM_STR);
             $this->statement->bindParam(':senha', $user->senha, PDO::PARAM_STR);
             $this->statement->bindParam(':status', $user->status, PDO::PARAM_BOOL);
@@ -227,7 +227,23 @@ class DAOUser extends GenericDAO {
     }
 
     public function selectObjectsNotExistsFuncionario() {
-        $this->query = "SELECT u.* FROM usuarios AS u WHERE u.status = 1 AND  NOT EXISTS (SELECT 1 FROM funcionarios AS f WHERE f.cpf = u.cpf);";
+        $this->query = "SELECT u.* FROM usuarios AS u WHERE u.status = 1 AND  NOT EXISTS (SELECT 1 FROM funcionarios AS f WHERE f.cpf = u.cpf) AND u.cpf IS NOT NULL;";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function selectObjectsNotExistsFuncionarioExceptCPF($cpf = "") {
+        $this->query = "SELECT u.* ";
+        $this->query .= "FROM usuarios AS u ";
+        $this->query .= "WHERE u.status = 1 ";
+        $this->query .= "AND  NOT EXISTS (SELECT 1 FROM funcionarios AS f WHERE f.cpf = u.cpf AND u.cpf NOT IN ('$cpf')) ";
+        $this->query .= "AND u.cpf IS NOT NULL;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {

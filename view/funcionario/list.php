@@ -87,8 +87,11 @@
                     echo '<td>', $each_funcionario->nome, '</td>';
                     echo '<td>', $each_funcionario->cpf, '</td>';
                     echo '<td>', $each_funcionario->rg, '</td>';
-                    $data = new DateTime($each_funcionario->data_nascimento);
-                    echo '<td>', $data->format('d-m-Y'), '</td>';
+                    if($each_funcionario->data_nascimento){
+                        $data = new DateTime($each_funcionario->data_nascimento);
+                        echo '<td>', $data->format('d-m-Y'), '</td>';
+                    } else 
+                    echo '<td>', $each_funcionario->data_nascimento, '</td>';
                     echo '<td>';
                     if ($funcionario->alterar){
                         echo '<a title="Editar dados!" href="', server_url('?page=ControllerFuncionario&option=edit&id=' . $each_funcionario->id), '" class="btn btn-warning btn-circle btn-sm" style="margin: 5px">';
