@@ -46,6 +46,20 @@ class DAOParameter extends GenericDAO {
         return true;
     }
 
+    public function selectConfiguracaoEmail(){
+        $this->query = "SELECT p.* FROM parameter AS p ";
+        $this->query .= "WHERE p.para_status = 1 ";
+        $this->query .= "AND (p.para_key like '%email_%' OR p.para_key IN ('senha', 'email'));";
+        try {
+            $conexao = $this->getInstance();
+        } catch (Exception $erro) {
+            throw new Exception($erro->getMessage());
+        }
+        $this->statement = $conexao->prepare($this->query);
+        $this->statement->execute();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function selectObjectById($para_pk_id = 0) {
         $this->query = "SELECT * FROM parameter WHERE para_pk_id=:para_pk_id LIMIT 1;";
         try {
@@ -120,8 +134,9 @@ class DAOParameter extends GenericDAO {
         }
         $this->query = "UPDATE parameter SET ";
         $this->query .= "para_value=:para_value, ";
-        $this->query .= "para_description=:para_description ";
-        $this->query .= " WHERE para_pk_id=:para_pk_id;";
+        $this->query .= "para_description=:para_description, ";
+        $this->query .= "para_fk_user_pk_id=:para_fk_user_pk_id ";
+        $this->query .= "WHERE para_pk_id=:para_pk_id;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -130,6 +145,7 @@ class DAOParameter extends GenericDAO {
         $this->statement = $conexao->prepare($this->query);
         $this->statement->bindParam(':para_value', $parameter->para_value, PDO::PARAM_STR);
         $this->statement->bindParam(':para_description', $parameter->para_description, PDO::PARAM_STR);
+        $this->statement->bindParam(':para_fk_user_pk_id', $parameter->para_fk_user_pk_id, PDO::PARAM_INT);
         $this->statement->bindParam(':para_pk_id', $parameter->para_pk_id, PDO::PARAM_INT);
         $this->statement->execute();
         return true;
@@ -155,7 +171,8 @@ class DAOParameter extends GenericDAO {
     }
 
     public function verificaConfiguracaoDeEmail(){
-        $this->query = "SELECT * FROM parameter AS p where p.para_key in ('email','senha') and p.para_key is not null and p.para_status = 1;";
+        $this->query = "SELECT case when count(*) > 0 then true else false end as email_configurado ";
+        $this->query .= "FROM parameter AS p where p.para_key in ('email','senha') and p.para_key is not null and p.para_status = 1;";
         try {
             $conexao = $this->getInstance();
         } catch (Exception $erro) {
@@ -163,6 +180,6 @@ class DAOParameter extends GenericDAO {
         }
         $this->statement = $conexao->prepare($this->query);
         $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+        return $this->statement->fetch(PDO::FETCH_OBJ);
     }
 }

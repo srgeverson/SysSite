@@ -339,24 +339,23 @@ class ControllerUser {
     }
 
     public function reset() {
-        $id = strip_tags($_GET['id']); //Códifo do usuário
-        if($this->daoParameter->verificaConfiguracaoDeEmail())
-            $user->enviar_senha_por_email = true;
-        else{
+        $user = new ModelUser();
+        $user->id = strip_tags($_GET['id']); //Códifo do usuário
+        $email = $this->daoParameter->verificaConfiguracaoDeEmail();
+        $user->enviar_senha_por_email = boolval($email->email_configurado);
+        print_r($user);
+        if(!$user->enviar_senha_por_email) {
             HelperController::valid_messages("warning=server_email_undefined");
-            redirect(server_url('?page=ControllerUser&option=edit&id='. $id));
+            redirect(server_url('?page=ControllerUser&option=edit&id='. $user->id));
         }
         $password = random_int(100000, 99999999); //senha aleatoria
         $senha = password_hash($password, PASSWORD_BCRYPT);
 
         try {
-            $user = new ModelUser();
-            $user->id = $id;
             $user->senha = $senha;
-            global $user_logged;
-            $user->usuario_id = $user_logged->id;
+            $user->usuario_id = $usuarioAutenticado->id;
 
-            $user_updated = $this->daoUser->selectObjectById($id);
+            $user_updated = $this->daoUser->selectObjectById($user->id);
             //Enviando email para acesso ao sistema
             $contato = new ModelContato();
             $contato->descricao = $user_updated->nome;
@@ -364,7 +363,7 @@ class ControllerUser {
             $contato->observacaoo = 'Senha Provisória: ' . $password;
 
             $controllerContato = new ControllerContato();
-
+            echo '<br/>';
             if ($controllerContato->send_email($contato)) {
                 $this->daoUser->updatePassword($user);
                 $this->info = "success=senha_reseted";
@@ -373,8 +372,9 @@ class ControllerUser {
             }
         } catch (Exception $erro) {
             $this->info = "error=" . $erro->getMessage();
+        } finally {
+            return $this->listar();
         }
-        $this->listar();
     }
 
     public function save() {
