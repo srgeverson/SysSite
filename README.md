@@ -117,10 +117,11 @@ $ mysql -u root -p
 $ exit;
 
 # Salvando dados
-$ mysqldump -u root -p system > {PASTA_DE_DESTINO_DO_BACACKUP}/backup_db_system.sql
+$ cd "C:\Program Files\MySQL\MySQL Workbench 8.0 CE"
+$ mysqldump -u root -p db_paulistense > {PASTA_ONDE_O_PROJETO_FOI_CLONADO}\SysSite\.docker\setup.sql
 
 # Resraurando
-$ mysql -u root -p system < {PASTA_ONDE_O_PROJETO_FOI_CLONADO}/system/sql/system.sql
+$ mysql -u root -p system < {PASTA_ONDE_O_PROJETO_FOI_CLONADO}\SysSite\.docker\setup.sql
 
 ```
 
