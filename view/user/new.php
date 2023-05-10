@@ -64,7 +64,7 @@ $(document).ready(function () {
                 <div class="card-footer">
                     <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar com grupos de botões">
                         <div class="input-group">
-                            <button class="btn btn-primary btn-icon-split" id="salvar_novo_usuario_com_senha" disabled>
+                            <button class="btn btn-primary btn-icon-split" id="salvar_novo_usuario_com_senha">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-save"></i>
                                 </span>

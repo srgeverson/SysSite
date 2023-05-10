@@ -84,20 +84,19 @@ class ControllerSystem {
     }
 
     public function testarConfiguracaoEmail(){
-        //$parameters = $this->daoParameter->selectConfiguracaoEmail();
         $controller = new ControllerContato();
         $contato = new ModelContato();
         $contato->descricao = 'Ops.. testando';
         $contato->email = 'geversonjosedesouza@gmail.com';
         $contato->observacaoo = 'Testando envio de email';
-        if($controller->send_email($contato)){
+        //$parameters = $this->daoParameter->selectConfiguracaoEmail();
+        if($controller->send_email_smtp($contato)){
             $this->info = 'success=sent_email';
-            //    
         } else {
             $this->info = 'warning=not_sent_email';
-            //     $this->editarConfiguracaoEmail();
         }
-
+        
+        //$controller->send_email_smtp($contato);
         HelperController::valid_messages($this->info);
         return $this->editarConfiguracaoEmail();
     }

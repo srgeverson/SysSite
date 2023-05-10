@@ -343,7 +343,6 @@ class ControllerUser {
         $user->id = strip_tags($_GET['id']); //Códifo do usuário
         $email = $this->daoParameter->verificaConfiguracaoDeEmail();
         $user->enviar_senha_por_email = boolval($email->email_configurado);
-        print_r($user);
         if(!$user->enviar_senha_por_email) {
             HelperController::valid_messages("warning=server_email_undefined");
             redirect(server_url('?page=ControllerUser&option=edit&id='. $user->id));
@@ -363,10 +362,9 @@ class ControllerUser {
             $contato->observacaoo = 'Senha Provisória: ' . $password;
 
             $controllerContato = new ControllerContato();
-            echo '<br/>';
-            if ($controllerContato->send_email($contato)) {
+            if ($controllerContato->send_email_smtp($contato)) {
                 $this->daoUser->updatePassword($user);
-                $this->info = "success=senha_reseted";
+                $this->info = "success=user_password_reseted";
             } else {
                 $this->info = "error=contato_not_send_email";
             }
@@ -381,15 +379,14 @@ class ControllerUser {
         if (HelperController::authotity()) {
             $user = new ModelUser();
             $user->nome = strip_tags($_POST['nome']);
-            $user->cpf = strip_tags($_POST['cpf']);
+            $user->cpf = isset($_POST['cpf']) ? strip_tags($_POST['cpf']) : null;
             $user->login = strip_tags($_POST['login']);
-            $user->senha = strip_tags($_POST['senha']);
+            $user->senha = isset($_POST['senha']) ? strip_tags($_POST['senha']) : null;
             $user->status = true;
 
             try {
                 $user_atual = $this->daoUser->selectObjectByName($user->login);
-                if (!$user_atual) {
-                    $user->senha = password_hash($user->senha, PASSWORD_BCRYPT);
+                if (!$user_atual) { 
                     //Endereço
                     $endereco = new ModelEndereco();
                     $endereco->usuario_id = $this->usuarioAutenticado->id;
@@ -419,6 +416,7 @@ class ControllerUser {
                         $existente = $this->daoUser->selectObjectByCPF($user->cpf);
                         if(empty($existente)){
                             $user->id = $this->daoUser->saveAndReturnId($user);
+                            $user->senha = password_hash($user->senha, PASSWORD_BCRYPT);
                             $funcionario->endereco_id = $this->daoEndereco->saveAndReturnPkId($endereco);
                             $funcionario->contato_id = $this->daoContato->saveAndReturnPkId($contato);
                             $funcionario_id = $this->daoFuncionario->saveAndReturnPkId($funcionario);
@@ -443,15 +441,15 @@ class ControllerUser {
                         //Enviando email para acesso ao sistema
                         $contato->observacaoo = 'Senha Provisória: ' . $password;
                         $controllerContato = new ControllerContato();
-                        if ($controllerContato->send_email($contato)) {
-                            $id = $this->daoUser->saveAndReturnId($user);
-                                                        
+                        if ($controllerContato->send_email_smtp($contato)) {
                             $existente = $this->daoUser->selectObjectByCPF($user->cpf);
                             if(empty($existente)){
                                 $user->id = $this->daoUser->createOtherUserAndReturnId($user);
-                                $funcionario->endereco_id = $this->daoEndereco->saveAndReturnPkId($endereco);
-                                $funcionario->contato_id = $this->daoContato->saveAndReturnPkId($contato);
-                                $funcionario_id = $this->daoFuncionario->saveAndReturnPkId($funcionario);
+                                if($user->cpf){
+                                    $funcionario->endereco_id = $this->daoEndereco->saveAndReturnPkId($endereco);
+                                    $funcionario->contato_id = $this->daoContato->saveAndReturnPkId($contato);
+                                    $this->daoFuncionario->saveAndReturnPkId($funcionario);
+                                }
                                 //Grupo de permissão para usuário
                                 $usuarioGrupo = new ModelUsuarioGrupo();
                                 $usuarioGrupo->grupo_id = $grupo->id;

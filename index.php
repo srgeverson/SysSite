@@ -6,7 +6,7 @@ include_once './controller/ControllerParameter.php';
 include_once './controller/ControllerPage.php';
 
 $parameter = new ControllerParameter();
-ini_set('display_errors', 1);
+ini_set('display_errors', $parameter->getProperty('mostrar_error'));
 
 $tempo = $parameter->getProperty('tempo_sessao_site');
 ini_set("session.gc_maxlifetime", $tempo);

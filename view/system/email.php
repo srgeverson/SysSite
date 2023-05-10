@@ -16,31 +16,14 @@ $(document).ready(function () {
 function enviarEmail(e) {
     // e.preventDefault();
     try {
-        Email.send({
-            Host : "smtp.zoho.com",
-            Username : "paulistensetecnologia@zohomail.com",
-            Password : "@G182534",
-            To : "paulistensetecnologia@zohomail.com",
-            From : "paulistensetecnologia@zohomail.com",
-            Subject : "This is the subject",
-            Body : "And this is the body"
-        }).then(
-            message => alert(message)
-        );
-        // Email.send(
-        //     "paulistensetecnologia@zohomail.com",
-        //     "paulistensetecnologia@zohomail.com",
-        //     "This is a subject",
-        //     "this is the body",
-        //     "smtp.zoho.com",
-        //     "paulistensetecnologia@zohomail.com",
-        //     "@G182534"
-        //     );
-            
-        alert('ops e-mail enviado...');
+            Email.send({
+                Host : "smtp.zoho.com"
+            }).then(
+                message => alert(message)
+            );
+            alert('ops e-mail enviado...');
         } catch (error) {
-        alert('ops e-mail com erro...');
-            
+            alert('ops e-mail com erro...');
         }
 }
 </script>

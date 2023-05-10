@@ -213,6 +213,52 @@ class ControllerContato {
         }
     }
 
+    public function send_email_smtp(ModelContato $contato = null){
+        try {
+            require_once server_path('assets/php/phpmailer/class.phpmailer.php');
+
+            $email = $this->parameter->getProperty('email');
+            $senha = $this->parameter->getProperty('senha');
+            $nomeFantazia = $this->parameter->getProperty('nome_fantazia');
+
+            //Create an instance; passing `true` enables exceptions
+            $mail = new PHPMailer(true);
+
+            //Server settings
+            $mail->SMTPDebug = $this->parameter->getProperty('servidor_debug_email'); //Enable verbose debug output
+            $mail->isSMTP(); //Send using SMTP
+            $mail->CharSet = "utf-8";
+            $mail->Host       = $this->parameter->getProperty('servidor_email_smtp'); //Set the SMTP server to send through
+            $mail->SMTPAuth   = true; //Enable SMTP authentication
+            $mail->Username   =  $email; //SMTP username
+            $mail->Password   =  $senha; //SMTP password
+            $mail->SMTPSecure = $this->parameter->getProperty('servidor_email_seguranca'); //SSL/TLS Enable implicit TLS encryption
+            $mail->Port       = $this->parameter->getProperty('servidor_email_porta'); //465/587 TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+            //Recipients
+            $mail->setFrom($email, $nomeFantazia);
+            $mail->addAddress($contato->email, $contato->descricao);     //Add a recipient
+            //$mail->addAddress('paulistensetecnologia@zohomail.com');               //Name is optional
+            //$mail->addReplyTo($contato->email, 'Information');
+            //$mail->addCC('paulistensetecnologia@zohomail.com');
+            //$mail->addBCC('paulistensetecnologia@zohomail.com');
+
+            //Attachments
+            //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+            //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+
+            //Content
+            $mail->isHTML(true);                                  //Set email format to HTML
+            $mail->Subject = 'Dados de Acesso';
+            $mail->Body    = $conteudoEmail = "Nome: $contato->descricao E-mail: $contato->email Mensagem: $contato->observacaoo";//Interpretador HTML
+            $mail->AltBody = $conteudoEmail = "Nome: $contato->descricao E-mail: $contato->email Mensagem: $contato->observacaoo";//Sem interpretador HTML
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     public function submit() {
         $descricao = strip_tags($_POST['descricao']);
         $celular = strip_tags($_POST['celular']);
