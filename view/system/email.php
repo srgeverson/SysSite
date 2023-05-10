@@ -49,7 +49,7 @@ function enviarEmail(e) {
     <div class="col-lg-4 mb-4">
     </div>
     <div class="col-lg-4 mb-4">
-        <form action="<?php echo server_url('?page=ControllerSystem&option=salvarConfiguracaoEmail'); ?>" method="post">
+        <form action="<?php echo server_url('?page=ControllerSystem&option=testarConfiguracaoEmail'); ?>" method="post">
             <div class="card h-100">
                 <h4 class="card-header text-primary">Teste de E-mail</h4>
                 <div class="card-body">
@@ -65,21 +65,21 @@ function enviarEmail(e) {
                 <div class="card-footer">
                     <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar com grupos de botões">
                         <div class="input-group">
-                            <a class="btn btn-secondary btn-icon-split" href="#" onclick="enviarEmail(this);">
+                            <button class="btn btn-secondary btn-icon-split">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-save"></i>
                                 </span>
                                 <span class="text">Teste</span>
-                            </a>
+                            </button>
                         </div>
-                        <div class="input-group">
+                        <!-- <div class="input-group">
                             <button class="btn btn-primary btn-icon-split">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-save"></i>
                                 </span>
                                 <span class="text">Salvar</span>
                             </button>
-                        </div>
+                        </div> -->
                         <div class="input-group">
                             <a  class="btn btn-danger btn-icon-split" href="<?php echo server_url('?page=ControllerGrupo&option=listar'); ?>">
                                 <span class="icon text-white-50">

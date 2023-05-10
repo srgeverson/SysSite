@@ -9,6 +9,7 @@
 include_once server_path("dao/DAOParameter.php");
 include_once server_path("model/ModelContato.php");
 include_once server_path("model/ModelParameter.php");
+include_once server_path("controller/ControllerContato.php");
 
 class ControllerSystem {
 
@@ -80,6 +81,25 @@ class ControllerSystem {
                 return $this->welcome('success=parameter_email_setup');
             }
         }
+    }
+
+    public function testarConfiguracaoEmail(){
+        //$parameters = $this->daoParameter->selectConfiguracaoEmail();
+        $controller = new ControllerContato();
+        $contato = new ModelContato();
+        $contato->descricao = 'Ops.. testando';
+        $contato->email = 'geversonjosedesouza@gmail.com';
+        $contato->observacaoo = 'Testando envio de email';
+        if($controller->send_email($contato)){
+            $this->info = 'success=sent_email';
+            //    
+        } else {
+            $this->info = 'warning=not_sent_email';
+            //     $this->editarConfiguracaoEmail();
+        }
+
+        HelperController::valid_messages($this->info);
+        return $this->editarConfiguracaoEmail();
     }
 
     public function user_info($msg = null) {
