@@ -1978,7 +1978,7 @@ CREATE TABLE `usuarios_grupos` (
 
 LOCK TABLES `usuarios_grupos` WRITE;
 /*!40000 ALTER TABLE `usuarios_grupos` DISABLE KEYS */;
-INSERT INTO `usuarios_grupos` VALUES (1,2,1,2),(2,1,1,2),(3,3,1,2),(4,4,1,2),(5,5,1,2),(25,4,1,2);
+INSERT INTO `usuarios_grupos` VALUES (1,1,1,2),(2,1,1,2),(3,3,1,2),(4,4,1,2),(5,5,1,2),(25,4,1,2);
 /*!40000 ALTER TABLE `usuarios_grupos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
