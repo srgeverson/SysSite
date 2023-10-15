@@ -7,11 +7,23 @@
 ?>
 <br>
 <div class="row">
-    <div class="col-lg-4 mb-4">
+    <div class="col-lg-4 mb-0">
     </div>
-    <div class="col-lg-4 mb-4">
+    <div class="col-lg-4 mb-0">
         <form action="<?php echo server_url('?page=ControllerUser&option=logon'); ?>" id="login-form" method="post">
-            <div class="card h-100">
+        <div class="container-login">
+            <div class="login card shadow">
+            <div class="form-group">
+                        <label class="text-primary" for="username">Usuário:</label><br>
+                        <input class="form-control" id="username" name="login" type="email" placeholder="Digite seu email..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="text-primary">Senha:</label><br>
+                        <input class="form-control" id="password" name="senha" placeholder="Digite sua senha..." type="password" required>
+                    </div>
+            </div>    
+        </div>    
+        <!-- <div class="card h-100">
                 <h4 class="card-header text-primary">Área de Login</h4>
                 <div class="card-body">
                     <div class="form-group">
@@ -47,10 +59,9 @@
                         </div>
                     </div>
                 </div>
-
-            </div>
+            </div> -->
         </form>
     </div>
-    <div class="col-lg-4 mb-4">
+    <div class="col-lg-4 mb-0">
     </div>
 </div>

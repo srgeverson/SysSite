@@ -260,7 +260,7 @@ class ControllerFuncionario {
             $usuario->cpf = $funcionario->cpf;
             $usuario->status = $funcionario->status;
 
-            $emailExixtente = $this->daoUser->selectObjectByName($usuario->login);
+            $emailExixtente = $this->daoUser->selectObjectByLogin($usuario->login);
             if(!$funcionario->usuario_cpf){
                 try {
                     $cpfExixtente = $this->daoUser->selectObjectByCPF($usuario->cpf); 

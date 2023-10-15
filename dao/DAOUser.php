@@ -174,7 +174,7 @@ class DAOUser extends GenericDAO {
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selectObjectByName($login = "") {
+    public function selectObjectByLogin($login = "") {
         $this->query = "SELECT u.* ";
         //$this->query .= "u.*, a.* ";
         $this->query .= "FROM usuarios AS u ";
