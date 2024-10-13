@@ -7,3 +7,7 @@
 README-secret.md
 
 nbproject/
+
+.ENV
+.gitignore
+.*sql

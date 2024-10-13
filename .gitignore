@@ -133,3 +133,4 @@ $RECYCLE.BIN/
 *.msi
 *.bat
 #
+.ENV
