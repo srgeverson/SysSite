@@ -1,28 +1,19 @@
-version: '3.9'
-
-# Quando utilizar redes específicas
 networks:
   network_private:
     driver: bridge
   network_public:
     driver: bridge
-    #external: true
 
 services:
   site_system:
     build:
-      context: .docker/
+      context: .
       dockerfile: Dockerfile
     container_name: conteiner_site_system
-    # command: [".docker/wait-for-it.sh", "db_paulistense:3306", "-t", "30"]
-    # ports: 
-      # - '80:80'
-      #- '443:443' #quando utilizar um certificado especificar essa porta
+    # command: ["./wait-for-it.sh", "db_paulistense:3306", "-t", "30"]
     networks:
       - network_private
       - network_public
-    volumes:
-      - .:/var/www/html
     environment:
       - BANCO_HOST_IP=$BANCO_HOST_IP
       - BANCO_PORTA=$BANCO_PORTA
@@ -35,13 +26,13 @@ services:
   db_paulistense:
     image: mysql:latest
     container_name: container_db_paulistense
-    ports: #para teste
-      - '3306:3306' #para teste
+    ports:
+      - '3306:3306'
     networks:
       - network_private
-      - network_public #para teste
+      - network_public
     volumes:
-      - '.docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql'
+      - './setup.sql:/docker-entrypoint-initdb.d/setup.sql'
     environment:
       - MYSQL_ROOT_PASSWORD=$BANCO_SENHA
       - MYSQL_USER=$BANCO_USUARIO
