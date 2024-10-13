@@ -66,11 +66,11 @@ $ $GLOBALS['base_server'] = $_SERVER['DOCUMENT_ROOT'] . "/";
 $ $GLOBALS['base_url'] = "http://" . $_SERVER['SERVER_NAME'] . "/";
 
 # Crie um banco de dados e adicione ao arquivo .env na raiz do projeto as seguintes configurações: 
-$ BANCO_HOST_IP=db_system
-$ BANCO_PORTA=3306
-$ BANCO_USUARIO=root
-$ BANCO_SENHA=12345678
-$ BANCO_NOME=system
+$ BANCO_HOST_IP={IP_OU_DOMÍNIO_DO_BANCO_AQUI}
+$ BANCO_PORTA={PORTA_DO_BANCO_AQUI}
+$ BANCO_USUARIO={USUÁRIO_DO_BANCO_AQUI}
+$ BANCO_SENHA={SENHA_DO_BANCO_AQUI}
+$ BANCO_NOME={NOME_DO_BANCO_AQUI}
 
 # Para ciar variável de ambiente no linux:
 $ export BANCO_HOST_IP="db_system"
