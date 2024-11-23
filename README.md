@@ -1,4 +1,4 @@
-# <a href="http://mystore-app.ddns.net/SysSite/">SysSite</a>
+# <a href="http://mystore-app.ddns.net/">SysSite</a>
 Site com sistema integrado para gerenciamento de seu próprio conteúdo.
 Este sistema possui um site onde o mesmo é genrenciado pelo mesmo.
 
@@ -31,7 +31,7 @@ $ cd /vaw/www/html
 $ cd C:\xampp
 
 # Clone o projeto.
-$ git clone https://srgeverson@github.com/system.git
+$ git clone https://github.com/srgeverson/SysSite.git
 
 # Acessando a pasta clonada
 $ cd system/
@@ -56,7 +56,7 @@ $ http://localhost/system
 ```bash
 
 # Clone o projeto.
-$ git clone https://srgeverson@github.com/system.git
+$ git clone https://github.com/srgeverson/SysSite.git
 
 # Acessando a pasta clonada
 $ cd system/
@@ -131,6 +131,6 @@ $ mysql -u root -p system < {PASTA_ONDE_O_PROJETO_FOI_CLONADO}/system/sql/system
 
 * **Geverson Souza** - [Geverson Souza](https://www.linkedin.com/in/srgeverson/)
 
-## 📌 Versão 1.0.1
+## 📌 Versão 1.0.0
 
 Nós usamos [Github](https://github.com/) para controle de versão.
