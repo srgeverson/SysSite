@@ -20,30 +20,30 @@ services:
       - BANCO_USUARIO=$BANCO_USUARIO
       - BANCO_SENHA=$BANCO_SENHA
       - BANCO_NOME=$BANCO_NOME
-    links:
-      - db_paulistense
+    # links:
+    #   - db_paulistense
         
-  db_paulistense:
-    image: mysql:latest
-    container_name: container_db_paulistense
-    ports:
-      - '3306:3306'
-    networks:
-      - network_private
-      - network_public
-    volumes:
-      - './setup.sql:/docker-entrypoint-initdb.d/setup.sql'
-    environment:
-      - MYSQL_ROOT_PASSWORD=$BANCO_SENHA
-      - MYSQL_USER=$BANCO_USUARIO
-      - MYSQL_PASS=$BANCO_SENHA
+  # db_paulistense:
+  #   image: mysql:latest
+  #   container_name: container_db_paulistense
+  #   ports:
+  #     - '3306:3306'
+  #   networks:
+  #     - network_private
+  #     - network_public
+  #   volumes:
+  #     - './setup.sql:/docker-entrypoint-initdb.d/setup.sql'
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=$BANCO_SENHA
+  #     - MYSQL_USER=$BANCO_USUARIO
+  #     - MYSQL_PASS=$BANCO_SENHA
   
-  site_proxy:
-    build: ./nginx
-    container_name: container_site_proxy
-    ports:
-      - "80:80"
-    networks:
-      - network_public
-    links:
-      - site_system
+  # site_proxy:
+  #   build: ./nginx
+  #   container_name: container_site_proxy
+  #   ports:
+  #     - "80:80"
+  #   networks:
+  #     - network_public
+  #   links:
+  #     - site_system
